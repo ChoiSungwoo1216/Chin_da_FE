@@ -1,6 +1,6 @@
 // user.js
 
-import logo from "../../pages/Login/image/slackLogo.png"
+
 // Actions
 
 const ADD = "user/ADD";
@@ -12,7 +12,6 @@ const initialState = {
         userId: "1234",
         username: "tjddn8195@naver.com",
         nickname: "최성우",
-        iconUrl: logo,
     },
   new: {}
 };
