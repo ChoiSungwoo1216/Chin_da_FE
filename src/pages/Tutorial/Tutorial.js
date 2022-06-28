@@ -1,4 +1,7 @@
 import React from "react";
+import 'swiper/css/bundle';
+import './SubTutorial.css';
+import SubTutorial from './SubTutorial';
 // import styled from "styled-components";
 // import { useNavigate } from "react-router-dom";
 // import { useDispatch, useSelector } from "react-redux";
@@ -6,9 +9,9 @@ import React from "react";
 const Tutorial = () => {
 
     return(
-        <div>
-            모달 튜토리얼
-        </div>
+        <>
+        <SubTutorial />
+        </>
     )
 }
 
