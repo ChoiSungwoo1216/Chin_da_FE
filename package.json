@@ -7,8 +7,10 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "ace-builds": "^1.6.1",
     "axios": "^0.27.2",
     "react": "^18.2.0",
+    "react-ace": "^10.1.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
     "react-modal": "^3.15.1",
@@ -19,8 +21,12 @@
     "redux-thunk": "^2.4.1",
     "styled-components": "^5.3.5",
     "swiper": "^8.2.5",
+<<<<<<< HEAD
     "web-vitals": "^2.1.0",
     "yarn": "^1.22.19"
+=======
+    "web-vitals": "^2.1.0"
+>>>>>>> f6d51c0d7551e003cf2e292fc84bead44735ec0a
   },
   "scripts": {
     "start": "react-scripts start",
