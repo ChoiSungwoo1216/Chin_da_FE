@@ -1,0 +1,87 @@
+.mainContainer {
+    padding: 30px;
+}
+
+.section {
+    display: flex;
+    width: 100%;
+    margin: auto;
+}
+
+.article {
+    width: 50%;
+    height: 800px;
+    margin: 3px;
+    box-sizing: border-box;
+    background-color: #ddd;
+    z-index: 1;
+    position: relative;
+}
+
+.aside {
+    width: 50%;
+    height: 800px;
+    margin: 3px;
+    box-sizing: border-box;
+    background-color: #222;
+    z-index: 1;
+    position: relative;
+}
+
+.cardContainer {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, 13em);
+   gap: 3em;
+   width: 95%;
+   justify-content: center;
+   align-items: center;
+   position: absolute;
+   z-index: 2;
+   bottom: 150px;
+   margin: auto 5px;
+   padding: auto 5px;
+}
+
+.scene {
+    width:13em;
+    height:15em;
+    border-radius: 5px;
+    perspective: 30em;
+    cursor: pointer;
+    margin: auto 30px;
+
+}
+
+.card {
+    width:100%;
+    height:100%;
+    position:relative;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+
+}
+
+.scene:active .card {
+    transform: rotateY(180deg);
+    
+}
+
+.face {
+    width:100%;
+    height:100%;
+    color:#FFF;
+    line-height:15em;
+    text-align:center;
+    position:absolute; 
+    backface-visibility:hidden;
+}
+
+.front {
+    background-color: #0DFF92;
+}
+
+.back {
+    background-color:#333;
+    transform: rotateY(180deg);
+}
+
