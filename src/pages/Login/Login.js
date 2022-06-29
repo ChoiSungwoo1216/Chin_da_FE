@@ -10,7 +10,8 @@ const Login = () => {
        <>
           <Container>
              <Title>
-                <p>너 개발자면서 github도 없는건 설마 아니겠지?</p>
+                <Text margin="20px 41px 0 41px" width="302px" height="96px">너 개발자면서 github도</Text>
+                <Text margin="0 78px 10px 78px">없는건 아니겠지?</Text>
              </Title>
              <BtnContainer>
                 <GithubBtn>
@@ -25,16 +26,22 @@ const Login = () => {
 
 export default Login;
 const Container = styled.div`
+    
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    border: 1px red solid;
+    width: 384px;
+    height: 250px;
+    
+    box-sizing: border-box;
+    
 `;
 
 const BtnContainer = styled.div`
-    display: flex;
-    justify-content: center;
+    
     align-items: center;
+    margin: 171px 102px auto;
 `;
 
 const GithubBtn = styled.button`
@@ -52,11 +59,23 @@ const GithubLogo = styled.img`
     height: 30px;
 `
 const BtnTxt = styled.p`
-
-    margin: auto;
+   
+    
 ` 
 const Title = styled.div`
    display: flex;
+   flex-direction: column;
    justify-content: center;
-   align-items: center;
+   text-align: center;
+   
+   ;
 `;
+
+const Text = styled.p`
+   position: absolute;
+   font-size: 25px;
+   line-height:96px;
+   margin: ${(props)=> props.margin};
+   width: ${(props)=> props.width};
+   height: ${(props)=> props.height};
+`
