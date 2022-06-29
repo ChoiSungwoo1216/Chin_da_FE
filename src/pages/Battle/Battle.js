@@ -69,7 +69,7 @@ const Battle = () => {
     
     return (
        <>
-          <Header>
+          {/* <Header>
              <tr>
                 <MyCamera>
                    영상 오디오<button>on/off</button>
@@ -81,11 +81,11 @@ const Battle = () => {
 
                 <OtherCam> 상대방영상</OtherCam>
              </tr>
-          </Header>
+          </Header> */}
           <Container>
              <Section>
                 <div>
-                   <select
+                   {/* <select
                       type="text"
                       value={modeOne}
                       onChange={onChangeModeOne}
@@ -108,7 +108,7 @@ const Battle = () => {
                       <option value="solarized_dark">solarized_dark</option>
                       <option value="solarized_light">solarized_light</option>
                       <option value="terminal">terminal</option>
-                   </select>
+                   </select> */}
                    <AceEditor
                       style={{ width: 700, margin: 5 }}
                       mode={modeOne}
@@ -135,6 +135,7 @@ const Battle = () => {
                    <option value="java">java</option>
                 </select> */}
                    <AceEditor
+                      style={{ width: 700, height: 300, margin: 5 }}
                       mode={modeTwo}
                       theme="github"
                       onChange={onChangeTwo}
@@ -150,11 +151,11 @@ const Battle = () => {
                       placeholder="Placeholder Text"
                    />
                 </div>
-                <Aside>
-                   <p>chating</p>          
-                      <Input />
-                </Aside>
              </Section>
+             <Aside>
+                <p>chating</p>
+                <Input />
+             </Aside>
           </Container>
        </>
     );
@@ -189,10 +190,11 @@ const OtherCam = styled.td`
 `;
 
 const Section = styled.section`
-   display: inline-flex;
-   margin: auto;
-   align-items: center;
+   display: flex;
    justify-content: center;
+   al
+   margin: auto;
+
 `;
 
 const Aside = styled.aside`
