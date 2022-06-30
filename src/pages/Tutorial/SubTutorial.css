@@ -1,21 +1,25 @@
 /* #0DFF92; */
 
 
-html,
+/* html,
 body {
   position: relative;
   height: 100%;
-}
+} */
 
-body {
+/* body {
   background: #eee;
   font-size: 14px;
   color: #000;
-}
+} */
 
 .Container{
-  margin: auto;
-  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px;
+  width: 70vw;
+  height: 70vh;
 }
 
 .swiper {
