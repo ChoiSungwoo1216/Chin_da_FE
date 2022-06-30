@@ -10,7 +10,7 @@
 
 .article {
     width: 50%;
-    height: 800px;
+    height: 70vw;
     margin: 3px;
     box-sizing: border-box;
     background-color: #ddd;
@@ -20,7 +20,7 @@
 
 .aside {
     width: 50%;
-    height: 800px;
+    height: 70vw;
     margin: 3px;
     box-sizing: border-box;
     background-color: #222;
