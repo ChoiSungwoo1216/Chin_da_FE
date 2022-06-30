@@ -25,9 +25,6 @@ const Login = () => {
                    <BtnTxt href={locateGit} git={locateGit}>Sign in with GitHub</BtnTxt>
                 </GithubBtn>
              </Title>
-             <BtnContainer>
-                
-             </BtnContainer>
           </Container>
        </>
     );
@@ -87,8 +84,6 @@ const Title = styled.div`
    justify-content: center;
    text-align: center;
    display: flex;
-   
-   ;
 `;
 
 const Text = styled.p`
