@@ -49,7 +49,6 @@
     perspective: 30em;
     cursor: pointer;
     margin: auto 30px;
-
 }
 
 .card {
@@ -58,12 +57,10 @@
     position:relative;
     transition: transform 0.5s;
     transform-style: preserve-3d;
-
 }
 
-.scene:active .card {
+.scene:hover .card {
     transform: rotateY(180deg);
-    
 }
 
 .face {
