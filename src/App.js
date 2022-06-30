@@ -5,9 +5,9 @@ import Main from "./pages/Main/Main"
 import Battle from "./pages/Battle/Battle"
 import Profile from "./pages/Profile/Profile"
 import Selection from "./pages/Selection/Selection"
-import Tutorial from './pages/Tutorial/Tutorial'
 import './App.css';
 import GitLogin from "./pages/Start/GitLogin"
+import TutorialBtn from "./pages/Tutorial/TutorialBtn"
 
 function App() {
   return (
@@ -15,6 +15,7 @@ function App() {
         <div id="stars"></div>
         <div id="stars2"></div>
         <div id="stars3"></div>
+        <TutorialBtn/>
         <Routes>
            <Route path="/Main" element={<Main />}></Route>
            <Route path="/" element={<Start />}/>
@@ -23,7 +24,6 @@ function App() {
            <Route path="/Battle" element={<Battle />}></Route>
            <Route path="/Profile" element={<Profile />}></Route>
            <Route path="/Selection" element={<Selection />}></Route>
-           <Route path="/Tutorial" element={<Tutorial />}></Route>
         </Routes>
      </div>
   );
