@@ -1,16 +1,16 @@
 import React from "react";
 import 'swiper/css/bundle';
-import './SubTutorial.css';
-import SubTutorial from './SubTutorial';
+import './components/SubTutorial.css';
+import SubTutorial from './components/SubTutorial';
 // import styled from "styled-components";
 // import { useNavigate } from "react-router-dom";
 // import { useDispatch, useSelector } from "react-redux";
 
-const Tutorial = () => {
-
+const Tutorial = (props) => {
+    const {setTutoOpen} = props
     return(
         <>
-        <SubTutorial />
+        <SubTutorial setTutoOpen={setTutoOpen}/>
         </>
     )
 }
