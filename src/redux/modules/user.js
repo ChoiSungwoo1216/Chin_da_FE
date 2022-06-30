@@ -12,10 +12,11 @@ const initialState = {
         userId: "1234",
         username: "tjddn8195@naver.com",
         nickname: "최성우",
+        iconUrl: "",
     },
   new: {}
 };
-
+ 
 // Action Creators
 
 export function adduser(user) {
