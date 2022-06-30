@@ -11,10 +11,22 @@ const Main = () => {
           <div className="mainContainer">
              <section className="section">
                 <article className="article">
-                   <h3>player1</h3>
+                   <div className="profile">
+                      <div className="thumbnail circle"></div>
+                      <div className="description">
+                         <h5 className="content">player1</h5>
+                         <p className="content p">전적:</p>
+                      </div>
+                   </div>
                 </article>
                 <aside className="aside">
-                   <h3>player2</h3>
+                   <div className="profile">
+                      <div className="thumbnail circle"></div>
+                      <div className="description">
+                         <h5 className="content">player1</h5>
+                         <p className="content p">전적:</p>
+                      </div>
+                   </div>
                 </aside>
                 <div className="cardContainer">
                    <Card />
