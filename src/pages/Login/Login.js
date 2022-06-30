@@ -10,8 +10,6 @@ const Login = () => {
 
    const GitKey = "44af62885d9f67153ed1";
    const redirectUri = "https://localhost:3000/github"
-      
-
    const locateGit = `https://github.com/login/oauth/authorize?client_id=${GitKey}&redirect_uri=${redirectUri}`;
 
     return (
@@ -26,34 +24,21 @@ const Login = () => {
                 </GithubBtn>
              </Title>
           </Container>
+
        </>
     );
 }
 
 export default Login;
 
-
 const Container = styled.div`
-    
-    
     display: flex;
     flex-direction: column;
-    
     width: 100%;
     height: 100%;
     text-align: center;
     background-color: white;
-    
-    box-sizing: border-box;
-    
-`;
-
-const BtnContainer = styled.div`
-    
-    
-    display: flex;
-   
-    
+    box-sizing: border-box; 
 `;
 
 const GithubBtn = styled.button`
@@ -67,17 +52,20 @@ const GithubBtn = styled.button`
    margin: 151px;
    display: flex;
 `;
+
 const GithubLogo = styled.img`
     margin: auto;
     width: 30px;
     height: 30px;
-`
+`;
+
 const BtnTxt = styled.a`
    width: 120px;
    line-height: 4;
    text-decoration: none;
    color: white;
-` 
+`;
+
 const Title = styled.div`
    /* display: flex;
    flex-direction: column; */
@@ -94,4 +82,4 @@ const Text = styled.p`
    margin: ${(props)=> props.margin};
    width: ${(props)=> props.width};
    height: ${(props)=> props.height};
-`
+`;
