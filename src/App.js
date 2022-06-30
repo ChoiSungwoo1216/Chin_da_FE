@@ -16,6 +16,8 @@ function App() {
         <div id="stars2"></div>
         <div id="stars3"></div>
         <Routes>
+           <Route path="/" element={<Login />}>
+           </Route>
            <Route path="/Main" element={<Main />}></Route>
            <Route path="/" element={<Start />}/>
            <Route path="/github" element={<GitLogin/>}/>
