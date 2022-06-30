@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import Login from '../Login/Login';
+import './LoginModal.css';
 const LoginModal = (props) => {
 
     const {open, close} = props;
 
     return (
-        <div className={open ? 'openModal' : 'modal'}>
+        <div className={open ? 'openModal modal' : 'modal'}>
         {open ? (
             <section>
                 <header>
@@ -25,6 +26,3 @@ const LoginModal = (props) => {
 
 export default LoginModal;
 
-const Header = styled.div`
-
-`
