@@ -10,25 +10,22 @@
 
 .article {
     width: 50%;
-    height: 90vh;
+    height: 70vw;
+    margin: 3px;
     box-sizing: border-box;
     background-color: #ddd;
     z-index: 1;
     position: relative;
-    left: 2vw;
-    clip-path: polygon(0% 0%, 100% 0, 100% 45%, 95% 55%, 95% 100%, 0% 100%);
 }
 
 .aside {
     width: 50%;
-    height: 90vh;
+    height: 70vw;
+    margin: 3px;
     box-sizing: border-box;
     background-color: #222;
-    z-index: 2;
+    z-index: 1;
     position: relative;
-    right: 2vw;
-    text-align: right;
-    clip-path: polygon(5% 0%, 100% 0%, 100% 100%, 0 100%, 0% 55%, 5% 45%);
 }
 
 .cardContainer {
@@ -39,7 +36,7 @@
    justify-content: center;
    align-items: center;
    position: absolute;
-   z-index: 3;
+   z-index: 2;
    bottom: 150px;
    margin: auto 5px;
    padding: auto 5px;
