@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import LoginModal from "./LoginModal";
+import LoginModal from "./components/LoginModal";
 import './SpaceBg.css';
 
 //import Logo from "img/githubLogo.png"
@@ -27,8 +27,10 @@ const Start = () => {
                         <div id="stars2"></div>
                         <div id="stars3"></div>
                         <div id="title">
-                        <span>친 다</span><br />
-                        <button id="loginBtn" onClick={open} >Login</button>
+                        <span>친 다</span>
+                        <button id="loginBtn" onClick={open} >
+                            <img src="img/login_btn_black.png" alt="login_black"/>
+                        </button>
                         </div>
                         {/* <Logo src="/img/githubLogo.png"/> */}
                         
@@ -71,12 +73,11 @@ const Main = styled.div`
 //     border: 1px solid red;
 //     margin: 186px 346px auto;
 // `
-const LoginBtn = styled.div`
-    width:180px;
-    height: 50px;
-    border-radius: 2px;
-    border: 1px solid black;
-    margin:115px 0 auto;
-    line-height: 3.5;
+// const LoginBtn = styled.div`
+//     position: relative;
+    
+    
+//     margin:115px auto;
+    
 
-`
+// `
