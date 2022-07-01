@@ -27,6 +27,7 @@ const Main = () => {
                          <p className="content p">전적:</p>
                       </div>
                    </div>
+                   <div className="reloadEmoji">🔁</div>
                 </aside>
                 <div className="cardContainer">
                    <Card />
