@@ -19,8 +19,9 @@ const Login = () => {
                 <Text margin="0px" width="300px" height="96px">너 개발자면서 github도</Text>
                 <Text margin="53px" width="300px" height="96px" top="0px">없는건 아니겠지?</Text>
                 <GithubBtn>
-                   <GithubLogo src="img/githubLogo.png" alt="" />
-                   <BtnTxt href={locateGit} git={locateGit}>Sign in with GitHub</BtnTxt>
+                   
+                   <BtnTxt href={locateGit} git={locateGit}><img src="img/login_btn_white.png" alt="login_white"/></BtnTxt>
+                   
                 </GithubBtn>
              </Title>
           </Container>
@@ -42,28 +43,28 @@ const Container = styled.div`
 `;
 
 const GithubBtn = styled.button`
-   width: 170px;
-   height: 50px;
-   background-color: #000;
-   color: #fff;
-   border-radius: 7px;
+   /* width: 170px;
+   height: 50px; */
+   
+   /* color: #fff; */
+   
    cursor: pointer;
    position: absolute;
    margin: 151px;
    display: flex;
+   background-color: transparent;
 `;
 
-const GithubLogo = styled.img`
-    margin: auto;
-    width: 30px;
-    height: 30px;
-`;
+// const GithubLogo = styled.img`
+//     margin: auto;
+//     width: 30px;
+//     height: 30px;
+// `;
 
 const BtnTxt = styled.a`
-   width: 120px;
-   line-height: 4;
+   
    text-decoration: none;
-   color: white;
+   
 `;
 
 const Title = styled.div`
@@ -82,4 +83,5 @@ const Text = styled.p`
    margin: ${(props)=> props.margin};
    width: ${(props)=> props.width};
    height: ${(props)=> props.height};
+   
 `;
