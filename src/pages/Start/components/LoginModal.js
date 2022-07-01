@@ -1,7 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
-import Login from '../Login/Login';
+import Login from './Login';
 import './LoginModal.css';
+
 const LoginModal = (props) => {
 
     const {open, close} = props;
@@ -25,4 +25,3 @@ const LoginModal = (props) => {
 };
 
 export default LoginModal;
-
