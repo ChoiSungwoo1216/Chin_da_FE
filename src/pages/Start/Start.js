@@ -71,12 +71,12 @@ const Main = styled.div`
 //     border: 1px solid red;
 //     margin: 186px 346px auto;
 // `
-const LoginBtn = styled.div`
-    width:180px;
-    height: 50px;
-    border-radius: 2px;
-    border: 1px solid black;
-    margin:115px 0 auto;
-    line-height: 3.5;
+// const LoginBtn = styled.div`
+//     width:180px;
+//     height: 50px;
+//     border-radius: 2px;
+//     border: 1px solid black;
+//     margin:115px 0 auto;
+//     line-height: 3.5;
 
-`
+// `
