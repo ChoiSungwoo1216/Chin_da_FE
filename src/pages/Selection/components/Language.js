@@ -16,9 +16,9 @@ const Language = (props) => {
                 언어선택
             </Title>
             <TypeBtnDiv>
-                <TypeBtn value="python" onClick={(e) => SelectLan(e)}>PYTHON</TypeBtn>
-                <TypeBtn value="java" onClick={(e) => SelectLan(e)}>JAVA</TypeBtn>
-                <TypeBtn value="javascript" onClick={(e) => SelectLan(e)}>JAVASCRIPT</TypeBtn>
+                <TypeBtn value="0" onClick={(e) => SelectLan(e)}><InsideBtn>PYTHON</InsideBtn></TypeBtn>
+                <TypeBtn value="1" onClick={(e) => SelectLan(e)}><InsideBtn>JAVA</InsideBtn></TypeBtn>
+                <TypeBtn value="2" onClick={(e) => SelectLan(e)}><InsideBtn>JAVASCRIPT</InsideBtn></TypeBtn>
             </TypeBtnDiv>
         </>
     )
@@ -45,6 +45,12 @@ const TypeBtn = styled.button`
 width: 25vw;
 height: 60vh;
 font-size: 50px;
+background-color: #808080;
 word-wrap: break-word;
+`;
+
+const InsideBtn = styled.div`
+animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
+	-webkit-animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
 `;
 export default Language

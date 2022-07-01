@@ -9,8 +9,9 @@ const TutorialBtn = () => {
     }
     return (
         <div>
-            {tutoOpen ? (<Tutorial setTutoOpen={setTutoOpen}/>) : (null)}
+            {tutoOpen ? (<Tutorial setTutoOpen={setTutoOpen}/>) : (
             <TutoBtn onClick={open}>?</TutoBtn>
+            )}
         </div>
     )
 }

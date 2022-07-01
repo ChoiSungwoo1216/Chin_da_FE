@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 const Room = (props) => {
     const navigate = useNavigate();
@@ -16,13 +16,13 @@ const Room = (props) => {
         setRoomOn(false);
         setLanOn(true);
     }
-    const SelLev =() =>{
+    const SelLev = () => {
         setRoomOn(false);
         setLevOn(true);
     }
 
     const CreateRoom = () => {
-                // axios post, language, level 같이 보내고, 채널id response로 받아오기
+        // axios post, language, level 같이 보내고, 채널id response로 받아오기
         navigate("/Battle");
     }
 
@@ -31,17 +31,53 @@ const Room = (props) => {
         navigate("/Main");
     }
 
+    const languageIs = (language) => {
+        if (language === "0") {
+            return ("PYTHON");
+        } else if (language === "1") {
+            return ("JAVA");
+        } else {
+            return ("JAVASCRIPT")
+        }
+    }
+
+    const levelIs = (level) => {
+        if (level === "0") {
+            return ("⭐");
+        } else if (level === "1") {
+            return ("⭐⭐");
+        } else {
+            return ("⭐⭐⭐")
+        }
+    }
+
     return (
         <>
             <Title>
                 방 선택
             </Title>
             <Div>
-                <SelectedDiv onClick={SelLang}>{language.toUpperCase()}</SelectedDiv>
-                <SelectedDiv onClick={SelLev}>{level}</SelectedDiv>
+                <SelectedDiv onClick={SelLang}>
+                    <InsideBtn>
+                        {languageIs(language)}
+                    </InsideBtn>
+                </SelectedDiv>
+                <SelectedDiv onClick={SelLev}>
+                    <InsideBtn>
+                        {levelIs(level)}
+                    </InsideBtn>
+                </SelectedDiv>
                 <RoomSelectDiv>
-                    <RoomSelect onClick={CreateRoom}>방 만들기</RoomSelect>
-                    <RoomSelect onClick={EnterRoom}>방 들어가기</RoomSelect>
+                    <RoomSelect onClick={CreateRoom}>
+                        <InsideBtn>
+                            방 만들기
+                        </InsideBtn>
+                    </RoomSelect>
+                    <RoomSelect onClick={EnterRoom}>
+                        <InsideBtn>
+                            방 들어가기
+                        </InsideBtn>
+                    </RoomSelect>
                 </RoomSelectDiv>
             </Div>
         </>
@@ -90,6 +126,11 @@ const RoomSelect = styled.button`
 width: 80%;
 height: 20%;
 font-size: 40px;
+`;
+
+const InsideBtn = styled.div`
+animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
+	-webkit-animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
 `;
 
 export default Room
