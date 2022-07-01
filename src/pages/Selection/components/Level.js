@@ -15,10 +15,20 @@ const Level = (props) => {
         setLanOn(true);
     }
 
-    const SelectLev = (e)=>{
+    const SelectLev = (e) => {
         setLevOn(false);
         setRoomOn(true);
         setLevel(e.target.value);
+    }
+
+    const languageIs = (language) => {
+        if (language === "0") {
+            return ("PYTHON");
+        } else if (language === "1") {
+            return ("JAVA");
+        } else {
+            return ("JAVASCRIPT")
+        }
     }
 
     return (
@@ -27,10 +37,26 @@ const Level = (props) => {
                 난이도 선택
             </Title>
             <Div>
-                <SelectedDiv onClick={BacktoLang}>{language.toUpperCase()}</SelectedDiv>
-                <LevelBtn value="⭐⭐⭐" onClick={(e)=>{SelectLev(e)}}>⭐⭐⭐</LevelBtn>
-                <LevelBtn value="⭐⭐" onClick={(e)=>{SelectLev(e)}}>⭐⭐</LevelBtn>
-                <LevelBtn value="⭐" onClick={(e)=>{SelectLev(e)}}>⭐</LevelBtn>
+                <SelectedDiv onClick={BacktoLang}>
+                    <InsideBtn>
+                        {languageIs(language)}
+                    </InsideBtn>
+                </SelectedDiv>
+                <LevelBtn value="2" onClick={(e) => { SelectLev(e) }}>
+                    <InsideBtn>
+                        ⭐⭐⭐
+                    </InsideBtn>
+                </LevelBtn>
+                <LevelBtn value="1" onClick={(e) => { SelectLev(e) }}>
+                    <InsideBtn>
+                        ⭐⭐
+                    </InsideBtn>
+                </LevelBtn>
+                <LevelBtn value="0" onClick={(e) => { SelectLev(e) }}>
+                    <InsideBtn>
+                        ⭐
+                    </InsideBtn>
+                </LevelBtn>
             </Div>
         </>
     )
@@ -69,6 +95,11 @@ width: 25vw;
 height: 60vh;
 font-size: 50px;
 word-wrap: break-word;
+`;
+
+const InsideBtn = styled.div`
+animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
+	-webkit-animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
 `;
 
 export default Level
