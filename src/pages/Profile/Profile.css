@@ -1,0 +1,107 @@
+
+.round1 {
+    position: absolute;
+    top: 5%;
+    left: 15%;
+    width: 14em;
+    height: 14em;
+    border-radius: 50%;
+    box-shadow: 0 0 40px #d84869;
+    background: linear-gradient(-26deg, #d84869, #f46641);
+}
+
+.round2 {
+    position: absolute;
+    top: 50%;
+    right: 4%;
+    width: 20em;
+    height: 20em;
+    border-radius: 50%;
+    box-shadow: 0 0 50px #5622ff;
+    background: linear-gradient(-180deg, #5622ff, #4190fd);
+}
+
+.wrapper {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: auto;
+    position: relative;
+}
+
+.box {
+   width: 250px;
+   height: 350px;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   background-color: #ffffff1a;
+   margin: 20px;
+   padding: 1.5em;
+   border-radius: 25px;
+   border: 1px solid #0000001a;
+   text-align: center; 
+}
+
+.profileImg1 {
+    display: flex;
+    flex-direction: column;
+    width:90px;
+    height: 90px;
+    overflow: hidden;
+    object-fit: cover;
+    margin: 50px 0;
+      animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
+	-webkit-animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
+}
+
+.profileImg2 {
+    display: flex;
+    flex-direction: column;
+    width:90px;
+    height: 90px;
+    overflow: hidden;
+    object-fit: cover;
+    margin: 50px 0;
+    animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
+	-webkit-animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
+    animation-delay:.1s;
+}
+
+.profileImg3 {
+    display: flex;
+    flex-direction: column;
+    width:90px;
+    height: 90px;
+    overflow: hidden;
+    object-fit: cover;
+    margin: 50px 0;
+    animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
+	-webkit-animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
+    animation-delay:.2s;
+}
+
+.profileImg img {
+    width: 100%;
+}
+
+@keyframes motion {
+	0% {margin-top: 0px;}
+	100% {margin-top: 10px;}
+}
+
+
+.box h2 {
+    color: #ffffff60;
+    text-transform: uppercase;
+    font-size: 30px;
+}
+
+/* .box p {
+    color: #ffffff90;
+    font-size: 15px;
+} */
+
