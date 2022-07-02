@@ -52,85 +52,116 @@ const Room = (props) => {
     }
 
     return (
-        <>
-            <Title>
-                방 선택
-            </Title>
-            <Div>
-                <SelectedDiv onClick={SelLang}>
-                    <InsideBtn>
-                        {languageIs(language)}
-                    </InsideBtn>
-                </SelectedDiv>
-                <SelectedDiv onClick={SelLev}>
-                    <InsideBtn>
-                        {levelIs(level)}
-                    </InsideBtn>
-                </SelectedDiv>
-                <RoomSelectDiv>
-                    <RoomSelect onClick={CreateRoom}>
-                        <InsideBtn>
-                            방 만들기
-                        </InsideBtn>
-                    </RoomSelect>
-                    <RoomSelect onClick={EnterRoom}>
-                        <InsideBtn>
-                            방 들어가기
-                        </InsideBtn>
-                    </RoomSelect>
-                </RoomSelectDiv>
-            </Div>
-        </>
-    )
+       <>
+          <Title>방 선택</Title>
+          <Wrapper>
+             <SelectedDiv onClick={SelLang}>
+                <InsideBtn1>{languageIs(language)}</InsideBtn1>
+             </SelectedDiv>
+             <SelectedDiv onClick={SelLev}>
+                <InsideBtn1>{levelIs(level)}</InsideBtn1>
+             </SelectedDiv>
+             <RoomSelectDiv>
+                <RoomSelect onClick={CreateRoom}>
+                   <InsideBtn2>방 만들기</InsideBtn2>
+                </RoomSelect>
+                <RoomSelect onClick={EnterRoom}>
+                   <InsideBtn2>방 들어가기</InsideBtn2>
+                </RoomSelect>
+             </RoomSelectDiv>
+          </Wrapper>
+       </>
+    );
 }
 const Title = styled.div`
-width: 100%;
-height: 128px;
-text-align: center;
-line-height: 128px;
-font-size: 40px;
+   width: 100%;
+   text-align: center;
+   margin-top: 50px;
+   position: absolute;
+   z-index: 1;
+   color: #fff;
+   font-size: 40px;
 `;
 
-const Div = styled.div`
-width: 90%;
-display: flex;
-flex-direction: row;
-align-items: center;
-justify-content: space-evenly;
-padding : 5%;
+const Wrapper = styled.div`
+   width: 90%;
+   display: flexbox;
+   justify-content: center;
+   align-items: center;
+   min-height: 100vh;
+   margin: auto;
+   position: relative;
 `;
 
 const SelectedDiv = styled.div`
-width: 25vw;
-height: 60vh;
-font-size: 50px;
-word-wrap: break-word;
-line-height: 60vh;
-text-align: center;
-background-color: #808080;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   width: 250px;
+   height: 350px;
+   background-color: #ffffff1a;
+   margin: 20px;
+   padding: 1.5em;
+   border-radius: 25px;
+   border: 1px solid #0000001a;
+   text-align: center;
+`;
+
+const LevelBtn = styled.div`
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   width: 250px;
+   height: 350px;
+   background-color: #ffffff1a;
+   margin: 20px;
+   padding: 1.5em;
+   border-radius: 25px;
+   border: 1px solid #0000001a;
+   text-align: center;
 `;
 
 const RoomSelectDiv = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: space-evenly;
-width: 25vw;
-height: 60vh;
-font-size: 50px;
-word-wrap: break-word;
-background-color: #e0e0e0;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   width: 250px;
+   height: 350px;
+   background-color: #ffffff1a;
+   margin: 20px;
+   padding: 1.5em;
+   border-radius: 25px;
+   border: 1px solid #0000001a;
+   text-align: center;
 `;
 
 const RoomSelect = styled.button`
-width: 80%;
-height: 20%;
-font-size: 40px;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   width: 230px;
+   height: 80px;
+   background-color: #ffffff1a;
+   margin: 10px;
+   border-radius: 10px;
+   border: 1px solid #0000001a;
+   text-align: center;
 `;
 
-const InsideBtn = styled.div`
-animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
-	-webkit-animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
+const InsideBtn1 = styled.div`
+   color: #fff;
+   text-transform: uppercase;
+   font-size: 30px;
 `;
+const InsideBtn2 = styled.div`
+   color: #fff;
+   font-size: 30px;
+`;
+// animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
+//	-webkit-animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
 
-export default Room
+export default Room;

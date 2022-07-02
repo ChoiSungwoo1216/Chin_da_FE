@@ -1,29 +1,54 @@
+.roundContainer {
+    overflow: hidden;
+}
 
 .round1 {
     position: absolute;
     top: 5%;
-    left: 15%;
-    width: 14em;
-    height: 14em;
+    left: 20%;
+    width: 12em;
+    height: 12em;
     border-radius: 50%;
     box-shadow: 0 0 40px #d84869;
     background: linear-gradient(-26deg, #d84869, #f46641);
+    animation: cloudOrbit1 50s linear infinite;
 }
 
 .round2 {
     position: absolute;
-    top: 50%;
-    right: 4%;
+    top: 40%;
+    right: 15%;
     width: 20em;
     height: 20em;
     border-radius: 50%;
     box-shadow: 0 0 50px #5622ff;
     background: linear-gradient(-180deg, #5622ff, #4190fd);
+    animation: cloudOrbit2 90s linear infinite;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+@keyframes cloudOrbit1 {
+  0%{
+    transform: rotate(0deg) translateX(150px) rotate(0deg);
+  }
+  100%{
+    transform: rotate(360deg) translateX(150px) rotate(-360deg);
+  }
+}
+
+@keyframes cloudOrbit2 {
+  0%{
+    transform: rotate(0deg) translateX(-150px) rotate(0deg);
+  }
+  100%{
+    transform: rotate(360deg) translateX(-150px) rotate(-360deg);
+  }
 }
 
 .wrapper {
     width: 90%;
-    display: flex;
+    display: flexbox;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
@@ -32,12 +57,12 @@
 }
 
 .box {
-   width: 250px;
-   height: 350px;
    display: flex;
    flex-direction: column;
    justify-content: center;
    align-items: center;
+   width: 250px;
+   height: 350px;
    background-color: #ffffff1a;
    margin: 20px;
    padding: 1.5em;
@@ -49,43 +74,39 @@
 .profileImg1 {
     display: flex;
     flex-direction: column;
-    width:90px;
-    height: 90px;
-    overflow: hidden;
-    object-fit: cover;
-    margin: 50px 0;
-      animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
-	-webkit-animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
-}
-
-.profileImg2 {
-    display: flex;
-    flex-direction: column;
-    width:90px;
+    width: 90px;
     height: 90px;
     overflow: hidden;
     object-fit: cover;
     margin: 50px 0;
     animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
-	-webkit-animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
+	  -webkit-animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
+}
+
+.profileImg2 {
+    display: flex;
+    flex-direction: column;
+    width: 90px;
+    height: 90px;
+    overflow: hidden;
+    object-fit: cover;
+    margin: 50px 0;
+    animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
+	  -webkit-animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
     animation-delay:.1s;
 }
 
 .profileImg3 {
     display: flex;
     flex-direction: column;
-    width:90px;
+    width: 90px;
     height: 90px;
     overflow: hidden;
     object-fit: cover;
     margin: 50px 0;
     animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
-	-webkit-animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
+	  -webkit-animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
     animation-delay:.2s;
-}
-
-.profileImg img {
-    width: 100%;
 }
 
 @keyframes motion {
@@ -93,15 +114,12 @@
 	100% {margin-top: 10px;}
 }
 
+.profileImg img {
+    width: 100%;
+}
 
 .box h2 {
     color: #ffffff60;
     text-transform: uppercase;
     font-size: 30px;
 }
-
-/* .box p {
-    color: #ffffff90;
-    font-size: 15px;
-} */
-
