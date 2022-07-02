@@ -16,7 +16,7 @@ import 'ace-builds/src-noconflict/theme-solarized_light';
 import 'ace-builds/src-noconflict/theme-terminal';
 import 'ace-builds/src-noconflict/ext-language_tools';
 
-
+import CountDown from './components/CountDown';
 
 
 const Battle = () => {
@@ -69,19 +69,6 @@ const Battle = () => {
     
     return (
        <>
-          {/* <Header>
-             <tr>
-                <MyCamera>
-                   영상 오디오<button>on/off</button>
-                </MyCamera>
-
-                <td>
-                   <div>타이머</div>
-                </td>
-
-                <OtherCam> 상대방영상</OtherCam>
-             </tr>
-          </Header> */}
           <Container>
              <Section>
                 <div>
@@ -156,6 +143,7 @@ const Battle = () => {
                 <p>chating</p>
                 <Input />
              </Aside>
+             <CountDown />
           </Container>
        </>
     );
