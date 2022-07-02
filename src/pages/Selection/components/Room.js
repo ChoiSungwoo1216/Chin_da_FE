@@ -76,8 +76,11 @@ const Room = (props) => {
 const Title = styled.div`
    width: 100%;
    text-align: center;
+   margin-top: 50px;
+   position: absolute;
+   z-index: 1;
+   color: #fff;
    font-size: 40px;
-   margin-top: 30px;
 `;
 
 const Wrapper = styled.div`
@@ -140,23 +143,25 @@ const RoomSelect = styled.button`
    flex-direction: column;
    justify-content: center;
    align-items: center;
-   width: 250px;
-   height: 150px;
+   width: 230px;
+   height: 80px;
    background-color: #ffffff1a;
-   margin: 20px;
-   padding: 1.5em;
-   border-radius: 25px;
+   margin: 10px;
+   border-radius: 10px;
    border: 1px solid #0000001a;
    text-align: center;
 `;
 
 const InsideBtn1 = styled.div`
-
+   color: #fff;
+   text-transform: uppercase;
+   font-size: 30px;
 `;
 const InsideBtn2 = styled.div`
-
+   color: #fff;
+   font-size: 30px;
 `;
 // animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
 //	-webkit-animation: motion 0.3s linear 0s infinite alternate; margin-top: 0;
 
-export default Room
+export default Room;

@@ -74,8 +74,11 @@ const Level = (props) => {
 const Title = styled.div`
    width: 100%;
    text-align: center;
+   margin-top: 50px;
+   position: absolute;
+   z-index: 1;
+   color: #fff;
    font-size: 40px;
-   margin-top: 30px;
 `;
 
 const Wrapper = styled.div`
