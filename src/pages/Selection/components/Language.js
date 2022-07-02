@@ -13,12 +13,7 @@ const Language = (props) => {
 
     return (
        <>
-          <RoundContainer>
-             <Round1 />
-             <Round2 />
-          </RoundContainer>
-
-          <Title>언어선택</Title>
+         <Title>언어선택</Title>
           <Wrapper>
              <TypeBtnDiv value="0" onClick={(e) => SelectLan(e)}>
                 <TypeBtn>
@@ -54,42 +49,14 @@ const Language = (props) => {
     );
 }
 
-const RoundContainer = styled.div`
-   overflow-x: hidden;
-   overflow-y: hidden;
-`;
-
-const Round1 = styled.div`
-   position: absolute;
-   top: 5%;
-   left: 20%;
-   width: 12em;
-   height: 12em;
-   border-radius: 50%;
-   box-shadow: 0 0 40px #d84869;
-   background: linear-gradient(-26deg, #d84869, #f46641);
-   animation: cloudOrbit1 50s linear infinite;
-`;
-
-const Round2 = styled.div`
-   position: absolute;
-   top: 40%;
-   right: 15%;
-   width: 20em;
-   height: 20em;
-   border-radius: 50%;
-   box-shadow: 0 0 50px #5622ff;
-   background: linear-gradient(-180deg, #5622ff, #4190fd);
-   animation: cloudOrbit2 90s linear infinite;
-   overflow-x: hidden;
-   overflow-y: hidden;
-`;
-
 const Title = styled.div`
-    width: 100%;
-    text-align: center;
-    font-size: 40px;
-    margin-top: 30px;
+   width: 100%;
+   text-align: center;
+   margin-top: 50px;
+   position: absolute;
+   z-index: 1;
+   color: #fff;
+   font-size: 40px;
 `;
 
 const Wrapper = styled.div`
