@@ -1,4 +1,3 @@
-import { click } from '@testing-library/user-event/dist/click';
 import React, {useState} from 'react';
 import styled from 'styled-components';
 
@@ -77,6 +76,7 @@ const Wrap = styled.div`
    color: #fff;
    cursor: pointer;
 `;
+
 
 const ToggleBtn = styled.button`
    display: flex;
