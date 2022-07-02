@@ -70,7 +70,7 @@
     right: 0;
     color: #FFF;
     text-align: center;
-    /* font-family: "lato", sans-serif; */
+    
     font-weight: 300;
     font-size: 50px;
     letter-spacing: 10px;
@@ -82,53 +82,102 @@
     background-clip:text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    
-    width: 50%;
+    width: 60%;
     height: 225px;
-    border: 1px solid white;
-    position: absolute;
-    display: block;
-    margin-left: 25%;
     
-    top:-200px;
-  }
+    position: relative;
+    justify-content: center;
+    display: flex;
+    margin: -220px auto;
+    
 
+    opacity: 0;
+    box-shadow: 0 20px 50px rgb(23, 32, 90);
+    box-sizing: border-box;
+    animation: appearance 2s linear 2s forwards, shadowGrow 1s infinite;
+    
+    
+    border: 1px solid white;
+    
+   
+  }
+  
+  
 
   #loginBtn {
-    /* background:-webkit-linear-gradient(white, #38495a); */
     background-clip:text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    /* font-size: 20px; */
-    width:100%;
+    width:180px;
     height: 50px;
-    cursor: pointer;
     z-index: 99;
-    position: absolute;
-    top: 150px;
+    display: flex;
+    justify-content: center;
+    margin: auto;
     border: none;
-    
-    
+    position: relative;
+    opacity: 0;
+    animation: dropThat 1.5s linear forwards, motion 0.5s linear infinite 1.5s forwards;
+    animation-delay: 4s;
+    overflow-x: hidden;
+    overflow-y: hidden;
   }
   #loginBtn > img {
     width: 180px;
+    cursor: pointer;
   }
-  /* #loginBtn:hover{
-    width:220px;
-    height: 80px;
-    font-size: 30px;
-    transition: all 1.7s;
-    
-  } */
 
-  #test {
-    position: absolute;
-    top: 40%;
-    left: 40%;
-    margin: auto;
-    width: 300px;
-    height: 300px;
-    z-index: 0;
+  @keyframes appearance{
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 1;     
+    }
+  }
+
+  @keyframes motion {
+    0% {margin-top: 0px;}
+    100% {margin-top: 10px; display: block;}
+  }
+
+  @keyframes shadowGrow {
+    0%{
+      box-shadow: 0 20px 50px rgb(23, 32, 90);
+    }
+    100%{
+      box-shadow: 0 20px 50px 10px rgb(40, 60, 110);
+    }
+  }
+
+  @keyframes bigger {
+    0%{
+      width: 50%;
+      height: 225px;
+    }
+    70%{
+      width: 60%;
+      height: 270px;
+    }
+    100%{
+      width: 50%;
+      height: 225px;
+    }
+  }
+  
+  @keyframes dropThat {
+    0%{top: -150px; opacity: 0.3;}
+    12.5%{top: -25px;}
+    25%{top: 100px; opacity: 0.5;}
+    37.5%{top: 225px;}
+    50%{top: 450px; opacity: 1; transform:rotate(0);}
+
+    75%{top: 275px;}
+    
+    100%{top:350px;opacity: 1; transform:rotate(1turn);}
   }
   
   @keyframes animStar {
@@ -140,14 +189,5 @@
     }
   }
 
+
   
-   
-  
-    
-  
-  
-  @keyframes moveGradient {
-    50% {
-      background-position: 100% 50%;
-    }
-  }

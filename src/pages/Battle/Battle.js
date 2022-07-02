@@ -18,7 +18,6 @@ import 'ace-builds/src-noconflict/ext-language_tools';
 
 
 
-
 const Battle = () => {
 
     const [modeOne, setModeOne] = React.useState('java');
@@ -66,6 +65,8 @@ const Battle = () => {
             return answer;
     } 
     }`;
+
+    
     
     return (
        <>
@@ -155,7 +156,9 @@ const Battle = () => {
              <Aside>
                 <p>chating</p>
                 <Input />
+                
              </Aside>
+                  
           </Container>
        </>
     );
