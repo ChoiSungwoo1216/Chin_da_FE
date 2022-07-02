@@ -22,7 +22,7 @@ const Language = (props) => {
                       src="https://image.shutterstock.com/image-vector/pixel-art-black-bodyguard-character-260nw-1056562499.jpg"
                    />
                 </TypeBtn>
-                <InsideBtn>PYTHON</InsideBtn>
+                <InsideBtn>PYTHON3</InsideBtn>
              </TypeBtnDiv>
 
              <TypeBtnDiv value="1" onClick={(e) => SelectLan(e)}>
