@@ -10,23 +10,18 @@ const TutorialBtn = () => {
     return (
         <div>
             {tutoOpen ? (<Tutorial setTutoOpen={setTutoOpen}/>) : (
-            <TutoBtn onClick={open}>?</TutoBtn>
+            <TutoBtn src="/img/question_btn_black.png" onClick={open}/>
             )}
         </div>
     )
 }
 
-const TutoBtn = styled.div`
+const TutoBtn = styled.img`
 position: fixed;
 right: 30px;
 bottom: 20px;
-color: white;
-width: 20px;
-height: 20px;
-border: 2px solid white;
-border-radius: 10px;
-text-align: center;
-line-height: 20px;
+width: 30px;
+height: 30px;
 z-index: 10;
 `;
 
