@@ -16,12 +16,14 @@ import 'ace-builds/src-noconflict/theme-solarized_light';
 import 'ace-builds/src-noconflict/theme-terminal';
 import 'ace-builds/src-noconflict/ext-language_tools';
 
+import Modal from 'react-modal';
 import CountDown from './components/CountDown';
 import Accordion from './components/Accordion';
-import ModalBox from './components/ModalBox';
 
-const Battle = (props) => {
+Modal.setAppElement('#root');
 
+const Battle = () => {
+    const [showModal, setShowModal] = React.useState(true);
     const [modeOne, setModeOne] = React.useState('java');
     const [themeOne, setThemeOne] = React.useState('monokai');
     const [modeTwo, setModeTwo] = React.useState('javascript');
@@ -70,11 +72,27 @@ const Battle = (props) => {
     
     return (
        <>
-       <ModalBox />
           <Container>
-             <Section>
-                <div>
-                   {/* <select
+             {showModal ? (
+                <Modal
+                   isOpen={showModal}
+                   onRequestClose={() => setShowModal(false)}
+                   style={{
+                      width: '70%',
+                   }}
+                >
+                   <ModalBtn
+                      src="/img/X_btn_white_50.png"
+                      onClick={() => setShowModal(false)}
+                   >
+                      Close
+                   </ModalBtn>
+                </Modal>
+             ) : (
+                <>
+                   <Section>
+                      <div>
+                         {/* <select
                       type="text"
                       value={modeOne}
                       onChange={onChangeModeOne}
@@ -98,54 +116,63 @@ const Battle = (props) => {
                       <option value="solarized_light">solarized_light</option>
                       <option value="terminal">terminal</option>
                    </select> */}
-                   <AceEditor
-                      style={{ width: 700, margin: 5 }}
-                      mode={modeOne}
-                      theme={themeOne}
-                      onChange={onChangeOne}
-                      fontSize={15}
-                      name="UNIQUE_ID_OF_DIV"
-                      editorProps={{ $blockScrolling: true }}
-                      highlightActiveLine={true}
-                      setOptions={{
-                         enableBasicAutocompletion: true,
-                         enableLiveAutocompletion: true,
-                         enableSnippets: true,
-                         tabSize: 4,
-                      }}
-                      value={valueType(modeOne)}
-                      placeholder="Placeholder Text"
-                   />
-                </div>
-                <div>
-                   <h5></h5>
-                   {/* <select type="text" value={modeTwo} onChange={onChangeModeTwo}>
+                         <AceEditor
+                            style={{
+                               width: 700,
+                               margin: 5,
+                            }}
+                            mode={modeOne}
+                            theme={themeOne}
+                            onChange={onChangeOne}
+                            fontSize={15}
+                            name="UNIQUE_ID_OF_DIV"
+                            editorProps={{ $blockScrolling: true }}
+                            highlightActiveLine={true}
+                            setOptions={{
+                               enableBasicAutocompletion: true,
+                               enableLiveAutocompletion: true,
+                               enableSnippets: true,
+                               tabSize: 4,
+                            }}
+                            value={valueType(modeOne)}
+                            placeholder="Placeholder Text"
+                         />
+                      </div>
+                      <div>
+                         <h5></h5>
+                         {/* <select type="text" value={modeTwo} onChange={onChangeModeTwo}>
                    <option value="javascript">javascript</option>
                    <option value="java">java</option>
                 </select> */}
-                   <AceEditor
-                      style={{ width: 700, height: 300, margin: 5 }}
-                      mode={modeTwo}
-                      theme="github"
-                      onChange={onChangeTwo}
-                      name="UNIQUE_ID_OF_DIV"
-                      editorProps={{ $blockScrolling: true }}
-                      highlightActiveLine={true}
-                      setOptions={{
-                         enableBasicAutocompletion: true,
-                         enableLiveAutocompletion: true,
-                         enableSnippets: true,
-                      }}
-                      value={valueType(modeTwo)}
-                      placeholder="Placeholder Text"
-                   />
-                </div>
-             </Section>
-             <Accordion />
-             <Aside>
-                <Input />
-             </Aside>
-             <CountDown />
+                         <AceEditor
+                            style={{
+                               width: 700,
+                               height: 300,
+                               margin: 5,
+                            }}
+                            mode={modeTwo}
+                            theme="github"
+                            onChange={onChangeTwo}
+                            name="UNIQUE_ID_OF_DIV"
+                            editorProps={{ $blockScrolling: true }}
+                            highlightActiveLine={true}
+                            setOptions={{
+                               enableBasicAutocompletion: true,
+                               enableLiveAutocompletion: true,
+                               enableSnippets: true,
+                            }}
+                            value={valueType(modeTwo)}
+                            placeholder="Placeholder Text"
+                         />
+                      </div>
+                   </Section>
+                   <Accordion />
+                   <Aside>
+                      <Input />
+                   </Aside>
+                   <CountDown />
+                </>
+             )}
           </Container>
        </>
     );
@@ -153,9 +180,15 @@ const Battle = (props) => {
 
 export default Battle;
 
+const ModalBtn = styled.button`
+   position: absolute;
+   width: 30px;
+   height: 30px;
+   left: 919px;
+   top: 135px;
+`;
+
 const Container = styled.div`
-   position: relative;
-   z-index: 1;
    display: flex;
    align-items: center;
    justify-content: center;
@@ -163,16 +196,12 @@ const Container = styled.div`
 `;
 
 const Section = styled.section`
-   position: absolute;
-   z-index: 3;
    display: flex;
    justify-content: center;
    margin: auto;
 `;
 
 const Aside = styled.aside`
-   position: absolute;
-   z-index: 3;
    margin: auto;
    width: 300px;
    height: 500px;
