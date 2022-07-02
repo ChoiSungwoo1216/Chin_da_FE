@@ -17,6 +17,7 @@ import 'ace-builds/src-noconflict/theme-terminal';
 import 'ace-builds/src-noconflict/ext-language_tools';
 
 import CountDown from './components/CountDown';
+import Accordion from './components/Accordion';
 
 
 const Battle = () => {
@@ -139,8 +140,8 @@ const Battle = () => {
                    />
                 </div>
              </Section>
+             <Accordion />
              <Aside>
-                <p>chating</p>
                 <Input />
              </Aside>
              <CountDown />
