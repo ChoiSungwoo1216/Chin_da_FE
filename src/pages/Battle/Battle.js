@@ -16,10 +16,11 @@ import 'ace-builds/src-noconflict/theme-solarized_light';
 import 'ace-builds/src-noconflict/theme-terminal';
 import 'ace-builds/src-noconflict/ext-language_tools';
 
+import CountDown from './components/CountDown';
+import Accordion from './components/Accordion';
+import ModalBox from './components/ModalBox';
 
-
-
-const Battle = () => {
+const Battle = (props) => {
 
     const [modeOne, setModeOne] = React.useState('java');
     const [themeOne, setThemeOne] = React.useState('monokai');
@@ -69,19 +70,7 @@ const Battle = () => {
     
     return (
        <>
-          {/* <Header>
-             <tr>
-                <MyCamera>
-                   영상 오디오<button>on/off</button>
-                </MyCamera>
-
-                <td>
-                   <div>타이머</div>
-                </td>
-
-                <OtherCam> 상대방영상</OtherCam>
-             </tr>
-          </Header> */}
+       <ModalBox />
           <Container>
              <Section>
                 <div>
@@ -152,10 +141,11 @@ const Battle = () => {
                    />
                 </div>
              </Section>
+             <Accordion />
              <Aside>
-                <p>chating</p>
                 <Input />
              </Aside>
+             <CountDown />
           </Container>
        </>
     );
@@ -164,40 +154,25 @@ const Battle = () => {
 export default Battle;
 
 const Container = styled.div`
+   position: relative;
+   z-index: 1;
+   display: flex;
    align-items: center;
    justify-content: center;
    margin: auto;
 `;
 
-const Header = styled.table`
-
-   width: 100%;
-   margin: 5px;
-`;
-
-const MyCamera = styled.td`
-    width: 150px;
-    height: 150px;
-    border: 1px solid;
-
-
-`
-const OtherCam = styled.td`
-   width: 150px;
-   height: 150px;
-   border: 1px solid;
-
-`;
-
 const Section = styled.section`
+   position: absolute;
+   z-index: 3;
    display: flex;
    justify-content: center;
-   al
    margin: auto;
-
 `;
 
 const Aside = styled.aside`
+   position: absolute;
+   z-index: 3;
    margin: auto;
    width: 300px;
    height: 500px;
