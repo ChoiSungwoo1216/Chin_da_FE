@@ -10,65 +10,134 @@ const Level = (props) => {
         setRoomOn,
     } = props
 
-    const BacktoLang = () => {
+    const BackToLang = () => {
         setLevOn(false);
         setLanOn(true);
     }
 
-    const SelectLev = (e)=>{
+    const SelectLev = (e) => {
         setLevOn(false);
         setRoomOn(true);
         setLevel(e.target.value);
     }
 
+    const languageIs = (language) => {
+        if (language === "0") {
+            return ("PYTHON");
+        } else if (language === "1") {
+            return ("JAVA");
+        } else {
+            return ("JAVASCRIPT")
+        }
+    }
+
     return (
-        <>
-            <Title>
-                난이도 선택
-            </Title>
-            <Div>
-                <SelectedDiv onClick={BacktoLang}>{language.toUpperCase()}</SelectedDiv>
-                <LevelBtn value="⭐⭐⭐" onClick={(e)=>{SelectLev(e)}}>⭐⭐⭐</LevelBtn>
-                <LevelBtn value="⭐⭐" onClick={(e)=>{SelectLev(e)}}>⭐⭐</LevelBtn>
-                <LevelBtn value="⭐" onClick={(e)=>{SelectLev(e)}}>⭐</LevelBtn>
-            </Div>
-        </>
-    )
+       <>
+          <Title>난이도 선택</Title>
+
+          <Wrapper>
+             <SelectedDiv onClick={BackToLang}>
+                <InsideBtn1>{languageIs(language)}</InsideBtn1>
+             </SelectedDiv>
+
+             <LevelBtn
+                value="2"
+                onClick={(e) => {
+                   SelectLev(e);
+                }}
+             >
+                <InsideBtn2>⭐⭐⭐</InsideBtn2>
+             </LevelBtn>
+             <LevelBtn
+                value="1"
+                onClick={(e) => {
+                   SelectLev(e);
+                }}
+             >
+                <InsideBtn2>⭐⭐</InsideBtn2>
+             </LevelBtn>
+             <LevelBtn
+                value="0"
+                onClick={(e) => {
+                   SelectLev(e);
+                }}
+             >
+                <InsideBtn2>⭐</InsideBtn2>
+             </LevelBtn>
+          </Wrapper>
+       </>
+    );
 
 
 }
 
 const Title = styled.div`
-width: 100%;
-height: 128px;
-text-align: center;
-line-height: 128px;
-font-size: 40px;
+   width: 100%;
+   text-align: center;
+   margin-top: 50px;
+   position: absolute;
+   z-index: 1;
+   color: #fff;
+   font-size: 40px;
 `;
 
-const Div = styled.div`
-width: 90%;
-display: flex;
-flex-direction: row;
-align-items: center;
-gap: 5%;
-padding : 5%;
+const Wrapper = styled.div`
+   width: 90%;
+   display: flexbox;
+   justify-content: center;
+   align-items: center;
+   min-height: 100vh;
+   margin: auto;
+   position: relative;
 `;
 
 const SelectedDiv = styled.div`
-width: 25vw;
-height: 60vh;
-font-size: 50px;
-word-wrap: break-word;
-line-height: 60vh;
-text-align: center;
-background-color: #808080;
-`
-const LevelBtn = styled.button`
-width: 25vw;
-height: 60vh;
-font-size: 50px;
-word-wrap: break-word;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   width: 250px;
+   height: 350px;
+   background-color: #ffffff1a;
+   margin: 20px;
+   padding: 1.5em;
+   border-radius: 25px;
+   border: 1px solid #0000001a;
+   text-align: center;
 `;
+
+const LevelBtn = styled.div`
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   width: 250px;
+   height: 350px;
+   background-color: #ffffff1a;
+   margin: 20px;
+   padding: 1.5em;
+   border-radius: 25px;
+   border: 1px solid #0000001a;
+   text-align: center;
+`;
+
+const InsideBtn1 = styled.div`
+   color: #fff;
+   text-transform: uppercase;
+   font-size: 30px;
+   animation: motion 0.3s linear 0s infinite alternate;
+   margin-top: 0;
+   -webkit-animation: motion 0.3s linear 0s infinite alternate;
+`;
+
+const InsideBtn2 = styled.div`
+   color: #fff;
+   text-transform: uppercase;
+   font-size: 30px;
+   animation: motion 0.3s linear 0s infinite alternate;
+   margin-top: 0;
+   -webkit-animation: motion 0.3s linear 0s infinite alternate;
+`;
+
 
 export default Level

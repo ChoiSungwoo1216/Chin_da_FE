@@ -151,9 +151,8 @@ input[type=radio]:checked~label {
 }
 
 .xBtn {
-  color: red;
   position: fixed;
-  top: 5.5vh;
+  top: 6vh;
   right: 5.5vw;
   z-index: 12;
 }
