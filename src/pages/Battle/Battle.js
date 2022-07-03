@@ -67,6 +67,8 @@ const Battle = (props) => {
             return answer;
     } 
     }`;
+
+    
     
     return (
        <>
@@ -144,6 +146,7 @@ const Battle = (props) => {
              <Accordion />
              <Aside>
                 <Input />
+                
              </Aside>
              <CountDown />
           </Container>
