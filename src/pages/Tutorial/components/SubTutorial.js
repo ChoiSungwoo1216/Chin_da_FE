@@ -8,8 +8,7 @@ import 'swiper/css/navigation';
 import './SubTutorial.css';
 import styled from 'styled-components';
 // import required modules
-import { Pagination, Navigation } from 'swiper';
-
+import { Pagination, Navigation, Mousewheel, Keyboard } from 'swiper';
 export default function SubTutorial(props) {
    const { setTutoOpen } = props
    return (
@@ -18,11 +17,11 @@ export default function SubTutorial(props) {
 
          <div className="Container">
             <Swiper
-               pagination={{
-                  type: 'progressbar',
-               }}
+               pagination={true}
                navigation={true}
-               modules={[Pagination, Navigation]}
+               mousewheel={true}
+               keyboard={true}
+               modules={[Pagination, Navigation, Mousewheel, Keyboard]}
                className="mySwiper"
                style={{ color: '#000' }}
             >
