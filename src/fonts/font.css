@@ -1,9 +1,5 @@
-/* @font-face {
-    font-family: "PFstardust";        
-    src: url("./font/PFstardust.ttf"); 
-  }
-  font-family */
 
+  /* stardust bold */
   @font-face {
     /* 사용할 폰트의 이름 */
     font-family: "PFstardust";
@@ -15,11 +11,30 @@
        Modern Browsers => woff
        IE6-IE8 => eot
     */
-    src: url("./PFstardust.ttf") format("truetype"), url("./PFstardust.woff")
-        format("woff"), url("./PFstardust.eot?iefix") format("embedded-opentype");
-  
+    src: url("./PFstardustBold.ttf") format("truetype"),
+      url("./PFstardustBold.woff") format("woff");  
     /* 사용할 폰트의 기본 스타일 */
     font-size: 20px;
-    font-weight: 400;
+    font-weight: 900;
+    font-style: normal;
+  }
+
+  /* galmuri */
+  @font-face {
+    /* 사용할 폰트의 이름 */
+    font-family: "bb";
+    font-display: fallback;
+  
+    /* 
+    src: 사용할 폰트의 위치 및 형식 
+       Safari, Android, iOS => ttf
+       Modern Browsers => woff
+       IE6-IE8 => eot
+    */
+    src: url("./Galmuri11Bitmap-Bold.ttf") format("truetype"),
+      url("./Galmuri11Bitmap-Bold.woff2") format("woff2");  
+    /* 사용할 폰트의 기본 스타일 */
+    font-size: 20px;
+    font-weight: 900;
     font-style: normal;
   }

@@ -17,7 +17,6 @@ function App() {
         <div id="stars3"></div>
         <TutorialBtn/>
         <Routes>
-           <Route path="/Main" element={<Main />}></Route>
            <Route path="/" element={<Start />}/>
            <Route path="/github" element={<GitLogin/>}/>
            <Route path="/Main" element={<Main />}></Route>
@@ -30,3 +29,21 @@ function App() {
 }
 
 export default App;
+// 대충 나중에 적용
+{/* <Routes>
+   {뭐 대충 로그인 체크 변수 ? (
+      <>
+         <Route path="/" element={<Start />}/>
+         <Route path="/github" element={<GitLogin/>}/>
+         <Route path="*" element={<Start />}/>      
+      </>
+      ) : (
+      <>
+         <Route path="/Main" element={<Main />}></Route>
+         <Route path="/Battle" element={<Battle />}></Route>
+         <Route path="/Profile" element={<Profile />}></Route>
+         <Route path="/Selection" element={<Selection />}></Route>
+      </>
+      )
+   }
+</Routes> */}
