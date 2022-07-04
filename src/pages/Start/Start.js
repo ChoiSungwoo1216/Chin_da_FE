@@ -14,11 +14,8 @@ const Start = () => {
         setModalOpen(false);
     }
     return(
-        <div>
-            <Main id="SpaceBG">
-                <div id="stars"></div>
-                <div id="stars2"></div>
-                <div id="stars3"></div>                        
+        <div id="spaceBG">
+            <Main>
                 <div id="title">
                     <span>친 다</span>
                     <button id="loginBtn"  >
