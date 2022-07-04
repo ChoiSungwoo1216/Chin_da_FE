@@ -69,6 +69,8 @@ const Battle = () => {
             return answer;
     } 
     }`;
+
+    
     
     return (
        <>
@@ -144,6 +146,7 @@ const Battle = () => {
                    <option value="javascript">javascript</option>
                    <option value="java">java</option>
                 </select> */}
+
                          <AceEditor
                             style={{
                                width: 700,
@@ -173,6 +176,32 @@ const Battle = () => {
                    <CountDown />
                 </>
              )}
+
+                   <AceEditor
+                      style={{ width: 700, height: 300, margin: 5 }}
+                      mode={modeTwo}
+                      theme="github"
+                      onChange={onChangeTwo}
+                      name="UNIQUE_ID_OF_DIV"
+                      editorProps={{ $blockScrolling: true }}
+                      highlightActiveLine={true}
+                      setOptions={{
+                         enableBasicAutocompletion: true,
+                         enableLiveAutocompletion: true,
+                         enableSnippets: true,
+                      }}
+                      value={valueType(modeTwo)}
+                      placeholder="Placeholder Text"
+                   />
+                </div>
+             </Section>
+             <Accordion />
+             <Aside>
+                <Input />
+                
+             </Aside>
+             <CountDown />
+
           </Container>
        </>
     );
