@@ -30,7 +30,7 @@ function App() {
 
 export default App;
 // 대충 나중에 적용
-{/* <Routes>
+/* <Routes>
    {뭐 대충 로그인 체크 변수 ? (
       <>
          <Route path="/" element={<Start />}/>
@@ -46,4 +46,4 @@ export default App;
       </>
       )
    }
-</Routes> */}
+</Routes> */

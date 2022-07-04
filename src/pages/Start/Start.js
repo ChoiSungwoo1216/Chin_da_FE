@@ -14,7 +14,7 @@ const Start = () => {
         setModalOpen(false);
     }
     return(
-        <div>
+        <div id="spaceBG">
             <Main>
                 <div id="title">
                     <span>친 다</span>
