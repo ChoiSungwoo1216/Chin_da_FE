@@ -12,6 +12,7 @@ import TutorialBtn from "./pages/Tutorial/TutorialBtn"
 function App() {
   return (
      <div className="App">
+      
         <div id="stars"></div>
         <div id="stars2"></div>
         <div id="stars3"></div>
@@ -24,6 +25,7 @@ function App() {
            <Route path="/Profile" element={<Profile />}></Route>
            <Route path="/Selection" element={<Selection />}></Route>
         </Routes>
+        
      </div>
   );
 }
