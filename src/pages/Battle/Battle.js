@@ -94,30 +94,7 @@ const Battle = () => {
                 <>
                    <Section>
                       <div>
-                         {/* <select
-                      type="text"
-                      value={modeOne}
-                      onChange={onChangeModeOne}
-                   >
-                      <option value="java">java</option>
-                      <option value="javascript">javascript</option>
-                   </select>
-                   <select
-                      type="text"
-                      value={themeOne}
-                      onChange={onChangethemeOne}
-                   >
-                      <option value="monokai">monokai</option>
-                      <option value="github">github</option>
-                      <option value="tomorrow">tomorrow</option>
-                      <option value="kuroir">kuroir</option>
-                      <option value="twilight">twilight</option>
-                      <option value="xcode">xcode</option>
-                      <option value="textmate">textmate</option>
-                      <option value="solarized_dark">solarized_dark</option>
-                      <option value="solarized_light">solarized_light</option>
-                      <option value="terminal">terminal</option>
-                   </select> */}
+                
                          <AceEditor
                             style={{
                                width: 700,
@@ -142,10 +119,6 @@ const Battle = () => {
                       </div>
                       <div>
                          <h5></h5>
-                         {/* <select type="text" value={modeTwo} onChange={onChangeModeTwo}>
-                   <option value="javascript">javascript</option>
-                   <option value="java">java</option>
-                </select> */}
 
                          <AceEditor
                             style={{
@@ -167,6 +140,7 @@ const Battle = () => {
                             value={valueType(modeTwo)}
                             placeholder="Placeholder Text"
                          />
+
                       </div>
                    </Section>
                    <Accordion />
@@ -174,34 +148,8 @@ const Battle = () => {
                       <Input />
                    </Aside>
                    <CountDown />
-                </>
+                   </>
              )}
-
-                   <AceEditor
-                      style={{ width: 700, height: 300, margin: 5 }}
-                      mode={modeTwo}
-                      theme="github"
-                      onChange={onChangeTwo}
-                      name="UNIQUE_ID_OF_DIV"
-                      editorProps={{ $blockScrolling: true }}
-                      highlightActiveLine={true}
-                      setOptions={{
-                         enableBasicAutocompletion: true,
-                         enableLiveAutocompletion: true,
-                         enableSnippets: true,
-                      }}
-                      value={valueType(modeTwo)}
-                      placeholder="Placeholder Text"
-                   />
-                </div>
-             </Section>
-             <Accordion />
-             <Aside>
-                <Input />
-                
-             </Aside>
-             <CountDown />
-
           </Container>
        </>
     );
