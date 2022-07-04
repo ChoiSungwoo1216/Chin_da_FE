@@ -151,12 +151,12 @@
     transform: rotateY(180deg);
 }
 
-.reloadEmoji {
+.reloadBtn {
     display: block;
     position: absolute;
     bottom: 0;
     right: 0;
-    font-size: 25px;
+    width: 30px;
     margin: 10px;
-    z-index: 9;
+
 }
