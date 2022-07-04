@@ -27,7 +27,6 @@ const Main = () => {
                          <p className="content p">전적:</p>
                       </div>
                    </div>
-                   <img className="reloadBtn" src="/img/reloadBtn_black.png" />
                 </aside>
                 <div className="cardContainer">
                    <Card />
@@ -35,6 +34,9 @@ const Main = () => {
                    <Card />
                    <Card />
                    <Card />
+                   <Card />
+                   <Card />
+                   <img className="reloadBtn" src="/img/reloadBtn_black.png" />
                 </div>
              </section>
           </div>
