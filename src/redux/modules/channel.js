@@ -9,6 +9,22 @@ const DELETE = "channel/DELETE";
 
 const initialState = {
   list: [
+    {
+      userImg: "https://image.shutterstock.com/image-vector/pixel-art-black-bodyguard-character-260nw-1056562499.jpg",
+      userName: "연습1", userId: "id1", userWin: "1", userLose: "2"
+    },
+    {
+      userImg: "https://image.shutterstock.com/image-vector/pixel-art-black-bodyguard-character-260nw-1056562499.jpg",
+      userName: "연습2", userId: "id2", userWin: "2", userLose: "3"
+    },
+    {
+      userImg: "https://image.shutterstock.com/image-vector/pixel-art-black-bodyguard-character-260nw-1056562499.jpg",
+      userName: "연습3", userId: "id3", userWin: "3", userLose: "4"
+    },
+    {
+      userImg: "https://image.shutterstock.com/image-vector/pixel-art-black-bodyguard-character-260nw-1056562499.jpg",
+      userName: "연습4", userId: "id4", userWin: "4", userLose: "5"
+    },
   ],
 };
 
@@ -27,7 +43,7 @@ export function deletechannel(channel_index) {
 
 // // middlewares
 
-export const loadChannelAxios = () => {
+export const loadChannelAxios = (language, level) => {
   const access_token = localStorage.getItem("access_token")
   axios.defaults.withCredentials = true;
   return async function (dispatch) {
@@ -36,6 +52,10 @@ export const loadChannelAxios = () => {
         url: "/api/channelList",
         method: "get",
         baseURL: "http://54.180.154.178",
+        params: {
+          language: language,
+          level: level,
+        },
         headers: {
           "authorization": access_token
         }

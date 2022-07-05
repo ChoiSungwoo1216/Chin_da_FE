@@ -1,12 +1,12 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 
 const Language = (props) => {
     const { setLanguage, setLanOn, setLevOn } = props
 
     const SelectLan = (e) => {
-        setLanguage(e.target.value)
+        setLanguage(e.target.id)
         setLanOn(false);
         setLevOn(true);
     }
@@ -15,33 +15,36 @@ const Language = (props) => {
        <>
          <Title>언어선택</Title>
           <Wrapper>
-             <TypeBtnDiv value="0" onClick={(e) => SelectLan(e)}>
+             <TypeBtnDiv id="0" onClick={(e) => SelectLan(e)}>
                 <TypeBtn>
                    <img
                       style={{ width: '100%' }}
                       src="https://image.shutterstock.com/image-vector/pixel-art-black-bodyguard-character-260nw-1056562499.jpg"
+                      alt="none"
                    />
                 </TypeBtn>
                 <InsideBtn>PYTHON3</InsideBtn>
              </TypeBtnDiv>
 
-             <TypeBtnDiv value="1" onClick={(e) => SelectLan(e)}>
-                <TypeBtn>
+             <TypeBtnDiv id="1" onClick={(e) => SelectLan(e)}>
+                <TypeBtnO>
                    <img
                       style={{ width: '100%' }}
                       src="https://image.shutterstock.com/image-vector/pixel-art-black-bodyguard-character-260nw-1056562499.jpg"
+                      alt="none"
                    />
-                </TypeBtn>
+                </TypeBtnO>
                 <InsideBtn>JAVA</InsideBtn>
              </TypeBtnDiv>
 
-             <TypeBtnDiv value="2" onClick={(e) => SelectLan(e)}>
-                <TypeBtn>
+             <TypeBtnDiv id="2" onClick={(e) => SelectLan(e)}>
+                <TypeBtnT>
                    <img
                       style={{ width: '100%' }}
                       src="https://image.shutterstock.com/image-vector/pixel-art-black-bodyguard-character-260nw-1056562499.jpg"
+                      alt="none"
                    />
-                </TypeBtn>
+                </TypeBtnT>
                 <InsideBtn>JAVASCRIPT</InsideBtn>
              </TypeBtnDiv>
           </Wrapper>
@@ -61,7 +64,7 @@ const Title = styled.div`
 
 const Wrapper = styled.div`
    width: 90%;
-   display: flexbox;
+   display: flex;
    justify-content: center;
    align-items: center;
    min-height: 100vh;
@@ -74,13 +77,23 @@ const TypeBtnDiv = styled.div`
    flex-direction: column;
    justify-content: center;
    align-items: center;
-   width: 250px;
-   height: 350px;
-   background-color: #ffffff1a;
+   width: 22.03vw;
+   height: 48.6vh;
    margin: auto 20px;
    padding: 1.5em;
-   border-radius: 25px;
-   border: 1px solid #0000001a;
+   background-image: url(img/level_card.png);
+   background-repeat: no-repeat;
+   background-size: contain;
+   background-position: center;
+`;
+
+const motion = keyframes`
+	0% {
+    transform: translateY(0);
+  }
+	100% {
+    transform: translateY(10px);
+  }
 `;
 
 const TypeBtn = styled.div`
@@ -91,10 +104,38 @@ const TypeBtn = styled.div`
    overflow: hidden;
    object-fit: cover;
    margin: 50px 0;
-   animation: motion 0.3s linear 0s infinite alternate;
-   -webkit-animation: motion 0.3s linear 0s infinite alternate;
+   animation: ${motion} 0.3s linear 0s infinite alternate;
+   -webkit-animation: ${motion} 0.3s linear 0s infinite alternate;
    animation-delay: 0.2s;
 `;
+
+const TypeBtnO = styled.div`
+   display: flex;
+   flex-direction: column;
+   width: 90px;
+   height: 90px;
+   overflow: hidden;
+   object-fit: cover;
+   margin: 50px 0;
+   animation: ${motion} 0.3s linear 0s infinite alternate;
+   -webkit-animation: ${motion} 0.3s linear 0s infinite alternate;
+   animation-delay: 0.3s;
+`;
+
+const TypeBtnT = styled.div`
+   display: flex;
+   flex-direction: column;
+   width: 90px;
+   height: 90px;
+   overflow: hidden;
+   object-fit: cover;
+   margin: 50px 0;
+   animation: ${motion} 0.3s linear 0s infinite alternate;
+   -webkit-animation: ${motion} 0.3s linear 0s infinite alternate;
+   animation-delay: 0.4s;
+`;
+
+
 
 const InsideBtn = styled.h2`
    color: #ffffff60;

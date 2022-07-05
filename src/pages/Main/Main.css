@@ -162,7 +162,7 @@
     width: 200px;
     height: 250px;
     position: relative;
-    transition: transform .7s linear;
+    transition: transform .3s linear;
     transform-style: preserve-3d;
     padding: 5px auto;
 }
@@ -189,10 +189,14 @@
 }
 
 .back {
+    display: flex;
+    flex-direction: column;
     background-color: #333;
     transform: rotateY(180deg);
         /* background-image: ; */
 }
+
+.face .back span { display: block; }
 
 .reloadBtn {
     float: right;  

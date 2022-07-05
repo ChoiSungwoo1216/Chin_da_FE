@@ -7,6 +7,7 @@
   font-family: "Neo", sans-serif;
 }
 
+body::-webkit-scrollbar { display: none; }
 
 #stars {
   width: 1px;
