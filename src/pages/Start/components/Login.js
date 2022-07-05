@@ -4,7 +4,7 @@ import styled from "styled-components";
 const Login = () => {
 
    const GitKey = "44af62885d9f67153ed1";
-   const redirectUri = "https://localhost:3000/github"
+   const redirectUri = "http://localhost:3000/github"
    const locateGit = `https://github.com/login/oauth/authorize?client_id=${GitKey}&redirect_uri=${redirectUri}`;
 
    return (
