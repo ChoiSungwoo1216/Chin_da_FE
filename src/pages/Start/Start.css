@@ -1,0 +1,121 @@
+  .main {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+
+    
+    align-items: center;
+
+    max-width:100vw;
+    width: 100vw;
+    max-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
+    
+  }
+  
+
+
+  #title {
+    position: relative;
+    display: flex;
+    color: #FFF;
+    text-align: center;
+    overflow: hidden;
+    justify-content: center;
+    flex-direction: column;
+    font-weight: 300;
+    font-size: 80px;
+    letter-spacing: 10px;
+    background: -webkit-linear-gradient(white, #38495a);
+    background-clip:text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    width: 41.64vw;
+    height: 35.694vh;
+    top: 13.75vh;
+ 
+    
+    opacity: 0;
+    box-sizing: border-box;  
+    border: 1px solid white;
+    
+    animation: zoomin 1s linear forwards, shadowGrow 1.5s infinite none;
+    animation-delay: 1s, 2.5s;
+    
+  }
+
+  
+  
+
+  #loginBtn {
+    background-color:transparent;
+    
+    width:180px;
+    /* 넓이는 반응형으로 하니까 많이 줄였을때 찌그러져서 px로 */
+    height: 6.944vh;
+    z-index: 1;
+
+    display: flex;
+
+    justify-content: center;
+    margin: auto;
+    border: none;
+
+    position: relative;
+    opacity: 0;
+    
+    top:13.75vh;
+    animation: zoomin 1s linear 3s forwards,rotateBar 1s linear 3s forwards ,motion22 0.5s linear 3s infinite ;
+    
+    overflow: hidden;
+    
+  }
+  #loginBtn > img {
+    
+    cursor: pointer;
+  }
+
+
+
+  @keyframes motion22 {
+    0% {top: 12.75vh;}
+    100% {top: 13.75vh;}
+  }
+
+  @keyframes shadowGrow {
+    0%{
+      box-shadow: 0 20px 50px rgb(23, 32, 90);
+    }
+    50%{
+      box-shadow: 0 20px 70px 30px rgb(40, 60, 110);
+    }
+    100%{
+      box-shadow: 0 20px 50px rgb(23, 32, 90);
+    }
+  }
+
+
+  
+  @keyframes rotateBar {
+    0%{opacity: 0; transform:rotate(0);}
+      
+    100%{opacity: 1; transform:rotate(2turn);}
+  }
+  
+
+  
+  @keyframes zoomin {
+    0% {
+      transform:scale(0,0);
+      opacity: 0;
+    }
+    50%{
+      transform:scale(0.5,0.5);
+    
+    }
+    100% {
+      transform:scale(1,1);
+      opacity: 1;
+    }
+  }

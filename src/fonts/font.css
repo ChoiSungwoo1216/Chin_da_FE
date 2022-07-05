@@ -1,6 +1,5 @@
 
-  /* stardust bold */
-  @font-face {
+    @font-face {
     /* 사용할 폰트의 이름 */
     font-family: "PFstardust";
     font-display: fallback;
@@ -19,21 +18,13 @@
     font-style: normal;
   }
 
-  /* galmuri */
+
   @font-face {
-    /* 사용할 폰트의 이름 */
-    font-family: "bb";
+    font-family: "Neo";
     font-display: fallback;
-  
-    /* 
-    src: 사용할 폰트의 위치 및 형식 
-       Safari, Android, iOS => ttf
-       Modern Browsers => woff
-       IE6-IE8 => eot
-    */
-    src: url("./Galmuri11Bitmap-Bold.ttf") format("truetype"),
-      url("./Galmuri11Bitmap-Bold.woff2") format("woff2");  
-    /* 사용할 폰트의 기본 스타일 */
+
+    src: url("./NeoDunggeunmoPro.woff") format("woff");
+
     font-size: 20px;
     font-weight: 900;
     font-style: normal;
