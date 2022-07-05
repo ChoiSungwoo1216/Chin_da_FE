@@ -10,31 +10,40 @@ const Main = () => {
        <>
           <div className="mainContainer">
              <section className="section">
-                <article className="article">
-                   <div className="profile">
-                      <div className="thumbnail circle"></div>
-                      <div className="description">
-                         <h5 className="content">player1</h5>
-                         <p className="content p">전적:</p>
+                <div style={{ display: 'flex', width: '100%' }}>
+                   <article className="article">
+                      <div className="profile">
+                         <div className="thumbnail circle"></div>
+                         <div className="description">
+                            <h3 className="content">player1</h3>
+                            <p className="content p">전적:</p>
+                         </div>
                       </div>
-                   </div>
-                </article>
-                <aside className="aside">
-                   <div className="profile">
-                      <div className="thumbnail circle"></div>
-                      <div className="description">
-                         <h5 className="content">player1</h5>
-                         <p className="content p">전적:</p>
+                   </article>
+                   <aside className="aside">
+                      <div className="profile2">
+                         <div className="thumbnail circle"></div>
+                         <div className="description">
+                            <h3 className="content">player2</h3>
+                            <p className="content p">전적:</p>
+                         </div>
                       </div>
-                   </div>
-                   <div className="reloadEmoji">🔁</div>
-                </aside>
+                   </aside>
+                </div>
+             </section>
+             <section className="section2">
                 <div className="cardContainer">
-                   <Card />
-                   <Card />
-                   <Card />
-                   <Card />
-                   <Card />
+                      <Card />
+                      <Card />
+                      <Card />
+                      <Card />
+                      <Card />
+                      <Card />
+                      <Card />
+                      <img
+                         className="reloadBtn"
+                         src="/img/reloadBtn_black.png"
+                      />
                 </div>
              </section>
           </div>
