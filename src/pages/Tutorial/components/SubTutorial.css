@@ -1,5 +1,10 @@
 /* #0DFF92; */
 
+:root {
+  --swiper-theme-color: #fff;
+  --swiper-pagination-color:#fff;
+}
+
 .Container {
   position: fixed;
   left: 0;
@@ -17,23 +22,33 @@
   height: 100%;
 }
 
-.swiper-pagination-progressbar .swiper-pagination-progressbar-fill {
-  color: black
-}
-
 .swiper-button-prev:after {
-  color: black
+  color: #fff;
 }
 
 .swiper-button-next:after {
-  color: black
+  color: #fff;
 }
 
+.swiper-pagination-bullet {
+  background: transparent; 
+  border: 1px solid #fff; 
+}
+
+.swiper-pagination-bullet-active {
+  border-radius: 5px;
+  background: var(--swiper-pagination-color, var(--swiper-theme-color));
+  border: 1px solid #fff;
+}
+
+.swiper-wrapper { 
+  border-radius: 5px;
+  background: url('')
+}
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  background: #fff;
-
+  background: transparent;
   /* Center slide text vertically */
   display: -webkit-box;
   display: -ms-flexbox;
@@ -47,6 +62,7 @@
   -ms-flex-align: center;
   -webkit-align-items: center;
   align-items: center;
+  border-radius: 5px;
 }
 
 .swiper-slide img {
@@ -56,103 +72,21 @@
   object-fit: cover;
 }
 
-.InputContainer {
-  display: block;
-  position: relative;
-  margin: auto;
-  width: 300px;
-  padding: 20px;
-}
-
-h2 {
-  color: #aaa;
-}
-
-.InputContainer ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-ul li {
-  color: #aaa;
-  display: block;
-  position: relative;
-  float: left;
-  width: 100%;
-  height: 70px;
-}
-
-ul li input[type=radio] {
-  position: absolute;
-  visibility: hidden;
-}
-
-ul li label {
-  display: block;
-  position: relative;
-  font-weight: 500;
-  font-size: 1.35em;
-  padding: 25px;
-  margin: 5px auto;
-  height: 30px;
-  z-index: 10;
-  cursor: pointer;
-  -webkit-transition: all 0.25s linear;
-}
-
-ul li:hover label {
-  color: #ddd;
-}
-
-ul li .check {
-  display: block;
-  position: absolute;
-  border: 5px solid #aaa;
-  border-radius: 100%;
-  height: 25px;
-  width: 25px;
-  top: 30px;
-  left: 20px;
-  z-index: 11;
-  transition: border .25s linear;
-  -webkit-transition: border .25s linear;
-}
-
-ul li:hover .check {
-  border: 5px solid #ddd;
-}
-
-ul li .check::before {
-  display: block;
-  position: absolute;
-  content: '';
-  border-radius: 100%;
-  height: 15px;
-  width: 15px;
-  top: 5px;
-  left: 5px;
-  margin: auto;
-  transition: background 0.25s linear;
-  -webkit-transition: background 0.25s linear;
-}
-
-input[type=radio]:checked~.check {
-  border: 5px solid #000;
-}
-
-input[type=radio]:checked~.check::before {
-  background: #000;
-}
-
-input[type=radio]:checked~label {
-  color: #000;
-}
-
 .xBtn {
   position: fixed;
-  top: 6vh;
-  right: 5.5vw;
-  z-index: 12;
+  top: 6.5vh;
+  right:6vw;
+  z-index: 10;
+}
+
+.PlayBtn {
+   display: flex;
+   justify-content: center;
+   position: absolute;
+   bottom: 10vh;
+   z-index: 5;
+   width: 65px;
+   height: 30px;
+   color: #000;
+   font-size: 20px;
 }
