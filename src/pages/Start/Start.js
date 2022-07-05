@@ -1,7 +1,6 @@
 import React from "react";
-import styled from "styled-components";
 import LoginModal from "./components/LoginModal";
-import './SpaceBg.css';
+import './Start.css';
 
 const Start = () => {
 
@@ -14,25 +13,23 @@ const Start = () => {
         setModalOpen(false);
     }
     return(
-        <div id="spaceBG">
-            <Main>
+        
+            <div className="main">
+
                 <div id="title">
-                    <span>친 다</span>
-                    <button id="loginBtn"  >
-                        <img src="img/login_btn_black.png" alt="login_black" onClick={open}/>
-                    </button>
-                </div>                                              
+                    <span>C H I N D A</span>
+                </div>  
+                
+                <button id="loginBtn"  >
+                    <img src="img/login_btn_black.png" alt="login_black" onClick={open}/>
+                </button>                          
+
                 <LoginModal open={modalOpen} close={close}/>  
-            </Main>
-        </div>
+                
+            </div>
+        
     )
 }
 
 export default Start;
 
-const Main = styled.div`
-    display: absolute;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-`
