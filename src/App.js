@@ -6,6 +6,7 @@ import Battle from "./pages/Battle/Battle"
 import Profile from "./pages/Profile/Profile"
 import Selection from "./pages/Selection/Selection"
 import './App.css';
+import './animation.css';
 import GitLogin from "./pages/Start/components/GitLogin"
 import TutorialBtn from "./pages/Tutorial/TutorialBtn"
 

@@ -78,22 +78,6 @@ background: linear-gradient(-180deg, #5622ff, #4190fd);
     position: relative;
     margin: auto;
 }
-@keyframes spin1{
-  0%{
-    transform:rotate(0deg);
-  }
-  100%{
-    transform:rotate(360deg);
-  }
-}
-@keyframes spin2{
-  0%{
-    transform:rotate(0deg);
-  }
-  100%{
-    transform:rotate(-360deg);
-  }
-}
 
 
 
