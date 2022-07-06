@@ -2,63 +2,46 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 // import { useDispatch, useSelector } from "react-redux";
-import AceEditor from 'react-ace';
-import 'ace-builds/src-noconflict/mode-python';
-import 'ace-builds/src-noconflict/mode-javascript';
-import 'ace-builds/src-noconflict/mode-java';
-import 'ace-builds/src-noconflict/theme-github';
-import 'ace-builds/src-noconflict/theme-monokai';
-import 'ace-builds/src-noconflict/theme-tomorrow';
-import 'ace-builds/src-noconflict/theme-kuroir';
-import 'ace-builds/src-noconflict/theme-twilight';
-import 'ace-builds/src-noconflict/theme-textmate';
-import 'ace-builds/src-noconflict/theme-solarized_dark';
-import 'ace-builds/src-noconflict/theme-solarized_light';
-import 'ace-builds/src-noconflict/theme-terminal';
-import 'ace-builds/src-noconflict/ext-language_tools';
+
 import ProgressBar from "./components/ProgressBar";
 
 import Modal from 'react-modal';
-import CountDown from './components/CountDown';
-import Accordion from './components/Accordion';
+// import CountDown from './components/CountDown';
+// import Accordion from './components/Accordion';
+// import ModalBox from "./components/ModalBox"
+import AceEditorPlayer from "./components/AceEditorPlayer"
+import AceEditorOpp from "./components/AceEditorOpp"
+import ChatBox from "./components/ChatBox"
+import Control from "./Control"
 
 Modal.setAppElement('#root');
 
 const Battle = () => {
-   const [showModal, setShowModal] = React.useState(true);
+   const [showModal, setShowModal] = React.useState(false);
    const [mode, setMode] = React.useState('java');
    const [theme, setTheme] = React.useState('monokai');
    const [startTemp, setStartTemp] = React.useState('');
    const [runTimer,setRunTimer] = React.useState('false');
-   console.log(runTimer+'--battle');
+   // console.log(runTimer+'--battle');
+
    function onRunTimer() {
       return setRunTimer(true);
    }
 
-   function onChangeOne(newValue) {
-      console.log('1:', newValue);
-   }
-   function onChangeTwo(newValue) {
-      console.log('2:', newValue);
-   }
-
    //서버에서 받아오는 기본 형태들
-   const JsDefault = `function solution(num) { 
-   var answer = '';
-      return answer;
-}`;
-
-   const JavaDefault = `public String solution(int num) {
-   String answer = '';
-      return answer;
-}`
-
-   const PythonDefault = `def solution(num):
-   answer = ''
-   return answer`;
-
-   const DefaultTemp = "//함수와 변수를 임의로 변경하지 마세요" + `\n` + JavaDefault;
-   const DefaultTempTwo = "//함수와 변수를 임의로 변경하지 마세요" + `\n` + JavaDefault;
+//    const JsDefault = `function solution(num) { 
+//    var answer = '';
+//       return answer;
+// }`;
+//    const JavaDefault = `public String solution(int num) {
+//    String answer = '';
+//       return answer;
+// }`
+//    const PythonDefault = `def solution(num):
+//    answer = ''
+//    return answer`;
+//    const DefaultTemp = "//함수와 변수를 임의로 변경하지 마세요" + `\n` + JavaDefault;
+//    const DefaultTempTwo = "//함수와 변수를 임의로 변경하지 마세요" + `\n` + JavaDefault;
 
    //카메라 창 열고 닫기
    const [userCamSlide, setUserCamSlide] = React.useState(true)
@@ -125,31 +108,12 @@ const Battle = () => {
          </HeadPart>
          <BodyPart>
             <UserDiv>
-               <AceEditor
-                  height="76.88vh"
-                  width="100%"
-                  mode={mode}
-                  theme={theme}
-                  onChange={onChangeOne}
-                  fontSize={15}
-                  showPrintMargin={false}
-                  editorProps={{ $blockScrolling: true }}
-                  highlightActiveLine={true}
-                  cursorStart={2}
-                  setOptions={{
-                     enableBasicAutocompletion: true,
-                     enableLiveAutocompletion: true,
-                     enableSnippets: true,
-                     tabSize: 4,
-                  }}
-                  value={DefaultTemp}
-                  placeholder="Placeholder Text"
-               />
+               <AceEditorPlayer mode={mode} theme={theme}/>
                <UserCamDiv>
                   <CamBar><span>Player1</span><button onClick={openUserCam}>열고닫기</button></CamBar>
                   {userCamSlide && (<Cam />)}
                </UserCamDiv>
-               <SubmitBtn onClick={onRunTimer}>
+               <SubmitBtn>
                   제&nbsp;&nbsp;&nbsp;&nbsp;출
                </SubmitBtn>
             </UserDiv>
@@ -163,38 +127,20 @@ const Battle = () => {
                {chatOpen &&
                   <ChatingDiv>
                      <ChatHead>Chatting <button onClick={openChat}>x</button></ChatHead>
-                     <ChatBox></ChatBox>
-                     <ChatInputDiv>
-                        <ChatInput />
-                        <ChatSend>Send</ChatSend>
-                     </ChatInputDiv>
+                     <ChatBox 
+                     // id={channelId}
+                     />
                   </ChatingDiv>
                }
-               <AceEditor
-                  width="100%"
-                  height={heightOpCode()}
-                  mode={mode}
-                  theme={theme}
-                  fontSize={15}
-                  onChange={onChangeTwo}
-                  editorProps={{ $blockScrolling: true }}
-                  showPrintMargin={false}
-                  readOnly={true}
-                  highlightActiveLine={true}
-                  setOptions={{
-                     enableBasicAutocompletion: true,
-                     enableLiveAutocompletion: true,
-                     enableSnippets: true,
-                  }}
-                  value={DefaultTempTwo}
-                  placeholder="Placeholder Text"
-               />
+               <AceEditorOpp mode={mode} theme={theme} heightOpCode={heightOpCode}/>
                <OpCamDiv>
                   <CamBar><span>Player2</span><button onClick={openOpCam}>열고닫기</button></CamBar>
                   {opCamSlide && (<Cam />)}
                </OpCamDiv>
             </OpponentDiv>
          </BodyPart>
+         {/* {showModal && <ModalBox/>} */}
+         <Control setRunTimer={setRunTimer} setShowModal={setShowModal}/>
       </Container>
    );
 }
@@ -210,8 +156,6 @@ const Container = styled.div`
    flex-direction: column;
    width: 94vw;
    height: 92vh;
-   /* background-color: white; */
-   /* border: 5px solid white; */
 `;
 
 const HeadPart = styled.div`
@@ -224,8 +168,7 @@ const HeadPart = styled.div`
 const TimerDiv = styled.div`
    width: 54vw;
    height: 100%;
-   margin-right:1.875vw;
-   
+   margin-right:1.875vw;   
 `;
 
 const BtnDiv = styled.div`
@@ -311,31 +254,6 @@ const ChatHead = styled.div`
    padding-left:16px ;
    background-color: green;
 `;
-const ChatBox = styled.div`
-   width: 100%;
-   height: 18vh;
-   overflow-y: hidden;
-   background-color: grey;
-`;
-const ChatInputDiv = styled.div`
-   display: flex;
-   align-items: center;
-   width: 100%;
-   height: 7vh;
-`;
-const ChatInput = styled.input`
-width: 80%;
-height: 5vh;
-font-size: 16px;
-margin-right: 25px;
-margin-left: 11px;
-`;
-
-const ChatSend = styled.button`
-   width: 4.6vw;
-   height: 3.5vh;
-   background-color: #2D6BC8;
-`
 const QueDiv = styled.div`
    width: 100%;
    min-height: 30vh;
@@ -357,102 +275,3 @@ const QueBox = styled.div`
    overflow-y: auto;
    background-color: grey;
 `;
-// const Section = styled.section`
-//    display: flex;
-//    justify-content: center;
-//    margin: auto;
-// `;
-
-// const Aside = styled.aside`
-//    margin: auto;
-//    width: 300px;
-//    height: 500px;
-//    border: 1px solid;
-// `;
-
-// const Input = styled.input`
-//    align-items: center;
-//    justify-content: center;
-// `;
-
-// const ModalBtn = styled.button`
-//    position: absolute;
-//    width: 30px;
-//    height: 30px;
-//    left: 919px;
-//    top: 135px;
-// `;
-
-
-{/* <Container>
-{showModal ? (
-   <Modal
-      isOpen={showModal}
-      onRequestClose={() => setShowModal(false)}
-      style={{
-         width: '70%',
-      }}
-   >
-      <ModalBtn
-         src="/img/X_btn_white_50.png"
-         onClick={() => setShowModal(false)}
-      >
-         Close
-      </ModalBtn>
-   </Modal>
-) : (
-   <>
-      <Section>
-         <div>
-            <AceEditor
-               style={{
-                  width: 700,
-                  margin: 5,
-               }}
-               mode={modeOne}
-               theme={themeOne}
-               onChange={onChangeOne}
-               fontSize={15}
-               name="UNIQUE_ID_OF_DIV"
-               editorProps={{ $blockScrolling: true }}
-               highlightActiveLine={true}
-               setOptions={{
-                  enableBasicAutocompletion: true,
-                  enableLiveAutocompletion: true,
-                  enableSnippets: true,
-                  tabSize: 4,
-               }}
-               value={valueType(modeOne)}
-               placeholder="Placeholder Text"
-            />
-         </div>
-         <div>
-            <AceEditor
-               style={{
-                  width: 700,
-                  height: 300,
-                  margin: 5,
-               }}
-               mode={modeTwo}
-               theme="github"
-               onChange={onChangeTwo}
-               name="UNIQUE_ID_OF_DIV"
-               editorProps={{ $blockScrolling: true }}
-               highlightActiveLine={true}
-               setOptions={{
-                  enableBasicAutocompletion: true,
-                  enableLiveAutocompletion: true,
-                  enableSnippets: true,
-               }}
-               value={valueType(modeTwo)}
-               placeholder="Placeholder Text"
-            />
-         </div>
-      </Section>
-      <Accordion />
-      <Aside>
-         <Input />
-      </Aside>
-   </>
-)}
-</Container> */}
