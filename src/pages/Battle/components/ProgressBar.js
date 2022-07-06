@@ -12,29 +12,26 @@ const ProgressBar = (p) => {
     const time = p.value.Time;
     const active = p.value.Active;
     
-    const [Start,setStart] = useState(false);
-
-    const Filler = React.useRef(null);
+    const Filler = React.useRef('');
     
-    const onStart = ()=> {
-        Filler.current.style.transition = `${time*1000}ms linear`;
-        
-        return active ? setStart(true) : setStart(false);
+    const onTransition = () => {   
+        return active === true ?
+        Filler.current.style.transition = `${time*1000}ms linear` :
+        null;// Filler.current.style.transition = 'none'
     }
 
-    
+
 
     useEffect(()=>{
-        onStart();
+        onTransition();
     },[active])
 
     return (
         <>
             <div className="Bar">
-                <div className={Start ? 'Filler decrease' : 'Filler'} ref={Filler}/> 
+                <div className={active === true  ? 'Filler decrease' : 'Filler'} ref={Filler}/> 
                 <Timer value={p.value} id="count"/>
             </div>
-            <button>go</button>
         </>
     )
 }
