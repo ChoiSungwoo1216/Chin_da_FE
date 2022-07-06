@@ -87,14 +87,7 @@ const TypeBtnDiv = styled.div`
    background-position: center;
 `;
 
-const motion = keyframes`
-	0% {
-    transform: translateY(0);
-  }
-	100% {
-    transform: translateY(10px);
-  }
-`;
+
 
 const TypeBtn = styled.div`
    display: flex;
@@ -104,8 +97,8 @@ const TypeBtn = styled.div`
    overflow: hidden;
    object-fit: cover;
    margin: 50px 0;
-   animation: ${motion} 0.3s linear 0s infinite alternate;
-   -webkit-animation: ${motion} 0.3s linear 0s infinite alternate;
+   animation: motion 0.3s linear 0s infinite alternate;
+   -webkit-animation: motion 0.3s linear 0s infinite alternate;
    animation-delay: 0.2s;
 `;
 
@@ -117,8 +110,8 @@ const TypeBtnO = styled.div`
    overflow: hidden;
    object-fit: cover;
    margin: 50px 0;
-   animation: ${motion} 0.3s linear 0s infinite alternate;
-   -webkit-animation: ${motion} 0.3s linear 0s infinite alternate;
+   animation: motion 0.3s linear 0s infinite alternate;
+   -webkit-animation: motion 0.3s linear 0s infinite alternate;
    animation-delay: 0.3s;
 `;
 
@@ -130,8 +123,8 @@ const TypeBtnT = styled.div`
    overflow: hidden;
    object-fit: cover;
    margin: 50px 0;
-   animation: ${motion} 0.3s linear 0s infinite alternate;
-   -webkit-animation: ${motion} 0.3s linear 0s infinite alternate;
+   animation: motion 0.3s linear 0s infinite alternate;
+   -webkit-animation: motion 0.3s linear 0s infinite alternate;
    animation-delay: 0.4s;
 `;
 

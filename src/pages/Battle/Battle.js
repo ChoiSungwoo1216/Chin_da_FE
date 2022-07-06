@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 // import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +16,7 @@ import 'ace-builds/src-noconflict/theme-solarized_dark';
 import 'ace-builds/src-noconflict/theme-solarized_light';
 import 'ace-builds/src-noconflict/theme-terminal';
 import 'ace-builds/src-noconflict/ext-language_tools';
+import ProgressBar from "./components/ProgressBar";
 
 import Modal from 'react-modal';
 import CountDown from './components/CountDown';
@@ -27,7 +28,12 @@ const Battle = () => {
    const [showModal, setShowModal] = React.useState(true);
    const [mode, setMode] = React.useState('java');
    const [theme, setTheme] = React.useState('monokai');
-   const [startTemp, setStartTemp] = React.useState('')
+   const [startTemp, setStartTemp] = React.useState('');
+   const [runTimer,setRunTimer] = React.useState('false');
+   console.log(runTimer+'--battle');
+   function onRunTimer() {
+      return setRunTimer(true);
+   }
 
    function onChangeOne(newValue) {
       console.log('1:', newValue);
@@ -101,10 +107,16 @@ const Battle = () => {
       }
       return ("100%")
    }
+
+   const timervalue = {
+      "Time": 300 ,
+      "Active": runTimer
+  }; 
+
    return (
       <Container>
          <HeadPart>
-            <TimerDiv></TimerDiv>
+            <TimerDiv><ProgressBar value={timervalue}/></TimerDiv>
             <BtnDiv>
                <button onClick={openQue}>문제</button>
                <button onClick={openChat}>채팅</button>
@@ -137,7 +149,9 @@ const Battle = () => {
                   <CamBar><span>Player1</span><button onClick={openUserCam}>열고닫기</button></CamBar>
                   {userCamSlide && (<Cam />)}
                </UserCamDiv>
-               <SubmitBtn>제&nbsp;&nbsp;&nbsp;&nbsp;출</SubmitBtn>
+               <SubmitBtn onClick={onRunTimer}>
+                  제&nbsp;&nbsp;&nbsp;&nbsp;출
+               </SubmitBtn>
             </UserDiv>
             <OpponentDiv>
                {queOpen &&
@@ -204,14 +218,14 @@ const HeadPart = styled.div`
    display: flex;
    flex-direction: row;
    width: 100%;
-   height: 7vh;
+   height: 7vh;  
 `;
 
 const TimerDiv = styled.div`
    width: 54vw;
    height: 100%;
    margin-right:1.875vw;
-   background-color: blue;
+   
 `;
 
 const BtnDiv = styled.div`

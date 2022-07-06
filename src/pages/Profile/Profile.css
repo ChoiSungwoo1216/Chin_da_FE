@@ -28,23 +28,7 @@
     overflow-y: hidden;
 }
 
-@keyframes cloudOrbit1 {
-  0%{
-    transform: rotate(0deg) translateX(150px) rotate(0deg);
-  }
-  100%{
-    transform: rotate(360deg) translateX(150px) rotate(-360deg);
-  }
-}
 
-@keyframes cloudOrbit2 {
-  0%{
-    transform: rotate(0deg) translateX(-150px) rotate(0deg);
-  }
-  100%{
-    transform: rotate(360deg) translateX(-150px) rotate(-360deg);
-  }
-}
 
 .wrapper {
     width: 90%;
@@ -109,21 +93,4 @@
     animation-delay:.2s;
 }
 
-@keyframes motion {
-	0% {
-    transform: translateY(0);
-  }
-	100% {
-    transform: translateY(10px);
-  }
-}
 
-.profileImg img {
-    width: 100%;
-}
-
-.box h2 {
-    color: #ffffff60;
-    text-transform: uppercase;
-    font-size: 30px;
-}

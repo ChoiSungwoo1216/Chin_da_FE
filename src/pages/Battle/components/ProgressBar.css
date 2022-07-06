@@ -1,11 +1,10 @@
 .Bar {
-    width: 70vw;
-    height:50px;
-    border: 1px solid black;
+    width: 54vw;
+    height: 7vh;
     display: flex;
     z-index: 3;
     position: absolute;
-    flex-direction:inherit;
+    /* flex-direction:inherit; */
  }
  
  .Filler {
