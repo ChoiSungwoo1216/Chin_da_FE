@@ -5,10 +5,15 @@
     justify-content: center;
 }
 
-.section {
+main {
     display: flex;
     width: 100%;
     margin: auto;
+}
+
+section {
+    display: flex; 
+    width: 100%;
 }
 
 .article {
@@ -30,7 +35,6 @@
   width: 250px;
   height: 150px;
   position: relative;
-  top: 20px;
   left: 17px;
   border-radius: 5px;
   background-color: #ffffff1a;
@@ -43,7 +47,6 @@
   width: 250px;
   height: 150px;
   position: relative;
-  top: 20px;
   right: 17px;
   border-radius: 5px;
   background-color: #ffffff1a;
@@ -68,26 +71,32 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     margin-bottom: 10px;
 }
-
 .content {
     text-align: left;
-    line-height: 1px;
-    padding: 10px auto;
+    padding: 5px auto;
     position: relative;
-    bottom: 20px;
-    left: 20px;
     color: #fff;
 }
 
-.content.p {
-    text-align: left;
-    line-height: 1px;
-    padding: 10px auto;
+.txt {
+    margin:10px;
+    padding-left: 10px;
+    color: #fff;
+}
+
+.txt2 {
+    margin: 10px;
+    padding-right: 10px;
+    color: #fff;
+}
+
+.content2 {
+    text-align: right;
+    padding: 5px auto;
     position: relative;
-    bottom: 35px;
-    left: 20px;
     color: #fff;
 }
 
@@ -148,7 +157,6 @@
     background-color: #0000003a;
 }
 
-
 .scene {
     width: 13em;
     height: 15em;
@@ -172,10 +180,13 @@
 }
 
 .face {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 100%;
     color: #FFF;
-    line-height: 15em;
     text-align: center;
     position: absolute;
     backface-visibility: hidden;
@@ -188,15 +199,17 @@
     /* background-image: ; */
 }
 
-.back {
-    display: flex;
-    flex-direction: column;
-    background-color: #333;
-    transform: rotateY(180deg);
-        /* background-image: ; */
+.thumbnailImg {
+    width: 130px;
+    height: 130px;
+    border-radius: 100%;
+    margin: auto;
 }
 
-.face .back span { display: block; }
+.back {
+    background-color: #333;
+    transform: rotateY(180deg);
+}
 
 .reloadBtn {
     float: right;  

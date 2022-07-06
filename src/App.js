@@ -20,6 +20,7 @@ function App() {
             <Route path="/" element={<Start />} />
             <Route path="/github" element={<GitLogin />} />
             <Route path="/Main" element={<Main />}></Route>
+            <Route path="/Main/:userId" element={<Main />}></Route>
             <Route path="/Battle" element={<Battle />}></Route>
             <Route path="/Profile" element={<Profile />}></Route>
             <Route path="/Selection" element={<Selection />}></Route>
