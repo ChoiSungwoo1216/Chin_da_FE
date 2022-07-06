@@ -10,7 +10,12 @@ const ADD = "chatlist/ADD";
 const DELETE = "chatlist/DELETE"
 
 const initialState = {
-  list: [],
+  list: [
+    {iconUrl :"https://image.shutterstock.com/image-vector/pixel-art-black-bodyguard-character-260nw-1056562499.jpg",
+message:"hi", nickname:"연습1", },
+{iconUrl :"https://image.shutterstock.com/image-vector/pixel-art-black-bodyguard-character-260nw-1056562499.jpg",
+message:"bye", nickname:"연습2", }
+  ],
 };
 
 // Action Creators

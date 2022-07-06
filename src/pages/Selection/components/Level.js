@@ -8,6 +8,7 @@ const Level = (props) => {
       setLanOn,
       setLevOn,
       setRoomOn,
+      es,
    } = props
 
    const BackToLang = () => {
@@ -19,6 +20,7 @@ const Level = (props) => {
       setLevel(e.target.id);
       setLevOn(false);
       setRoomOn(true);
+      es.play();
    }
 
    const languageIs = (language) => {

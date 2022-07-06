@@ -11,19 +11,19 @@ const initialState = {
   list: [
     {
       userImg: "https://image.shutterstock.com/image-vector/pixel-art-black-bodyguard-character-260nw-1056562499.jpg",
-      userName: "연습1", userId: "id1", userWin: "1", userLose: "2"
+      userName: "연습1", channelId: "id1", userWin: "1", userLose: "2"
     },
     {
       userImg: "https://image.shutterstock.com/image-vector/pixel-art-black-bodyguard-character-260nw-1056562499.jpg",
-      userName: "연습2", userId: "id2", userWin: "2", userLose: "3"
+      userName: "연습2", channelId: "id2", userWin: "2", userLose: "3"
     },
     {
       userImg: "https://image.shutterstock.com/image-vector/pixel-art-black-bodyguard-character-260nw-1056562499.jpg",
-      userName: "연습3", userId: "id3", userWin: "3", userLose: "4"
+      userName: "연습3", channelId: "id3", userWin: "3", userLose: "4"
     },
     {
       userImg: "https://image.shutterstock.com/image-vector/pixel-art-black-bodyguard-character-260nw-1056562499.jpg",
-      userName: "연습4", userId: "id4", userWin: "4", userLose: "5"
+      userName: "연습4", channelId: "id4", userWin: "4", userLose: "5"
     },
   ],
 };

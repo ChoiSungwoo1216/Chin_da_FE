@@ -10,23 +10,28 @@ const Room = (props) => {
       setLanOn,
       setLevOn,
       setRoomOn,
+      es,
    } = props
    
    const SelLang = () => {
       setRoomOn(false);
       setLanOn(true);
+      es.play();
    }
    const SelLev = () => {
       setRoomOn(false);
       setLevOn(true);
+      es.play();
    }
 
    const CreateRoom = () => {
       navigate("/Battle", {state: {language, level}});
+      es.play();
    }
 
    const EnterRoom = () => {
       navigate("/Main", {state: {language, level}});
+      es.play();
    }
 
    const languageIs = (language) => {
