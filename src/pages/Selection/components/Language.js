@@ -1,15 +1,16 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 
-
 const Language = (props) => {
-    const { setLanguage, setLanOn, setLevOn } = props
+    const { setLanguage, setLanOn, setLevOn, es } = props
 
     const SelectLan = (e) => {
         setLanguage(e.target.id)
         setLanOn(false);
         setLevOn(true);
+        es.play();
     }
+
 
     return (
        <>

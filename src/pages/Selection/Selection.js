@@ -5,51 +5,75 @@ import Level from "./components/Level";
 import Room from "./components/Room"
 // import { useNavigate } from "react-router-dom";
 // import { useDispatch, useSelector } from "react-redux";
+import effectSound from "../../shared/effectSound";
+import selectSound from "../../audios/btnselect.mp3"
 
 const Selection = () => {
-    const [language, setLanguage] = React.useState("");
-    const [level, setLevel] = React.useState("");
+   const [language, setLanguage] = React.useState("");
+   const [level, setLevel] = React.useState("");
 
-    const [lanOn, setLanOn] = React.useState(true);
-    const [levOn, setLevOn] = React.useState(false);
-    const [roomOn, setRoomOn] = React.useState(false);
-   
+   const [lanOn, setLanOn] = React.useState(true);
+   const [levOn, setLevOn] = React.useState(false);
+   const [roomOn, setRoomOn] = React.useState(false);
 
-    return (
-       <>
-          <RoundContainer>
-             <Round1 />
-             <Round2 />
-          </RoundContainer>
-          <Body>
-             {lanOn ? (
-                <Language
-                   setLanguage={setLanguage}
-                   setLanOn={setLanOn}
-                   setLevOn={setLevOn}
-                />
-             ) : null}
-             {levOn ? (
-                <Level
-                   language={language}
-                   setLevel={setLevel}
-                   setLanOn={setLanOn}
-                   setLevOn={setLevOn}
-                   setRoomOn={setRoomOn}
-                />
-             ) : null}
-             {roomOn ? (
-                <Room
-                   language={language}
-                   level={level}
-                   setLanOn={setLanOn}
-                   setLevOn={setLevOn}
-                   setRoomOn={setRoomOn}
-                />
-             ) : null}
-          </Body>
-       </>
-    );
+
+   const [setting, setSetting] = React.useState(false);
+   const openSetting = () =>{
+      setSetting(true);
+   }
+   const [sound, setSound] = React.useState(1);
+   const soundOnOff = ()=>{
+      if (sound === 1) {
+         setSound(0);
+      } else {
+         setSound(1);
+      }
+   }
+   const es = effectSound(selectSound, sound);
+
+   return (
+      <>
+         <RoundContainer>
+            <Round1 />
+            <Round2 />
+         </RoundContainer>
+         <Body>
+            {lanOn ? (
+               <Language
+                  setLanguage={setLanguage}
+                  setLanOn={setLanOn}
+                  setLevOn={setLevOn}
+                  es={es}
+               />
+            ) : null}
+            {levOn ? (
+               <Level
+                  language={language}
+                  setLevel={setLevel}
+                  setLanOn={setLanOn}
+                  setLevOn={setLevOn}
+                  setRoomOn={setRoomOn}
+                  es={es}
+               />
+            ) : null}
+            {roomOn ? (
+               <Room
+                  language={language}
+                  level={level}
+                  setLanOn={setLanOn}
+                  setLevOn={setLevOn}
+                  setRoomOn={setRoomOn}
+                  es={es}
+               />
+            ) : null}
+            {setting&& <div style={{width: "200px", height:"200px", position: "fixed", top:"0",left:"0", zIndex:"5"}}>
+               <button onClick={soundOnOff}>소리</button></div>}
+            <div style={{position :"fixed", bottom:"20px", right:"70px", width:"30px", height:"30px", color:"white", fontSize:"30px"}}
+            onClick={openSetting}
+            >▶</div>
+         </Body>
+      </>
+   );
 }
 
 const RoundContainer = styled.div`
