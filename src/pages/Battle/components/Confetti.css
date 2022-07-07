@@ -24,7 +24,8 @@ body {
 .ConfettiTxt span {
     position: relative;
     display: inline-block;
-    animation: confettiAnimation .7s infinite;
+    animation: confettiAnimation .7s;
+    animation-iteration-count: 1;
 
 }
 
