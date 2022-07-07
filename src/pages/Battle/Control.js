@@ -1,22 +1,37 @@
 import React from "react"
 import styled from "styled-components"
+
+
 const Control = (props) => {
-    const { setRunTimer, setShowModal } = props
+    const { setRunTimer, setShowModal, setSuccessModal, setFailModal, } = props;
+
     return (
-        <ControlDiv>
-            <div>타이머 시작
-                <button onClick={() => setRunTimer(true)}>시작</button>
-                <button onClick={() => setRunTimer(false)}>끝</button>
-            </div>
-            <div>모달창 오픈
-                <button onClick={() => setShowModal(true)}>열기</button>
-                <button onClick={() => setShowModal(false)}>닫기</button>
-            </div>
-        </ControlDiv>
-    )
+       <ControlDiv>
+          <div>
+             타이머 시작
+             <button onClick={() => setRunTimer(true)}>시작</button>
+             <button onClick={() => setRunTimer(false)}>끝</button>
+          </div>
+          <div>
+             모달창 오픈
+             <button onClick={() => setShowModal(true)}>열기</button>
+             <button onClick={() => setShowModal(false)}>닫기</button>
+          </div>
+          <div>
+             성공 모달창 on/off
+             <button onClick={() => setSuccessModal(true)}>열기</button>
+             <button onClick={() => setSuccessModal(false)}>닫기</button>
+          </div>
+          <div>
+             실패 모달창 on/off
+             <button onClick={() => setFailModal(true)}>열기</button>
+             <button onClick={() => setFailModal(false)}>닫기</button>
+          </div>
+       </ControlDiv>
+    );
 }
 
-export default Control
+export default Control;
 
 const ControlDiv = styled.div`
     width : 300px;
