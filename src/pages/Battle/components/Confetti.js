@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'; 
+import React from 'react'; 
 import Modal from 'react-modal';
 import JSConfetti from 'js-confetti';
 import ConfettiCanvas from 'react-confetti-canvas';
