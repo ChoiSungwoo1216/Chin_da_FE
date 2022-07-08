@@ -16,7 +16,7 @@ section {
     width: 100%;
 }
 
-.article {
+article {
     width: 50%;
     height: 90vh;
     margin: 0px;
@@ -34,8 +34,9 @@ section {
   float: left;
   width: 250px;
   height: 150px;
+  margin: 15px;
   position: relative;
-  left: 17px;
+
   border-radius: 5px;
   background-color: #ffffff1a;
   box-shadow: 0 2px 10px rgba(0,0,0,.1);
@@ -46,8 +47,8 @@ section {
   float: right;
   width: 250px;
   height: 150px;
+  margin: 15px;
   position: relative;
-  right: 17px;
   border-radius: 5px;
   background-color: #ffffff1a;
   box-shadow: 0 2px 10px rgba(0,0,0,.1);
