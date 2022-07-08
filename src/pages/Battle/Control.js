@@ -1,10 +1,14 @@
 import React from "react"
 import styled from "styled-components"
-
+import { QuestionModal, SuccessModal, FailModal } from './components/Modals';
 
 const Control = (props) => {
-    const { setRunTimer, setShowModal, setSuccessModal, setFailModal, } = props;
-
+    const {
+       setRunTimer,
+       setShowQuestionModal,
+       setShowSuccessModal,
+       setShowFailModal,
+    } = props;
     return (
        <ControlDiv>
           <div>
@@ -14,18 +18,18 @@ const Control = (props) => {
           </div>
           <div>
              모달창 오픈
-             <button onClick={() => setShowModal(true)}>열기</button>
-             <button onClick={() => setShowModal(false)}>닫기</button>
+             <button onClick={() => setShowQuestionModal(true)}>열기</button>
+             <button onClick={() => setShowQuestionModal(false)}>닫기</button>
           </div>
           <div>
              성공 모달창 on/off
-             <button onClick={() => setSuccessModal(true)}>열기</button>
-             <button onClick={() => setSuccessModal(false)}>닫기</button>
+             <button onClick={() => setShowSuccessModal(true)}>열기</button>
+             <button onClick={() => setShowSuccessModal(false)}>닫기</button>
           </div>
           <div>
              실패 모달창 on/off
-             <button onClick={() => setFailModal(true)}>열기</button>
-             <button onClick={() => setFailModal(false)}>닫기</button>
+             <button onClick={() => setShowFailModal(true)}>열기</button>
+             <button onClick={() => setShowFailModal(false)}>닫기</button>
           </div>
        </ControlDiv>
     );

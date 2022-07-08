@@ -12,15 +12,16 @@ import ChatBox from "./components/ChatBox";
 import ProgressBar from "./components/ProgressBar";
 // import CountDown from './components/CountDown';
 // import Accordion from './components/Accordion';
-import { SuccessModal, FailModal, QuestionModal } from './components/Modals';
+import { QuestionModal, SuccessModal, FailModal } from './components/Modals';
 
 Modal.setAppElement('#root');
 
 const Battle = () => {
-    
+
+   const [showQuestionModal, setShowQuestionModal] = React.useState();
    const [showSuccessModal, setShowSuccessModal] = React.useState();
    const [showFailModal, setShowFailModal] = React.useState();
-   const [showQuestionModal, setShowQuestionModal] = React.useState(false);
+
    const [mode, setMode] = React.useState('java');
    const [theme, setTheme] = React.useState('monokai');
    const [startTemp, setStartTemp] = React.useState('');
@@ -159,6 +160,7 @@ const Battle = () => {
          {showQuestionModal && <QuestionModal />}
          {showSuccessModal && <SuccessModal />}
          {showFailModal && <FailModal />}
+         
          <Control
             setRunTimer={setRunTimer}
             setShowQuestionModal={setShowQuestionModal}
