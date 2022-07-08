@@ -2,62 +2,83 @@ import React from "react";
 import styled from "styled-components";
 
 const Login = () => {
+  const GitKey = "44af62885d9f67153ed1";
+  const redirectUri = "http://localhost:3000/github";
+  const locateGit = `https://github.com/login/oauth/authorize?client_id=${GitKey}&redirect_uri=${redirectUri}`;
 
-   const GitKey = "44af62885d9f67153ed1";
-   const redirectUri = "http://localhost:3000/github"
-   const locateGit = `https://github.com/login/oauth/authorize?client_id=${GitKey}&redirect_uri=${redirectUri}`;
-
-   return (
-      <>
-         <Container>
-            <Title>
-               <Text margin="0px" width="300px" height="96px">너 개발자면서 github도</Text>
-               <Text margin="53px" width="300px" height="96px">없는건 아니겠지?</Text>
-               <GithubBtn>
-                  <BtnTxt href={locateGit} git={locateGit}><img src="img/login_btn_white.png" alt="login_white"/></BtnTxt>
-               </GithubBtn>
-            </Title>
-         </Container>
-      </>
-   );
-}
+  return (
+    <>
+      <Wrap>
+        <Text>너 개발자면서 github도</Text>
+        <Text>없는건 아니겠지?</Text>
+        <GithubBtn>
+          <p> GithubLogin </p>
+          <BtnA href={locateGit} git={locateGit}></BtnA>
+        </GithubBtn>
+      </Wrap>
+    </>
+  );
+};
 
 export default Login;
 
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    background-color: white;
-    box-sizing: border-box; 
-`;
+// const Container = styled.div`
 
-const GithubBtn = styled.button` 
-   cursor: pointer;
-   position: absolute;
-   margin: 151px;
-   display: flex;
-   background-color: transparent;
-`;
+//    background-color: white;
+//    box-sizing: border-box;
 
-const BtnTxt = styled.a`
-   text-decoration: none;
-`;
+// `;
+const Wrap = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-const Title = styled.div`
-   justify-content: center;
-   text-align: center;
-   display: flex;
+  gap: 2.34vw;
 `;
 
 const Text = styled.p`
-   position: absolute;
-   font-size: 25px;
-   line-height:96px;
-   justify-content: center;
-   margin: ${(props)=> props.margin};
-   width: ${(props)=> props.width};
-   height: ${(props)=> props.height};
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  font-size: 1.56vw;
+  top: ${(props) => props.marginTop};
+  justify-content: center;
+  margin: 0;
+`;
+
+const GithubBtn = styled.button`
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  background-color: transparent;
+  margin: 0;
+
+  background-image: url("img/login_btn_white.svg");
+  background-position: center;
+  background-size: 100%, 100%, cover;
+  background-repeat: no-repeat;
+
+  width: 14.06vw;
+  height: 3.91vw;
+
+  justify-content: center;
+  align-items: center;
+  font-size: 1.56vw;
+  font-family: Neo;
+  line-height: 1;
+  color: black;
+
+  &:hover {
+    background-image: url("img/login_btn_black.svg");
+    color: white;
+    text-decoration: none;
+  }
+`;
+
+const BtnA = styled.a`
+  /* margin-top: 1.91vw; */
 `;
