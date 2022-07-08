@@ -1,23 +1,27 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
+import Modal from 'react-modal';
 import { useNavigate, useLocation } from "react-router-dom";
 // import { useDispatch, useSelector } from "react-redux";
 
+/*COMPONENTS*/
+import AceEditorPlayer from "./components/AceEditorPlayer";
+import AceEditorOpp from "./components/AceEditorOpp";
+import Control from './Control';
+import ChatBox from "./components/ChatBox";
 import ProgressBar from "./components/ProgressBar";
-
-import Modal from 'react-modal';
 // import CountDown from './components/CountDown';
 // import Accordion from './components/Accordion';
-// import ModalBox from "./components/ModalBox"
-import AceEditorPlayer from "./components/AceEditorPlayer"
-import AceEditorOpp from "./components/AceEditorOpp"
-import ChatBox from "./components/ChatBox"
-import Control from "./Control"
+import { QuestionModal, SuccessModal, FailModal } from './components/Modals';
 
 Modal.setAppElement('#root');
 
 const Battle = () => {
-   const [showModal, setShowModal] = React.useState(false);
+
+   const [showQuestionModal, setShowQuestionModal] = React.useState();
+   const [showSuccessModal, setShowSuccessModal] = React.useState();
+   const [showFailModal, setShowFailModal] = React.useState();
+
    const [mode, setMode] = React.useState('java');
    const [theme, setTheme] = React.useState('monokai');
    const [startTemp, setStartTemp] = React.useState('');
@@ -91,7 +95,7 @@ const Battle = () => {
       return ("100%")
    }
 
-   const timervalue = {
+   const timerValue = {
       "Time": 300 ,
       "Active": runTimer
   }; 
@@ -99,7 +103,9 @@ const Battle = () => {
    return (
       <Container>
          <HeadPart>
-            <TimerDiv><ProgressBar value={timervalue}/></TimerDiv>
+            <TimerDiv>
+               <ProgressBar value={timerValue} />
+            </TimerDiv>
             <BtnDiv>
                <button onClick={openQue}>문제</button>
                <button onClick={openChat}>채팅</button>
@@ -108,39 +114,59 @@ const Battle = () => {
          </HeadPart>
          <BodyPart>
             <UserDiv>
-               <AceEditorPlayer mode={mode} theme={theme}/>
+               <AceEditorPlayer mode={mode} theme={theme} />
                <UserCamDiv>
-                  <CamBar><span>Player1</span><button onClick={openUserCam}>열고닫기</button></CamBar>
-                  {userCamSlide && (<Cam />)}
+                  <CamBar>
+                     <span>Player1</span>
+                     <button onClick={openUserCam}>열고닫기</button>
+                  </CamBar>
+                  {userCamSlide && <Cam />}
                </UserCamDiv>
-               <SubmitBtn>
-                  제&nbsp;&nbsp;&nbsp;&nbsp;출
-               </SubmitBtn>
+               <SubmitBtn>제&nbsp;&nbsp;&nbsp;&nbsp;출</SubmitBtn>
             </UserDiv>
             <OpponentDiv>
-               {queOpen &&
+               {queOpen && (
                   <QueDiv>
-                     <QueHead>문제<button onClick={openQue}>x</button></QueHead>
+                     <QueHead>
+                        문제<button onClick={openQue}>x</button>
+                     </QueHead>
                      <QueBox></QueBox>
                   </QueDiv>
-               }
-               {chatOpen &&
+               )}
+               {chatOpen && (
                   <ChatingDiv>
-                     <ChatHead>Chatting <button onClick={openChat}>x</button></ChatHead>
-                     <ChatBox 
+                     <ChatHead>
+                        Chatting <button onClick={openChat}>x</button>
+                     </ChatHead>
+                     <ChatBox
                      // id={channelId}
                      />
                   </ChatingDiv>
-               }
-               <AceEditorOpp mode={mode} theme={theme} heightOpCode={heightOpCode}/>
+               )}
+               <AceEditorOpp
+                  mode={mode}
+                  theme={theme}
+                  heightOpCode={heightOpCode}
+               />
                <OpCamDiv>
-                  <CamBar><span>Player2</span><button onClick={openOpCam}>열고닫기</button></CamBar>
-                  {opCamSlide && (<Cam />)}
+                  <CamBar>
+                     <span>Player2</span>
+                     <button onClick={openOpCam}>열고닫기</button>
+                  </CamBar>
+                  {opCamSlide && <Cam />}
                </OpCamDiv>
             </OpponentDiv>
          </BodyPart>
-         {/* {showModal && <ModalBox/>} */}
-         <Control setRunTimer={setRunTimer} setShowModal={setShowModal}/>
+         {showQuestionModal && <QuestionModal />}
+         {showSuccessModal && <SuccessModal />}
+         {showFailModal && <FailModal />}
+         
+         <Control
+            setRunTimer={setRunTimer}
+            setShowQuestionModal={setShowQuestionModal}
+            setShowSuccessModal={setShowSuccessModal}
+            setShowFailModal={setShowFailModal}
+         />
       </Container>
    );
 }

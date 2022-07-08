@@ -9,7 +9,6 @@ import {useNavigate} from "react-router-dom";
 export function Main () {
    const user = {userName: "player1", userWin:"1", userLose:"2"};
    const [userInfo, setUserInfo] = useState({});
-   console.log(userInfo)
    const navigate = useNavigate();
    // const dispatch = useDispatch();
    const channelList = useSelector((state) => state.channel.list);
@@ -30,7 +29,7 @@ export function Main () {
          <div className="mainContainer">
             <main>
                <section>
-                  <article className="article">
+                  <article>
                      <div className="profile">
                         <div className="thumbnail circle"></div>
                         <div className="description">
@@ -96,5 +95,5 @@ export function Main () {
    );
 }
 
-export default Main = React.memo(Main);
+export default Main;
 
