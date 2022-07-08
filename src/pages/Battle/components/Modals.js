@@ -2,10 +2,30 @@ import React from 'react';
 import Modal from 'react-modal';
 import JSConfetti from 'js-confetti';
 import ConfettiCanvas from 'react-confetti-canvas';
-import './Confetti.css';
+import './Modals.css';
 
-export const SuccessConfetti = () => {
 
+/*QuestionModal*/
+export const QuestionModal = () => {
+   const [modalIsOpen, setIsOpen] = React.useState(true);
+   return (
+      <>
+      <div className="QuestionContainer">
+            <Modal
+               isOpen={modalIsOpen}
+               onRequestClose={() => setIsOpen(false)}
+               style={{ position: 'absolute', zIndex: 10, width: '70%' }}
+            >
+               <button onClick={() => setIsOpen(false)}>Close</button>
+            </Modal>
+         </div>
+      </>
+   );
+};
+
+
+/*SuccessModal*/
+export const SuccessModal = () => {
    const [modalIsOpen, setIsOpen] = React.useState(true);
    const customModalStyles = {
       overlay: {
@@ -25,7 +45,7 @@ export const SuccessConfetti = () => {
             onRequestClose={() => setIsOpen(false)}
             style={customModalStyles}
          >
-            <button onClick={() => setIsOpen(false)}>Close Modal</button>
+            <button onClick={() => setIsOpen(false)}>Close</button>
 
             <span className="ConfettiTxt">
                <span>S</span>
@@ -43,9 +63,10 @@ export const SuccessConfetti = () => {
    );
 };
 
-export const FailConfetti = () => {
+
+/*FailModal*/
+export const FailModal = () => {
    const [modalIsOpen, setIsOpen] = React.useState(true);
-   const [showConfetti, setShowConfetti] = React.useState();
    const confetti = new JSConfetti();
    const confettiList = () => {
       confetti.addConfetti({
@@ -67,7 +88,6 @@ export const FailConfetti = () => {
       overlay: {
          background: '#0000009a',
       },
-
       content: {
          background: 'transparent',
          border: 'transparent',
@@ -75,6 +95,7 @@ export const FailConfetti = () => {
          overflow: 'hidden',
       },
    };
+
    return (
       <div className="FailContainer">
          <Modal
@@ -83,7 +104,7 @@ export const FailConfetti = () => {
             style={customModalStyles}
          >
             {/* <button onClick={confettiList}>showConfetti</button> */}
-            <button onClick={() => setIsOpen(false)}>Close Modal</button>
+            <button onClick={() => setIsOpen(false)}>Close</button>
             <span className="ConfettiTxt">
                <span>L</span>
                <span>o</span>

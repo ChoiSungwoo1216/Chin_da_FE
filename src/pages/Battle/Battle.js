@@ -1,25 +1,26 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
+import Modal from 'react-modal';
 import { useNavigate, useLocation } from "react-router-dom";
 // import { useDispatch, useSelector } from "react-redux";
 
+/*COMPONENTS*/
+import AceEditorPlayer from "./components/AceEditorPlayer";
+import AceEditorOpp from "./components/AceEditorOpp";
+import Control from './Control';
+import ChatBox from "./components/ChatBox";
 import ProgressBar from "./components/ProgressBar";
-import Modal from 'react-modal';
 // import CountDown from './components/CountDown';
 // import Accordion from './components/Accordion';
-// import ModalBox from "./components/ModalBox"
-import AceEditorPlayer from "./components/AceEditorPlayer"
-import AceEditorOpp from "./components/AceEditorOpp"
-import ChatBox from "./components/ChatBox"
-import Control from "./Control";
-import { FailConfetti, SuccessConfetti } from './components/Confetti';
+import { SuccessModal, FailModal, QuestionModal } from './components/Modals';
+
 Modal.setAppElement('#root');
 
 const Battle = () => {
     
-   const [successModal, setSuccessModal] = React.useState();
-   const [failModal, setFailModal] = React.useState();
-   const [showModal, setShowModal] = React.useState(false);
+   const [showSuccessModal, setShowSuccessModal] = React.useState();
+   const [showFailModal, setShowFailModal] = React.useState();
+   const [showQuestionModal, setShowQuestionModal] = React.useState(false);
    const [mode, setMode] = React.useState('java');
    const [theme, setTheme] = React.useState('monokai');
    const [startTemp, setStartTemp] = React.useState('');
@@ -155,14 +156,14 @@ const Battle = () => {
                </OpCamDiv>
             </OpponentDiv>
          </BodyPart>
-         {/* {showModal && <ModalBox/>} */}
-         {successModal && <SuccessConfetti />} 
-         {failModal && <FailConfetti />}
+         {showQuestionModal && <QuestionModal />}
+         {showSuccessModal && <SuccessModal />}
+         {showFailModal && <FailModal />}
          <Control
             setRunTimer={setRunTimer}
-            setShowModal={setShowModal}
-            setSuccessModal={setSuccessModal}
-            setFailModal={setFailModal}
+            setShowQuestionModal={setShowQuestionModal}
+            setShowSuccessModal={setShowSuccessModal}
+            setShowFailModal={setShowFailModal}
          />
       </Container>
    );
