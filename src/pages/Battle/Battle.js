@@ -1,32 +1,39 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
+import Modal from "react-modal";
 import { useNavigate, useLocation } from "react-router-dom";
 // import { useDispatch, useSelector } from "react-redux";
 
-import ProgressBar from "./components/ProgressBar";
-
-import Modal from "react-modal";
-// import CountDown from './components/CountDown';
-// import Accordion from './components/Accordion';
-// import ModalBox from "./components/ModalBox"
+/*COMPONENTS*/
 import AceEditorPlayer from "./components/AceEditorPlayer";
 import AceEditorOpp from "./components/AceEditorOpp";
-import ChatBox from "./components/ChatBox";
 import Control from "./Control";
+import ChatBox from "./components/ChatBox";
+import ProgressBar from "./components/ProgressBar";
+import Alert from "./components/Alert";
+// import CountDown from './components/CountDown';
+// import Accordion from './components/Accordion';
+import { QuestionModal, SuccessModal, FailModal } from "./components/Modals";
 
 Modal.setAppElement("#root");
 
 const Battle = () => {
-  const [showModal, setShowModal] = React.useState(false);
+  const [showQuestionModal, setShowQuestionModal] = React.useState();
+  const [showSuccessModal, setShowSuccessModal] = React.useState();
+  const [showFailModal, setShowFailModal] = React.useState();
+
   const [mode, setMode] = React.useState("java");
   const [theme, setTheme] = React.useState("monokai");
   const [startTemp, setStartTemp] = React.useState("");
-  const [runTimer, setRunTimer] = React.useState("false");
-  // console.log(runTimer+'--battle');
 
-  function onRunTimer() {
-    return setRunTimer(true);
-  }
+  //timer,progressBar
+  const [runTimer, setRunTimer] = React.useState("false");
+  const timerValue = {
+    Time: 300,
+    Active: runTimer,
+  };
+  //toastify alert
+  const [runAlert, setRunAlert] = React.useState(false);
 
   //서버에서 받아오는 기본 형태들
   //    const JsDefault = `function solution(num) {
@@ -91,16 +98,12 @@ const Battle = () => {
     return "100%";
   };
 
-  const timervalue = {
-    Time: 300,
-    Active: runTimer,
-  };
-
   return (
     <Container>
+      <Alert runAlert={runAlert} setRunAlert={setRunAlert} />
       <HeadPart>
         <TimerDiv>
-          <ProgressBar value={timervalue} />
+          <ProgressBar value={timerValue} />
         </TimerDiv>
         <BtnDiv>
           <button onClick={openQue}>문제</button>
@@ -149,8 +152,17 @@ const Battle = () => {
           </OpCamDiv>
         </OpponentDiv>
       </BodyPart>
-      {/* {showModal && <ModalBox/>} */}
-      <Control setRunTimer={setRunTimer} setShowModal={setShowModal} />
+      {showQuestionModal && <QuestionModal />}
+      {showSuccessModal && <SuccessModal />}
+      {showFailModal && <FailModal />}
+
+      <Control
+        setRunTimer={setRunTimer}
+        setShowQuestionModal={setShowQuestionModal}
+        setShowSuccessModal={setShowSuccessModal}
+        setShowFailModal={setShowFailModal}
+        setRunAlert={setRunAlert}
+      />
     </Container>
   );
 };
