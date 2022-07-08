@@ -1,0 +1,18 @@
+.Toastify__toast--error {
+  background-image: url("../../../../public/img/alert_320_48.svg") !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+
+  border-radius: 0px !important;
+
+  z-index: 1 !important;
+
+  color: black !important;
+  font-size: 20px !important;
+  font-family: Neo;
+}
+
+.Toastify__toast-body {
+  z-index: 3 !important;
+}
