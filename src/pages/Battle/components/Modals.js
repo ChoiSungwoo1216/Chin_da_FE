@@ -12,20 +12,27 @@ export const QuestionModal = () => {
          background: '#0000006a',
       },
       content: {
-         display: 'flex',
          width: '60%',
          height: '70%',
          margin: 'auto',
          background: '#0C1119',
-         borderRadius: '3px',
+         borderRadius: '5px',
          position: 'relative',
          zIndex:10,
          padding: '15px',
+         overflowY: 'auto',
+         overflowX: 'hidden',      
+
       },
    };
    return (
       <>
-            <Modal isOpen={modalIsOpen} style={customModalStyles}>
+         <section className="ModalSection">
+            <Modal
+               className="ModalBox"
+               isOpen={modalIsOpen}
+               style={customModalStyles}
+            >
                <div className="TitleContainer">
                   <img
                      className="ExitBtn"
@@ -72,6 +79,7 @@ export const QuestionModal = () => {
                   </table>
                </div>
             </Modal>
+         </section>
       </>
    );
 };
