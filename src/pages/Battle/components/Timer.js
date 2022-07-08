@@ -2,20 +2,23 @@ import React, { useState, useEffect } from "react";
 import "./ProgressBar.css";
 
 function Timer(p) {
-  const times =p.value.Time; // 난이도별 시간
+  const times = p.value.Time; // 난이도별 시간
   const active = p.value.Active;
-  
-  const minute = Math.floor(times/60); // 분
-  const second = times - (minute*60); // 초
-    
+
+  const minute = Math.floor(times / 60); // 분
+  const second = times - minute * 60; // 초
+
   const [minutes, setMinutes] = useState(minute);
   const [seconds, setSeconds] = useState(second);
-  
-  
+
+  const reset = () => {
+    setMinutes(minute);
+    setSeconds(second);
+  };
 
   useEffect(() => {
     const countdown = setInterval(() => {
-      if(active === true){
+      if (active === true) {
         if (parseInt(seconds) > 0) {
           setSeconds(parseInt(seconds) - 1);
         }
@@ -28,18 +31,20 @@ function Timer(p) {
           }
         }
       } else {
+        setMinutes(minute);
+        setSeconds(second);
         clearInterval(countdown);
       }
     }, 1000);
-    
+
     return () => clearInterval(countdown);
   }, [minutes, seconds, active]);
 
-  return <span className="counter">
-          Round[n]{minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-        </span>;
-        
-  
+  return (
+    <span className="counter">
+      Round[n]{minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+    </span>
+  );
 }
 
 export default Timer;
