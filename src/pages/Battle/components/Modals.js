@@ -11,40 +11,31 @@ export const QuestionModal = () => {
       overlay: {
          background: '#0000006a',
       },
-      content: {
-         width: '60%',
-         height: '70%',
-         margin: 'auto',
-         background: '#0C1119',
-         borderRadius: '5px',
-         position: 'relative',
-         zIndex:10,
-         padding: '15px',
-         overflowY: 'auto',
-         overflowX: 'hidden',      
-
-      },
+      // content: {
+      //    width: '60%',
+      //    height: '70%',
+      //    margin: 'auto',
+      //    background: '#0C1119',
+      //    borderRadius: '5px',
+      //    position: 'relative',
+      //    padding: '15px',
+      //    marginTop: '100px'
+      // },
    };
    return (
       <>
-         <section className="ModalSection">
-            <Modal
-               className="ModalBox"
-               isOpen={modalIsOpen}
-               style={customModalStyles}
-            >
-               <div className="TitleContainer">
-                  <img
-                     className="ExitBtn"
-                     src="/img/X_btn_black_30.png"
-                     onClick={() => setIsOpen(false)}
-                     alt=""
-                  />
+         <Modal
+            className="ModalBox"
+            isOpen={modalIsOpen}
+            style={customModalStyles}
+         >
+            <div className="ModalBody">
+               <header>
                   <h3>문제1</h3>
-               </div>
-               <div className="ContentContainer">
-                  <table className="Content">
-                     <thead>문제 설명</thead>
+               </header>
+               <div className="ModalContent">
+                  <table>
+                     <th>문제 설명</th>
                      <tr>
                         새로 생긴 놀이기구는 인기가 매우 많아 줄이 끊이질
                         않습니다. 이 놀이기구의 원래 이용료는 price원 인데,
@@ -78,8 +69,14 @@ export const QuestionModal = () => {
                      </tr>
                   </table>
                </div>
-            </Modal>
-         </section>
+            </div>
+            <img
+               className="ExitBtn"
+               src="/img/X_btn_black_30.svg"
+               onClick={() => setIsOpen(false)}
+               alt=""
+            />
+         </Modal>
       </>
    );
 };
@@ -97,8 +94,6 @@ export const SuccessModal = () => {
          border: 'transparent',
          borderRadius: '5px',
          overflow: 'hidden',
-    
-
       },
    };
    return (
@@ -108,8 +103,12 @@ export const SuccessModal = () => {
             onRequestClose={() => setIsOpen(false)}
             style={customModalStyles}
          >
-            <button onClick={() => setIsOpen(false)}>Close</button>
-
+            <img
+               className="ExitBtn"
+               src="/img/X_btn_black_30.svg"
+               onClick={() => setIsOpen(false)}
+               alt=""
+            />
             <span className="ConfettiTxt">
                <span>S</span>
                <span>u</span>
@@ -166,7 +165,12 @@ export const FailModal = () => {
             onRequestClose={() => setIsOpen(false)}
             style={customModalStyles}
          >
-            <button onClick={() => setIsOpen(false)}>Close</button>
+            <img
+               className="ExitBtn"
+               src="/img/X_btn_black_30.svg"
+               onClick={() => setIsOpen(false)}
+               alt=""
+            />
             <span className="ConfettiTxt">
                <span>L</span>
                <span>o</span>

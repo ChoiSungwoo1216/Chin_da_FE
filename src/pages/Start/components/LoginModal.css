@@ -25,6 +25,7 @@
 .modal > section {
   display: flex;
   position: relative;
+  background-color: transparent;
 
   width: 30vw;
   height: 20.98vw;
