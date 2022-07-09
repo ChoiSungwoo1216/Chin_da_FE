@@ -6,7 +6,7 @@ import "./Alert.css";
 const XBtn = ({ closeToast }) => {
   return (
     <div>
-      <img src="img/X_btn_black_30.svg" alt="xbtn" onClick={closeToast} />
+      <img src="/img/X_btn_black_30.svg" alt="xbtn" onClick={closeToast} />
     </div>
   );
 };

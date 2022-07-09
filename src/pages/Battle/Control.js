@@ -9,6 +9,7 @@ const Control = (props) => {
     setShowSuccessModal,
     setShowFailModal,
     setRunAlert,
+    setROpen,
   } = props;
   return (
     <ControlDiv>
@@ -35,6 +36,10 @@ const Control = (props) => {
       <div>
         알림 on
         <button onClick={() => setRunAlert(true)}>Alert on!</button>
+      </div>
+      <div>
+        결과창 on
+        <button onClick={()=>setROpen(true)}>열기</button>
       </div>
     </ControlDiv>
   );

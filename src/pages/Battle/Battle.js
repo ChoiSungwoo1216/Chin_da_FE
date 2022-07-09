@@ -11,6 +11,7 @@ import Control from "./Control";
 import ChatBox from "./components/ChatBox";
 import ProgressBar from "./components/ProgressBar";
 import Alert from "./components/Alert";
+import Result from "./components/Result";
 // import CountDown from './components/CountDown';
 // import Accordion from './components/Accordion';
 import { QuestionModal, SuccessModal, FailModal } from "./components/Modals";
@@ -87,6 +88,8 @@ const Battle = () => {
       setQueOpen(true);
     }
   };
+  //결과창 열기
+  const [rOpen, setROpen] = React.useState(false);
 
   const heightOpCode = () => {
     if (queOpen || chatOpen) {
@@ -155,6 +158,7 @@ const Battle = () => {
       {showQuestionModal && <QuestionModal />}
       {showSuccessModal && <SuccessModal />}
       {showFailModal && <FailModal />}
+      {rOpen && <Result setROpen={setROpen}/>}
 
       <Control
         setRunTimer={setRunTimer}
@@ -162,6 +166,7 @@ const Battle = () => {
         setShowSuccessModal={setShowSuccessModal}
         setShowFailModal={setShowFailModal}
         setRunAlert={setRunAlert}
+        setROpen={setROpen}
       />
     </Container>
   );
