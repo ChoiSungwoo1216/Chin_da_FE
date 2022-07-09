@@ -10,7 +10,7 @@ const TutorialBtn = () => {
     return (
         <div>
             {tutoOpen ? (<Tutorial setTutoOpen={setTutoOpen}/>) : (
-            <TutoBtn src="img/question_btn_black.png" onClick={open}/>
+            <TutoBtn src="/img/question_btn_black.png" onClick={open}/>
             )}
         </div>
     )
