@@ -5,22 +5,21 @@
 
 const ADD = "user/ADD";
 const DELETE = "user/DELETE";
+const EDIT = "sound/EDIT";
 
 const initialState = {
-  list: 
-      {
-        userId: "1234",
-        username: "tjddn8195@naver.com",
-        nickname: "최성우",
-        iconUrl: "",
-    },
-  new: {}
+  list: [{}],
+  sound: {bgm: 1, es: 1}
 };
  
 // Action Creators
 
 export function adduser(user) {
   return { type: ADD, user: user };
+}
+
+export function editsound(sound) {
+  return { type: EDIT, sound};
 }
 
 export function deleteuser(user_index) {
@@ -43,6 +42,12 @@ export default function reducer(state = initialState, action = {}) {
       });
 
       return { new: new_user_list };
+    }
+
+    case "sound/EDIT": {
+      const edit_sound_list = { ...state.sound, ...action.sound }
+      console.log(edit_sound_list)
+      return { ...state, sound: edit_sound_list };
     }
 
     default:
