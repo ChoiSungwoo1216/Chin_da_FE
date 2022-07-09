@@ -1,0 +1,72 @@
+#switch {
+  position: absolute;
+  /* hidden */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.switch_label {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  width: 7vw;
+  height: 7vh;
+  background-image: url(../../public/img/BtnBox.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.onf_btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-130%, -50%);
+  display: inline-block;
+  width: 2vw;
+  height: 2vw;
+  transition: 0.2s;
+}
+
+/* move */
+#switch:checked+.switch_label .onf_btn {
+  left: 95%;
+}
+
+
+#switch1 {
+  position: absolute;
+  /* hidden */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.switch_label1 {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  width: 7vw;
+  height: 7vh;
+  background-image: url(../../public/img/BtnBox.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.onf_btn1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-130%, -50%);
+  display: inline-block;
+  width: 2vw;
+  height: 2vw;
+  transition: 0.2s;
+}
+
+/* move */
+#switch1:checked+.switch_label1 .onf_btn1 {
+  left: 95%;
+}

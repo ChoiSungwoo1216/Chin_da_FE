@@ -10,7 +10,7 @@ const TutorialBtn = () => {
     return (
         <div>
             {tutoOpen ? (<Tutorial setTutoOpen={setTutoOpen}/>) : (
-            <TutoBtn src="/img/question_btn_black.png" onClick={open}/>
+            <TutoBtn src="img/question_btn_black.png" onClick={open}/>
             )}
         </div>
     )
@@ -23,6 +23,9 @@ bottom: 20px;
 width: 30px;
 height: 30px;
 z-index: 10;
+:hover{
+    content: url(/img/question_btn_white.png);
+}
 `;
 
 export default TutorialBtn

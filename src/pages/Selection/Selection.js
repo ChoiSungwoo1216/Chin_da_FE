@@ -4,11 +4,14 @@ import Language from "./components/Language";
 import Level from "./components/Level";
 import Room from "./components/Room"
 // import { useNavigate } from "react-router-dom";
-// import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import effectSound from "../../shared/effectSound";
 import selectSound from "../../audios/btnselect.mp3"
+import SoundSetting from "../../shared/SoundSetting.js"
 
 const Selection = () => {
+   const userSound = useSelector((state)=>state.user.sound);
+
    const [language, setLanguage] = React.useState("");
    const [level, setLevel] = React.useState("");
 
@@ -21,15 +24,7 @@ const Selection = () => {
    const openSetting = () =>{
       setSetting(true);
    }
-   const [sound, setSound] = React.useState(1);
-   const soundOnOff = ()=>{
-      if (sound === 1) {
-         setSound(0);
-      } else {
-         setSound(1);
-      }
-   }
-   const es = effectSound(selectSound, sound);
+   const es = effectSound(selectSound, userSound.es);
 
    return (
       <>
@@ -66,8 +61,7 @@ const Selection = () => {
                   es={es}
                />
             ) : null}
-            {setting&& <div style={{width: "200px", height:"200px", position: "fixed", top:"0",left:"0", zIndex:"5"}}>
-               <button onClick={soundOnOff}>소리</button></div>}
+            {setting&& <SoundSetting setSetting={setSetting}/>}
             <div style={{position :"fixed", bottom:"20px", right:"70px", width:"30px", height:"30px", color:"white", fontSize:"30px"}}
             onClick={openSetting}
             >▶</div>
