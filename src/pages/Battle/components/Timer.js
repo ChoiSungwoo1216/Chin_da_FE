@@ -11,10 +11,10 @@ function Timer(p) {
   const [minutes, setMinutes] = useState(minute);
   const [seconds, setSeconds] = useState(second);
 
-  const reset = () => {
+  useEffect(() => {
     setMinutes(minute);
     setSeconds(second);
-  };
+  },[times]);
 
   useEffect(() => {
     const countdown = setInterval(() => {
@@ -42,7 +42,7 @@ function Timer(p) {
 
   return (
     <span className="counter">
-      Round[n]{minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+      &nbsp;{minutes}:{seconds < 10 ? `0${seconds}` : seconds}
     </span>
   );
 }

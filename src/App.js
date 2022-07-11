@@ -20,11 +20,11 @@ function App() {
          <Routes>
             <Route path="/" element={<Start />} />
             <Route path="/github" element={<GitLogin />} />
-            <Route path="/Main" element={<Main />}></Route>
-            <Route path="/Battle" element={<Battle />}></Route>
-            <Route path="/Battle/:id" element={<Battle />}></Route>
-            <Route path="/Profile" element={<Profile />}></Route>
-            <Route path="/Selection" element={<Selection />}></Route>
+            <Route path="/main" element={<Main />}></Route>
+            <Route path="/battle/" element={<Battle />}></Route>
+            <Route path="/battle/:id" element={<Battle />}></Route>
+            <Route path="/profile" element={<Profile />}></Route>
+            <Route path="/selection" element={<Selection />}></Route>
          </Routes>
       </div>
    );
