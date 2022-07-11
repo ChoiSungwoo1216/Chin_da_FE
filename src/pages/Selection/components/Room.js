@@ -1,11 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { updateselected } from "../../../redux/modules/user";
+// import axios from "axios";
+// import { createchannel } from "../../../redux/modules/channel";
 
 const Room = (props) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { language, level, setLanOn, setLevOn, setRoomOn, es } = props;
-
+  //컴포넌트 이동
   const SelLang = () => {
     setRoomOn(false);
     setLanOn(true);
@@ -16,14 +21,33 @@ const Room = (props) => {
     setLevOn(true);
     es.play();
   };
+  //방만들기 요청
+  // const createChannelAxios = async () => {
+  //    await axios(
+  //      {
+  //        url: "/room",
+  //        method: "post",
+  //        baseURL: "http://54.180.154.178",
+  //      })
+  //      .then((res) => {
+  //        console.log(JSON.stringify(res.data));
+  //        dispatch(createchannel({id : res.data.channelid}))
+  //      })
+  //      .catch((error) => {
+  //        console.log(error);
+  //      });
+  //  }
 
   const CreateRoom = () => {
-    navigate("/Battle/", { state: { language, level } });
+    navigate("/Battle");
+    dispatch(updateselected({ language: language, level: level }));
+    // dispatch(createChannelAxios())
     es.play();
   };
 
   const EnterRoom = () => {
-    navigate("/Main", { state: { language, level } });
+    navigate("/Main");
+    dispatch(updateselected({ language: language, level: level }));
     es.play();
   };
 

@@ -39,8 +39,9 @@ const AceEditorPlayer = (props) => {
     return (
         <>
             <AceEditor
-                height="76.88vh"
+                height="93%"
                 width="100%"
+                style={{borderRadius:"3px"}}
                 mode={mode}
                 theme={theme}
                 onChange={onChangeOne}

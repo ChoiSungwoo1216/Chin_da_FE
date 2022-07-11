@@ -1,7 +1,6 @@
 .mainContainer {
     display: flex;
     box-sizing: border-box;
-    padding: 30px;
     justify-content: center;
 }
 
@@ -18,39 +17,43 @@ section {
 
 article {
     width: 50%;
-    height: 90vh;
-    margin: 0px;
+    height: 100vh;
     box-sizing: border-box;
     background-color: #ffffff1a;
     border-radius: 5px 0 0 5px;
-    z-index: 1;
-    position: relative;
-    left: 1vw;
+    position: absolute;
+    z-index: 5;
     clip-path: polygon(0% 0%, 100% 0, 100% 45%, 95% 55%, 95% 100%, 0% 100%);
 }
 
-.profile {
-  display: flex;
-  float: left;
-  width: 250px;
-  height: 150px;
-  margin: 15px;
-  position: relative;
+.profileContainer {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
 
-  border-radius: 5px;
-  background-color: #ffffff1a;
-  box-shadow: 0 2px 10px rgba(0,0,0,.1);
+.profile {
+    background-image: 'url(/img/mainCardPlayer.svg)';
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: flex;
+    float: left;
+    width: 287px;
+    height: 155px;
+    margin: 15px;
+    position: relative;
 }
 
 .profile2 {
+  background-image: 'url(/img/mainCardPlayer.svg)';
+  background-repeat: no-repeat;
+  background-size: contain;
   display: flex;
-  float: right;
-  width: 250px;
-  height: 150px;
+  float: right; 
+  width: 287px;
+  height: 155px;
   margin: 15px;
   position: relative;
-  border-radius: 5px;
-  background-color: #ffffff1a;
   box-shadow: 0 2px 10px rgba(0,0,0,.1);
 }
 
@@ -58,10 +61,10 @@ article {
     background-image: url('https://image.shutterstock.com/image-vector/pixel-art-black-bodyguard-character-260nw-1056562499.jpg');
     object-fit: cover;
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: center;
     width: 100px;
     height: 100px;
-    margin: auto 15px;
+    margin: auto 30px;
 }
 
 .thumbnail.circle {
@@ -91,27 +94,38 @@ article {
 
 .aside {
     width: 50%;
-    height: 90vh;
+    height: 100vh;
     margin: 0px;
     box-sizing: border-box;
-    background-color: #ffffff1a;
     border-radius: 0 5px 5px 0;
-    z-index: 2;
-    position: relative;
+    position: absolute;
+    z-index: 4;
     right: 1vw;
     text-align: right;
+    border-left: 3px solid #FFFAE3;
     clip-path: polygon(5% 0%, 100% 0%, 100% 100%, 0 100%, 0% 55%, 5% 45%);
 }
 
+.TitlePlayer {
+    display: flex;
+    flex-direction: row;
+}
+.aside h1{
+    color: #fff;
+    font-size: 30px;
+    position: absolute;
+    bottom: 300px;
+    right: 35px;
+}
 .section2 {
     display: flex;
     position: absolute;
-    top: 30px;
-    justify-content: center;
-    align-items: center;
-    width: 90%;
-    height: 90vh;
-    margin: auto;
+    top: 40vh;
+    justify-content: left;
+    align-items: left;
+    width: 80%;
+    height: 500px;
+    z-index: 5;
 }
 
 .cardContainer {
@@ -119,27 +133,23 @@ article {
     overflow-x: scroll;
     overflow-y: hidden;
     gap: 3em;
-    width: 90%;
-    justify-content: center;
+    width: 70%;
     align-items: center;  
     z-index: 3;
     position: absolute;
     bottom: 30px;
     padding: 30px;
     margin-top: 40px;
-    border: 1px solid #fff;
-    border-radius: 10px;
 }
 
 .cardContainer::-webkit-scrollbar{
-    width: 1vw;
+    width: 3px;
 }
 
 .cardContainer::-webkit-scrollbar-thumb{
-    height: 3vh;
+    height: 15px;
     background-color: #fff; 
-    border: 0.3vw solid #fff;
-    border-radius: 5vw;    
+    border: 1px solid #fff;  
 } 
 
 .cardContainer::-webkit-scrollbar-track{
@@ -156,8 +166,8 @@ article {
 }
 
 .card {
-    width: 200px;
-    height: 250px;
+    width: 187px;
+    height: 206px;
     position: relative;
     transition: transform .3s linear;
     transform-style: preserve-3d;
@@ -179,13 +189,11 @@ article {
     text-align: center;
     position: absolute;
     backface-visibility: hidden;
-    border-radius: 5px;
     margin: auto;
 }
 
 .front {
-    background-color: #ffffff1a;
-    /* background-image: ; */
+    opacity: .9;
 }
 
 .thumbnailImg {
@@ -196,7 +204,6 @@ article {
 }
 
 .back {
-    background-color: #333;
     transform: rotateY(180deg);
 }
 
@@ -207,5 +214,54 @@ article {
     bottom: 80px;
     width: 30px;
     z-index: 3;
+}
 
+.txtVS {
+    display: block;
+    position: absolute;
+    top: 46%;
+    left: 49.5%;
+    margin: -50px 0 0 -50px;
+    width: 100px;
+    z-index: 2;
+}
+/* .txtV {
+    display: block;
+    position: absolute;
+    top: 44.5%;
+    left: 49.5%;
+    margin: -50px 0 0 -50px;
+    width: 50px;
+    z-index: 2;
+}
+
+.txtS {
+    display: block;
+    position: absolute;
+    top: 47%;
+    left: 54%;
+    margin: -50px 0 0 -50px;
+    width: 50px;
+    z-index: 2;
+} */
+
+.btnCard {
+    display: table;
+    position: absolute;
+    bottom: 70px;
+    right: -10px;
+    width: 13em;
+    height: 15em;
+    color: #fff;
+    background-color: #272C4F;
+    opacity: .8;
+    border: 3px solid #FFFAE3;
+    z-index: 5;
+}
+
+.btnCard tr{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
 }

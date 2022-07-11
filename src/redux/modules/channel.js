@@ -6,6 +6,7 @@ import axios from "axios";
 const LOAD = "channel/LOAD";
 const ADD = "channel/ADD";
 const DELETE = "channel/DELETE";
+const CREATE = "channel/CREATE";
 
 const initialState = {
   list: [
@@ -42,6 +43,7 @@ const initialState = {
       userLose: "5",
     },
   ],
+  channel:{id : ""}
 };
 
 // Action Creators
@@ -55,6 +57,10 @@ export function addchannel(channel) {
 
 export function deletechannel(channel_index) {
   return { type: DELETE, channel_index };
+}
+
+export function createchannel(id) {
+  return { type: CREATE, id};
 }
 
 // // middlewares
@@ -172,6 +178,11 @@ export default function reducer(state = initialState, action = {}) {
       });
 
       return { list: new_channel_list };
+    }
+
+    case "channel/CREATE": {
+      const new_channel = { ...state.channel, ...action.channel }
+      return { ...state, channel: new_channel };
     }
 
     default:

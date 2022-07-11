@@ -82,15 +82,14 @@ const ChatBox = () => {
     // }
 
     return (
-        <>
+        <ChatBoxDiv>
             <ChattingDiv>
                 {chattinglist.map((list, idx) => {
                     return (
                         <SingleMes key={idx}>
-                            <ChatImg src={list.iconUrl} alt="none" />
+                            {/* <ChatImg src={list.iconUrl} alt="none" /> */}
                             <SingleMesInfo>
-                                <div style={{ fontWeight: "600" }}>{list.nickname}</div>
-                                <div>{list.message}</div>
+                                <div>{list.nickname}&nbsp;:&nbsp;{list.message}</div>
                             </SingleMesInfo>
                         </SingleMes>
                     )
@@ -106,11 +105,20 @@ const ChatBox = () => {
                 />
                 <ChatSend
                 onClick={sendMessage}
-                >Send</ChatSend>
+                />
             </ChatInputDiv>
-        </>
+        </ChatBoxDiv>
     )
 }
+const ChatBoxDiv = styled.div`
+width: 98.5%;
+height: 80%;
+margin: 0;
+background-color: #111823;
+border-right: 6px solid #A0935C;
+border-left: 6px solid #FFFAE3;
+border-bottom: 6px solid #A0935C;
+`;
 
 const ChattingDiv = styled.div`
 display: flex;
@@ -118,8 +126,7 @@ overflow-y: auto;
 overflow-x: hidden;
 flex-direction: column-reverse;
 width: 100%;
-height: 18vh;
-padding: 10px;
+height: 76%;
 margin:0;
 `;
 
@@ -129,10 +136,9 @@ flex-direction: row;
 width: 80%;
 border-radius: 5px;
 align-items: center;
-margin: 5px 0;
-padding: 10px;
+padding: 5px;
 &:hover{
-    background-color: #ececec;
+    background-color: grey;
 }
 `;
 
@@ -144,28 +150,36 @@ border-radius: 5px;
 
 const SingleMesInfo = styled.div`
 display: flex;
-flex-direction: column;
 margin-left: 10px;
 text-align: left;
+color: white;
 `;
 
 const ChatInputDiv = styled.div`
    display: flex;
    align-items: center;
-   width: 100%;
-   height: 7vh;
+   width: 99%;
+   height: 20%;
+   margin: 0;
+   padding: 0;
+   background-color: white;
+   border: 3px solid black;
 `;
 const ChatInput = styled.input`
 width: 80%;
-height: 5vh;
-font-size: 16px;
+height: calc((2vh + 2vw)/2);
+font-size: calc((2vh + 2vw)/3);
 margin-right: 25px;
 margin-left: 11px;
+border : none;
 `;
 
-const ChatSend = styled.button`
-   width: 4.6vw;
-   height: 3.5vh;
-   background-color: #2D6BC8;
+const ChatSend = styled.div`
+   width: 15%;
+   height: 85%;
+   background-image: url(/img/sendBtn.svg);
+   background-repeat: no-repeat;
+   background-size: contain;
+   background-position: center;
 `
 export default ChatBox

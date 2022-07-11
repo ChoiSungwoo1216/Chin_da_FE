@@ -15,11 +15,12 @@ const Alert = (p) => {
   // const runValue = p.value;
   const runValue = p.runAlert;
   const refresh = p.setRunAlert;
+  const mesAlert = p.mesAlert;
   console.log(runValue + "--alert");
   const ToastDefault = () => {
     //type선언 default:toast, type: toast.success,error,warning,info,promise,dismiss
     toast.error(
-      "메세지여기다가!", //Component도 사용가능
+      `${mesAlert}`, //Component도 사용가능
       {
         //toast default 속성값 선언 안해도 됨
         // position: "top-right",

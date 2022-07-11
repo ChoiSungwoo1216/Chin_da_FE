@@ -2,11 +2,17 @@ import { useEffect } from "react";
 import axios from "axios";
 import React from "react";
 import styled from "styled-components";
-import "./Loading.css";
-//import {useNavigate} from "react-router-dom";
+import { keyframes } from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const GitLogin = () => {
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setTimeout(() => {
+      navigate("/main");
+    }, 3000);
+  }, []);
   useEffect(() => {
     let params = new URL(document.location.toString()).searchParams;
     let code = params.get("code"); // 인가코드 받는 부분
@@ -42,6 +48,14 @@ const GitLogin = () => {
 };
 
 export default GitLogin;
+const LoadingSpin = keyframes`
+    from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+`;
 
 const GitContainer = styled.div`
   width: 100vw;
@@ -66,20 +80,21 @@ const Gitimage = styled.div`
 const GitLogo = styled.div`
   display: flex;
   position: absolute;
+
   width: 18%;
   height: 18vw;
-  border: 1px solid white;
+
   top: 30%;
   left: 40%;
 
   /* height: 100px;
   width: 100px; */
-  border: 1vw solid #fff;
+  border: 1vw ridge #fff;
 
-  border-right-color: darkgray;
-  border-top-color: gray;
-  border-left-color: red;
-  border-bottom-color: blue;
+  border-top-color: rgba(89, 91, 131, 0.6);
+  border-right-color: rgba(51, 52, 86, 1);
+  border-left-color: rgba(6, 9, 48, 1);
+  border-bottom-color: rgba(51, 52, 86, 0.6);
   border-radius: 100%;
-  animation: spin 1000ms linear infinite;
+  animation: ${LoadingSpin} 1000ms linear infinite;
 `;
