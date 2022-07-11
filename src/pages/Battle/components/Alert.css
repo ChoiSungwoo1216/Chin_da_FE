@@ -1,13 +1,12 @@
 .Toastify__toast--error {
-  background-image: url("../../../../public/img/alert_320_48.svg") !important;
+  background-image: url("../../../../public/img/alert_mini.png") !important;
   background-position: center !important;
+  background-color: white !important;
   background-repeat: no-repeat !important;
-  background-size: cover !important;
+  background-size: 100% 100% !important;
 
   border-radius: 0px !important;
-
   z-index: 1 !important;
-
   color: black !important;
   font-size: 20px !important;
   font-family: Neo;
