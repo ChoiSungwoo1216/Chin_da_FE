@@ -12,17 +12,16 @@ import ChatBox from "./components/ChatBox";
 import ProgressBar from "./components/ProgressBar";
 import Alert from "./components/Alert";
 import Result from "./components/Result";
-// import CountDown from './components/CountDown';
+import Countdown from "./components/Countdown";
 // import Accordion from './components/Accordion';
 import { QuestionModal, SuccessModal, FailModal } from "./components/Modals";
 
 import Peer from "peerjs";
 
-
 Modal.setAppElement("#root");
 
 const Battle = () => {
-  const selected = useSelector((state) => state.user.selected)
+  const selected = useSelector((state) => state.user.selected);
   const navigate = useNavigate();
   const [showQuestionModal, setShowQuestionModal] = React.useState();
   const [showSuccessModal, setShowSuccessModal] = React.useState();
@@ -50,14 +49,17 @@ const Battle = () => {
     } else {
       setTimeSetting(300);
     }
-  }
+  };
   React.useEffect(() => {
     SetTime();
-  }, [])
+  }, []);
 
   //toastify alert
   const [runAlert, setRunAlert] = React.useState(false);
-  const [mesAlert, setMesAlert] = React.useState("FAIL")
+  const [mesAlert, setMesAlert] = React.useState("FAIL");
+
+  //countdown
+  const [runCountdown, setRunCountdown] = React.useState(false);
 
   //서버에서 받아오는 기본 형태들
   //    const JsDefault = `function solution(num) {
@@ -117,14 +119,14 @@ const Battle = () => {
   const [rOpen, setROpen] = React.useState(false);
 
   const BackToMain = () => {
-    navigate(`/Main`)
-  }
+    navigate(`/Main`);
+  };
 
   //아이템 사용 불가 메세지
   const NoItemSys = () => {
-    setMesAlert("아직 패치 중")
-    setRunAlert(true)
-  }
+    setMesAlert("아직 패치 중");
+    setRunAlert(true);
+  };
 
   //Peer
   const [peerId, setPeerId] = React.useState("");
@@ -141,55 +143,70 @@ const Battle = () => {
     });
 
     peer.on("call", (call) => {
-      var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+      var getUserMedia =
+        navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia;
 
-      getUserMedia({/*audio: true,*/ video: true }, (mediaStream) => {
+      getUserMedia({ /*audio: true,*/ video: true }, (mediaStream) => {
         currentUserVideoRef.current.srcObject = mediaStream;
         currentUserVideoRef.current.play();
-        call.answer(mediaStream)
-        call.on('stream', (remoteStream) => {
+        call.answer(mediaStream);
+        call.on("stream", (remoteStream) => {
           remoteVideoRef.current.srcObject = remoteStream;
           remoteVideoRef.current.play();
         });
-      })
-    })
+      });
+    });
 
     peerInstance.current = peer;
     //외부로 peer 선언해주려고
-  }, [])
+  }, []);
 
   const call = (remotePeerId) => {
-    var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    var getUserMedia =
+      navigator.getUserMedia ||
+      navigator.webkitGetUserMedia ||
+      navigator.mozGetUserMedia;
 
-    getUserMedia({/*audio: true,*/ video: true }, (mediaStream) => {
+    getUserMedia({ /*audio: true,*/ video: true }, (mediaStream) => {
       //현재 내 화면
       currentUserVideoRef.current.srcObject = mediaStream;
       currentUserVideoRef.current.play();
 
-      const call = peerInstance.current.call(remotePeerId, mediaStream)
+      const call = peerInstance.current.call(remotePeerId, mediaStream);
 
-      call.on('stream', (remoteStream) => {
+      call.on("stream", (remoteStream) => {
         // Show stream in some video/canvas element.
         // 상대방 영상 받아오는 부분
         // 두개 같이 써줘야 작동함
         remoteVideoRef.current.srcObject = remoteStream;
         remoteVideoRef.current.play();
       });
-    })
-  }
+    });
+  };
 
-  console.log(peerId)
+  console.log(peerId);
 
   return (
     <Container>
-      <Alert runAlert={runAlert} setRunAlert={setRunAlert} mesAlert={mesAlert} />
+      {runCountdown === true ? <Countdown /> : null}
+      <Alert
+        runAlert={runAlert}
+        setRunAlert={setRunAlert}
+        mesAlert={mesAlert}
+      />
       <HeadPart>
         <TimerDiv>
           <ProgressBar value={timerValue} />
         </TimerDiv>
         <BtnDiv>
-          <BtnOnOff onClick={openQue} change={queOpen}>문제</BtnOnOff>
-          <BtnOnOff onClick={openChat} change={chatOpen}>채팅</BtnOnOff>
+          <BtnOnOff onClick={openQue} change={queOpen}>
+            문제
+          </BtnOnOff>
+          <BtnOnOff onClick={openChat} change={chatOpen}>
+            채팅
+          </BtnOnOff>
           <BtnOnOff onClick={NoItemSys}>아이템</BtnOnOff>
           <ExitBtn onClick={BackToMain}>나가기</ExitBtn>
         </BtnDiv>
@@ -202,10 +219,14 @@ const Battle = () => {
               <span>Player1</span>
               <CamIcon src={"/img/camIcon.svg"} alt="" onClick={openUserCam} />
             </CamBar>
-            {userCamSlide && <Cam>
-              <video style={{width:"100%", maxWidth:"100%", height:"auto"}} ref={currentUserVideoRef} />
-            </Cam>
-            }
+            {userCamSlide && (
+              <Cam>
+                <video
+                  style={{ width: "100%", maxWidth: "100%", height: "auto" }}
+                  ref={currentUserVideoRef}
+                />
+              </Cam>
+            )}
           </UserCamDiv>
           <SubmitBtn>제&nbsp;&nbsp;&nbsp;&nbsp;출</SubmitBtn>
         </UserDiv>
@@ -232,10 +253,14 @@ const Battle = () => {
               <span>Player2</span>
               <CamIcon src={"/img/camIcon.svg"} alt="" onClick={openOpCam} />
             </CamBar>
-            {opCamSlide && <Cam>
-              <video style={{width:"100%", maxWidth:"100%", height:"auto"}} ref={remoteVideoRef} />
-            </Cam>
-            }
+            {opCamSlide && (
+              <Cam>
+                <video
+                  style={{ width: "100%", maxWidth: "100%", height: "auto" }}
+                  ref={remoteVideoRef}
+                />
+              </Cam>
+            )}
           </OpCamDiv>
         </OpponentDiv>
       </BodyPart>
@@ -257,6 +282,7 @@ const Battle = () => {
         setRemotePeerIdValue={setRemotePeerIdValue}
         call={call}
         peerId={peerId}
+        setRunCountdown={setRunCountdown}
       />
     </Container>
   );
@@ -287,11 +313,11 @@ const TimerDiv = styled.div`
 `;
 
 const BtnDiv = styled.div`
-display: flex;
-flex-direction: row;
-justify-content: space-evenly;
-height: 100%;
-width: 45.125vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  height: 100%;
+  width: 45.125vw;
 `;
 
 const BattleBtnAni = keyframes`
@@ -310,51 +336,51 @@ const BattleBtnAni = keyframes`
 100% {
   transform: translateY(0px);
 }
-`
+`;
 
 const BtnOnOff = styled.div`
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: calc((3vh + 3vw)/4);
-color : white;
-width: 13.5%;
-height: 100%;
-${(props) => {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc((3vh + 3vw) / 4);
+  color: white;
+  width: 13.5%;
+  height: 100%;
+  ${(props) => {
     if (props.change) {
       return css`
         background-image: url(/img/questionBtnBlack.svg);
-        border: 2px inset #C1B78E;
+        border: 2px inset #c1b78e;
         border-radius: 10px;
       `;
     }
     return css`
       background-image: url(/img/questionBtnBlue.svg);
-      border: 2px inset #5777CE;
+      border: 2px inset #5777ce;
       border-radius: 10px;
     `;
   }}
-background-position: center;
-background-repeat: no-repeat;
-background-size: contain;
-animation: ${BattleBtnAni} 3s 0.5s linear infinite;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  animation: ${BattleBtnAni} 3s 0.5s linear infinite;
 `;
 
 const ExitBtn = styled.div`
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: calc((3vh + 3vw)/4);
-color : white;
-width: 30%;
-height: 100%;
-background-image: url(/img/ExitBattleBtn.svg);
-background-position: center;
-background-repeat: no-repeat;
-background-size: contain;
-animation: ${BattleBtnAni} 3s linear infinite;
-border: 2px inset #5777CE;
-border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc((3vh + 3vw) / 4);
+  color: white;
+  width: 30%;
+  height: 100%;
+  background-image: url(/img/ExitBattleBtn.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  animation: ${BattleBtnAni} 3s linear infinite;
+  border: 2px inset #5777ce;
+  border-radius: 10px;
 `;
 
 const BodyPart = styled.div`
@@ -370,10 +396,10 @@ const UserDiv = styled.div`
   height: 100%;
   margin-right: 1.875vw;
   border-radius: 5px;
-  border-top: 7px solid #FFFAE3;
-  border-left: 7px solid #FFFAE3;
-  border-right: 7px solid #C1B78E;
-  border-bottom: 7px solid #A0935C;
+  border-top: 7px solid #fffae3;
+  border-left: 7px solid #fffae3;
+  border-right: 7px solid #c1b78e;
+  border-bottom: 7px solid #a0935c;
 `;
 
 const UserCamDiv = styled.div`
@@ -399,7 +425,7 @@ const CamBar = styled.div`
   gap: 30%;
   width: 85%;
   height: 20%;
-  background-color: #5777CE;
+  background-color: #5777ce;
   color: white;
   font-size: calc((2vh + 2vw) / 2);
   opacity: 0.8;
@@ -427,14 +453,14 @@ const SubmitBtn = styled.button`
   font-size: calc((5vh + 5vw) / 4);
   font-weight: 500;
   font-family: "Neo";
-  background-color: #5777CE;
+  background-color: #5777ce;
   opacity: 1;
   color: white;
   z-index: 4;
-  border-top: 3px solid #C0CFFF;
-  border-left: 3px solid #C0CFFF;
-  border-right: 5px solid #A2B7ED;
-  border-bottom: 4px solid #A2B7ED;
+  border-top: 3px solid #c0cfff;
+  border-left: 3px solid #c0cfff;
+  border-right: 5px solid #a2b7ed;
+  border-bottom: 4px solid #a2b7ed;
 `;
 
 const OpponentDiv = styled.div`
@@ -443,7 +469,7 @@ const OpponentDiv = styled.div`
   justify-content: space-between;
   height: 102.1%;
   width: 45.125vw;
-  margin : 0;
+  margin: 0;
   padding: 0;
 `;
 
@@ -460,9 +486,9 @@ const ChatHead = styled.div`
   color: white;
   font-size: calc(((2vh + 2vw) / 2.5));
   padding-left: 10px;
-  background-color: #5777CE;
-  border-top: 4px solid #C0CFFF;
-  border-left: 6px solid #C0CFFF;
+  background-color: #5777ce;
+  border-top: 4px solid #c0cfff;
+  border-left: 6px solid #c0cfff;
   border-bottom: 4px solid black;
 `;
 const QueDiv = styled.div`
@@ -474,13 +500,12 @@ const QueDiv = styled.div`
       `;
     } else if (props.queOpen && props.chatOpen) {
       return css`
-          height: 36%;
-        `;
+        height: 36%;
+      `;
     }
   }}
   margin-bottom: 2vh;
   border: 5px solid black;
-
 `;
 const QueHead = styled.div`
   display: flex;
@@ -490,50 +515,50 @@ const QueHead = styled.div`
   color: white;
   font-size: calc(((2vh + 2vw) / 2.5));
   padding-left: 10px;
-  background-color: #5777CE;
-  border-top: 4px solid #C0CFFF;
-  border-left: 6px solid #C0CFFF;
+  background-color: #5777ce;
+  border-top: 4px solid #c0cfff;
+  border-left: 6px solid #c0cfff;
   border-bottom: 4px solid black;
 `;
 const QueBox = styled.div`
-width: 98.5%;
-height: 88%;
-margin: 0;
-background-color: #111823;
-border-right: 6px solid #A0935C;
-border-left: 6px solid #FFFAE3;
-border-bottom: 6px solid #A0935C;
+  width: 98.5%;
+  height: 88%;
+  margin: 0;
+  background-color: #111823;
+  border-right: 6px solid #a0935c;
+  border-left: 6px solid #fffae3;
+  border-bottom: 6px solid #a0935c;
 `;
 
 const CodeDiv = styled.div`
-width: 99%;
-${(props) => {
+  width: 99%;
+  ${(props) => {
     if (props.queOpen && !props.chatOpen) {
       return css`
         height: 35.5%;
       `;
     } else if (props.queOpen && props.chatOpen) {
       return css`
-          height: 19.5%;
-        `;
+        height: 19.5%;
+      `;
     } else if (!props.queOpen && props.chatOpen) {
       return css`
-          height: 60%;
-        `;
+        height: 60%;
+      `;
     } else {
       return css`
-      height: 100%;
-    `;
+        height: 100%;
+      `;
     }
   }}
-display: flex;
-justify-content: center;
-align-items: center;
-border-radius: 0 0 5px 5px;
-border-top: 7px solid #FFFAE3;
-border-left: 7px solid #FFFAE3;
-border-right: 7px solid #C1B78E;
-border-bottom: 7px solid #A0935C;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0 0 5px 5px;
+  border-top: 7px solid #fffae3;
+  border-left: 7px solid #fffae3;
+  border-right: 7px solid #c1b78e;
+  border-bottom: 7px solid #a0935c;
 `;
 
 export default Battle;

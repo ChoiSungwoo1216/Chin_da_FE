@@ -12,8 +12,7 @@
   width: 100vw;
   height: 100vh;
 
-  overflow: visible;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .modal button {
@@ -25,22 +24,21 @@
 .modal > section {
   display: flex;
   position: relative;
+  background-color: transparent;
 
   width: 30vw;
   height: 20.98vw;
   left: 35%;
-  /* min-width: 384px;
-  min-height: 262.2px; */
 
   animation: modal-show 0.3s;
-  overflow: hidden;
+  /* overflow: hidden; */
 
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
   z-index: 4;
-  padding: 1vw;
+  /* padding: 1vw; */
 }
 
 .modal > section > header {
@@ -67,11 +65,6 @@
   background-size: 100%, 100%;
   background-position: inherit;
 }
-
-/* .modal > section > header > img {
-  width: 100%;
-  height: 100%;
-} */
 
 .close {
   position: absolute;
@@ -118,13 +111,13 @@
   display: flex;
   align-items: center;
   /* 팝업이 열릴때 스르륵 열리는 효과 */
-  animation: modal-bg-show 0.3s;
+  animation: modal-bg-show 0.7s;
 }
 
 @keyframes modal-show {
   from {
     opacity: 0;
-    transform: translateY(-50px);
+    transform: translateY(-550px);
   }
   to {
     opacity: 1;

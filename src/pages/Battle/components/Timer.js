@@ -14,7 +14,7 @@ function Timer(p) {
   useEffect(() => {
     setMinutes(minute);
     setSeconds(second);
-  },[times]);
+  }, [times]);
 
   useEffect(() => {
     const countdown = setInterval(() => {
@@ -33,7 +33,6 @@ function Timer(p) {
       } else {
         setMinutes(minute);
         setSeconds(second);
-        clearInterval(countdown);
       }
     }, 1000);
 

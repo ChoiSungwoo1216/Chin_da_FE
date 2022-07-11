@@ -15,7 +15,7 @@ const Alert = (p) => {
   // const runValue = p.value;
   const runValue = p.runAlert;
   const refresh = p.setRunAlert;
-  const mesAlert = p.mesAlert
+  const mesAlert = p.mesAlert;
   console.log(runValue + "--alert");
   const ToastDefault = () => {
     //type선언 default:toast, type: toast.success,error,warning,info,promise,dismiss
