@@ -12,7 +12,7 @@ import ChatBox from "./components/ChatBox";
 import ProgressBar from "./components/ProgressBar";
 import Alert from "./components/Alert";
 import Result from "./components/Result";
-import Countdown from "./components/Countdown";
+import Countdown from "./components/CountDown";
 // import Accordion from './components/Accordion';
 import { QuestionModal, SuccessModal, FailModal } from "./components/Modals";
 
