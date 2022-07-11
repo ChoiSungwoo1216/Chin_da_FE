@@ -27,11 +27,12 @@ const ProgressBar = (p) => {
   return (
     <>
       <div className="Bar">
+        <Timer value={p.value} id="count" />
         <div
           className={active === true ? "Filler decrease" : "Filler"}
           ref={Filler}
         />
-        <Timer value={p.value} id="count" />
+        <div className="Triangle" />
       </div>
     </>
   );

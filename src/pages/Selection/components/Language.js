@@ -82,7 +82,7 @@ const TypeBtnDiv = styled.div`
    height: 48.6vh;
    margin: auto 20px;
    padding: 1.5em;
-   background-image: url(img/level_card.png);
+   background-image: url(/img/level_card.png);
    background-repeat: no-repeat;
    background-size: contain;
    background-position: center;

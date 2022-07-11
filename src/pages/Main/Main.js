@@ -1,6 +1,5 @@
 import React,{useState} from "react";
 import './Main.css';
-import { useLocation } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom";
 
@@ -8,15 +7,15 @@ import {useNavigate} from "react-router-dom";
 
 export function Main () {
    const user = {userName: "player1", userWin:"1", userLose:"2"};
+   const selected = useSelector((state)=>state.user.selected)
    const [userInfo, setUserInfo] = useState({});
    const navigate = useNavigate();
    // const dispatch = useDispatch();
    const channelList = useSelector((state) => state.channel.list);
    // console.log(channelList);
    // 백이랑 이걸 숫자로 보낼지, 문자열로 보낼지 합의 (현재는 문자열)
-   const { state } = useLocation();
-   const language = state.language;
-   const level = state.level;
+   const language = selected.language;
+   const level = selected.level;
    console.log(language, level);
    //    React.useEffect(() => {
    //       dispatch(loadChannelAxios(language, level));

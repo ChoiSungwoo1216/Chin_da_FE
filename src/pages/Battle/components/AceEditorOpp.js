@@ -14,7 +14,7 @@ import 'ace-builds/src-noconflict/theme-terminal';
 import 'ace-builds/src-noconflict/ext-language_tools';
 
 const AceEditorOpp = (props) => {
-    const { mode, theme, heightOpCode } = props
+    const { mode, theme} = props
 
     function onChangeTwo(newValue) {
         console.log('2:', newValue);
@@ -39,7 +39,8 @@ const AceEditorOpp = (props) => {
         <>
             <AceEditor
                 width="100%"
-                height={heightOpCode()}
+                height="100%"
+                style={{borderRadius:"3px"}}
                 mode={mode}
                 theme={theme}
                 fontSize={15}

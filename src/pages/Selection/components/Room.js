@@ -1,8 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux";
+import { updateselected } from "../../../redux/modules/user";
+// import axios from "axios";
+// import { createchannel } from "../../../redux/modules/channel";
 
 const Room = (props) => {
+   const dispatch = useDispatch();
    const navigate = useNavigate();
    const {
       language,
@@ -12,7 +17,7 @@ const Room = (props) => {
       setRoomOn,
       es,
    } = props
-   
+   //컴포넌트 이동
    const SelLang = () => {
       setRoomOn(false);
       setLanOn(true);
@@ -23,14 +28,33 @@ const Room = (props) => {
       setLevOn(true);
       es.play();
    }
+   //방만들기 요청
+   // const createChannelAxios = async () => {
+   //    await axios(
+   //      {
+   //        url: "/room",
+   //        method: "post",
+   //        baseURL: "http://54.180.154.178",
+   //      })
+   //      .then((res) => {
+   //        console.log(JSON.stringify(res.data));
+   //        dispatch(createchannel({id : res.data.channelid}))
+   //      })
+   //      .catch((error) => {
+   //        console.log(error);
+   //      });
+   //  }
 
    const CreateRoom = () => {
-      navigate("/Battle", {state: {language, level}});
+      navigate("/Battle");
+      dispatch(updateselected({language: language, level: level}))
+      // dispatch(createChannelAxios())
       es.play();
    }
 
    const EnterRoom = () => {
-      navigate("/Main", {state: {language, level}});
+      navigate("/Main");
+      dispatch(updateselected({language: language, level: level}))
       es.play();
    }
 
@@ -110,7 +134,7 @@ const SelectedDiv = styled.div`
    height: 48.6vh;
    margin: auto 20px;
    padding: 1.5em;
-   background-image: url(img/level_card.png);
+   background-image: url(/img/level_card.png);
    background-repeat: no-repeat;
    background-size: contain;
    background-position: center;
@@ -139,7 +163,7 @@ const RoomSelectDiv = styled.div`
    margin: 20px;
    padding: 1.5em;
    text-align: center;   
-   background-image: url(img/level_card.png);
+   background-image: url(/img/level_card.png);
    background-repeat: no-repeat;
    background-size: contain;
    background-position: center;
@@ -181,7 +205,7 @@ const InsideBtn1 = styled.div`
 const InsideBtn2 = styled.div`
    width: 19vw;
    height: 5.7vw;
-   background-image: url(img/create_room_btn.png);
+   background-image: url(/img/create_room_btn.png);
    background-repeat: no-repeat;
    background-size: contain;
    background-position: center;
@@ -190,7 +214,7 @@ const InsideBtn2 = styled.div`
 const InsideBtn3 = styled.div`
    width: 19vw;
    height: 5.7vw;
-   background-image: url(img/entrance_room_btn.png);
+   background-image: url(/img/entrance_room_btn.png);
    background-repeat: no-repeat;
    background-size: contain;
    background-position: center;
