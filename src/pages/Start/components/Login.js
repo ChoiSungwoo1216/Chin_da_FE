@@ -12,8 +12,9 @@ const Login = () => {
         <Text>너 개발자면서 github도</Text>
         <Text>없는건 아니겠지?</Text>
         <GithubBtn>
-          <p> GithubLogin </p>
-          <BtnA href={locateGit} git={locateGit}></BtnA>
+          <BtnA href={locateGit} git={locateGit}>
+            <p> GithubLogin </p>
+          </BtnA>
         </GithubBtn>
       </Wrap>
     </>
@@ -57,7 +58,7 @@ const GithubBtn = styled.button`
   background-color: transparent;
   margin: 0;
 
-  background-image: url("img/login_btn_white.svg");
+  background-image: url("/img/login_btn_white.svg");
   background-position: center;
   background-size: 100%, 100%, cover;
   background-repeat: no-repeat;
@@ -70,15 +71,17 @@ const GithubBtn = styled.button`
   font-size: 1.56vw;
   font-family: Neo;
   line-height: 1;
-  color: black;
 
   &:hover {
-    background-image: url("img/login_btn_black.svg");
-    color: white;
-    text-decoration: none;
+    background-image: url("/img/login_btn_black.svg");
+    & a {
+      color: white;
+    }
   }
 `;
 
 const BtnA = styled.a`
+  text-decoration: none;
+  color: black;
   /* margin-top: 1.91vw; */
 `;
