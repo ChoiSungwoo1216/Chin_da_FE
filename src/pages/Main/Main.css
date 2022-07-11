@@ -132,14 +132,14 @@ article {
     display: flex;
     overflow-x: scroll;
     overflow-y: hidden;
-    gap: 3em;
-    width: 70%;
+    gap: 1em;
+    width: 90%;
     align-items: center;  
     z-index: 3;
     position: absolute;
-    bottom: 30px;
-    padding: 30px;
-    margin-top: 40px;
+    bottom: 0;
+    padding-bottom: 100px;
+    /* margin-top: 40px; */
 }
 
 .cardContainer::-webkit-scrollbar{
@@ -157,17 +157,17 @@ article {
 }
 
 .scene {
-    width: 13em;
-    height: 15em;
+    width: 7em;
+    height: 9em;
     perspective: 30em;
     cursor: pointer;
-    margin: auto 30px;
-    padding: 5px;
+    margin: auto;
+    padding-bottom: 60px;
 }
 
 .card {
-    width: 187px;
-    height: 206px;
+    width: 257px;
+    height: 309px;
     position: relative;
     transition: transform .3s linear;
     transform-style: preserve-3d;
