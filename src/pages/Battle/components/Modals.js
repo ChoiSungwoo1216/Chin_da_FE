@@ -127,9 +127,15 @@ export const FailModal = () => {
    const [modalIsOpen, setIsOpen] = React.useState(true);
    const confetti = new JSConfetti();
    const confettiList = () => {
+        const customModalStyles = {
+           content: {
+            color: '#fff',
+           },
+        };
       confetti.addConfetti({
          emojiSize: 30,
          emojis: ['Lose'],
+         // confettiColor: '#fff',
       });
       confetti.addConfetti({
          emojis: ['😭', '😥'],
@@ -151,6 +157,7 @@ export const FailModal = () => {
          border: 'transparent',
          borderRadius: '5px',
          overflow: 'hidden',
+         color: '#fff'
       },
    };
 
@@ -160,6 +167,7 @@ export const FailModal = () => {
             isOpen={modalIsOpen}
             onRequestClose={() => setIsOpen(false)}
             style={customModalStyles}
+        
          >
             <img
                className="ExitBtn"
@@ -168,10 +176,10 @@ export const FailModal = () => {
                alt=""
             />
             <div className="ConfettiTxt">
-               <img className="Txt" src="/img/.svg" alt="none" />
-               <img className="Txt" src="/img/.svg" alt="none" />
-               <img className="Txt" src="/img/.svg" alt="none" />
-               <img className="Txt" src="/img/.svg" alt="none" />
+               <img src="/img/.svg" alt="none" />
+               <img src="/img/.svg" alt="none" />
+               <img src="/img/.svg" alt="none" />
+               <img src="/img/.svg" alt="none" />
             </div>
          </Modal>
       </>
