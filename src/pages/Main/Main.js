@@ -5,9 +5,18 @@ import {useNavigate} from "react-router-dom";
 
 // import { loadChannelAxios } from "../../redux/modules/channel"
 
-
 export function Main () {
    const user = {userName: "player1", userWin:"1", userLose:"2"};
+   const languageImg = [
+      '/img/miniPython3.svg',
+      '/img/miniPython3.svg',
+      '/img/miniPython3.svg',
+   ];
+   const levelImg = [
+      '/img/miniStar1.svg',
+      '/img/miniStar1.svg',
+      '/img/miniStar1.svg',
+   ];
    const selected = useSelector((state)=>state.user.selected)
    const [userInfo, setUserInfo] = useState({});
    const navigate = useNavigate();
@@ -29,54 +38,59 @@ export function Main () {
       <>
          <div className="mainContainer">
             <main>
-               <section>
-                  <article className="article">
-                     <div className="profileContainer">
-                        <div
-                           className="profile"
-                           style={{
-                              background: 'url(/img/mainCardPlayer.svg)',
-                           }}
-                        >
-                           <div className="thumbnail circle"></div>
-                           <div className="description">
-                              <p className="content">이름 : {user.userName}</p>
-                              <p className="content">
-                                 {user.userWin}승/{user.userLose}패
-                              </p>
-                           </div>
-                        </div>
-                     </div>
-                  </article>
-
-                  <aside className="aside">
+               <div
+                  className="mainNavBar"
+                  style={{
+                     background: 'url(/img/mainNavBar.svg)',
+                     backgroundRepeat: 'no-repeat',
+                     backgroundPosition: 'center',
+                     objectFit: 'cover',
+                  }}
+               >
+                  <div>
+                     <img src={languageImg[language]} alt="none" />
+                     <img src={levelImg[level]} alt="none" />
+                  </div>
+               </div>
+               <article className="article">
+                  <div className="profileContainer">
                      <div
-                        className="profile2"
+                        className="profile"
                         style={{
                            background: 'url(/img/mainCardPlayer.svg)',
                         }}
                      >
-                        <div
-                           className="thumbnail circle"
-                           style={{ backgroundImage: `${userInfo.userImg}` }}
-                        ></div>
+                        <div className="thumbnail circle"></div>
                         <div className="description">
-                           <p className="content2">이름: {userInfo.userName}</p>
-                           <p className="content2">
-                              {userInfo.userWin}승/{userInfo.userLose}패
-                           </p>
+                           <tr className="content">이름: {user.userName}</tr>
+                           <tr className="content">WIN: {user.userWin}</tr>
+                           <tr className="content">LOSE: {user.userLose}</tr>
                         </div>
                      </div>
+                  </div>
+               </article>
 
-                     {/* <div className="TitlePlayer">
-                        <h1 className="TitlePlayer txt1">Player1</h1>
-                        <h1 className="TitlePlayer txt2">Player2</h1>
-                     </div> */}
-                  </aside>
-               </section>
+               <aside className="aside">
+                  <div
+                     className="profile2"
+                     style={{
+                        background: 'url(/img/mainCardPlayer.svg)',
+                     }}
+                  >
+                     <div
+                        className="thumbnail circle"
+                        style={{ backgroundImage: `${userInfo.userImg}` }}
+                     ></div>
+                     <div className="description">
+                        <tr className="content2">이름: {userInfo.userName}</tr>
+                        <tr className="content2">WIN: {userInfo.userWin}</tr>
+                        <tr className="content2">LOSE: {userInfo.userLose}</tr>
+                     </div>
+                  </div>
+               </aside>
             </main>
 
-            <section className="section2">
+            <section>
                <div className="cardContainer">
                   {channelList &&
                      channelList.map((list, idx) => {
@@ -124,37 +138,42 @@ export function Main () {
                            </div>
                         );
                      })}
-
-                  {/* <img
-                     className="reloadBtn"
-                     src="/img/reloadBtn_black.png"
-                     alt="none"
-                  /> */}
                </div>
-               <div className="btnCard">
-                  <tr>Find More</tr>
-                  <tr>
-                     <img
-                        className="btnClick"
-                        src="/img/btnClick.svg"
-                        alt="none"
-                     />
-                  </tr>
-                  <tr>Game Start</tr>
-                  <tr>
-                     <img
-                        onClick={EnterBattle}
-                        className="btnEnter"
-                        src="/img/btnEnter.svg"
-                        alt="none"
-                     />
-                  </tr>
+
+               <div
+                  className="btnCard"
+                  style={{
+                     backgroundImage: 'url(/img/mainBtnCard.svg)',
+                     backgroundRepeat: 'no-repeat',
+                     backgroundPosition: 'center',
+                     objectFit: 'cover',
+                  }}
+               >
+                  <h3>Find More</h3>
+
+                  <img
+                     className="btnClick"
+                     src="/img/btnClick.svg"
+                     alt="none"
+                  />
+
+                  <h3>Game Start</h3>
+
+                  <img
+                     id="btnEnter"
+                     onClick={EnterBattle}
+                     src="/img/btnEnter.svg"
+                     alt="none"
+                  />
+                  <img
+                     className="reloadBtn"
+                     src="/img/reloadBtn_black.svg"
+                     alt="none"
+                  />
                </div>
             </section>
          </div>
          <img className="txtVS" src="/img/txt_vs.svg" alt="none" />
-         {/* <img className="txtV" src="/img/txt_v.svg" alt="none" />
-         <img className="txtS" src="/img/txt_s.svg" alt="none" /> */}
       </>
    );
 }

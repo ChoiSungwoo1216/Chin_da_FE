@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateselected } from "../../../redux/modules/user";
@@ -9,7 +9,7 @@ import { updateselected } from "../../../redux/modules/user";
 const Room = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { language, level, setLanOn, setLevOn, setRoomOn, es } = props;
+  const { language, level, setLanOn, setLevOn, setRoomOn, es, hoverEs, enterEs } = props;
   //컴포넌트 이동
   const SelLang = () => {
     setRoomOn(false);
@@ -42,57 +42,32 @@ const Room = (props) => {
     navigate("/Battle");
     dispatch(updateselected({ language: language, level: level }));
     // dispatch(createChannelAxios())
-    es.play();
+    enterEs.play();
   };
 
   const EnterRoom = () => {
     navigate("/Main");
     dispatch(updateselected({ language: language, level: level }));
-    es.play();
+    enterEs.play();
   };
 
-  const languageIs = (language) => {
-    if (language === "0") {
-      return "PYTHON3";
-    } else if (language === "1") {
-      return "JAVA";
-    } else {
-      return "JAVASCRIPT";
-    }
-  };
-
-  const levelIs = (level) => {
-    if (level === "0") {
-      return "⭐";
-    } else if (level === "1") {
-      return "⭐⭐";
-    } else {
-      return "⭐⭐⭐";
-    }
-  };
+  const HoverEs = () =>{
+    hoverEs.play();
+  }
 
   return (
     <>
       <Title>방 선택</Title>
       <Wrapper>
         <SelectedDiv onClick={SelLang}>
-          <TypeBtn>
-            <img
-              style={{ width: "100%" }}
-              src="https://image.shutterstock.com/image-vector/pixel-art-black-bodyguard-character-260nw-1056562499.jpg"
-              alt="none"
-            />
-          </TypeBtn>
-          <InsideBtn>{languageIs(language)}</InsideBtn>
+          <TypeBtn language={language} />
         </SelectedDiv>
         <SelectedDiv onClick={SelLev}>
-          <InsideBtn1>{levelIs(level)}</InsideBtn1>
+          <InsideBtn1 level={level} />
         </SelectedDiv>
         <RoomSelectDiv>
-          <RoomSelect>
-            <InsideBtn2 onClick={CreateRoom} />
-            <InsideBtn3 onClick={EnterRoom} />
-          </RoomSelect>
+            <InsideBtn2 onClick={CreateRoom} onMouseOver={()=>{HoverEs()}}>방 만들기</InsideBtn2>
+            <InsideBtn3 onClick={EnterRoom} onMouseOver={()=>{HoverEs()}}>방 선택하기</InsideBtn3>
         </RoomSelectDiv>
       </Wrapper>
     </>
@@ -101,11 +76,11 @@ const Room = (props) => {
 const Title = styled.div`
   width: 100%;
   text-align: center;
-  margin-top: 50px;
+  margin-top: 7vh;
   position: absolute;
   z-index: 1;
   color: #fff;
-  font-size: 40px;
+  font-size: calc((7vh+7vw));
 `;
 
 const Wrapper = styled.div`
@@ -127,89 +102,160 @@ const SelectedDiv = styled.div`
   height: 48.6vh;
   margin: auto 20px;
   padding: 1.5em;
-  background-image: url(/img/level_card.png);
+  background-image: url(/img/selectBox.svg);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
+  &:hover{
+    transition: 0.5s;
+    opacity: 0.75;
+  }
 `;
 
 const TypeBtn = styled.div`
   display: flex;
   flex-direction: column;
-  width: 90px;
-  height: 90px;
+  ${(props) => {
+    if (props.language === "0") {
+      return css`
+        background-image: url("/img/python3.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+      `;
+    } else if (props.language === "1") {
+      return css`
+        background-image: url("/img/java.svg");
+        background-position: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        transform: scale(1.3);
+        `;
+    } else if (props.language === "2") {
+      return css`
+        background-image: url("/img/js.svg");
+        background-position: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        `;
+    }
+  }}
+  width: 80%;
+  height: 80%;
   overflow: hidden;
   object-fit: cover;
-  margin: 50px 0;
-  animation: motion 0.3s linear 0s infinite alternate;
-  -webkit-animation: motion 0.3s linear 0s infinite alternate;
-  animation-delay: 0.2s;
 `;
 
 const RoomSelectDiv = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   width: 22.03vw;
   height: 48.6vh;
   margin: 20px;
   padding: 1.5em;
-  text-align: center;
-  background-image: url(/img/level_card.png);
+  background-image: url(/img/selectBox.svg);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
-`;
-
-const RoomSelect = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4vh;
-  justify-content: center;
-  align-items: center;
-  width: 30vw;
-  height: 10vw;
-  margin: 2vh;
-  text-align: center;
-  animation: motion 0.3s linear 0s infinite alternate;
-  -webkit-animation: motion 0.3s linear 0s infinite alternate;
-  animation-delay: 0.3s;
-`;
-
-const InsideBtn = styled.div`
-  color: #fff;
-  text-transform: uppercase;
-  font-size: 30px;
-  animation: motion 0.3s linear 0s infinite alternate;
-  -webkit-animation: motion 0.3s linear 0s infinite alternate;
-  animation-delay: 0.1s;
 `;
 
 const InsideBtn1 = styled.div`
-  color: #fff;
-  text-transform: uppercase;
-  font-size: 30px;
+  ${(props) => {
+    if (props.level === "0") {
+      return css`
+        background-image: url("/img/starOne.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+      `;
+    } else if (props.level === "1") {
+      return css`
+        background-image: url("/img/starTwo.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        `;
+    } else if (props.level === "2") {
+      return css`
+
+        background-image: url("/img/starThree.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        `;
+    }
+  }}
+  width: 70%;
+  height: 70%;
   margin-top: 0;
-  animation: motion 0.3s linear 0s infinite alternate;
-  -webkit-animation: motion 0.3s linear 0s infinite alternate;
-  animation-delay: 0.3s;
 `;
+
+const shackBtn = keyframes`
+0%{
+  transform: rotate(0deg);
+}
+10%{
+  transform: rotate(3deg);
+}
+20%{
+  transform: rotate(0deg);
+}
+30%{
+  transform: rotate(-3deg);
+}
+40% {
+  transform: rotate(0deg);
+}
+100%{
+  transform: rotate(0deg);
+}
+`;
+
 const InsideBtn2 = styled.div`
-  width: 19vw;
-  height: 5.7vw;
-  background-image: url(/img/create_room_btn.png);
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 0;
+width: 81.3%;
+height: 35%;
+color: white;
+font-size: calc((1vh + 1vw));
+background-image: url(/img/selectRoomBtn.svg);
+background-repeat: no-repeat;
+background-size: contain;
+background-position: center;  
+animation: ${shackBtn} 2s linear infinite;
+-webkit-animation: ${shackBtn} 2s linear infinite;
+opacity: 0.85;
+&:hover{
+  opacity: 1;
+  transform: scale(1.1);
+  animation: none;
+}
 `;
 
 const InsideBtn3 = styled.div`
-  width: 19vw;
-  height: 5.7vw;
-  background-image: url(/img/entrance_room_btn.png);
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 0;
+width: 81.3%;
+height: 35%;
+color: white;
+font-size: calc((1vh + 1vw));
+background-image: url(/img/selectRoomBtn.svg);
+background-repeat: no-repeat;
+background-size: contain;
+background-position: center;  
+animation: ${shackBtn} 2s linear infinite;
+-webkit-animation: ${shackBtn} 2s linear infinite;
+opacity: 0.85;
+&:hover{
+  opacity: 1;
+  transform: scale(1.1);
+  animation: none
+}
 `;
 export default Room;
