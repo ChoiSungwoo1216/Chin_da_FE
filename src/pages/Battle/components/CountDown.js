@@ -29,8 +29,7 @@ const countNumber = keyframes`
     transform: scale(1, 1);
   }
   100% {
-    color: rgba(0, 0, 0, 1);
-    transform: scale(1.5, 1.5);
+    color: rgba(255, 255, 255, 1);
     content: "Start!";
   }
 `;
