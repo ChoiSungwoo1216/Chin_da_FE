@@ -51,7 +51,7 @@ const Text = styled.p`
   margin: 0;
 `;
 
-const GithubBtn = styled.button`
+const GithubBtn = styled.div`
   cursor: pointer;
   position: relative;
   display: flex;

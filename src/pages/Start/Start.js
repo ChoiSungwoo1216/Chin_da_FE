@@ -43,17 +43,6 @@ const BtnMotion = keyframes`
  }
 `;
 
-const BtnCombine = keyframes`
- 0%{
-  top:0;
- }
- 50%{
- }
- 100%{
-  top:0;
- }
-`;
-
 const StartContainer = styled.div`
   display: flex;
   position: relative;
