@@ -2,22 +2,29 @@ import React,{useState} from "react";
 import './Main.css';
 import { useDispatch, useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom";
-
+import effectSound from '../../shared/effectSound';
+import selectSound from '../../audios/btnselect.mp3';
+import enterSound from '../..//audios/SelectionRoomClickSE1.mp3';
+import hoverSound from '../../audios/BtnHoverSE1.mp3';
 // import { loadChannelAxios } from "../../redux/modules/channel"
 
 export function Main () {
    const user = {userName: "player1", userWin:"1", userLose:"2"};
    const languageImg = [
       '/img/miniPython3.svg',
-      '/img/miniPython3.svg',
-      '/img/miniPython3.svg',
+      '/img/miniJava.svg',
+      '/img/miniJs.svg',
    ];
    const levelImg = [
       '/img/miniStar1.svg',
-      '/img/miniStar1.svg',
-      '/img/miniStar1.svg',
+      '/img/miniStar2.svg',
+      '/img/miniStar3.svg',
    ];
-   const selected = useSelector((state)=>state.user.selected)
+   const userSound = useSelector((state) => state.user.sound);
+   const es = effectSound(selectSound, userSound.es);
+   const hoverEs = effectSound(hoverSound, userSound.es);
+   const enterEs = effectSound(enterSound, userSound.es);
+   const selected = useSelector((state)=>state.user.selected);
    const [userInfo, setUserInfo] = useState({});
    const navigate = useNavigate();
    // const dispatch = useDispatch();
@@ -32,8 +39,15 @@ export function Main () {
    //       dispatch(loadChannelAxios(language, level));
    //   }, [])
    const EnterBattle = () => {
+      enterEs.play();
       navigate(`/battle/${userInfo.channelId}`);
    };
+
+   const goSelection = () => {
+       hoverEs.play();
+       navigate('/selection');
+   };
+
    return (
       <>
          <div className="mainContainer">
@@ -48,8 +62,18 @@ export function Main () {
                   }}
                >
                   <div>
-                     <img src={languageImg[language]} alt="none" />
-                     <img src={levelImg[level]} alt="none" />
+                     <img
+                        className="languageImg"
+                        src={languageImg[language]}
+                        onClick={goSelection}
+                        alt="none"
+                     />
+                     <img
+                        className="levelImg"
+                        src={levelImg[level]}
+                        onClick={goSelection}
+                        alt="none"
+                     />
                   </div>
                </div>
                <article className="article">
@@ -127,6 +151,9 @@ export function Main () {
                                        backgroundRepeat: 'no-repeat',
                                        backgroundPosition: 'center',
                                        objectFit: 'cover',
+                                    }}
+                                    onClick={()=> {
+                                       es.play();
                                     }}
                                  >
                                     <p>{list.userName}</p>

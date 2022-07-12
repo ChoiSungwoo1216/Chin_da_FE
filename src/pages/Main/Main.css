@@ -125,7 +125,7 @@ section {
     display: flex;
     overflow-x: scroll;
     overflow-y: hidden;
-    gap: 10em;
+    gap: 11em;
     width: 90%;
     align-items: center;  
     z-index: 3;
@@ -156,7 +156,7 @@ section {
 .scene {
     width: 8em;
     height: 10em;
-    perspective: 30em;
+    perspective: 15em;
     cursor: pointer;
     /* margin: auto; */
     /* padding: 5px; */
@@ -258,9 +258,9 @@ section {
     left: 50%;
     margin: auto;
 }
-/* #btnEnter:hover {
+#btnEnter:hover, :active {
     content: 'url(/img/btnEnter_hover.svg)';
-} */
+}
 .reloadBtn {
     float: right;
     position: absolute;
@@ -285,8 +285,26 @@ section {
     top: 15px;
 
 }
-.mainNavBar img {
+.languageImg {
     padding: 0 5px;
     margin: 0 10px;
     width: 35px;
+}
+
+.languageImg:hover {
+    transition: 0.5s;
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.levelImg {
+    padding: 0 5px;
+    margin: 0 10px;
+    width: 35px;
+}
+
+.levelImg:hover {
+    transition: 0.5s;
+    transform: scale(1.05);
+    cursor: pointer;
 }
