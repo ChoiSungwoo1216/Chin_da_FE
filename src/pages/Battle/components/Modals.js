@@ -109,15 +109,11 @@ export const SuccessModal = () => {
                onClick={() => setIsOpen(false)}
                alt=""
             />
-            <span className="ConfettiTxt">
-               <span>S</span>
-               <span>u</span>
-               <span>c</span>
-               <span>c</span>
-               <span>e</span>
-               <span>s</span>
-               <span>s</span>
-            </span>
+            <div className="ConfettiTxt">
+               <img src="/img/W.svg" alt="none" />
+               <img src="/img/I.svg" alt="none" />
+               <img src="/img/N.svg" alt="none" />
+            </div>
             <ConfettiCanvas ribbonParticleMass={1} />
             <ConfettiCanvas ribbonParticleDrag={0.05} />
          </Modal>
@@ -171,12 +167,12 @@ export const FailModal = () => {
                onClick={() => setIsOpen(false)}
                alt=""
             />
-            <span className="ConfettiTxt">
-               <span>L</span>
-               <span>o</span>
-               <span>s</span>
-               <span>e</span>
-            </span>
+            <div className="ConfettiTxt">
+               <img className="Txt" src="/img/.svg" alt="none" />
+               <img className="Txt" src="/img/.svg" alt="none" />
+               <img className="Txt" src="/img/.svg" alt="none" />
+               <img className="Txt" src="/img/.svg" alt="none" />
+            </div>
          </Modal>
       </>
    );
