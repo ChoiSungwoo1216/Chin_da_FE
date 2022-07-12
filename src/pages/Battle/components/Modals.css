@@ -9,6 +9,16 @@
   margin-top: 100px;
   display: block;
   border: 1px solid #fff;
+  animation: modalAnimation 0.5s linear forwards;
+}
+
+@keyframes modalAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 header {
