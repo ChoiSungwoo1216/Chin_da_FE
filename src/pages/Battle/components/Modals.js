@@ -109,15 +109,11 @@ export const SuccessModal = () => {
                onClick={() => setIsOpen(false)}
                alt=""
             />
-            <span className="ConfettiTxt">
-               <span>S</span>
-               <span>u</span>
-               <span>c</span>
-               <span>c</span>
-               <span>e</span>
-               <span>s</span>
-               <span>s</span>
-            </span>
+            <div className="ConfettiTxt">
+               <img src="/img/W.svg" alt="none" />
+               <img src="/img/I.svg" alt="none" />
+               <img src="/img/N.svg" alt="none" />
+            </div>
             <ConfettiCanvas ribbonParticleMass={1} />
             <ConfettiCanvas ribbonParticleDrag={0.05} />
          </Modal>
@@ -131,9 +127,15 @@ export const FailModal = () => {
    const [modalIsOpen, setIsOpen] = React.useState(true);
    const confetti = new JSConfetti();
    const confettiList = () => {
+        const customModalStyles = {
+           content: {
+            color: '#fff',
+           },
+        };
       confetti.addConfetti({
          emojiSize: 30,
          emojis: ['Lose'],
+         // confettiColor: '#fff',
       });
       confetti.addConfetti({
          emojis: ['😭', '😥'],
@@ -155,6 +157,7 @@ export const FailModal = () => {
          border: 'transparent',
          borderRadius: '5px',
          overflow: 'hidden',
+         color: '#fff'
       },
    };
 
@@ -164,6 +167,7 @@ export const FailModal = () => {
             isOpen={modalIsOpen}
             onRequestClose={() => setIsOpen(false)}
             style={customModalStyles}
+        
          >
             <img
                className="ExitBtn"
@@ -171,12 +175,12 @@ export const FailModal = () => {
                onClick={() => setIsOpen(false)}
                alt=""
             />
-            <span className="ConfettiTxt">
-               <span>L</span>
-               <span>o</span>
-               <span>s</span>
-               <span>e</span>
-            </span>
+            <div className="ConfettiTxt">
+               <img src="/img/.svg" alt="none" />
+               <img src="/img/.svg" alt="none" />
+               <img src="/img/.svg" alt="none" />
+               <img src="/img/.svg" alt="none" />
+            </div>
          </Modal>
       </>
    );
