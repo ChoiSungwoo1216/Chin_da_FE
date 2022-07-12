@@ -5,12 +5,14 @@ import Level from "./components/Level";
 import Room from "./components/Room"
 // import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import SoundSetting from "../../shared/SoundSetting.js"
 import effectSound from "../../shared/effectSound";
 import selectSound from "../../audios/btnselect.mp3"
-import SoundSetting from "../../shared/SoundSetting.js"
+import hoverSound from "../../audios/BtnHoverSE1.mp3"
+import enterSound from "../..//audios/SelectionRoomClickSE1.mp3"
 
 const Selection = () => {
-   const userSound = useSelector((state)=>state.user.sound);
+   const userSound = useSelector((state) => state.user.sound);
 
    const [language, setLanguage] = React.useState("");
    const [level, setLevel] = React.useState("");
@@ -21,10 +23,12 @@ const Selection = () => {
 
 
    const [setting, setSetting] = React.useState(false);
-   const openSetting = () =>{
+   const openSetting = () => {
       setSetting(true);
    }
    const es = effectSound(selectSound, userSound.es);
+   const hoverEs = effectSound(hoverSound, userSound.es);
+   const enterEs = effectSound(enterSound, userSound.es);
 
    return (
       <>
@@ -59,12 +63,13 @@ const Selection = () => {
                   setLevOn={setLevOn}
                   setRoomOn={setRoomOn}
                   es={es}
+                  hoverEs={hoverEs}
+                  enterEs={enterEs}
                />
             ) : null}
-            {setting&& <SoundSetting setSetting={setSetting}/>}
-            <div style={{position :"fixed", bottom:"20px", right:"70px", width:"30px", height:"30px", color:"white", fontSize:"30px"}}
-            onClick={openSetting}
-            >▶</div>
+            {setting ? (<SoundSetting setSetting={setSetting} />) :
+               <SoundBtn onClick={openSetting} src={"/img/soundIconBlack.svg"} alt="" onMouseOver={()=>{hoverEs.play()}}/>
+            }
          </Body>
       </>
    );
@@ -106,6 +111,18 @@ display: flex;
 flex-direction: column;
 overflow-y: hidden;
 overflow-x: hidden;
+`;
+
+const SoundBtn = styled.img`
+position : fixed;
+bottom: 20px;
+right: 70px;
+width: 30px;
+height: 30px;
+font-size: 30px;
+&:hover{
+   content: url(/img/soundIconWhite.svg);
+}
 `;
 
 
