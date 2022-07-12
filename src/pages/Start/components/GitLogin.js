@@ -10,7 +10,7 @@ const GitLogin = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      navigate("/main");
+      navigate("/selection");
     }, 3000);
   }, []);
   useEffect(() => {
@@ -18,16 +18,11 @@ const GitLogin = () => {
     let code = params.get("code"); // 인가코드 받는 부분
     console.log(code);
     axios
-      .post(
-        `http://123.4125.432/hsost
-            `,
-        code,
-        {
-          headers: {
-            //authorizationCode: authorizationCode,
-          },
-        }
-      )
+      .post(`http://123.4125.432/hsost`, code, {
+        headers: {
+          //authorizationCode: authorizationCode,
+        },
+      })
       .then((res) => {
         console.log(res);
         //navigate('/main')
