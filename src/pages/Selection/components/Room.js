@@ -59,10 +59,10 @@ const Room = (props) => {
     <>
       <Title>방 선택</Title>
       <Wrapper>
-        <SelectedDiv onClick={SelLang}>
+        <SelectedDiv onClick={SelLang} onMouseEnter={()=>{HoverEs()}}>
           <TypeBtn language={language} />
         </SelectedDiv>
-        <SelectedDiv onClick={SelLev}>
+        <SelectedDiv onClick={SelLev} onMouseEnter={()=>{HoverEs()}}>
           <InsideBtn1 level={level} />
         </SelectedDiv>
         <RoomSelectDiv>
