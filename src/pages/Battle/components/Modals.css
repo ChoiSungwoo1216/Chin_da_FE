@@ -75,12 +75,15 @@ td {
 .ExitBtn {
   display: flex;
   position: absolute;
-  top: 0;
-  right: 0;
+  top: -15px;
+  right: -15px;
   margin: 2px;
   width: 25px;
   height: 25px;
   z-index: 2;
+}
+.ExitBtn:hover {
+  content: url("/public/img/X_btn_white_30.svg");
 }
 
 .ConfettiTxt {
@@ -100,7 +103,6 @@ td {
                 0 0 40px #fff,
                 0 0 80px #fff,
                 0 0 120px #fff; */
-  
 }
 
 .ConfettiTxt img {

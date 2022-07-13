@@ -13,9 +13,7 @@ const Start = () => {
   };
   return (
     <StartContainer>
-      <StartLogo>
-        <span>친 다</span>
-      </StartLogo>
+      <StartLogo></StartLogo>
 
       <LoginDiv
         HOVER={HOVER}
@@ -66,6 +64,24 @@ const Start = () => {
 
 export default Start;
 
+const logoChange = keyframes`
+  0%{
+    background-image: url('/img/logo_pink.svg')
+  }
+  25%{
+    background-image: url('/img/logo_blue.svg')
+  }
+  50%{
+    background-image: url('/img/logo_red.svg')
+  }
+  75%{
+    background-image: url('/img/logo_blue.svg')
+  }
+  100%{
+    background-image: url('/img/logo_pink.svg')
+  }
+`;
+
 const StartContainer = styled.div`
   display: flex;
   position: absolute;
@@ -111,24 +127,24 @@ const StartLogo = styled.div`
   display: flex;
 
   text-align: center;
-  border: 1px solid black;
   justify-content: center;
   flex-direction: column;
 
-  background: url("/img/galaxy_background.jpg") center no-repeat;
-  background-size: 100% 100%;
-  border-radius: 10px;
+  background: center no-repeat;
+  background-size: cover;
 
   font-size: 15vmin;
 
-  width: 41.64%;
-  height: 20.08%;
+  width: 19.53%; //35.16vw = 450px, 27.34vw = 350px, 19.53vw=250px
+  height: 19.53vw;
   top: 23.61%;
   opacity: 0;
-  box-sizing: border-box;
-
-  animation: ${zoomIn} 1s linear forwards, ${shadowGrow} 1.5s infinite none;
+  background-color: transparent;
+  border-radius: 35%;
+  animation: ${zoomIn} 1s linear forwards, ${shadowGrow} 1.5s infinite none,
+    ${logoChange} 3s linear infinite;
   animation-delay: 1s, 2.5s;
+  padding: 0px;
 `;
 
 const BtnMotion = keyframes`
