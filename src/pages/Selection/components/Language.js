@@ -2,7 +2,7 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 
 const Language = (props) => {
-  const { setLanguage, setLanOn, setLevOn, es } = props;
+  const { setLanguage, setLanOn, setLevOn, es,hoverEs } = props;
 
   const SelectLan = (e) => {
     setLanguage(e.target.id);
@@ -15,15 +15,15 @@ const Language = (props) => {
     <>
       <Title>언어선택</Title>
       <Wrapper>
-        <TypeBtnDiv id="0" onClick={(e) => SelectLan(e)}>
+        <TypeBtnDiv id="0" onClick={(e) => SelectLan(e)} onMouseEnter={()=>hoverEs.play()}>
           <InsideBtn id="0" onClick={(e) => SelectLan(e)} >PYTHON3</InsideBtn>
           <TypeBtn id="0" onClick={(e) => SelectLan(e)}/>
         </TypeBtnDiv>
-        <TypeBtnDiv id="1" onClick={(e) => SelectLan(e)}>
+        <TypeBtnDiv id="1" onClick={(e) => SelectLan(e)} onMouseEnter={()=>hoverEs.play()}>
           <InsideBtn id="1" onClick={(e) => SelectLan(e)}>JAVA</InsideBtn>
           <TypeBtnO id="1" onClick={(e) => SelectLan(e)}/>
         </TypeBtnDiv>
-        <TypeBtnDiv id="2" onClick={(e) => SelectLan(e)}>
+        <TypeBtnDiv id="2" onClick={(e) => SelectLan(e)} onMouseEnter={()=>hoverEs.play()}>
           <InsideBtn id="2" onClick={(e) => SelectLan(e)}>JAVASCRIPT</InsideBtn>
           <TypeBtnT id="2" onClick={(e) => SelectLan(e)}/>
         </TypeBtnDiv>
