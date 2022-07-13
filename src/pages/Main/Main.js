@@ -20,6 +20,7 @@ export function Main () {
       '/img/miniStar2.svg',
       '/img/miniStar3.svg',
    ];
+   const showUserImg = useState(true)
    const userSound = useSelector((state) => state.user.sound);
    const es = effectSound(selectSound, userSound.es);
    const hoverEs = effectSound(hoverSound, userSound.es);
@@ -66,13 +67,13 @@ export function Main () {
                         className="languageImg"
                         src={languageImg[language]}
                         onClick={goSelection}
-                        alt="none"
+                        alt=""
                      />
                      <img
                         className="levelImg"
                         src={levelImg[level]}
                         onClick={goSelection}
-                        alt="none"
+                        alt=""
                      />
                   </div>
                </div>
@@ -92,6 +93,8 @@ export function Main () {
                         </div>
                      </div>
                   </div>
+
+                  <img id="player1" src="/img/mainUser1Img.png" alt="" />
                </article>
 
                <aside className="aside">
@@ -111,6 +114,9 @@ export function Main () {
                         <tr className="content2">LOSE: {userInfo.userLose}</tr>
                      </div>
                   </div>
+                  {showUserImg ? (
+                     <img id="player2" src={userInfo.userCharacter} alt="" />
+                  ) : null}
                </aside>
             </main>
 
@@ -152,8 +158,8 @@ export function Main () {
                                        backgroundPosition: 'center',
                                        objectFit: 'cover',
                                     }}
-                                    onClick={()=> {
-                                       es.play();
+                                    onClick={() => {
+                                       hoverEs.play();
                                     }}
                                  >
                                     <p>{list.userName}</p>
@@ -178,11 +184,7 @@ export function Main () {
                >
                   <h3>Find More</h3>
 
-                  <img
-                     className="btnClick"
-                     src="/img/btnClick.svg"
-                     alt="none"
-                  />
+                  <img id="btnClick" src="/img/btnClick.svg" alt="none" />
 
                   <h3>Game Start</h3>
 
@@ -193,9 +195,13 @@ export function Main () {
                      alt="none"
                   />
                   <img
-                     className="reloadBtn"
+                     id="reloadBtn"
+                     onClick={()=> {
+                        hoverEs.play();
+                        window.location.reload();
+                     }}
                      src="/img/reloadBtn_black.svg"
-                     alt="none"
+                     alt=""
                   />
                </div>
             </section>
