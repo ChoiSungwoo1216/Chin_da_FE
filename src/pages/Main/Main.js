@@ -1,15 +1,24 @@
 import React,{useState} from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 import './Main.css';
-import { useDispatch, useSelector } from "react-redux";
-import {useNavigate} from "react-router-dom";
+// import { loadChannelAxios } from "../../redux/modules/channel";
+
 import effectSound from '../../shared/effectSound';
 import selectSound from '../../audios/btnselect.mp3';
 import enterSound from '../..//audios/SelectionRoomClickSE1.mp3';
 import hoverSound from '../../audios/BtnHoverSE1.mp3';
-// import { loadChannelAxios } from "../../redux/modules/channel"
 
 export function Main () {
-   const user = {userName: "player1", userWin:"1", userLose:"2"};
+   const navigate = useNavigate();
+   const dispatch = useDispatch();
+
+   const [userInfo, setUserInfo] = useState({});
+   const channelList = useSelector((state) => state.channel.list);
+   const user = { userName: 'player1', userWin: '1', userLose: '2' };
+   const showUserImg = useState(true);
    const languageImg = [
       '/img/miniPython3.svg',
       '/img/miniJava.svg',
@@ -20,35 +29,45 @@ export function Main () {
       '/img/miniStar2.svg',
       '/img/miniStar3.svg',
    ];
-   const showUserImg = useState(true)
+
+   const [cards, setCards] = useState([]);
+   const [page, setPage] = useState(1);
+
    const userSound = useSelector((state) => state.user.sound);
    const es = effectSound(selectSound, userSound.es);
    const hoverEs = effectSound(hoverSound, userSound.es);
    const enterEs = effectSound(enterSound, userSound.es);
-   const selected = useSelector((state)=>state.user.selected);
-   const [userInfo, setUserInfo] = useState({});
-   const navigate = useNavigate();
-   // const dispatch = useDispatch();
-   const channelList = useSelector((state) => state.channel.list);
-   // console.log(channelList);
-   // 백이랑 이걸 숫자로 보낼지, 문자열로 보낼지 합의 (현재는 문자열)
 
+   const selected = useSelector((state) => state.user.selected);
    const language = selected.language;
    const level = selected.level;
-   console.log(language, level);
-   //    React.useEffect(() => {
-   //       dispatch(loadChannelAxios(language, level));
-   //   }, [])
+   // 백이랑 이걸 숫자로 보낼지, 문자열로 보낼지 합의 (현재는 문자열)
+   
+      React.useEffect(() => {
+         // dispatch(loadChannelAxios(language, level));
+         getCards();
+     }, []);
+
+     const getCards = async () => {
+      try{
+         const cardList = await axios.get(``);
+         if (cardList) {
+            setCards([...cards, ...cardList.data]);
+         } 
+      } catch (error) {
+         console.log("ERROR GETTING CARDS");
+         window.alert('ERROR GETTING CARDS');
+      }   
+   };
+
    const EnterBattle = () => {
       enterEs.play();
       navigate(`/battle/${userInfo.channelId}`);
    };
-
    const goSelection = () => {
-       hoverEs.play();
-       navigate('/selection');
+      hoverEs.play();
+      navigate('/selection');
    };
-
    return (
       <>
          <div className="mainContainer">
@@ -196,7 +215,7 @@ export function Main () {
                   />
                   <img
                      id="reloadBtn"
-                     onClick={()=> {
+                     onClick={() => {
                         hoverEs.play();
                         window.location.reload();
                      }}
