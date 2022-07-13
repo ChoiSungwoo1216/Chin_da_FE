@@ -17,11 +17,14 @@ import Countdown from "./components/CountDown";
 import { QuestionModal, SuccessModal, FailModal } from "./components/Modals";
 
 import Peer from "peerjs";
+import ReadyUser from "./components/ReadyUser";
+import ReadyOpp from "./components/ReadyOpp";
 
 Modal.setAppElement("#root");
 
 const Battle = () => {
   const selected = useSelector((state) => state.user.selected);
+
   const navigate = useNavigate();
   const [showQuestionModal, setShowQuestionModal] = React.useState();
   const [showSuccessModal, setShowSuccessModal] = React.useState();
@@ -61,6 +64,16 @@ const Battle = () => {
   //countdown
   const [runCountdown, setRunCountdown] = React.useState(false);
 
+  //ReadyUser
+  const Already = useSelector((state) => state.user.already);
+  const userReady = Already.user;
+  const oppReady = Already.opp;
+  const [bothReady, setBothReady] = React.useState(false);
+  console.log(userReady, oppReady);
+  React.useEffect(() => {
+    (userReady && oppReady) === true ? setBothReady(true) : setBothReady(false);
+  }, [Already]);
+  console.log("bothReady: ", bothReady);
   //서버에서 받아오는 기본 형태들
   //    const JsDefault = `function solution(num) {
   //    var answer = '';
@@ -186,7 +199,7 @@ const Battle = () => {
     });
   };
 
-  console.log(peerId);
+  // console.log(peerId);
 
   return (
     <Container>
@@ -213,7 +226,9 @@ const Battle = () => {
       </HeadPart>
       <BodyPart>
         <UserDiv>
-          <AceEditorPlayer mode={mode} theme={theme} />
+          <ReadyUser />
+          <AceEditorPlayer mode={mode} theme={theme}></AceEditorPlayer>
+
           <UserCamDiv>
             <CamBar>
               <span>Player1</span>
@@ -246,6 +261,7 @@ const Battle = () => {
             </ChatingDiv>
           )}
           <CodeDiv queOpen={queOpen} chatOpen={chatOpen}>
+            <ReadyOpp />
             <AceEditorOpp mode={mode} theme={theme} />
           </CodeDiv>
           <OpCamDiv>
@@ -283,6 +299,7 @@ const Battle = () => {
         call={call}
         peerId={peerId}
         setRunCountdown={setRunCountdown}
+        bothReady={bothReady}
       />
     </Container>
   );

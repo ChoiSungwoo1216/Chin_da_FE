@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { QuestionModal, SuccessModal, FailModal } from "./components/Modals";
-
+import { useDispatch } from "react-redux";
+import { alreadyUser } from "../../redux/modules/user";
 const Control = (props) => {
   const {
     setRunTimer,
@@ -17,8 +18,9 @@ const Control = (props) => {
     call,
     peerId,
     setRunCountdown,
+    bothReady,
   } = props;
-  console.log(props.peerId);
+  const dispatch = useDispatch();
 
   const onCountdown = () => {
     setRunCountdown(true);
@@ -26,6 +28,7 @@ const Control = (props) => {
       setRunCountdown(false);
       setShowQuestionModal(true);
       clearInterval(countdown);
+      resetReady();
     }, 3000);
     return () => clearInterval(countdown);
   };
@@ -34,11 +37,24 @@ const Control = (props) => {
     setMesAlert("Fail");
     setRunAlert(true);
   };
+  const resetReady = () => {
+    dispatch(alreadyUser({ user: false }, { opp: false }));
+  };
+
+  const alreadyToStart = () => {
+    bothReady === true && onCountdown();
+  };
+  // useEffect(() => {
+  //   alreadyToStart();
+  //   console.log("test");
+  // }, [bothReady]);
+
   return (
     <ControlDiv>
       <div>
         카운트 시작
         <button onClick={onCountdown}>카운트</button>
+        <button onClick={() => resetReady()}>ResetReady</button>
       </div>
       <div>
         타이머 시작

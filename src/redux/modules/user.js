@@ -1,20 +1,20 @@
 // user.js
 
-
 // Actions
 
 const ADD = "user/ADD";
 const DELETE = "user/DELETE";
 const EDIT = "sound/EDIT";
 const UPDATE = "selected/UPDATE";
-
+const ALREADY = "already/ALREADY";
 
 const initialState = {
   list: [{}],
-  sound: {bgm: 1, es: 1},
-  selected: {languate: "", level: ""}
+  sound: { bgm: 1, es: 1 },
+  selected: { languate: "", level: "" },
+  already: { user: false, opp: false },
 };
- 
+
 // Action Creators
 
 // export function adduser(user) {
@@ -22,11 +22,15 @@ const initialState = {
 // }
 
 export function editsound(sound) {
-  return { type: EDIT, sound};
+  return { type: EDIT, sound };
 }
 
 export function updateselected(selected) {
-  return { type: UPDATE, selected};
+  return { type: UPDATE, selected };
+}
+
+export function alreadyUser(user) {
+  return { type: ALREADY, user };
 }
 
 // export function deleteuser(user_index) {
@@ -36,7 +40,6 @@ export function updateselected(selected) {
 // Reducer
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
-
     // case "user/ADD": {
     //   const new_user_list = [action.user, ...state.list];
     //   return { new: new_user_list };
@@ -51,16 +54,22 @@ export default function reducer(state = initialState, action = {}) {
     // }
 
     case "sound/EDIT": {
-      const edit_sound_list = { ...state.sound, ...action.sound }
-      console.log(edit_sound_list)
+      const edit_sound_list = { ...state.sound, ...action.sound };
+      console.log(edit_sound_list);
       return { ...state, sound: edit_sound_list };
     }
 
     case "selected/UPDATE": {
-      const update_selected_list = { ...state.selected, ...action.selected }
+      const update_selected_list = { ...state.selected, ...action.selected };
       return { ...state, selected: update_selected_list };
     }
-
+    case ALREADY: {
+      const Already_list = {
+        ...state.already,
+        ...action.user,
+      };
+      return { ...state, already: Already_list };
+    }
     default:
       return state;
   }
