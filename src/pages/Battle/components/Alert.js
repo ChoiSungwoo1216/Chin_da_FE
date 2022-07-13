@@ -16,7 +16,7 @@ const Alert = (p) => {
   const runValue = p.runAlert;
   const refresh = p.setRunAlert;
   const mesAlert = p.mesAlert;
-  console.log(runValue + "--alert");
+  // console.log(runValue + "--alert");
   const ToastDefault = () => {
     //type선언 default:toast, type: toast.success,error,warning,info,promise,dismiss
     toast.error(
@@ -57,7 +57,7 @@ const Alert = (p) => {
 
   useEffect(() => {
     onToast();
-    console.log(runValue);
+    // console.log(runValue);
   }, [runValue]);
 
   return (

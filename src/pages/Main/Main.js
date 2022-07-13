@@ -1,38 +1,72 @@
 import React,{useState} from "react";
-import './Main.css';
-import { useDispatch, useSelector } from "react-redux";
-import {useNavigate} from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-// import { loadChannelAxios } from "../../redux/modules/channel"
+import './Main.css';
+// import { loadChannelAxios } from "../../redux/modules/channel";
+
+import effectSound from '../../shared/effectSound';
+import selectSound from '../../audios/btnselect.mp3';
+import enterSound from '../..//audios/SelectionRoomClickSE1.mp3';
+import hoverSound from '../../audios/BtnHoverSE1.mp3';
 
 export function Main () {
-   const user = {userName: "player1", userWin:"1", userLose:"2"};
+   const navigate = useNavigate();
+   const dispatch = useDispatch();
+
+   const [userInfo, setUserInfo] = useState({});
+   const channelList = useSelector((state) => state.channel.list);
+   const user = { userName: 'player1', userWin: '1', userLose: '2' };
+   const showUserImg = useState(true);
    const languageImg = [
       '/img/miniPython3.svg',
-      '/img/miniPython3.svg',
-      '/img/miniPython3.svg',
+      '/img/miniJava.svg',
+      '/img/miniJs.svg',
    ];
    const levelImg = [
       '/img/miniStar1.svg',
-      '/img/miniStar1.svg',
-      '/img/miniStar1.svg',
+      '/img/miniStar2.svg',
+      '/img/miniStar3.svg',
    ];
-   const selected = useSelector((state)=>state.user.selected)
-   const [userInfo, setUserInfo] = useState({});
-   const navigate = useNavigate();
-   // const dispatch = useDispatch();
-   const channelList = useSelector((state) => state.channel.list);
-   // console.log(channelList);
-   // 백이랑 이걸 숫자로 보낼지, 문자열로 보낼지 합의 (현재는 문자열)
 
+   const [cards, setCards] = useState([]);
+   const [page, setPage] = useState(1);
+
+   const userSound = useSelector((state) => state.user.sound);
+   const es = effectSound(selectSound, userSound.es);
+   const hoverEs = effectSound(hoverSound, userSound.es);
+   const enterEs = effectSound(enterSound, userSound.es);
+
+   const selected = useSelector((state) => state.user.selected);
    const language = selected.language;
    const level = selected.level;
-   console.log(language, level);
-   //    React.useEffect(() => {
-   //       dispatch(loadChannelAxios(language, level));
-   //   }, [])
+   // 백이랑 이걸 숫자로 보낼지, 문자열로 보낼지 합의 (현재는 문자열)
+   
+      React.useEffect(() => {
+         // dispatch(loadChannelAxios(language, level));
+         getCards();
+     }, []);
+
+     const getCards = async () => {
+      try{
+         const cardList = await axios.get(``);
+         if (cardList) {
+            setCards([...cards, ...cardList.data]);
+         } 
+      } catch (error) {
+         console.log("ERROR GETTING CARDS");
+         window.alert('ERROR GETTING CARDS');
+      }   
+   };
+
    const EnterBattle = () => {
+      enterEs.play();
       navigate(`/battle/${userInfo.channelId}`);
+   };
+   const goSelection = () => {
+      hoverEs.play();
+      navigate('/selection');
    };
    return (
       <>
@@ -48,8 +82,18 @@ export function Main () {
                   }}
                >
                   <div>
-                     <img src={languageImg[language]} alt="none" />
-                     <img src={levelImg[level]} alt="none" />
+                     <img
+                        className="languageImg"
+                        src={languageImg[language]}
+                        onClick={goSelection}
+                        alt=""
+                     />
+                     <img
+                        className="levelImg"
+                        src={levelImg[level]}
+                        onClick={goSelection}
+                        alt=""
+                     />
                   </div>
                </div>
                <article className="article">
@@ -68,6 +112,8 @@ export function Main () {
                         </div>
                      </div>
                   </div>
+
+                  <img id="player1" src="/img/mainUser1Img.png" alt="" />
                </article>
 
                <aside className="aside">
@@ -87,6 +133,9 @@ export function Main () {
                         <tr className="content2">LOSE: {userInfo.userLose}</tr>
                      </div>
                   </div>
+                  {showUserImg ? (
+                     <img id="player2" src={userInfo.userCharacter} alt="" />
+                  ) : null}
                </aside>
             </main>
 
@@ -128,6 +177,9 @@ export function Main () {
                                        backgroundPosition: 'center',
                                        objectFit: 'cover',
                                     }}
+                                    onClick={() => {
+                                       hoverEs.play();
+                                    }}
                                  >
                                     <p>{list.userName}</p>
                                     <p>
@@ -151,11 +203,7 @@ export function Main () {
                >
                   <h3>Find More</h3>
 
-                  <img
-                     className="btnClick"
-                     src="/img/btnClick.svg"
-                     alt="none"
-                  />
+                  <img id="btnClick" src="/img/btnClick.svg" alt="none" />
 
                   <h3>Game Start</h3>
 
@@ -166,9 +214,13 @@ export function Main () {
                      alt="none"
                   />
                   <img
-                     className="reloadBtn"
+                     id="reloadBtn"
+                     onClick={() => {
+                        hoverEs.play();
+                        window.location.reload();
+                     }}
                      src="/img/reloadBtn_black.svg"
-                     alt="none"
+                     alt=""
                   />
                </div>
             </section>

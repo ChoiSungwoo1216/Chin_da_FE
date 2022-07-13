@@ -6,18 +6,15 @@ const ReadyUser = () => {
   const userReady = useSelector((state) => state.user.already.user);
   const dispatch = useDispatch();
 
-  const [wait, setWait] = useState(userReady);
-
-  const handleWait = () => {
-    wait === true ? setWait(false) : setWait(true);
+  const setReady = () => {
+    userReady === false
+      ? dispatch(alreadyUser({ user: true }))
+      : dispatch(alreadyUser({ user: false }));
   };
 
-  React.useEffect(() => {
-    dispatch(alreadyUser({ user: wait }));
-  }, [wait]);
   return (
-    <ReadyContainer wait={wait}>
-      <ReadyBtn onClick={() => handleWait()} />
+    <ReadyContainer wait={userReady}>
+      <ReadyBtn onClick={setReady} />
     </ReadyContainer>
   );
 };
@@ -35,6 +32,10 @@ const ReadyContainer = styled.div`
     props.wait === true &&
     css`
       background-color: rgba(0, 0, 0, 0.6);
+      & div {
+        background: url("/img/already.svg") center no-repeat;
+        background-size: 100% 100%;
+      }
     `}
   z-index: 5;
 `;
@@ -42,11 +43,12 @@ const ReadyContainer = styled.div`
 const ReadyBtn = styled.div`
   display: flex;
   position: relative;
-  width: 14.6025vw;
+  width: 14.0625vw;
   height: 3.125vw;
   border: 1px solid black;
-  background: url("/img/alert_mini.png") center no-repeat;
+  background: url("/img/ready.svg") center no-repeat;
   background-size: 100% 100%;
   cursor: pointer;
   z-index: 1;
+  border: none;
 `;

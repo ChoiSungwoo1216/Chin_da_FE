@@ -63,7 +63,7 @@ article {
 }
 
 .thumbnail.circle {
-    border-radius: 100%;
+    border-radius: 1%;
 }
 
 .description {
@@ -125,7 +125,7 @@ section {
     display: flex;
     overflow-x: scroll;
     overflow-y: hidden;
-    gap: 10em;
+    gap: 11em;
     width: 90%;
     align-items: center;  
     z-index: 3;
@@ -135,7 +135,7 @@ section {
     margin-left: -30px; 
     padding-bottom: 150px;
     margin-top: 40px;
-    border: 1px solid #fff;
+    border: 1px solid #FFFAE3;
     border-radius: 3px;
 }
 
@@ -145,8 +145,9 @@ section {
 
 .cardContainer::-webkit-scrollbar-thumb{
     height: 15px;
-    background-color: #fff; 
-    border: 1px solid #fff;  
+    background-color: #FFFAE3;
+    border: 1px solid #FFFAE3;
+    border-radius: 3px;
 } 
 
 .cardContainer::-webkit-scrollbar-track{
@@ -175,6 +176,10 @@ section {
     transform: rotateY(180deg);
 }
 
+.face:hover {
+    filter: drop-shadow(0px 0px 5px #fff);
+    cursor: pointer;
+}
 .face {
     display: flex;
     flex-direction: column;
@@ -189,6 +194,11 @@ section {
     margin: auto;
 }
 
+.face:hover p {
+    transform: scale(1.3);
+    transition: all 0.1s ease-in-out ;
+}
+
 .front {
     opacity: .9;
 }
@@ -196,13 +206,41 @@ section {
 .thumbnailImg {
     width: 130px;
     height: 130px;
-    border-radius: 100%;
+    border-radius: 1%;
     margin: auto;
 }
 
 .back {
     transform: rotateY(180deg);
 }
+
+#player1 {
+    position: absolute;
+    top: 20%;
+    right: 20%;
+    object-position: center center;
+    animation: playerMoving 2s infinite alternate;
+}
+
+#player2 {
+    position: absolute;
+    top: 20%;
+    right: 25%;
+    object-position: center center;
+    animation: playerMoving 2s infinite alternate;
+    animation-delay: 1s;
+
+} 
+
+ @keyframes playerMoving {
+     0% {
+         transform: translate(0, 0);
+     }
+
+     100% {
+         transform: translate(0, 10px);
+     }
+ }
 
 .txtVS {
     display: block;
@@ -212,27 +250,8 @@ section {
     margin: -50px 0 0 -50px;
     width: 100px;
     z-index: 2;
+    filter: drop-shadow(0px 0px 5px #fff);
 }
-/* .txtV {
-    display: block;
-    position: absolute;
-    top: 44.5%;
-    left: 49.5%;
-    margin: -50px 0 0 -50px;
-    width: 50px;
-    z-index: 2;
-}
-
-.txtS {
-    display: block;
-    position: absolute;
-    top: 47%;
-    left: 54%;
-    margin: -50px 0 0 -50px;
-    width: 50px;
-    z-index: 2;
-} */
-
 
 .btnCard {
     position: absolute;
@@ -258,16 +277,30 @@ section {
     left: 50%;
     margin: auto;
 }
-/* #btnEnter:hover {
-    content: 'url(/img/btnEnter_hover.svg)';
-} */
-.reloadBtn {
+
+#btnClick:hover {
+    mix-blend-mode: hard-light;
+    cursor: pointer;
+}
+
+#btnEnter:hover {
+    mix-blend-mode: hard-light;
+    cursor: pointer;
+}
+
+#reloadBtn {
     float: right;
     position: absolute;
     right: 50px;
     bottom: 13px;
     width: 30px;
     z-index: 3;
+}
+
+#reloadBtn:hover {
+    filter: drop-shadow(0px 0px 1px #fff);
+    mix-blend-mode: hard-light;
+    cursor: pointer;
 }
 
 .mainNavBar {
@@ -277,16 +310,34 @@ section {
     position: relative;
     z-index: 10;
 }
+
 .mainNavBar div {
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
     top: 15px;
-
 }
-.mainNavBar img {
+
+.languageImg {
     padding: 0 5px;
     margin: 0 10px;
     width: 35px;
+}
+
+.languageImg:hover {
+    filter: drop-shadow(0px 0px 5px #fff);
+    cursor: pointer;
+
+}
+
+.levelImg {
+    padding: 0 5px;
+    margin: 0 10px;
+    width: 35px;
+}
+
+.levelImg:hover {
+    filter: drop-shadow(0px 0px 5px #fff);
+    cursor: pointer;
 }

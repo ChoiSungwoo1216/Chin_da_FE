@@ -2,7 +2,7 @@ import React from "react";
 import styled, { css, keyframes } from "styled-components";
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 /*COMPONENTS*/
 import AceEditorPlayer from "./components/AceEditorPlayer";
@@ -24,12 +24,14 @@ Modal.setAppElement("#root");
 
 const Battle = () => {
   const selected = useSelector((state) => state.user.selected);
-
   const navigate = useNavigate();
+
+  //modals
   const [showQuestionModal, setShowQuestionModal] = React.useState();
   const [showSuccessModal, setShowSuccessModal] = React.useState();
   const [showFailModal, setShowFailModal] = React.useState();
 
+  //ace editor
   const [mode, setMode] = React.useState("java");
   const [theme, setTheme] = React.useState("monokai");
   const [startTemp, setStartTemp] = React.useState("");
@@ -65,15 +67,9 @@ const Battle = () => {
   const [runCountdown, setRunCountdown] = React.useState(false);
 
   //ReadyUser
-  const Already = useSelector((state) => state.user.already);
-  const userReady = Already.user;
-  const oppReady = Already.opp;
-  const [bothReady, setBothReady] = React.useState(false);
-  console.log(userReady, oppReady);
-  React.useEffect(() => {
-    (userReady && oppReady) === true ? setBothReady(true) : setBothReady(false);
-  }, [Already]);
-  console.log("bothReady: ", bothReady);
+  const [gameStart, setGameStart] = React.useState(false);
+  console.log(gameStart);
+
   //서버에서 받아오는 기본 형태들
   //    const JsDefault = `function solution(num) {
   //    var answer = '';
@@ -226,7 +222,7 @@ const Battle = () => {
       </HeadPart>
       <BodyPart>
         <UserDiv>
-          <ReadyUser />
+          {gameStart === false ? <ReadyUser /> : null}
           <AceEditorPlayer mode={mode} theme={theme}></AceEditorPlayer>
 
           <UserCamDiv>
@@ -261,7 +257,7 @@ const Battle = () => {
             </ChatingDiv>
           )}
           <CodeDiv queOpen={queOpen} chatOpen={chatOpen}>
-            <ReadyOpp />
+            {gameStart === false ? <ReadyOpp /> : null}
             <AceEditorOpp mode={mode} theme={theme} />
           </CodeDiv>
           <OpCamDiv>
@@ -280,7 +276,7 @@ const Battle = () => {
           </OpCamDiv>
         </OpponentDiv>
       </BodyPart>
-      {showQuestionModal && <QuestionModal />}
+      {showQuestionModal && <QuestionModal setValue={setShowQuestionModal} />}
       {showSuccessModal && <SuccessModal />}
       {showFailModal && <FailModal />}
       {rOpen && <Result setROpen={setROpen} />}
@@ -299,7 +295,7 @@ const Battle = () => {
         call={call}
         peerId={peerId}
         setRunCountdown={setRunCountdown}
-        bothReady={bothReady}
+        setGameStart={setGameStart}
       />
     </Container>
   );

@@ -11,7 +11,7 @@ const ALREADY = "already/ALREADY";
 const initialState = {
   list: [{}],
   sound: { bgm: 1, es: 1 },
-  selected: { languate: "", level: "" },
+  selected: { language: "", level: "" },
   already: { user: false, opp: false },
 };
 
