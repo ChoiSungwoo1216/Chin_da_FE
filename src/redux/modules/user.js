@@ -12,7 +12,7 @@ const UPDATE = "selected/UPDATE";
 const initialState = {
   list: [{}],
   sound: {bgm: 1, es: 1},
-  selected: {languate: "", level: ""}
+  selected: {language: "", level: ""}
 };
  
 // Action Creators
