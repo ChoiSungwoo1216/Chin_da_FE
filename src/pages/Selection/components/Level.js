@@ -2,7 +2,7 @@ import React from "react";
 import styled, {css} from "styled-components";
 
 const Level = (props) => {
-  const { setLevel, setLanOn, setLevOn, setRoomOn, es } = props;
+  const { setLevel, setLanOn, setLevOn, setRoomOn, es, hoverEs} = props;
   const language = props.language
   const BackToLang = () => {
     setLevOn(false);
@@ -22,16 +22,16 @@ const Level = (props) => {
     <>
       <Title>난이도 선택</Title>
       <Wrapper>
-        <SelectedDiv onClick={BackToLang}>
+        <SelectedDiv onClick={BackToLang} onMouseEnter={()=>hoverEs.play()}>
           <TypeBtn language={language} />
         </SelectedDiv>
-        <LevelBtn id="0" onClick={(e) => {SelectLev(e);}}>
+        <LevelBtn id="0" onClick={(e) => {SelectLev(e);}} onMouseEnter={()=>hoverEs.play()}>
           <InsideBtnO id="0" onClick={(e) => {SelectLev(e);}}/>
         </LevelBtn>
-        <LevelBtn id="1" onClick={(e) => {SelectLev(e)}}>
+        <LevelBtn id="1" onClick={(e) => {SelectLev(e)}} onMouseEnter={()=>hoverEs.play()}>
           <InsideBtnTw id="1" onClick={(e) => {SelectLev(e)}} />
         </LevelBtn>
-        <LevelBtn id="2" onClick={(e) => { SelectLev(e) }}>
+        <LevelBtn id="2" onClick={(e) => { SelectLev(e) }} onMouseEnter={()=>hoverEs.play()}>
           <InsideBtnTh id="2" onClick={(e) => { SelectLev(e) }}/>
         </LevelBtn>
       </Wrapper>

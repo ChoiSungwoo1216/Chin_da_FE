@@ -43,6 +43,7 @@ const Selection = () => {
                   setLanOn={setLanOn}
                   setLevOn={setLevOn}
                   es={es}
+                  hoverEs={hoverEs}
                />
             ) : null}
             {levOn ? (
@@ -53,6 +54,7 @@ const Selection = () => {
                   setLevOn={setLevOn}
                   setRoomOn={setRoomOn}
                   es={es}
+                  hoverEs={hoverEs}
                />
             ) : null}
             {roomOn ? (
@@ -68,7 +70,7 @@ const Selection = () => {
                />
             ) : null}
             {setting ? (<SoundSetting setSetting={setSetting} />) :
-               <SoundBtn onClick={openSetting} src={"/img/soundIconBlack.svg"} alt="" onMouseOver={()=>{hoverEs.play()}}/>
+               <SoundBtn onClick={openSetting} src={"/img/soundIconBlack.svg"} alt="" onMouseOver={() => { hoverEs.play() }} />
             }
          </Body>
       </>
