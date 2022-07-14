@@ -123,7 +123,7 @@ export function Main () {
                      </div>
                   </div>
 
-                  <img id="player1" src="/img/mainUser1Img.png" alt="" />
+                  <img id="player1" src={userInfo.userCharacter} alt="" />
                </article>
 
                <aside className="aside">
