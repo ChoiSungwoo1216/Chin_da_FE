@@ -1,8 +1,8 @@
-import React,{useState} from "react";
+import React,{ useState, useCallback } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import { useInView } from 'react-intersection-observer';
 import './Main.css';
 // import { loadChannelAxios } from "../../redux/modules/channel";
 
@@ -29,10 +29,6 @@ export function Main () {
       '/img/miniStar2.svg',
       '/img/miniStar3.svg',
    ];
-
-   const [cards, setCards] = useState([]);
-   const [page, setPage] = useState(1);
-
    const userSound = useSelector((state) => state.user.sound);
    const es = effectSound(selectSound, userSound.es);
    const hoverEs = effectSound(hoverSound, userSound.es);
@@ -42,23 +38,35 @@ export function Main () {
    const language = selected.language;
    const level = selected.level;
    // 백이랑 이걸 숫자로 보낼지, 문자열로 보낼지 합의 (현재는 문자열)
-   
-      React.useEffect(() => {
-         // dispatch(loadChannelAxios(language, level));
-         getCards();
-     }, []);
+   React.useEffect(() => {
+      // dispatch(loadChannelAxios(language, level));
+   }, []);
 
-     const getCards = async () => {
-      try{
-         const cardList = await axios.get(``);
-         if (cardList) {
-            setCards([...cards, ...cardList.data]);
-         } 
-      } catch (error) {
-         console.log("ERROR GETTING CARDS");
-         window.alert('ERROR GETTING CARDS');
-      }   
-   };
+   const [items, setItems] = useState([]);
+   const [page, setPage] = useState(1);
+   const [loading, setLoading] = useState(false);
+   const [ref, inView] = useInView();
+
+   // 서버에서 아이템을 가지고 오는 함수
+   const getItems = useCallback(async () => {
+      setLoading(true);
+      await axios.get(`${URL}/page=${page}`).then((response) => {
+         setItems((prevState) => [...prevState, response]);
+      });
+      setLoading(false);
+   }, [page]);
+
+   // getItems가 바뀔때마다 함수 실행
+   React.useEffect(() => {
+      getItems();
+   }, [getItems]);
+
+   // 사용자가 마지막 요소를 보고 있고, 로딩 중이 아니라면 setPage실행
+   React.useEffect(() => {
+      if (inView && !loading) {
+         setPage((prevState) => prevState + 1);
+      }
+   }, [inView, loading]);
 
    const EnterBattle = () => {
       enterEs.play();
@@ -141,6 +149,105 @@ export function Main () {
 
             <section>
                <div className="cardContainer">
+                  {items &&
+                     items.map((item, idx) => {
+                        return (
+                           <React.Fragment key={idx}>
+                              {items.length - 1 === idx ? (
+                                 <div
+                                    ref={ref}
+                                    className="scene"
+                                    onClick={() => {
+                                       setUserInfo(items[idx]);
+                                    }}
+                                 >
+                                    <div className="card">
+                                       <div
+                                          className="face front"
+                                          style={{
+                                             backgroundImage:
+                                                'url(/img/mainCard_F.svg)',
+                                             backgroundRepeat: 'no-repeat',
+                                             backgroundPosition: 'center',
+                                             objectFit: 'cover',
+                                          }}
+                                       >
+                                          <img
+                                             className="thumbnailImg"
+                                             src={item.userImg}
+                                             alt="none"
+                                          />
+                                       </div>
+                                       <div
+                                          className="face back"
+                                          style={{
+                                             backgroundImage:
+                                                'url(/img/mainCard_B.svg)',
+                                             backgroundRepeat: 'no-repeat',
+                                             backgroundPosition: 'center',
+                                             objectFit: 'cover',
+                                          }}
+                                          onClick={() => {
+                                             hoverEs.play();
+                                          }}
+                                       >
+                                          <p>{item.userName}</p>
+                                          <p>
+                                             {item.userWin}승 {item.userLose}패
+                                          </p>
+                                       </div>
+                                    </div>
+                                 </div>
+                              ) : (
+                                 <div
+                                    className="scene"
+                                    onClick={() => {
+                                       setUserInfo(items[idx]);
+                                    }}
+                                 >
+                                    <div className="card">
+                                       <div
+                                          className="face front"
+                                          style={{
+                                             backgroundImage:
+                                                'url(/img/mainCard_F.svg)',
+                                             backgroundRepeat: 'no-repeat',
+                                             backgroundPosition: 'center',
+                                             objectFit: 'cover',
+                                          }}
+                                       >
+                                          <img
+                                             className="thumbnailImg"
+                                             src={item.userImg}
+                                             alt="none"
+                                          />
+                                       </div>
+                                       <div
+                                          className="face back"
+                                          style={{
+                                             backgroundImage:
+                                                'url(/img/mainCard_B.svg)',
+                                             backgroundRepeat: 'no-repeat',
+                                             backgroundPosition: 'center',
+                                             objectFit: 'cover',
+                                          }}
+                                          onClick={() => {
+                                             hoverEs.play();
+                                          }}
+                                       >
+                                          <p>{item.userName}</p>
+                                          <p>
+                                             {item.userWin}승 {item.userLose}패
+                                          </p>
+                                       </div>
+                                    </div>
+                                 </div>
+                              )}
+                           </React.Fragment>
+                        );
+                     })}
+               </div>
+               {/* <div className="cardContainer">
                   {channelList &&
                      channelList.map((list, idx) => {
                         return (
@@ -190,7 +297,7 @@ export function Main () {
                            </div>
                         );
                      })}
-               </div>
+               </div> */}
 
                <div
                   className="btnCard"
