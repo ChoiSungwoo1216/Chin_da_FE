@@ -1,8 +1,8 @@
-import React,{useState} from "react";
+import React,{ useState, useCallback } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import { useInView } from 'react-intersection-observer';
 import './Main.css';
 // import { loadChannelAxios } from "../../redux/modules/channel";
 
@@ -16,7 +16,6 @@ export function Main () {
    const dispatch = useDispatch();
 
    const [userInfo, setUserInfo] = useState({});
-   const channelList = useSelector((state) => state.channel.list);
    const user = { userName: 'player1', userWin: '1', userLose: '2' };
    const showUserImg = useState(true);
    const languageImg = [
@@ -29,9 +28,10 @@ export function Main () {
       '/img/miniStar2.svg',
       '/img/miniStar3.svg',
    ];
-
-   const [cards, setCards] = useState([]);
+   const [allUsers, setAllUsers] = useState([]);
    const [page, setPage] = useState(1);
+   const [loading, setLoading] = useState(false);
+   const [ref, inView] = useInView();
 
    const userSound = useSelector((state) => state.user.sound);
    const es = effectSound(selectSound, userSound.es);
@@ -42,23 +42,33 @@ export function Main () {
    const language = selected.language;
    const level = selected.level;
    // 백이랑 이걸 숫자로 보낼지, 문자열로 보낼지 합의 (현재는 문자열)
-   
-      React.useEffect(() => {
-         // dispatch(loadChannelAxios(language, level));
-         getCards();
-     }, []);
+   React.useEffect(() => {
+      // dispatch(loadChannelAxios(language, level));
+   }, []);
 
-     const getCards = async () => {
-      try{
-         const cardList = await axios.get(``);
-         if (cardList) {
-            setCards([...cards, ...cardList.data]);
-         } 
-      } catch (error) {
-         console.log("ERROR GETTING CARDS");
-         window.alert('ERROR GETTING CARDS');
-      }   
-   };
+   // getItems:서버에서 아이템을 가지고 오는 함수
+   const getItems = useCallback(
+      async (page) => {
+         setLoading(true);
+         await axios
+            .get('http://localhost:5001/page')
+            .then((response) => {
+               setAllUsers((prevState) => [...prevState, ...response.data]);
+            });
+               setLoading(false);
+      },[page]);
+
+   // getItems가 바뀔때마다 함수 실행
+   React.useEffect(() => {
+      getItems(page);
+   }, [getItems]);
+   
+   // 사용자가 마지막 요소를 보고 있고, 로딩 중이 아니라면 setPage실행
+   React.useEffect(() => {
+      if (inView && !loading) {
+         setPage((prevState) => prevState + 1);
+      }
+   }, [inView, loading]);
 
    const EnterBattle = () => {
       enterEs.play();
@@ -113,7 +123,7 @@ export function Main () {
                      </div>
                   </div>
 
-                  <img id="player1" src="/img/mainUser1Img.png" alt="" />
+                  <img id="player1" src={userInfo.userCharacter} alt="" />
                </article>
 
                <aside className="aside">
@@ -141,57 +151,104 @@ export function Main () {
 
             <section>
                <div className="cardContainer">
-                  {channelList &&
-                     channelList.map((list, idx) => {
+                  {allUsers.length > 0 &&
+                     allUsers.map((item, idx) => {
                         return (
-                           <div
-                              className="scene"
-                              key={idx}
-                              onClick={() => {
-                                 setUserInfo(channelList[idx]);
-                              }}
-                           >
-                              <div className="card">
+                           <React.Fragment key={idx}>
+                              {allUsers.length - 1 === idx  ? (
                                  <div
-                                    className="face front"
-                                    style={{
-                                       backgroundImage:
-                                          'url(/img/mainCard_F.svg)',
-                                       backgroundRepeat: 'no-repeat',
-                                       backgroundPosition: 'center',
-                                       objectFit: 'cover',
-                                    }}
-                                 >
-                                    <img
-                                       className="thumbnailImg"
-                                       src={list.userImg}
-                                       alt="none"
-                                    />
-                                 </div>
-                                 <div
-                                    className="face back"
-                                    style={{
-                                       backgroundImage:
-                                          'url(/img/mainCard_B.svg)',
-                                       backgroundRepeat: 'no-repeat',
-                                       backgroundPosition: 'center',
-                                       objectFit: 'cover',
-                                    }}
+                                    ref={ref}
+                                    className="scene"
                                     onClick={() => {
-                                       hoverEs.play();
+                                       setUserInfo(allUsers[idx]);
                                     }}
                                  >
-                                    <p>{list.userName}</p>
-                                    <p>
-                                       {list.userWin}승 {list.userLose}패
-                                    </p>
+                                    <div className="card">
+                                       <div
+                                          className="face front"
+                                          style={{
+                                             backgroundImage:
+                                                'url(/img/mainCard_F.svg)',
+                                             backgroundRepeat: 'no-repeat',
+                                             backgroundPosition: 'center',
+                                             objectFit: 'cover',
+                                          }}
+                                       >
+                                          <img
+                                             className="thumbnailImg"
+                                             src={item.userImg}
+                                             alt="none"
+                                          />
+                                       </div>
+                                       <div
+                                          className="face back"
+                                          style={{
+                                             backgroundImage:
+                                                'url(/img/mainCard_B.svg)',
+                                             backgroundRepeat: 'no-repeat',
+                                             backgroundPosition: 'center',
+                                             objectFit: 'cover',
+                                          }}
+                                          onClick={() => {
+                                             hoverEs.play();
+                                          }}
+                                       >
+                                          <p>{item.userName}</p>
+                                          <p>
+                                             {item.userWin}승{item.userLose}패
+                                          </p>
+                                       </div>
+                                    </div>
                                  </div>
-                              </div>
-                           </div>
+                              ) : (
+                                 <div
+                                    className="scene"
+                                    onClick={() => {
+                                       setUserInfo(allUsers[idx]);
+                                    }}
+                                 >
+                                    <div className="card">
+                                       <div
+                                          className="face front"
+                                          style={{
+                                             backgroundImage:
+                                                'url(/img/mainCard_F.svg)',
+                                             backgroundRepeat: 'no-repeat',
+                                             backgroundPosition: 'center',
+                                             objectFit: 'cover',
+                                          }}
+                                       >
+                                          <img
+                                             className="thumbnailImg"
+                                             src={item.userImg}
+                                             alt="none"
+                                          />
+                                       </div>
+                                       <div
+                                          className="face back"
+                                          style={{
+                                             backgroundImage:
+                                                'url(/img/mainCard_B.svg)',
+                                             backgroundRepeat: 'no-repeat',
+                                             backgroundPosition: 'center',
+                                             objectFit: 'cover',
+                                          }}
+                                          onClick={() => {
+                                             hoverEs.play();
+                                          }}
+                                       >
+                                          <p>{item.userName}</p>
+                                          <p>
+                                             {item.userWin}승 {item.userLose}패
+                                          </p>
+                                       </div>
+                                    </div>
+                                 </div>
+                              )}
+                           </React.Fragment>
                         );
                      })}
                </div>
-
                <div
                   className="btnCard"
                   style={{
