@@ -75,7 +75,7 @@ export const QuestionModal = (p) => {
           </div>
         </div>
         <img
-          className="ExitBtn"
+          className="ExitBtn quest"
           src="/img/X_btn_black_30.svg"
           onClick={() => allClose()}
           alt=""
