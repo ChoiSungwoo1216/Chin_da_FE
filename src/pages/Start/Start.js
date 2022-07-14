@@ -11,10 +11,11 @@ const Start = () => {
   const close = () => {
     setModalOpen(false);
   };
+
   return (
     <StartContainer>
       <StartLogo></StartLogo>
-
+      <Shadow />
       <LoginDiv
         HOVER={HOVER}
         onMouseOut={() => {
@@ -137,14 +138,26 @@ const StartLogo = styled.div`
 
   width: 19.53%; //35.16vw = 450px, 27.34vw = 350px, 19.53vw=250px
   height: 19.53vw;
-  top: 23.61%;
+  top: 25%;
   opacity: 0;
   background-color: transparent;
   border-radius: 35%;
-  animation: ${zoomIn} 1s linear forwards, ${shadowGrow} 1.5s infinite none,
-    ${logoChange} 3s linear infinite;
+  animation: ${zoomIn} 1s linear forwards, ${logoChange} 3s linear infinite;
   animation-delay: 1s, 2.5s;
   padding: 0px;
+  z-index: 2;
+`;
+
+const Shadow = styled.div`
+  position: absolute;
+  display: flex;
+  width: 14vw;
+  height: 14vw;
+  left: 43vw;
+  top: 32%;
+  border-radius: 50%;
+  animation: ${shadowGrow} 1.5s infinite none;
+  z-index: -1;
 `;
 
 const BtnMotion = keyframes`
