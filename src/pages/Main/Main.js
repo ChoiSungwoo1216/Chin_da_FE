@@ -249,58 +249,6 @@ export function Main () {
                         );
                      })}
                </div>
-               {/* <div className="cardContainer">
-                  {channelList &&
-                     channelList.map((list, idx) => {
-                        return (
-                           <div
-                              className="scene"
-                              key={idx}
-                              onClick={() => {
-                                 setUserInfo(channelList[idx]);
-                              }}
-                           >
-                              <div className="card">
-                                 <div
-                                    className="face front"
-                                    style={{
-                                       backgroundImage:
-                                          'url(/img/mainCard_F.svg)',
-                                       backgroundRepeat: 'no-repeat',
-                                       backgroundPosition: 'center',
-                                       objectFit: 'cover',
-                                    }}
-                                 >
-                                    <img
-                                       className="thumbnailImg"
-                                       src={list.userImg}
-                                       alt="none"
-                                    />
-                                 </div>
-                                 <div
-                                    className="face back"
-                                    style={{
-                                       backgroundImage:
-                                          'url(/img/mainCard_B.svg)',
-                                       backgroundRepeat: 'no-repeat',
-                                       backgroundPosition: 'center',
-                                       objectFit: 'cover',
-                                    }}
-                                    onClick={() => {
-                                       hoverEs.play();
-                                    }}
-                                 >
-                                    <p>{list.userName}</p>
-                                    <p>
-                                       {list.userWin}승 {list.userLose}패
-                                    </p>
-                                 </div>
-                              </div>
-                           </div>
-                        );
-                     })}
-               </div> */}
-
                <div
                   className="btnCard"
                   style={{
