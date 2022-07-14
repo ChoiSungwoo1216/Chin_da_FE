@@ -16,7 +16,6 @@ export function Main () {
    const dispatch = useDispatch();
 
    const [userInfo, setUserInfo] = useState({});
-   const channelList = useSelector((state) => state.channel.list);
    const user = { userName: 'player1', userWin: '1', userLose: '2' };
    const showUserImg = useState(true);
    const languageImg = [
@@ -29,6 +28,11 @@ export function Main () {
       '/img/miniStar2.svg',
       '/img/miniStar3.svg',
    ];
+   const [allUsers, setAllUsers] = useState([]);
+   const [page, setPage] = useState(1);
+   const [loading, setLoading] = useState(false);
+   const [ref, inView] = useInView();
+
    const userSound = useSelector((state) => state.user.sound);
    const es = effectSound(selectSound, userSound.es);
    const hoverEs = effectSound(hoverSound, userSound.es);
@@ -42,25 +46,23 @@ export function Main () {
       // dispatch(loadChannelAxios(language, level));
    }, []);
 
-   const [items, setItems] = useState([]);
-   const [page, setPage] = useState(1);
-   const [loading, setLoading] = useState(false);
-   const [ref, inView] = useInView();
-
-   // 서버에서 아이템을 가지고 오는 함수
-   const getItems = useCallback(async () => {
-      setLoading(true);
-      await axios.get(`${URL}/page=${page}`).then((response) => {
-         setItems((prevState) => [...prevState, response]);
-      });
-      setLoading(false);
-   }, [page]);
+   // getItems:서버에서 아이템을 가지고 오는 함수
+   const getItems = useCallback(
+      async (page) => {
+         setLoading(true);
+         await axios
+            .get('http://localhost:5001/page')
+            .then((response) => {
+               setAllUsers((prevState) => [...prevState, ...response.data]);
+            });
+               setLoading(false);
+      },[page]);
 
    // getItems가 바뀔때마다 함수 실행
    React.useEffect(() => {
-      getItems();
+      getItems(page);
    }, [getItems]);
-
+   
    // 사용자가 마지막 요소를 보고 있고, 로딩 중이 아니라면 setPage실행
    React.useEffect(() => {
       if (inView && !loading) {
@@ -149,16 +151,16 @@ export function Main () {
 
             <section>
                <div className="cardContainer">
-                  {items &&
-                     items.map((item, idx) => {
+                  {allUsers.length > 0 &&
+                     allUsers.map((item, idx) => {
                         return (
                            <React.Fragment key={idx}>
-                              {items.length - 1 === idx ? (
+                              {allUsers.length - 1 === idx  ? (
                                  <div
                                     ref={ref}
                                     className="scene"
                                     onClick={() => {
-                                       setUserInfo(items[idx]);
+                                       setUserInfo(allUsers[idx]);
                                     }}
                                  >
                                     <div className="card">
@@ -193,7 +195,7 @@ export function Main () {
                                        >
                                           <p>{item.userName}</p>
                                           <p>
-                                             {item.userWin}승 {item.userLose}패
+                                             {item.userWin}승{item.userLose}패
                                           </p>
                                        </div>
                                     </div>
@@ -202,7 +204,7 @@ export function Main () {
                                  <div
                                     className="scene"
                                     onClick={() => {
-                                       setUserInfo(items[idx]);
+                                       setUserInfo(allUsers[idx]);
                                     }}
                                  >
                                     <div className="card">
