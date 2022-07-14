@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { QuestionModal, SuccessModal, FailModal } from "./components/Modals";
-
+import { useDispatch, useSelector } from "react-redux";
+import { alreadyUser } from "../../redux/modules/user";
 const Control = (props) => {
   const {
     setRunTimer,
@@ -17,14 +18,19 @@ const Control = (props) => {
     call,
     peerId,
     setRunCountdown,
+    setGameStart,
   } = props;
-  console.log(props.peerId);
+
+  const already = useSelector((state) => state.user.already);
+  const dispatch = useDispatch();
 
   const onCountdown = () => {
+    setGameStart(true);
     setRunCountdown(true);
     const countdown = setInterval(() => {
       setRunCountdown(false);
       setShowQuestionModal(true);
+      dispatch(alreadyUser({ user: false, opp: false }));
       clearInterval(countdown);
     }, 3000);
     return () => clearInterval(countdown);
@@ -34,11 +40,19 @@ const Control = (props) => {
     setMesAlert("Fail");
     setRunAlert(true);
   };
+
+  const alreadyToStart = () => {
+    already.user && already.opp === true && onCountdown();
+  };
+  useEffect(() => {
+    alreadyToStart();
+  }, [already]);
+
   return (
     <ControlDiv>
       <div>
-        카운트 시작
-        <button onClick={onCountdown}>카운트</button>
+        레디버튼 살려내기
+        <button onClick={() => setGameStart(false)}>살려내기</button>
       </div>
       <div>
         타이머 시작
@@ -52,9 +66,9 @@ const Control = (props) => {
         <button onClick={() => setTimeSetting(900)}>상 15분</button>
       </div>
       <div>
-        모달창 오픈
+        문제 모달창 오픈
         <button onClick={() => setShowQuestionModal(true)}>열기</button>
-        <button onClick={() => setShowQuestionModal(false)}>닫기</button>
+        {/* <button onClick={() => setShowQuestionModal(false)}>닫기</button> */}
       </div>
       <div>
         성공 모달창 on/off

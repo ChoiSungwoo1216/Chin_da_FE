@@ -2,7 +2,7 @@ import React from "react";
 import styled, { css, keyframes } from "styled-components";
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 /*COMPONENTS*/
 import AceEditorPlayer from "./components/AceEditorPlayer";
@@ -17,16 +17,21 @@ import Countdown from "./components/CountDown";
 import { QuestionModal, SuccessModal, FailModal } from "./components/Modals";
 
 import Peer from "peerjs";
+import ReadyUser from "./components/ReadyUser";
+import ReadyOpp from "./components/ReadyOpp";
 
 Modal.setAppElement("#root");
 
 const Battle = () => {
   const selected = useSelector((state) => state.user.selected);
   const navigate = useNavigate();
+
+  //modals
   const [showQuestionModal, setShowQuestionModal] = React.useState();
   const [showSuccessModal, setShowSuccessModal] = React.useState();
   const [showFailModal, setShowFailModal] = React.useState();
 
+  //ace editor
   const [mode, setMode] = React.useState("java");
   const [theme, setTheme] = React.useState("monokai");
   const [startTemp, setStartTemp] = React.useState("");
@@ -60,6 +65,10 @@ const Battle = () => {
 
   //countdown
   const [runCountdown, setRunCountdown] = React.useState(false);
+
+  //ReadyUser
+  const [gameStart, setGameStart] = React.useState(false);
+  console.log(gameStart);
 
   //서버에서 받아오는 기본 형태들
   //    const JsDefault = `function solution(num) {
@@ -186,7 +195,7 @@ const Battle = () => {
     });
   };
 
-  console.log(peerId);
+  // console.log(peerId);
 
   return (
     <Container>
@@ -213,7 +222,9 @@ const Battle = () => {
       </HeadPart>
       <BodyPart>
         <UserDiv>
-          <AceEditorPlayer mode={mode} theme={theme} />
+          {gameStart === false ? <ReadyUser /> : null}
+          <AceEditorPlayer mode={mode} theme={theme}></AceEditorPlayer>
+
           <UserCamDiv>
             <CamBar>
               <span>Player1</span>
@@ -246,6 +257,7 @@ const Battle = () => {
             </ChatingDiv>
           )}
           <CodeDiv queOpen={queOpen} chatOpen={chatOpen}>
+            {gameStart === false ? <ReadyOpp /> : null}
             <AceEditorOpp mode={mode} theme={theme} />
           </CodeDiv>
           <OpCamDiv>
@@ -264,7 +276,7 @@ const Battle = () => {
           </OpCamDiv>
         </OpponentDiv>
       </BodyPart>
-      {showQuestionModal && <QuestionModal />}
+      {showQuestionModal && <QuestionModal setValue={setShowQuestionModal} />}
       {showSuccessModal && <SuccessModal />}
       {showFailModal && <FailModal />}
       {rOpen && <Result setROpen={setROpen} />}
@@ -283,6 +295,7 @@ const Battle = () => {
         call={call}
         peerId={peerId}
         setRunCountdown={setRunCountdown}
+        setGameStart={setGameStart}
       />
     </Container>
   );
