@@ -328,7 +328,7 @@ const LoginDiv = styled.div`
     margin-right: 0.5vw;
 
     animation: ${BtnMotion} 1.5s linear 5s infinite,
-      ${zoomIn} 1s linear backwards;
+      ${zoomIn} 1s linear forwards;
 
     background-position: center;
     background-size: 100%, 100%;
