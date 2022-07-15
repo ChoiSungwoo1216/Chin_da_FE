@@ -19,6 +19,7 @@ const Control = (props) => {
     peerId,
     setRunCountdown,
     setGameStart,
+    setQueOpen,
   } = props;
 
   const already = useSelector((state) => state.user.already);
@@ -32,6 +33,7 @@ const Control = (props) => {
       setShowQuestionModal(true);
       dispatch(alreadyUser({ user: false, opp: false }));
       clearInterval(countdown);
+      setQueOpen(true)
     }, 3000);
     return () => clearInterval(countdown);
   };

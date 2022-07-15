@@ -2,11 +2,17 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import { alreadyUser } from "../../../redux/modules/user";
+import effectSound from '../../../shared/effectSound';
+import readySound from "../../../audios/ready.mp3"
+
 const ReadyUser = () => {
   const userReady = useSelector((state) => state.user.already.user);
   const dispatch = useDispatch();
+  const userSound = useSelector((state) => state.user.sound);
+  const readyEs = effectSound(readySound, userSound.es);
 
   const setReady = () => {
+    readyEs.play();
     userReady === false
       ? dispatch(alreadyUser({ user: true }))
       : dispatch(alreadyUser({ user: false }));

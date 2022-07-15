@@ -3,6 +3,10 @@ import Modal from "react-modal";
 import JSConfetti from "js-confetti";
 import ConfettiCanvas from "react-confetti-canvas";
 import "./Modals.css";
+import { useSelector } from "react-redux";
+import effectSound from '../../../shared/effectSound';
+import winSound from '../../../audios/WinSE1.mp3';
+import loseSound from '../../../audios/LoseSE1.mp3';
 
 /*QuestionModal*/
 export const QuestionModal = (p) => {
@@ -86,7 +90,12 @@ export const QuestionModal = (p) => {
 };
 
 /*SuccessModal*/
-export const SuccessModal = () => {
+export const SuccessModal = ({setROpen}) => {
+  const userSound = useSelector((state) => state.user.sound);
+  const winEs = effectSound(winSound, userSound.es);
+  React.useEffect(() => {
+    winEs.play();
+  }, [])
   const [modalIsOpen, setIsOpen] = React.useState(true);
   const customModalStyles = {
     overlay: {
@@ -103,13 +112,13 @@ export const SuccessModal = () => {
     <>
       <Modal
         isOpen={modalIsOpen}
-        onRequestClose={() => setIsOpen(false)}
+        onRequestClose={() => {setIsOpen(false); setROpen(true)}}
         style={customModalStyles}
       >
         <img
           className="ExitBtn"
           src="/img/X_btn_black_30.svg"
-          onClick={() => setIsOpen(false)}
+          onClick={() => {setIsOpen(false); setROpen(true)}}
           alt=""
         />
         <div className="ConfettiTxt">
@@ -125,7 +134,12 @@ export const SuccessModal = () => {
 };
 
 /*FailModal*/
-export const FailModal = () => {
+export const FailModal = ({setROpen}) => {
+  const userSound = useSelector((state) => state.user.sound);
+  const loseEs = effectSound(loseSound, userSound.es);
+  React.useEffect(() => {
+    loseEs.play();
+  }, [])
   const [modalIsOpen, setIsOpen] = React.useState(true);
   const confetti = new JSConfetti();
   const confettiList = () => {
@@ -167,13 +181,13 @@ export const FailModal = () => {
     <>
       <Modal
         isOpen={modalIsOpen}
-        onRequestClose={() => setIsOpen(false)}
+        onRequestClose={() => {setIsOpen(false); setROpen(true)}}
         style={customModalStyles}
       >
         <img
           className="ExitBtn"
           src="/img/X_btn_black_30.svg"
-          onClick={() => setIsOpen(false)}
+          onClick={() => {setIsOpen(false); setROpen(true)}}
           alt=""
         />
         <div className="ConfettiTxt">

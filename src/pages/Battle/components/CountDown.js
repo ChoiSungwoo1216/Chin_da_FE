@@ -1,7 +1,15 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
+import { useSelector } from "react-redux";
+import effectSound from '../../../shared/effectSound';
+import countDownSound from '../../../audios/CountdownSE1.mp3';
 
 const Countdown = () => {
+  const userSound = useSelector((state) => state.user.sound);
+  const countDownEs = effectSound(countDownSound, userSound.es);
+  React.useEffect(()=>{
+    countDownEs.play();
+  },[])
   return (
     <>
       <CountContainer>
