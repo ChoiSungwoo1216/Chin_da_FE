@@ -31,7 +31,7 @@ const SoundSetting = (props) => {
       <SoundSettingBackground />
       <SettingDiv>
         <ExitSetting
-          src={"img/X_btn_black_30.png"}
+          src={"/img/X_btn_black_30.png"}
           alt=""
           onClick={() => setSetting(false)}
         />
@@ -48,9 +48,9 @@ const SoundSetting = (props) => {
               />
               <label for="switch" class="switch_label">
                 {userSound.bgm === 1 ? (
-                  <img src={"img/BtnOn.png"} alt="" class="onf_btn" />
+                  <img src={"/img/BtnOn.png"} alt="" class="onf_btn" />
                 ) : (
-                  <img src={"img/BtnOff.png"} alt="" class="onf_btn" />
+                  <img src={"/img/BtnOff.png"} alt="" class="onf_btn" />
                 )}
               </label>
             </SetLine>
@@ -64,9 +64,9 @@ const SoundSetting = (props) => {
               />
               <label for="switch1" class="switch_label1">
                 {userSound.es === 1 ? (
-                  <img src={"img/BtnOn.png"} alt="" class="onf_btn1" />
+                  <img src={"/img/BtnOn.png"} alt="" class="onf_btn1" />
                 ) : (
-                  <img src={"img/BtnOff.png"} alt="" class="onf_btn1" />
+                  <img src={"/img/BtnOff.png"} alt="" class="onf_btn1" />
                 )}
               </label>
             </SetLine>
@@ -161,7 +161,7 @@ const ExitSetting = styled.img`
   height: calc((2vw + 2vh) / 2);
   z-index: 12;
   :hover {
-    content: url(img/X_btn_white_30.png);
+    content: url(/img/X_btn_white_30.png);
   }
 `;
 
