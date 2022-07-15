@@ -1,13 +1,28 @@
 import React from "react"
 import styled, { keyframes } from "styled-components"
 import { useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux";
+import effectSound from '../../../shared/effectSound';
+import winSound from '../../../audios/WinSE2.mp3';
+import loseSound from '../../../audios/FailSE1.mp3';
+
 
 const Result = (props) => {
+    const userSound = useSelector((state) => state.user.sound);
+    const winEs = effectSound(winSound, userSound.es);
+    const loseEs = effectSound(loseSound, userSound.es);
+    React.useEffect(() => {
+        if (result === "WIN") {
+            winEs.play();
+        } else {
+            loseEs.play();
+        }
+    }, [])
     const { setROpen } = props
     const navigate = useNavigate();
     const [player, setPlayer] = React.useState("Player 1")
     const [result, setResult] = React.useState("WIN")
-    const GoBackMain =() =>{
+    const GoBackMain = () => {
         navigate("/Selection")
     }
     return (
@@ -21,13 +36,13 @@ const Result = (props) => {
                         <ResultLetterDiv>
                             <LetterNoAni src={"/img/W.svg"} alt="" />
                             <LetterAni src={"/img/I.svg"} alt="" />
-                            <LetterNoAni  src={"/img/N.svg"} alt="" />
+                            <LetterNoAni src={"/img/N.svg"} alt="" />
                             {/* <LetterSlopeAni  src={"img/N.svg"} alt="" /> */}
                         </ResultLetterDiv>
                     }
                     <ResultElement>한판 더 하시겠습니까?</ResultElement>
                     <ReDiv>
-                        <ResultBtn onClick={()=>{setROpen(false)}}>Yes</ResultBtn>
+                        <ResultBtn onClick={() => { setROpen(false) }}>Yes</ResultBtn>
                         <ResultBtn onClick={GoBackMain}>No</ResultBtn>
                     </ReDiv>
                 </BlackDiv>

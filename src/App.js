@@ -9,6 +9,7 @@ import "./App.css";
 import "./animation.css";
 import GitLogin from "./pages/Start/components/GitLogin";
 import TutorialBtn from "./pages/Tutorial/TutorialBtn";
+import SoundSettingBtn from "./shared/SoundSettingBtn";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <div id="stars2"></div>
       <div id="stars3"></div>
       <TutorialBtn />
+      <SoundSettingBtn />
       <Routes>
         <Route path="/" element={<Start />} />
         <Route path="/github" element={<GitLogin />} />

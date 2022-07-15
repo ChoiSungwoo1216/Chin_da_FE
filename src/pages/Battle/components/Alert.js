@@ -2,8 +2,16 @@ import React, { useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Alert.css";
+import { useSelector } from "react-redux";
+import effectSound from '../../../shared/effectSound';
+import failSound from '../../../audios/FailSE4.mp3';
 
 const XBtn = ({ closeToast }) => {
+  const userSound = useSelector((state) => state.user.sound);
+  const failEs = effectSound(failSound, userSound.es);
+  React.useEffect(()=>{
+    failEs.play();
+  },[])
   return (
     <div>
       <img src="/img/X_btn_black_30.svg" alt="xbtn" onClick={closeToast} />
