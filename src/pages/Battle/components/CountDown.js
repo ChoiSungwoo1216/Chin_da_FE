@@ -1,15 +1,15 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import { useSelector } from "react-redux";
-import effectSound from '../../../shared/effectSound';
-import countDownSound from '../../../audios/CountdownSE1.mp3';
+import effectSound from "../../../shared/effectSound";
+import countDownSound from "../../../audios/CountdownSE1.mp3";
 
 const Countdown = () => {
   const userSound = useSelector((state) => state.user.sound);
   const countDownEs = effectSound(countDownSound, userSound.es);
-  React.useEffect(()=>{
+  React.useEffect(() => {
     countDownEs.play();
-  },[])
+  }, []);
   return (
     <>
       <CountContainer>
@@ -89,7 +89,7 @@ const Count = styled.div`
   content: "";
   &::after {
     font-size: 4vw;
-    animation: ${countNumber} 3000ms linear none;
+    animation: ${countNumber} 3150ms linear none;
     content: counter(my-count);
     color: rgba(255, 255, 255, 1);
   }
