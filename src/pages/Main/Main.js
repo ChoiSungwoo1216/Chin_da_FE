@@ -1,4 +1,4 @@
-import React,{ useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -7,11 +7,11 @@ import './Main.css';
 // import { loadChannelAxios } from "../../redux/modules/channel";
 
 import effectSound from '../../shared/effectSound';
-import selectSound from '../../audios/btnselect.mp3';
-import enterSound from '../..//audios/SelectionRoomClickSE1.mp3';
+import selectSound from '../../audios/MainCardSelectSE1.mp3';
+import enterSound from '../..//audios/MainStartSE1.mp3';
 import hoverSound from '../../audios/BtnHoverSE1.mp3';
 
-export function Main () {
+export function Main() {
    const navigate = useNavigate();
    const dispatch = useDispatch();
 
@@ -39,7 +39,7 @@ export function Main () {
    const [ref, inView] = useInView();
 
    const userSound = useSelector((state) => state.user.sound);
-   const es = effectSound(selectSound, userSound.es);
+   const selectEs = effectSound(selectSound, userSound.es);
    const hoverEs = effectSound(hoverSound, userSound.es);
    const enterEs = effectSound(enterSound, userSound.es);
 
@@ -60,14 +60,14 @@ export function Main () {
             .then((response) => {
                setAllUsers((prevState) => [...prevState, ...response.data]);
             });
-               setLoading(false);
-      },[page]);
+         setLoading(false);
+      }, [page]);
 
    // getItems가 바뀔때마다 함수 실행
    React.useEffect(() => {
       getItems(page);
    }, [getItems]);
-   
+
    // 사용자가 마지막 요소를 보고 있고, 로딩 중이 아니라면 setPage실행
    React.useEffect(() => {
       if (inView && !loading) {
@@ -95,18 +95,17 @@ export function Main () {
                      backgroundPosition: 'center',
                      objectFit: 'cover',
                   }}
+                  onClick={goSelection}
                >
-                  <div>
+                  <div >
                      <img
                         className="languageImg"
                         src={languageImg[language]}
-                        onClick={goSelection}
                         alt=""
                      />
                      <img
                         className="levelImg"
                         src={levelImg[level]}
-                        onClick={goSelection}
                         alt=""
                      />
                   </div>
@@ -117,6 +116,9 @@ export function Main () {
                         className="profile"
                         style={{
                            background: 'url(/img/mainCardPlayer.svg)',
+                           backgroundImage: "url(/img/mainCardPlayer.svg)",
+                           backgroundRepeat: "no-repeat",
+                           backgroundSize: "contain",
                         }}
                      >
                         <div
@@ -139,6 +141,9 @@ export function Main () {
                      className="profile2"
                      style={{
                         background: 'url(/img/mainCardPlayer.svg)',
+                        backgroundImage: "url(/img/mainCardPlayer.svg)",
+                        backgroundRepeat: "no-repeat",
+                        backgroundSize: "contain",
                      }}
                   >
                      <div
@@ -197,7 +202,7 @@ export function Main () {
                                              objectFit: 'cover',
                                           }}
                                           onClick={() => {
-                                             hoverEs.play();
+                                             selectEs.play();
                                           }}
                                        >
                                           <p>{item.userName}</p>
@@ -241,7 +246,7 @@ export function Main () {
                                              objectFit: 'cover',
                                           }}
                                           onClick={() => {
-                                             hoverEs.play();
+                                             selectEs.play();
                                           }}
                                        >
                                           <p>{item.userName}</p>
@@ -259,15 +264,15 @@ export function Main () {
                <div
                   className="btnCard"
                   style={{
-                     backgroundImage: 'url(/img/mainBtnCard.svg)',
+                     backgroundImage: 'url(/img/mainBtnCard1.svg)',
                      backgroundRepeat: 'no-repeat',
                      backgroundPosition: 'center',
                      objectFit: 'cover',
                   }}
                >
-                  <h3>Find More</h3>
+                  <h3>Refresh</h3>
 
-                  <img id="btnClick" src="/img/btnClick.svg" alt="none" />
+                  <img id="btnClick" src="/img/btnClick.svg" alt="none" onClick={() => selectEs.play()} />
 
                   <h3>Game Start</h3>
 
@@ -276,15 +281,6 @@ export function Main () {
                      onClick={EnterBattle}
                      src="/img/btnEnter.svg"
                      alt="none"
-                  />
-                  <img
-                     id="reloadBtn"
-                     onClick={() => {
-                        hoverEs.play();
-                        window.location.reload();
-                     }}
-                     src="/img/reloadBtn_black.svg"
-                     alt=""
                   />
                </div>
             </section>

@@ -28,28 +28,27 @@ article {
 }
 
 .profile {
-  background-image: "url(/img/mainCardPlayer.svg)";
-  background-repeat: no-repeat;
-  background-size: contain;
   display: flex;
   float: left;
   width: 287px;
   height: 155px;
   margin: 15px;
   position: relative;
+  left: 4%;
+  top: 1vh;
+  transform: scale(1.2);
 }
 
 .profile2 {
-  background-image: "url(/img/mainCardPlayer.svg)";
-  background-repeat: no-repeat;
-  background-size: contain;
   display: flex;
   float: right;
   width: 287px;
   height: 155px;
   margin: 15px;
   position: relative;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  right: 1%;
+  top: 1vh;
+  transform: scale(1.2);
 }
 
 .thumbnail {
@@ -122,7 +121,7 @@ section {
   overflow-x: scroll;
   overflow-y: hidden;
   gap: 12em;
-  width: 90%;
+  width: 82%;
   align-items: center;
   z-index: 3;
   position: absolute;
@@ -131,8 +130,9 @@ section {
   margin-left: -30px;
   padding-bottom: 150px;
   margin-top: 30px;
-  border: 1px solid #fffae3;
-  border-radius: 3px;
+  border: 3px solid #fffae3;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .cardContainer::-webkit-scrollbar {
@@ -143,7 +143,7 @@ section {
   height: 15px;
   background-color: #fffae3;
   border: 1px solid #fffae3;
-  border-radius: 3px;
+  border-radius: 5px;
 }
 
 .cardContainer::-webkit-scrollbar-track {
@@ -187,7 +187,7 @@ section {
   text-align: center;
   position: absolute;
   backface-visibility: hidden;
-  margin: auto;
+  margin: 0;
 }
 
 .face:hover p {
@@ -203,7 +203,7 @@ section {
   width: 130px;
   height: 130px;
   border-radius: 1%;
-  margin: auto;
+  margin: 0;
 }
 
 .back {
@@ -251,19 +251,20 @@ section {
 .btnCard {
   position: absolute;
   bottom: 42px;
-  right: -60px;
-  width: 220px;
+  right: 10px;
+  width: 226px;
   height: 272px;
   color: #fff;
   z-index: 5;
-  margin: auto;
+  margin: 0;
+  transform: scale(1.4);
 }
 
 .btnCard h3 {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 20px;
+  padding-top:  27px;
   margin: 10px auto;
 }
 
@@ -283,21 +284,6 @@ section {
   cursor: pointer;
 }
 
-#reloadBtn {
-  float: right;
-  position: absolute;
-  right: 50px;
-  bottom: 13px;
-  width: 30px;
-  z-index: 3;
-}
-
-#reloadBtn:hover {
-  filter: drop-shadow(0px 0px 1px #fff);
-  mix-blend-mode: hard-light;
-  cursor: pointer;
-}
-
 .mainNavBar {
   width: 162px;
   height: 64px;
@@ -313,25 +299,18 @@ section {
   position: relative;
   top: 15px;
 }
-
+.mainNavBar:hover {
+  filter: drop-shadow(0px 0px 5px #fff);
+  cursor: pointer;
+}
 .languageImg {
   padding: 0 5px;
   margin: 0 10px;
   width: 35px;
 }
 
-.languageImg:hover {
-  filter: drop-shadow(0px 0px 5px #fff);
-  cursor: pointer;
-}
-
 .levelImg {
   padding: 0 5px;
   margin: 0 10px;
   width: 35px;
-}
-
-.levelImg:hover {
-  filter: drop-shadow(0px 0px 5px #fff);
-  cursor: pointer;
 }

@@ -20,11 +20,20 @@ import Peer from "peerjs";
 import ReadyUser from "./components/ReadyUser";
 import ReadyOpp from "./components/ReadyOpp";
 
+import effectSound from '../../shared/effectSound';
+import btnSound from '../../audios/btnselect.mp3';
+import camSound from "../../audios/camOff.mp3"
+
 Modal.setAppElement("#root");
 
 const Battle = () => {
   const selected = useSelector((state) => state.user.selected);
   const navigate = useNavigate();
+
+  //sound
+  const userSound = useSelector((state) => state.user.sound);
+  const btnEs = effectSound(btnSound, userSound.es);
+  const camEs = effectSound(camSound, userSound.es);
 
   //modals
   const [showQuestionModal, setShowQuestionModal] = React.useState();
@@ -90,6 +99,7 @@ const Battle = () => {
   const [opCamSlide, setOpCamSlide] = React.useState(true);
 
   const openUserCam = () => {
+    camEs.play();
     if (userCamSlide) {
       setUserCamSlide(false);
     } else {
@@ -97,6 +107,7 @@ const Battle = () => {
     }
   };
   const openOpCam = () => {
+    camEs.play();
     if (opCamSlide) {
       setOpCamSlide(false);
     } else {
@@ -107,6 +118,7 @@ const Battle = () => {
   //채팅 열고 닫기
   const [chatOpen, setChatOpen] = React.useState(false);
   const openChat = () => {
+    btnEs.play()
     if (chatOpen) {
       setChatOpen(false);
     } else {
@@ -115,8 +127,9 @@ const Battle = () => {
   };
 
   //문제 열고 닫기
-  const [queOpen, setQueOpen] = React.useState(true);
+  const [queOpen, setQueOpen] = React.useState(false);
   const openQue = () => {
+    btnEs.play()
     if (queOpen) {
       setQueOpen(false);
     } else {
@@ -128,6 +141,7 @@ const Battle = () => {
   const [rOpen, setROpen] = React.useState(false);
 
   const BackToMain = () => {
+    btnEs.play()
     navigate(`/Main`);
   };
 
@@ -277,8 +291,8 @@ const Battle = () => {
         </OpponentDiv>
       </BodyPart>
       {showQuestionModal && <QuestionModal setValue={setShowQuestionModal} />}
-      {showSuccessModal && <SuccessModal />}
-      {showFailModal && <FailModal />}
+      {showSuccessModal && <SuccessModal setROpen={setROpen}/>}
+      {showFailModal && <FailModal setROpen={setROpen}/>}
       {rOpen && <Result setROpen={setROpen} />}
 
       <Control
@@ -296,6 +310,7 @@ const Battle = () => {
         peerId={peerId}
         setRunCountdown={setRunCountdown}
         setGameStart={setGameStart}
+        setQueOpen={setQueOpen}
       />
     </Container>
   );
@@ -417,7 +432,7 @@ const UserDiv = styled.div`
 
 const UserCamDiv = styled.div`
   position: absolute;
-  left: 37.6vw;
+  left: 40%;
   top: 9.1vh;
   height: 22.6vh;
   width: 14vw;
@@ -425,7 +440,7 @@ const UserCamDiv = styled.div`
 
 const OpCamDiv = styled.div`
   position: absolute;
-  right: -2.1vw;
+  right: -2.3%;
   top: 8.9vh;
   height: 22.6vh;
   width: 14vw;
@@ -452,8 +467,8 @@ const CamIcon = styled.img`
 
 const Cam = styled.div`
   display: flex;
-  width: 85%;
-  height: 80%;
+  width: 11.9vw;
+  height: 11.9vw;
   background-color: white;
   border-left: 3px solid black;
   border-right: 3px solid black;

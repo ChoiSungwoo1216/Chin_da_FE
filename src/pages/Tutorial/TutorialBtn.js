@@ -25,12 +25,12 @@ const TutorialBtn = () => {
 
 const TutoBtn = styled.img`
 position: fixed;
-right: 30px;
-bottom: 20px;
-width: 30px;
-height: 30px;
+right: 0.5vw;
+bottom: 1vh;
+width: calc(1vh + 1vw);
+height: calc(1vh + 1vw);
 z-index: 10;
-:hover{
+&:hover{
     content: url(/img/question_btn_white.png);
 }
 `;
