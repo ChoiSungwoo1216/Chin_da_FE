@@ -33,8 +33,8 @@ const Control = (props) => {
       setShowQuestionModal(true);
       dispatch(alreadyUser({ user: false, opp: false }));
       clearInterval(countdown);
-      setQueOpen(true)
-    }, 3000);
+      setQueOpen(true);
+    }, 3150);
     return () => clearInterval(countdown);
   };
 
