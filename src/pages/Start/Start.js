@@ -14,8 +14,15 @@ const Start = () => {
 
   return (
     <StartContainer>
-      <StartLogo></StartLogo>
-      <Shadow />
+      <LogoContainer>
+        <StartLogo>
+          {/* <InDiv /> */}
+          <Fist />
+          <Dust />
+          <Title />
+        </StartLogo>
+      </LogoContainer>
+
       <LoginDiv
         HOVER={HOVER}
         onMouseOut={() => {
@@ -65,21 +72,62 @@ const Start = () => {
 
 export default Start;
 
-const logoChange = keyframes`
-  0%{
-    background-image: url('/img/logo_pink.svg')
+const OPACTIY = keyframes`
+  from{
+    opacity: 0;
   }
-  25%{
-    background-image: url('/img/logo_blue.svg')
+  to{
+    opacity: 1;
+  }
+`;
+const dustChange = keyframes`
+  0%{
+    background-image: url('/img/logo_dust.svg');
   }
   50%{
-    background-image: url('/img/logo_red.svg')
-  }
-  75%{
-    background-image: url('/img/logo_blue.svg')
+    background-image: url('/img/logo_dust_reverse.svg');
   }
   100%{
-    background-image: url('/img/logo_pink.svg')
+    background-image: url('/img/logo_dust.svg');
+  }
+`;
+
+const logoChange = keyframes`
+  0%{
+    background-image: url('/img/logo_badge_blue.svg');
+  }
+  25%{
+    background-image: url('/img/logo_badge_red.svg');
+  }
+  50%{
+    background-image: url('/img/logo_badge_blue.svg');
+  }
+  75%{
+    background-image: url('/img/logo_badge_pink.svg');
+  }
+  100%{
+    background-image: url('/img/logo_badge_blue.svg');
+  }
+`;
+const fistChange = keyframes`
+  0%{
+    background-image: url('/img/fist_fire_left.svg');
+    transform: translate(0,0);
+  }
+  25%{    
+    transform: translate(-5px,-5px);
+  }
+  50%{
+    background-image: url('/img/fist_fire_right.svg');
+    transform: translate(0,-10px);
+  }
+  75%{    
+    transform: translate(0,0);
+    transform: translate(5px,-5px);
+  }
+  100%{
+    background-image: url('/img/fist_fire_left.svg');
+    transform: translate(0,0);
   }
 `;
 
@@ -101,13 +149,16 @@ const zoomIn = keyframes`
   0% {
     transform:scale(0,0);
     opacity: 0;
-  }
-  50%{
-    transform:scale(0.5,0.5);
+    &:last-child() {
+      transform: rotate(20deg);
+    }
   }
   100% {
     transform:scale(1,1);
     opacity: 1;
+    &:last-child() {
+      transform: rotate(20deg);
+    }
   }
 `;
 
@@ -123,6 +174,15 @@ const shadowGrow = keyframes`
   }
 `;
 const Btn = styled.span``;
+
+const LogoContainer = styled.div`
+  position: relative;
+  display: flex;
+  width: 23.6%; //35.16vw = 450px, 27.34vw = 350px, 19.53vw=250px, 23.44vw=300px, 62:38
+  height: 23.6vw;
+  top: 22.06vh;
+  /* border: 1px solid red; */
+`;
 const StartLogo = styled.div`
   position: relative;
   display: flex;
@@ -131,33 +191,93 @@ const StartLogo = styled.div`
   justify-content: center;
   flex-direction: column;
 
-  background: center no-repeat;
-  background-size: cover;
+  background: url("/img/logo_badge_blue.svg") center no-repeat;
+  background-size: 100% 100%;
 
-  font-size: 15vmin;
+  /* font-size: 15vmin; */
 
-  width: 19.53%; //35.16vw = 450px, 27.34vw = 350px, 19.53vw=250px
-  height: 19.53vw;
-  top: 25%;
+  width: 100%; //35.16vw = 450px, 27.34vw = 350px, 19.53vw=250px, 23.44vw=300px 62:38
+  height: 100%;
+
   opacity: 0;
+
   background-color: transparent;
-  border-radius: 35%;
-  animation: ${zoomIn} 1s linear forwards, ${logoChange} 3s linear infinite;
-  animation-delay: 1s, 2.5s;
+
+  animation: ${zoomIn} 1s ease-in forwards, ${logoChange} 3s linear 2s infinite;
+
   padding: 0px;
-  z-index: 2;
+  z-index: -1;
 `;
 
 const Shadow = styled.div`
-  position: absolute;
+  position: relative;
   display: flex;
-  width: 14vw;
-  height: 14vw;
-  left: 43vw;
-  top: 32%;
+  width: 19.53%;
+  height: 19.53vw;
+
+  top: 6.25%;
+  left: 12.5%;
+  /* left: 43vw;
+  top: 32%; */
+  border: 1px solid blue;
+
+  background-color: transparent;
   border-radius: 50%;
   animation: ${shadowGrow} 1.5s infinite none;
   z-index: -1;
+`;
+
+const Fist = styled.div`
+  position: absolute;
+  display: flex;
+
+  /* border: 1px solid white; */
+
+  width: 7.81vw;
+  height: 14.76vw;
+  top: -13%;
+  left: 38%;
+
+  background: url("/img/fist_fire_left.svg") center no-repeat;
+  background-size: 100% 100%;
+  z-index: 1;
+
+  animation: ${fistChange} 1s linear infinite;
+`;
+
+const Dust = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+
+  width: 19.65vw;
+  height: 4.44vw;
+
+  bottom: 35%;
+  left: 1.95vw;
+
+  background: url("/img/logo_dust.svg") center no-repeat;
+  background-size: 100% 100%;
+  animation: ${dustChange} 3s ease-out infinite;
+  /* border: 1px solid red;  */
+`;
+
+const Title = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+
+  /* border: 1px solid blue; */
+  width: 27.34vw;
+  height: 7.81vw; //13.89vh
+
+  top: 62.5%;
+  left: -1.95vw;
+  opacity: 1;
+
+  background: url("/img/logo_title_fill.svg") center no-repeat;
+  background-size: 100%, 100%;
+  /* background-attachment: fixed; */
 `;
 
 const BtnMotion = keyframes`
@@ -169,6 +289,9 @@ const BtnMotion = keyframes`
  }
  100%{
   margin-top:0px;
+  &:nth-child(5) {
+      transform: rotate(20deg);
+    }
  }
 `;
 
@@ -189,7 +312,7 @@ const LoginDiv = styled.div`
 
   margin: auto;
 
-  animation: ${zoomIn} 1s linear 2s forwards;
+  animation: ${OPACTIY} 1s linear 3s forwards;
   opacity: 0;
 
   top: 8.01%;
@@ -204,7 +327,8 @@ const LoginDiv = styled.div`
     margin-left: 0.5vw;
     margin-right: 0.5vw;
 
-    animation: ${BtnMotion} 1s linear infinite;
+    animation: ${BtnMotion} 1.5s linear 5s infinite,
+      ${zoomIn} 1s linear forwards;
 
     background-position: center;
     background-size: 100%, 100%;
