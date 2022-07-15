@@ -15,8 +15,13 @@ export function Main () {
    const navigate = useNavigate();
    const dispatch = useDispatch();
 
-   const [userInfo, setUserInfo] = useState({});
-   const user = { userName: 'player1', userWin: '1', userLose: '2' };
+   const [user2Info, setUser2Info] = useState({});
+   const user = {
+      userName: 'player1',
+      userCharacter: '/img/mainUser1Img.png',
+      userWin: '1',
+      userLose: '2',
+   };
    const showUserImg = useState(true);
    const languageImg = [
       '/img/miniPython3.svg',
@@ -72,7 +77,7 @@ export function Main () {
 
    const EnterBattle = () => {
       enterEs.play();
-      navigate(`/battle/${userInfo.channelId}`);
+      navigate(`/battle/${user2Info.channelId}`);
    };
    const goSelection = () => {
       hoverEs.play();
@@ -114,7 +119,10 @@ export function Main () {
                            background: 'url(/img/mainCardPlayer.svg)',
                         }}
                      >
-                        <div className="thumbnail circle"></div>
+                        <div
+                           className="thumbnail circle"
+                           style={{ backgroundImage: `${user.userImg}` }}
+                        ></div>
                         <div className="description">
                            <tr className="content">이름: {user.userName}</tr>
                            <tr className="content">WIN: {user.userWin}</tr>
@@ -123,7 +131,7 @@ export function Main () {
                      </div>
                   </div>
 
-                  <img id="player1" src={userInfo.userCharacter} alt="" />
+                  <img id="player1" src={user.userCharacter} alt="" />
                </article>
 
                <aside className="aside">
@@ -135,16 +143,15 @@ export function Main () {
                   >
                      <div
                         className="thumbnail circle"
-                        style={{ backgroundImage: `${userInfo.userImg}` }}
                      ></div>
                      <div className="description">
-                        <tr className="content2">이름: {userInfo.userName}</tr>
-                        <tr className="content2">WIN: {userInfo.userWin}</tr>
-                        <tr className="content2">LOSE: {userInfo.userLose}</tr>
+                        <tr className="content2">이름: {user2Info.userName}</tr>
+                        <tr className="content2">WIN: {user2Info.userWin}</tr>
+                        <tr className="content2">LOSE: {user2Info.userLose}</tr>
                      </div>
                   </div>
                   {showUserImg ? (
-                     <img id="player2" src={userInfo.userCharacter} alt="" />
+                     <img id="player2" src={user2Info.userCharacter} alt="" />
                   ) : null}
                </aside>
             </main>
@@ -155,12 +162,12 @@ export function Main () {
                      allUsers.map((item, idx) => {
                         return (
                            <React.Fragment key={idx}>
-                              {allUsers.length - 1 === idx  ? (
+                              {allUsers.length - 1 === idx ? (
                                  <div
                                     ref={ref}
                                     className="scene"
                                     onClick={() => {
-                                       setUserInfo(allUsers[idx]);
+                                       setUser2Info(allUsers[idx]);
                                     }}
                                  >
                                     <div className="card">
@@ -204,7 +211,7 @@ export function Main () {
                                  <div
                                     className="scene"
                                     onClick={() => {
-                                       setUserInfo(allUsers[idx]);
+                                       setUser2Info(allUsers[idx]);
                                     }}
                                  >
                                     <div className="card">
