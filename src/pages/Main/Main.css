@@ -53,17 +53,13 @@ article {
 }
 
 .thumbnail {
-  background-image: url("https://image.shutterstock.com/image-vector/pixel-art-black-bodyguard-character-260nw-1056562499.jpg");
+  background-image: url('https://image.shutterstock.com/image-vector/pixel-art-black-bodyguard-character-260nw-1056562499.jpg');
   object-fit: cover;
   background-repeat: no-repeat;
   background-position: center;
   width: 100px;
   height: 100px;
   margin: auto 30px;
-}
-
-.thumbnail.circle {
-  border-radius: 1%;
 }
 
 .description {
@@ -125,7 +121,7 @@ section {
   display: flex;
   overflow-x: scroll;
   overflow-y: hidden;
-  gap: 11em;
+  gap: 12em;
   width: 90%;
   align-items: center;
   z-index: 3;
@@ -134,7 +130,7 @@ section {
   left: -30px;
   margin-left: -30px;
   padding-bottom: 150px;
-  margin-top: 40px;
+  margin-top: 30px;
   border: 1px solid #fffae3;
   border-radius: 3px;
 }
@@ -155,7 +151,7 @@ section {
 }
 
 .scene {
-  width: 8em;
+  width: 6em;
   height: 10em;
   perspective: 30em;
   cursor: pointer;
