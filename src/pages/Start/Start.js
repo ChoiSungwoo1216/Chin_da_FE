@@ -1,7 +1,7 @@
 import React from "react";
 import LoginModal from "./components/LoginModal";
 import styled, { keyframes, css } from "styled-components";
-
+import "./startAnimation.css";
 const Start = () => {
   const [modalOpen, setModalOpen] = React.useState(false);
   const [HOVER, setHOVER] = React.useState(false);
@@ -16,7 +16,6 @@ const Start = () => {
     <StartContainer>
       <LogoContainer>
         <StartLogo>
-          {/* <InDiv /> */}
           <Fist />
           <Dust />
           <Title />
@@ -29,6 +28,7 @@ const Start = () => {
           setHOVER(false);
         }}
         onClick={HOVER === true && open}
+        disabled="false"
       >
         {HOVER === false && (
           <>
@@ -72,65 +72,6 @@ const Start = () => {
 
 export default Start;
 
-const OPACTIY = keyframes`
-  from{
-    opacity: 0;
-  }
-  to{
-    opacity: 1;
-  }
-`;
-const dustChange = keyframes`
-  0%{
-    background-image: url('/img/logo_dust.svg');
-  }
-  50%{
-    background-image: url('/img/logo_dust_reverse.svg');
-  }
-  100%{
-    background-image: url('/img/logo_dust.svg');
-  }
-`;
-
-const logoChange = keyframes`
-  0%{
-    background-image: url('/img/logo_badge_blue.svg');
-  }
-  25%{
-    background-image: url('/img/logo_badge_red.svg');
-  }
-  50%{
-    background-image: url('/img/logo_badge_blue.svg');
-  }
-  75%{
-    background-image: url('/img/logo_badge_pink.svg');
-  }
-  100%{
-    background-image: url('/img/logo_badge_blue.svg');
-  }
-`;
-const fistChange = keyframes`
-  0%{
-    background-image: url('/img/fist_fire_left.svg');
-    transform: translate(0,0);
-  }
-  25%{    
-    transform: translate(-5px,-5px);
-  }
-  50%{
-    background-image: url('/img/fist_fire_right.svg');
-    transform: translate(0,-10px);
-  }
-  75%{    
-    transform: translate(0,0);
-    transform: translate(5px,-5px);
-  }
-  100%{
-    background-image: url('/img/fist_fire_left.svg');
-    transform: translate(0,0);
-  }
-`;
-
 const StartContainer = styled.div`
   display: flex;
   position: absolute;
@@ -156,23 +97,37 @@ const zoomIn = keyframes`
   100% {
     transform:scale(1,1);
     opacity: 1;
+  }
+`;
+const loginUp = keyframes`
+  0% {
+    transform:scale(0,0) translateY(-500px);
+    opacity: 1;
+    &:last-child() {
+      transform: rotate(20deg);
+    }
+  }
+  100% {
+    transform:scale(1,1) translateY(0);
+    opacity: 1;
     &:last-child() {
       transform: rotate(20deg);
     }
   }
 `;
+const BtnMotion = keyframes`
+ 0%{
+  margin-top:0px;
+ }
+ 50%{
+  margin-top:20px;
+ }
+ 100%{
+  margin-top:0px;
 
-const shadowGrow = keyframes`
-  0%{
-    box-shadow: 0 20px 50px rgb(23, 32, 90);
-  }
-  50%{
-    box-shadow: 0 20px 70px 30px rgb(40, 60, 110);
-  }
-  100%{
-    box-shadow: 0 20px 50px rgb(23, 32, 90);
-  }
+ }
 `;
+
 const Btn = styled.span``;
 
 const LogoContainer = styled.div`
@@ -203,7 +158,7 @@ const StartLogo = styled.div`
 
   background-color: transparent;
 
-  animation: ${zoomIn} 1s ease-in forwards, ${logoChange} 3s linear 2s infinite;
+  animation: ${zoomIn} 1s ease-in forwards, logoChange 3s linear 2s infinite;
 
   padding: 0px;
   z-index: -1;
@@ -223,7 +178,7 @@ const Shadow = styled.div`
 
   background-color: transparent;
   border-radius: 50%;
-  animation: ${shadowGrow} 1.5s infinite none;
+  animation: shadowGrow 1.5s infinite none;
   z-index: -1;
 `;
 
@@ -242,7 +197,7 @@ const Fist = styled.div`
   background-size: 100% 100%;
   z-index: 1;
 
-  animation: ${fistChange} 1s linear infinite;
+  animation: fistChange 0.5s steps(1) infinite;
 `;
 
 const Dust = styled.div`
@@ -258,7 +213,8 @@ const Dust = styled.div`
 
   background: url("/img/logo_dust.svg") center no-repeat;
   background-size: 100% 100%;
-  animation: ${dustChange} 3s ease-out infinite;
+  animation: dustChange 2s infinite;
+  transition: none;
   /* border: 1px solid red;  */
 `;
 
@@ -273,26 +229,11 @@ const Title = styled.div`
 
   top: 62.5%;
   left: -1.95vw;
-  opacity: 1;
+  opacity: 0;
 
   background: url("/img/logo_title_fill.svg") center no-repeat;
   background-size: 100%, 100%;
-  /* background-attachment: fixed; */
-`;
-
-const BtnMotion = keyframes`
- 0%{
-  margin-top:0px;
- }
- 50%{
-  margin-top:20px;
- }
- 100%{
-  margin-top:0px;
-  &:nth-child(5) {
-      transform: rotate(20deg);
-    }
- }
+  animation: OPACITY 0.1s 1.3s forwards, titleChange 0.5s infinite 1.5s steps(2);
 `;
 
 const LoginDiv = styled.div`
@@ -312,10 +253,10 @@ const LoginDiv = styled.div`
 
   margin: auto;
 
-  animation: ${OPACTIY} 1s linear 3s forwards;
+  animation: OPACITY 0.1s linear 3s forwards;
   opacity: 0;
 
-  top: 8.01%;
+  top: 10vmin;
 
   & span {
     width: 3.125vw;
@@ -323,16 +264,17 @@ const LoginDiv = styled.div`
     display: flex;
     position: relative;
     justify-content: space-between;
-
+    opacity: 0;
     margin-left: 0.5vw;
     margin-right: 0.5vw;
 
-    animation: ${BtnMotion} 1.5s linear 5s infinite,
-      ${zoomIn} 1s linear forwards;
+    /* animation: ${loginUp} 1s linear 4s forwards,
+      ${BtnMotion} 1.5s linear 5s infinite; */
 
     background-position: center;
     background-size: 100%, 100%;
     background-repeat: no-repeat;
+    animation: ${BtnMotion} 1.5s linear infinite, ${loginUp} 1s linear forwards;
 
     cursor: pointer;
     /* &:hover {
@@ -344,19 +286,27 @@ const LoginDiv = styled.div`
     } */
 
     &:nth-child(1) {
-      animation-delay: 0.2s;
+      animation: ${BtnMotion} 1.5s linear 3.2s infinite,
+        ${loginUp} 1s linear 4.2s forwards;
     }
     &:nth-child(2) {
-      animation-delay: 0.4s;
+      top: 10px;
+      animation: ${BtnMotion} 1.5s linear 3.4s infinite,
+        ${loginUp} 1s linear 4.4s forwards;
     }
     &:nth-child(3) {
-      animation-delay: 0.6s;
+      top: -10px;
+      animation: ${BtnMotion} 1.5s linear 3.6s infinite,
+        ${loginUp} 1s linear 4.6s forwards;
     }
     &:nth-child(4) {
-      animation-delay: 0.8s;
+      animation: ${BtnMotion} 1.5s linear 3.8s infinite,
+        ${loginUp} 1s linear 4.8s forwards;
     }
     &:nth-child(5) {
-      animation-delay: 1s;
+      animation: ${BtnMotion} 1.5s linear 4s infinite,
+        ${loginUp} 1s linear 5s forwards;
+      transform: rotate(20deg);
     }
   }
 `;
@@ -366,16 +316,13 @@ const BtnL = styled(Btn)`
 `;
 const BtnO = styled(Btn)`
   background-image: url("/img/login_O.svg");
-  top: 10px;
 `;
 const BtnG = styled(Btn)`
   background-image: url("/img/login_G.svg");
-  top: -10px;
 `;
 const BtnI = styled(Btn)`
   background-image: url("/img/login_I.svg");
 `;
 const BtnN = styled(Btn)`
   background-image: url("/img/login_N.svg");
-  transform: rotate(20deg);
 `;
