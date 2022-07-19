@@ -72,11 +72,12 @@ const Bar = styled.div`
   align-items: center;
   /* background: url("/img/pro_new_new.svg") no-repeat center fixed; */
   background-size: cover;
-  background-color: rgba(211, 211, 211, 0.4);
+  background-color: rgba(211, 211, 211, 0.1);
   border-top: 10px solid #ffffff;
   border-left: 0.86vw solid #c4c1b5;
   border-right: 0.86vw solid #c1b78e;
   border-bottom: 10px solid #a0935c;
+  border-radius: 10px;
   bottom: 0.7vh;
   /* background-attachment: fixed; */
   //default 690x40, new 690x50, new_new 640x50
@@ -104,6 +105,7 @@ const CountBox = styled.div`
   background-color: #5777ce;
   background: url("/img/progress_block.svg") no-repeat center;
   background-size: 100% 100%;
+  border-radius: 7px;
   ${(props) =>
     props.count < 6
       ? css`

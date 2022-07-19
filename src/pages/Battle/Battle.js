@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { css, keyframes } from "styled-components";
 import Modal from "react-modal";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 /*COMPONENTS*/
@@ -34,7 +34,13 @@ Modal.setAppElement("#root");
 const Battle = () => {
   const selected = useSelector((state) => state.user.selected);
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const params = useParams();
+  // 방 정보
+  const info = location.state;
+  const roomId = params;
+  console.log(info)
+  console.log(roomId)
   //sound
   const userSound = useSelector((state) => state.user.sound);
   const btnEs = effectSound(btnSound, userSound.es);
@@ -148,6 +154,7 @@ const Battle = () => {
       setUserCamSlide(false);
     } else {
       setUserCamSlide(true);
+      call(remotePeerIdValue)
     }
   };
   const openOpCam = () => {
@@ -156,6 +163,7 @@ const Battle = () => {
       setOpCamSlide(false);
     } else {
       setOpCamSlide(true);
+      call(remotePeerIdValue)
     }
   };
 
@@ -183,7 +191,9 @@ const Battle = () => {
 
   //결과창 열기
   const [rOpen, setROpen] = React.useState(false);
+  const [result, setResult] = React.useState("WIN")
 
+  //나가기
   const BackToMain = () => {
     btnEs.play();
     navigate(`/Main`);
@@ -283,16 +293,15 @@ const Battle = () => {
           {gameStart === false ? <ReadyUser /> : null}
           <UserSubmitPending run={userPending} setRun={setUserPending} />
           <AceEditorPlayer mode={mode} theme={theme}></AceEditorPlayer>
-
           <UserCamDiv>
             <CamBar>
               <span>Player1</span>
-              <CamIcon src={"/img/camIcon.svg"} alt="" onClick={openUserCam} />
+              <CamIcon src={userCamSlide === true ? "/img/cam_icon.svg" : "/img/cam_double_cross.svg"} alt="" onClick={openUserCam} />
             </CamBar>
             {userCamSlide && (
               <Cam>
                 <video
-                  style={{ width: "100%", maxWidth: "100%", height: "auto" }}
+                  style={{ width: "auto", maxWidth: "100%", height: "auto", objectFit:"cover"}}
                   ref={currentUserVideoRef}
                 />
               </Cam>
@@ -325,12 +334,12 @@ const Battle = () => {
           <OpCamDiv>
             <CamBar>
               <span>Player2</span>
-              <CamIcon src={"/img/camIcon.svg"} alt="" onClick={openOpCam} />
+              <CamIcon src={opCamSlide === true ? "/img/cam_icon.svg" : "/img/cam_double_cross.svg"} alt="" onClick={openOpCam} />
             </CamBar>
             {opCamSlide && (
               <Cam>
                 <video
-                  style={{ width: "100%", maxWidth: "100%", height: "auto" }}
+                  style={{ width: "auto", maxWidth: "100%", height: "auto", objectFit:"cover" }}
                   ref={remoteVideoRef}
                 />
               </Cam>
@@ -339,9 +348,9 @@ const Battle = () => {
         </OpponentDiv>
       </BodyPart>
       {showQuestionModal && <QuestionModal setValue={setShowQuestionModal} />}
-      {showSuccessModal && <SuccessModal setROpen={setROpen} />}
-      {showFailModal && <FailModal setROpen={setROpen} />}
-      {rOpen && <Result setROpen={setROpen} />}
+      {showSuccessModal && <SuccessModal setROpen={setROpen} setResult={setResult} />}
+      {showFailModal && <FailModal setROpen={setROpen} setResult={setResult} />}
+      {rOpen && <Result setROpen={setROpen} result={result} />}
 
       <Control
         setRunTimer={setRunTimer}
@@ -513,6 +522,9 @@ const CamBar = styled.div`
 const CamIcon = styled.img`
   width: calc((2vh + 2vw) / 2);
   height: calc((2vh + 2vw) / 2);
+  &:hover{
+    content: url("/img/cam_cross.svg");
+  }
 `;
 
 const Cam = styled.div`

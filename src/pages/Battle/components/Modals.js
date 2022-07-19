@@ -90,7 +90,7 @@ export const QuestionModal = (p) => {
 };
 
 /*SuccessModal*/
-export const SuccessModal = ({setROpen}) => {
+export const SuccessModal = ({setROpen, setResult}) => {
   const userSound = useSelector((state) => state.user.sound);
   const winEs = effectSound(winSound, userSound.es);
   React.useEffect(() => {
@@ -112,13 +112,13 @@ export const SuccessModal = ({setROpen}) => {
     <>
       <Modal
         isOpen={modalIsOpen}
-        onRequestClose={() => {setIsOpen(false); setROpen(true)}}
+        onRequestClose={() => {setIsOpen(false); setROpen(true); setResult("WIN")}}
         style={customModalStyles}
       >
         <img
           className="ExitBtn"
           src="/img/X_btn_black_30.svg"
-          onClick={() => {setIsOpen(false); setROpen(true)}}
+          onClick={() => {setIsOpen(false); setROpen(true); setResult("WIN")}}
           alt=""
         />
         <div className="ConfettiTxt">
@@ -134,7 +134,7 @@ export const SuccessModal = ({setROpen}) => {
 };
 
 /*FailModal*/
-export const FailModal = ({setROpen}) => {
+export const FailModal = ({setROpen, setResult}) => {
   const userSound = useSelector((state) => state.user.sound);
   const loseEs = effectSound(loseSound, userSound.es);
   React.useEffect(() => {
@@ -181,13 +181,13 @@ export const FailModal = ({setROpen}) => {
     <>
       <Modal
         isOpen={modalIsOpen}
-        onRequestClose={() => {setIsOpen(false); setROpen(true)}}
+        onRequestClose={() => {setIsOpen(false); setROpen(true);}}
         style={customModalStyles}
       >
         <img
           className="ExitBtn"
           src="/img/X_btn_black_30.svg"
-          onClick={() => {setIsOpen(false); setROpen(true)}}
+          onClick={() => {setIsOpen(false); setROpen(true); setResult("LOSE");}}
           alt=""
         />
         <div className="ConfettiTxt">
