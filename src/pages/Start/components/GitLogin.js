@@ -8,30 +8,38 @@ import { useNavigate } from "react-router-dom";
 const GitLogin = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
+  function loading(a) {
     setTimeout(() => {
-      navigate("/selection");
+      navigate(`/${a}`);
     }, 3000);
-  }, []);
-  useEffect(() => {
+  }
+  const client_secret = "7fdbc1019122ced80cfffef473cfa4b3398e2df3";
+  const client_id = "44af62885d9f67153ed1";
+
+  const gitAxios = async () => {
     let params = new URL(document.location.toString()).searchParams;
     let code = params.get("code"); // 인가코드 받는 부분
-    console.log(code);
-    axios
-      .post(`http://123.4125.432/hsost`, code, {
-        headers: {
-          //authorizationCode: authorizationCode,
-        },
-      })
+    // const GitApi = `https://github.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${code}`;
+    // console.log(GitApi);
+    // axios.defaults.withCredentials = true;
+    await axios({
+      method: "post",
+      url: ``,
+      data: { client_id, client_secret, code },
+    })
       .then((res) => {
-        console.log(res);
-        //navigate('/main')
+        console.log(res.data);
+        loading("selection");
         // res에 포함된 토큰 받아서 원하는 로직을 하면된다.
       })
       .catch((err) => {
-        console.log(err);
-        //navigate('/')
+        console.log(err.response.status + "------err");
+        loading("selection");
       });
+  };
+
+  useEffect(() => {
+    gitAxios();
   }, []);
 
   return (

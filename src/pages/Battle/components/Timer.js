@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./ProgressBar.css";
+import styled from "styled-components";
 
 function Timer(p) {
   const times = p.value.Time; // 난이도별 시간
@@ -40,10 +40,22 @@ function Timer(p) {
   }, [minutes, seconds, active]);
 
   return (
-    <span className="counter">
+    <Counts className="counter">
       &nbsp;{minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-    </span>
+    </Counts>
   );
 }
 
 export default Timer;
+
+const Counts = styled.span`
+  display: flex;
+  position: absolute;
+  width: 6.5%;
+  top: 30%;
+  left: 2.5%;
+  justify-content: center;
+
+  color: black;
+  font-size: calc((1.5vh + 1.5vw) / 2);
+`;

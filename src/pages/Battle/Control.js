@@ -20,6 +20,7 @@ const Control = (props) => {
     setRunCountdown,
     setGameStart,
     setQueOpen,
+    setRunPending,
   } = props;
 
   const already = useSelector((state) => state.user.already);
@@ -29,6 +30,7 @@ const Control = (props) => {
     setGameStart(true);
     setRunCountdown(true);
     const countdown = setInterval(() => {
+      setRunTimer(true);
       setRunCountdown(false);
       setShowQuestionModal(true);
       dispatch(alreadyUser({ user: false, opp: false }));
@@ -46,6 +48,7 @@ const Control = (props) => {
   const alreadyToStart = () => {
     already.user && already.opp === true && onCountdown();
   };
+
   useEffect(() => {
     alreadyToStart();
   }, [already]);
@@ -89,6 +92,8 @@ const Control = (props) => {
       <div>
         결과창 on
         <button onClick={() => setROpen(true)}>열기</button>
+        제출 Pending
+        <button onClick={() => setRunPending(true)}>ㄱㄱ</button>
       </div>
       <div>
         Peer 관련

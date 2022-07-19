@@ -9,7 +9,7 @@ import AceEditorPlayer from "./components/AceEditorPlayer";
 import AceEditorOpp from "./components/AceEditorOpp";
 import Control from "./Control";
 import ChatBox from "./components/ChatBox";
-import ProgressBar from "./components/ProgressBar";
+import ProBar from "./components/ProBar";
 import Alert from "./components/Alert";
 import Result from "./components/Result";
 import Countdown from "./components/CountDown";
@@ -17,12 +17,16 @@ import Countdown from "./components/CountDown";
 import { QuestionModal, SuccessModal, FailModal } from "./components/Modals";
 
 import Peer from "peerjs";
-import ReadyUser from "./components/ReadyUser";
-import ReadyOpp from "./components/ReadyOpp";
+import {
+  ReadyUser,
+  ReadyOpp,
+  UserSubmitPending,
+  OppSubmitPending,
+} from "./components/Ready";
 
-import effectSound from '../../shared/effectSound';
-import btnSound from '../../audios/btnselect.mp3';
-import camSound from "../../audios/camOff.mp3"
+import effectSound from "../../shared/effectSound";
+import btnSound from "../../audios/btnselect.mp3";
+import camSound from "../../audios/camOff.mp3";
 
 Modal.setAppElement("#root");
 
@@ -51,6 +55,7 @@ const Battle = () => {
   const timerValue = {
     Time: timeSetting,
     Active: runTimer,
+    setActive: setRunTimer,
   };
 
   const SetTime = () => {
@@ -77,7 +82,9 @@ const Battle = () => {
 
   //ReadyUser
   const [gameStart, setGameStart] = React.useState(false);
-  console.log(gameStart);
+
+  //Submit
+  const [runPending, setRunPending] = React.useState(false);
 
   //서버에서 받아오는 기본 형태들
   //    const JsDefault = `function solution(num) {
@@ -118,7 +125,7 @@ const Battle = () => {
   //채팅 열고 닫기
   const [chatOpen, setChatOpen] = React.useState(false);
   const openChat = () => {
-    btnEs.play()
+    btnEs.play();
     if (chatOpen) {
       setChatOpen(false);
     } else {
@@ -129,7 +136,7 @@ const Battle = () => {
   //문제 열고 닫기
   const [queOpen, setQueOpen] = React.useState(false);
   const openQue = () => {
-    btnEs.play()
+    btnEs.play();
     if (queOpen) {
       setQueOpen(false);
     } else {
@@ -141,7 +148,7 @@ const Battle = () => {
   const [rOpen, setROpen] = React.useState(false);
 
   const BackToMain = () => {
-    btnEs.play()
+    btnEs.play();
     navigate(`/Main`);
   };
 
@@ -221,7 +228,7 @@ const Battle = () => {
       />
       <HeadPart>
         <TimerDiv>
-          <ProgressBar value={timerValue} />
+          <ProBar value={timerValue} />
         </TimerDiv>
         <BtnDiv>
           <BtnOnOff onClick={openQue} change={queOpen}>
@@ -237,6 +244,7 @@ const Battle = () => {
       <BodyPart>
         <UserDiv>
           {gameStart === false ? <ReadyUser /> : null}
+          <UserSubmitPending run={runPending} setRun={setRunPending} />
           <AceEditorPlayer mode={mode} theme={theme}></AceEditorPlayer>
 
           <UserCamDiv>
@@ -291,8 +299,8 @@ const Battle = () => {
         </OpponentDiv>
       </BodyPart>
       {showQuestionModal && <QuestionModal setValue={setShowQuestionModal} />}
-      {showSuccessModal && <SuccessModal setROpen={setROpen}/>}
-      {showFailModal && <FailModal setROpen={setROpen}/>}
+      {showSuccessModal && <SuccessModal setROpen={setROpen} />}
+      {showFailModal && <FailModal setROpen={setROpen} />}
       {rOpen && <Result setROpen={setROpen} />}
 
       <Control
@@ -311,6 +319,7 @@ const Battle = () => {
         setRunCountdown={setRunCountdown}
         setGameStart={setGameStart}
         setQueOpen={setQueOpen}
+        setRunPending={setRunPending}
       />
     </Container>
   );

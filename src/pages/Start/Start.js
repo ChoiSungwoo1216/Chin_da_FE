@@ -1,10 +1,12 @@
 import React from "react";
 import LoginModal from "./components/LoginModal";
 import styled, { keyframes, css } from "styled-components";
-
+import "./startAnimation.css";
 const Start = () => {
   const [modalOpen, setModalOpen] = React.useState(false);
   const [HOVER, setHOVER] = React.useState(false);
+  const [timing, setTiming] = React.useState(false);
+
   const open = () => {
     setModalOpen(true);
   };
@@ -12,11 +14,16 @@ const Start = () => {
     setModalOpen(false);
   };
 
+  React.useEffect(() => {
+    const count = setInterval(() => {
+      setTiming(true);
+    }, 5000);
+  }, []);
+
   return (
     <StartContainer>
       <LogoContainer>
         <StartLogo>
-          {/* <InDiv /> */}
           <Fist />
           <Dust />
           <Title />
@@ -25,10 +32,12 @@ const Start = () => {
 
       <LoginDiv
         HOVER={HOVER}
+        timing={timing}
         onMouseOut={() => {
           setHOVER(false);
         }}
         onClick={HOVER === true && open}
+        disabled="true"
       >
         {HOVER === false && (
           <>
@@ -72,73 +81,14 @@ const Start = () => {
 
 export default Start;
 
-const OPACTIY = keyframes`
-  from{
-    opacity: 0;
-  }
-  to{
-    opacity: 1;
-  }
-`;
-const dustChange = keyframes`
-  0%{
-    background-image: url('/img/logo_dust.svg');
-  }
-  50%{
-    background-image: url('/img/logo_dust_reverse.svg');
-  }
-  100%{
-    background-image: url('/img/logo_dust.svg');
-  }
-`;
-
-const logoChange = keyframes`
-  0%{
-    background-image: url('/img/logo_badge_blue.svg');
-  }
-  25%{
-    background-image: url('/img/logo_badge_red.svg');
-  }
-  50%{
-    background-image: url('/img/logo_badge_blue.svg');
-  }
-  75%{
-    background-image: url('/img/logo_badge_pink.svg');
-  }
-  100%{
-    background-image: url('/img/logo_badge_blue.svg');
-  }
-`;
-const fistChange = keyframes`
-  0%{
-    background-image: url('/img/fist_fire_left.svg');
-    transform: translate(0,0);
-  }
-  25%{    
-    transform: translate(-5px,-5px);
-  }
-  50%{
-    background-image: url('/img/fist_fire_right.svg');
-    transform: translate(0,-10px);
-  }
-  75%{    
-    transform: translate(0,0);
-    transform: translate(5px,-5px);
-  }
-  100%{
-    background-image: url('/img/fist_fire_left.svg');
-    transform: translate(0,0);
-  }
-`;
-
 const StartContainer = styled.div`
   display: flex;
-  position: absolute;
+  position: relative;
   flex-direction: column;
-
   align-items: center;
-
+  overflow-y: auto;
   width: 100vw;
+  min-height: 500px;
   height: 100vh;
   /* background-color: lightgray; */
   z-index: 1;
@@ -156,31 +106,48 @@ const zoomIn = keyframes`
   100% {
     transform:scale(1,1);
     opacity: 1;
-    &:last-child() {
+  }
+`;
+const loginUp = keyframes`
+  0% {
+    transform:scale(0,0) translateY(-500px);
+    opacity: 1;
+
+  }
+  100% {
+    transform:scale(1,1) translateY(0);
+    opacity: 1;
+
+  }
+`;
+const BtnMotion = keyframes`
+ 0%{
+  margin-top:0px;
+  &:last-child() {
       transform: rotate(20deg);
     }
-  }
+ }
+ 50%{
+  margin-top:20px;
+ }
+ 100%{
+  margin-top:0px;
+  &:last-child() {
+      transform: rotate(20deg);
+    }
+ }
 `;
 
-const shadowGrow = keyframes`
-  0%{
-    box-shadow: 0 20px 50px rgb(23, 32, 90);
-  }
-  50%{
-    box-shadow: 0 20px 70px 30px rgb(40, 60, 110);
-  }
-  100%{
-    box-shadow: 0 20px 50px rgb(23, 32, 90);
-  }
-`;
 const Btn = styled.span``;
 
 const LogoContainer = styled.div`
   position: relative;
   display: flex;
+
   width: 23.6%; //35.16vw = 450px, 27.34vw = 350px, 19.53vw=250px, 23.44vw=300px, 62:38
   height: 23.6vw;
   top: 22.06vh;
+
   /* border: 1px solid red; */
 `;
 const StartLogo = styled.div`
@@ -203,35 +170,33 @@ const StartLogo = styled.div`
 
   background-color: transparent;
 
-  animation: ${zoomIn} 1s ease-in forwards, ${logoChange} 3s linear 2s infinite;
+  animation: ${zoomIn} 1s ease-in forwards, logoChange 3s linear 2s infinite;
 
   padding: 0px;
   z-index: -1;
 `;
 
-const Shadow = styled.div`
-  position: relative;
-  display: flex;
-  width: 19.53%;
-  height: 19.53vw;
+// const Shadow = styled.div`
+//   position: relative;
+//   display: flex;
+//   width: 19.53%;
+//   height: 19.53vw;
 
-  top: 6.25%;
-  left: 12.5%;
-  /* left: 43vw;
-  top: 32%; */
-  border: 1px solid blue;
+//   top: 6.25%;
+//   left: 12.5%;
+//   /* left: 43vw;
+//   top: 32%; */
+//   border: 1px solid blue;
 
-  background-color: transparent;
-  border-radius: 50%;
-  animation: ${shadowGrow} 1.5s infinite none;
-  z-index: -1;
-`;
+//   background-color: transparent;
+//   border-radius: 50%;
+//   animation: shadowGrow 1.5s infinite none;
+//   z-index: -1;
+// `;
 
 const Fist = styled.div`
   position: absolute;
   display: flex;
-
-  /* border: 1px solid white; */
 
   width: 7.81vw;
   height: 14.76vw;
@@ -242,7 +207,7 @@ const Fist = styled.div`
   background-size: 100% 100%;
   z-index: 1;
 
-  animation: ${fistChange} 1s linear infinite;
+  animation: fistChange 0.5s steps(1) infinite;
 `;
 
 const Dust = styled.div`
@@ -258,8 +223,8 @@ const Dust = styled.div`
 
   background: url("/img/logo_dust.svg") center no-repeat;
   background-size: 100% 100%;
-  animation: ${dustChange} 3s ease-out infinite;
-  /* border: 1px solid red;  */
+  animation: dustChange 2s infinite;
+  transition: none;
 `;
 
 const Title = styled.div`
@@ -267,32 +232,16 @@ const Title = styled.div`
   display: flex;
   justify-content: center;
 
-  /* border: 1px solid blue; */
   width: 27.34vw;
   height: 7.81vw; //13.89vh
 
   top: 62.5%;
   left: -1.95vw;
-  opacity: 1;
+  opacity: 0;
 
   background: url("/img/logo_title_fill.svg") center no-repeat;
   background-size: 100%, 100%;
-  /* background-attachment: fixed; */
-`;
-
-const BtnMotion = keyframes`
- 0%{
-  margin-top:0px;
- }
- 50%{
-  margin-top:20px;
- }
- 100%{
-  margin-top:0px;
-  &:nth-child(5) {
-      transform: rotate(20deg);
-    }
- }
+  animation: OPACITY 0.1s 1.5s forwards, titleChange 0.5s infinite 1.7s steps(2);
 `;
 
 const LoginDiv = styled.div`
@@ -309,13 +258,12 @@ const LoginDiv = styled.div`
 
   width: 19.16%;
   height: 8.13%;
+  margin-top: 30vh;
 
-  margin: auto;
-
-  animation: ${OPACTIY} 1s linear 3s forwards;
+  animation: OPACITY 0.1s linear 3s forwards;
   opacity: 0;
 
-  top: 8.01%;
+  /* top: 10vmin; */
 
   & span {
     width: 3.125vw;
@@ -323,41 +271,59 @@ const LoginDiv = styled.div`
     display: flex;
     position: relative;
     justify-content: space-between;
-
+    opacity: 0;
     margin-left: 0.5vw;
     margin-right: 0.5vw;
-
-    animation: ${BtnMotion} 1.5s linear 5s infinite,
-      ${zoomIn} 1s linear forwards;
 
     background-position: center;
     background-size: 100%, 100%;
     background-repeat: no-repeat;
 
     cursor: pointer;
-    /* &:hover {
-      transform: rotate(20deg) translateY(-10px);
-      transition: 1s linear;
-      z-index: 1;
-      width: 19.16vw;
-      height: 8.13vw;
-    } */
 
-    &:nth-child(1) {
-      animation-delay: 0.2s;
-    }
-    &:nth-child(2) {
-      animation-delay: 0.4s;
-    }
-    &:nth-child(3) {
-      animation-delay: 0.6s;
-    }
-    &:nth-child(4) {
-      animation-delay: 0.8s;
-    }
-    &:nth-child(5) {
-      animation-delay: 1s;
-    }
+    ${(props) =>
+      props.timing === false
+        ? css`
+            pointer-events: none;
+            animation: ${BtnMotion} 1s linear infinite,
+              ${loginUp} 1s linear forwards;
+            &:nth-child(1) {
+              animation-delay: 3.2s;
+            }
+            &:nth-child(2) {
+              animation-delay: 3.4s;
+            }
+            &:nth-child(3) {
+              animation-delay: 3.6s;
+            }
+            &:nth-child(4) {
+              animation-delay: 3.8s;
+            }
+            &:nth-child(5) {
+              animation-delay: 4s;
+              transform: rotate(20deg);
+            }
+          `
+        : css`
+            animation: ${BtnMotion} 1s linear infinite forwards;
+            opacity: 1;
+            &:nth-child(1) {
+              animation-delay: 0.2s;
+            }
+            &:nth-child(2) {
+              animation-delay: 0.4s;
+            }
+            &:nth-child(3) {
+              animation-delay: 0.6s;
+            }
+            &:nth-child(4) {
+              animation-delay: 0.8s;
+            }
+            &:nth-child(5) {
+              animation-delay: 1s;
+              transform: rotate(20deg);
+            }
+          `}
   }
 `;
 
@@ -366,16 +332,13 @@ const BtnL = styled(Btn)`
 `;
 const BtnO = styled(Btn)`
   background-image: url("/img/login_O.svg");
-  top: 10px;
 `;
 const BtnG = styled(Btn)`
   background-image: url("/img/login_G.svg");
-  top: -10px;
 `;
 const BtnI = styled(Btn)`
   background-image: url("/img/login_I.svg");
 `;
 const BtnN = styled(Btn)`
   background-image: url("/img/login_N.svg");
-  transform: rotate(20deg);
 `;
