@@ -23,6 +23,7 @@ export function Main() {
       userLose: '2',
    };
    const showUserImg = useState(true);
+   console.log(showUserImg);
    const languageImg = [
       '/img/miniPython3.svg',
       '/img/miniJava.svg',
@@ -88,82 +89,76 @@ export function Main() {
          <div className="mainContainer">
             <main>
                <div
-                  className="mainNavBar"
+                  className="profile"
+                  style={{
+                     backgroundImage: 'url(/img/mainCardPlayer.svg)',
+                     backgroundRepeat: 'no-repeat',
+                     backgroundSize: 'contain',
+                  }}
+               >
+                  <img className="thumbnail" src={user.userCharacter} alt="" />
+                  <div className="description">
+                     <p>이름: {user.userName}</p>
+                     <p>WIN: {user.userWin}</p>
+                     <p>LOSE: {user.userLose}</p>
+                  </div>
+               </div>
+
+               <div
+                  className="profile"
+                  style={{
+                     backgroundImage: 'url(/img/mainCardPlayer.svg)',
+                     backgroundRepeat: 'no-repeat',
+                     backgroundSize: 'contain',
+                  }}
+               >
+                  <img
+                     className="thumbnail"
+                     src={user2Info.userCharacter}
+                     alt=""
+                     onError={(e) => (e.target.style.display = 'none')}
+                  />
+
+                  <div className="description">
+                     <p>이름: {user2Info.userName}</p>
+                     <p>WIN: {user2Info.userWin}</p>
+                     <p>LOSE: {user2Info.userLose}</p>
+                  </div>
+               </div>
+               <article className="article">
+                  <img id="player1" src={user.userCharacter} alt="" />
+               </article>
+
+           
+                  <img
+                     id="player2"
+                     src={showUserImg ? (user2Info.userCharacter) : null}
+                     alt=""
+                     onError={(e) => (e.target.style.display = 'none')}
+                  />
+    
+            </main>
+
+            <section className="mainSection">
+               <div
+                  className="nav"
                   style={{
                      background: 'url(/img/mainNavBar.svg)',
                      backgroundRepeat: 'no-repeat',
                      backgroundPosition: 'center',
-                     objectFit: 'cover',
                   }}
                   onClick={goSelection}
                >
-                  <div >
-                     <img
-                        className="languageImg"
-                        src={languageImg[language]}
-                        alt=""
-                     />
-                     <img
-                        className="levelImg"
-                        src={levelImg[level]}
-                        alt=""
-                     />
-                  </div>
+                  <img
+                     className="languageImg"
+                     src={languageImg[language]}
+                     alt=""
+                  />
+
+                  <img className="levelImg" src={levelImg[level]} alt="" />
                </div>
-               <article className="article">
-                  <div className="profileContainer">
-                     <div
-                        className="profile"
-                        style={{
-                           background: 'url(/img/mainCardPlayer.svg)',
-                           backgroundImage: "url(/img/mainCardPlayer.svg)",
-                           backgroundRepeat: "no-repeat",
-                           backgroundSize: "contain",
-                        }}
-                     >
-                        <div
-                           className="thumbnail circle"
-                           style={{ backgroundImage: `${user.userImg}` }}
-                        ></div>
-                        <div className="description">
-                           <tr className="content">이름: {user.userName}</tr>
-                           <tr className="content">WIN: {user.userWin}</tr>
-                           <tr className="content">LOSE: {user.userLose}</tr>
-                        </div>
-                     </div>
-                  </div>
-
-                  <img id="player1" src={user.userCharacter} alt="" />
-               </article>
-
-               <aside className="aside">
-                  <div
-                     className="profile2"
-                     style={{
-                        background: 'url(/img/mainCardPlayer.svg)',
-                        backgroundImage: "url(/img/mainCardPlayer.svg)",
-                        backgroundRepeat: "no-repeat",
-                        backgroundSize: "contain",
-                     }}
-                  >
-                     <div
-                        className="thumbnail circle"
-                     ></div>
-                     <div className="description">
-                        <tr className="content2">이름: {user2Info.userName}</tr>
-                        <tr className="content2">WIN: {user2Info.userWin}</tr>
-                        <tr className="content2">LOSE: {user2Info.userLose}</tr>
-                     </div>
-                  </div>
-                  {showUserImg ? (
-                     <img id="player2" src={user2Info.userCharacter} alt="" />
-                  ) : null}
-               </aside>
-            </main>
-
-            <section>
                <div className="cardContainer">
-                  {allUsers.length > 0 &&
+                  {allUsers.length > 0 ? (
                      allUsers.map((item, idx) => {
                         return (
                            <React.Fragment key={idx}>
@@ -183,13 +178,13 @@ export function Main() {
                                                 'url(/img/mainCard_F.svg)',
                                              backgroundRepeat: 'no-repeat',
                                              backgroundPosition: 'center',
-                                             objectFit: 'cover',
+                                             backgroundSize: 'cover',
                                           }}
                                        >
                                           <img
-                                             className="thumbnailImg"
+                                             className="characterImg"
                                              src={item.userImg}
-                                             alt="none"
+                                             alt=""
                                           />
                                        </div>
                                        <div
@@ -231,9 +226,9 @@ export function Main() {
                                           }}
                                        >
                                           <img
-                                             className="thumbnailImg"
+                                             className="characterImg"
                                              src={item.userImg}
-                                             alt="none"
+                                             alt=""
                                           />
                                        </div>
                                        <div
@@ -259,7 +254,10 @@ export function Main() {
                               )}
                            </React.Fragment>
                         );
-                     })}
+                     })
+                  ) : (
+                     <p>There's no user.</p>
+                  )}
                </div>
                <div
                   className="btnCard"
@@ -272,7 +270,12 @@ export function Main() {
                >
                   <h3>Refresh</h3>
 
-                  <img id="btnClick" src="/img/btnClick.svg" alt="none" onClick={() => selectEs.play()} />
+                  <img
+                     id="btnClick"
+                     src="/img/btnClick.svg"
+                     alt="none"
+                     onClick={() => selectEs.play()}
+                  />
 
                   <h3>Game Start</h3>
 
@@ -285,7 +288,7 @@ export function Main() {
                </div>
             </section>
          </div>
-         <img className="txtVS" src="/img/txt_vs.svg" alt="none" />
+         <img className="txtVS" src="/img/txt_vs.svg" alt="" />
       </>
    );
 }
