@@ -22,6 +22,7 @@ article {
   clip-path: polygon(0% 0%, 100% 0, 100% 45%, 95% 55%, 95% 100%, 0% 100%);
 }
 
+
 .profile {
   display: flex;
   width: calc((32vh + 46vw) / 4);
@@ -48,10 +49,11 @@ article {
 }
 
 .description p {
-  margin: 0.5vh auto;
+  margin: .5vh auto;
   font-size: calc((3vh + 3vw) / 4);
   color: #fff;
 }
+
 
 .mainSection {
   display: block;
@@ -59,7 +61,7 @@ article {
   top: -2vh;
   justify-content: left;
   align-items: left;
-  width: 90vw;
+  width:90vw;
   height: 100vh;
   z-index: 7;
 }
@@ -81,12 +83,12 @@ article {
 }
 
 .languageImg {
-  margin: auto 0.8vw;
+  margin: auto .8vw;
   width: calc((5vh + 5vw) / 4);
 }
 
 .levelImg {
-  margin: auto 0.8vw;
+  margin: auto .8vw;
   width: calc((7vh + 7vw) / 4);
 }
 
@@ -109,6 +111,12 @@ article {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
+.cardContainer p {
+  color: white;
+  font-size: calc(2vh + 2vw);
+  margin: auto;
+}
+
 .scene {
   width: 13em;
   height: 15em;
@@ -120,7 +128,7 @@ article {
   width: 22vw;
   height: 27vh;
   position: relative;
-  bottom: -0.1vh;
+  bottom: -.1vh;
   transition: transform 0.8s;
   transform-style: preserve-3d;
   margin: auto;
@@ -161,7 +169,7 @@ article {
 .characterImg {
   width: calc((20vh + 20vw) / 4);
   height: calc((20vh + 20vw) / 4);
-  border: none;
+  border:none;
   border-radius: 1%;
   margin: 0;
 }
@@ -203,7 +211,7 @@ article {
 }
 
 .cardContainer::-webkit-scrollbar {
-  width: 0.3vw;
+  width: .3vw;
 }
 
 .cardContainer::-webkit-scrollbar-thumb {
@@ -218,14 +226,14 @@ article {
 }
 
 .txtVS {
-  display: block;
-  margin: auto;
-  text-align: center;
-  width: 12%;
-  height: 12%;
-  max-height: 13%;
-  z-index: 2;
-  filter: drop-shadow(0px 0px 5px #fff);
+display: block;
+margin: auto;
+text-align: center;
+width: 12%;
+height: 12%;
+max-height: 13%;
+z-index: 2;
+filter: drop-shadow(0px 0px 5px #fff);
 }
 
 .btnCard {
@@ -244,8 +252,8 @@ article {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 3vh;
-  margin: 0.5vh auto;
+  padding-top:  3vh;
+  margin: .5vh auto;
   font-size: calc((4vh + 4vw) / 4);
 }
 
@@ -265,3 +273,4 @@ article {
   mix-blend-mode: hard-light;
   cursor: pointer;
 }
+
