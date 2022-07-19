@@ -78,6 +78,11 @@ const Battle = () => {
   const [runAlert, setRunAlert] = React.useState(false);
   const [mesAlert, setMesAlert] = React.useState("FAIL");
 
+  const resAlert = (r) => {
+    setMesAlert(r);
+    setRunAlert(true);
+  };
+
   //countdown
   const [runCountdown, setRunCountdown] = React.useState(false);
 
@@ -105,13 +110,11 @@ const Battle = () => {
       })
       .then((res) => {
         console.log(res);
-        setShowSuccessModal(true);
+        // {res.result === true ? setShowSuccessModal(true) : resAlert(res.msg)}
       })
       .catch((err) => {
         console.log(err);
-
-        setMesAlert("Fail to connect to server!");
-        setRunAlert(true);
+        resAlert("Fail to connect to server!");
       });
   };
 
