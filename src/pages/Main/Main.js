@@ -15,15 +15,15 @@ export function Main() {
    const navigate = useNavigate();
    const dispatch = useDispatch();
 
-   const [user2Info, setUser2Info] = useState({creatorGameInfo: {playerName: '', profileUrl: '', winCnt: '', loseCnt: ''}
-});
+   const [user2Info, setUser2Info] = useState({
+      creatorGameInfo: { playerName: '', profileUrl: '', winCnt: '', loseCnt: '' }
+   });
    const user = {
       userName: 'player1',
-      userCharacter: '/img/mainUser1Img.png',
+      userCharacter: '/img/ch1.svg',
       userWin: '1',
       userLose: '2',
    };
-   const showUserImg = useState(true);
    const languageImg = [
       '/img/miniJava.svg',
       '/img/miniJs.svg',
@@ -54,12 +54,12 @@ export function Main() {
       async (page) => {
          setLoading(true);
          await axios
-            .get('http://3.34.40.201:8080/game/rooms', {params: {
-               langIdx : parseInt(language),
-               levelIdx : parseInt(level),
-             },
-            headers:{"Content-Type": 'application/json'}})
-            // .get('http://localhost:5001/page')
+            // .get('http://3.34.40.201:8080/game/rooms', {params: {
+            //    langIdx : parseInt(language),
+            //    levelIdx : parseInt(level),
+            //  },
+            // headers:{"Content-Type": 'application/json'}})
+            .get('http://localhost:5001/page')
             .then((response) => {
                console.log(response.data);
                setAllUsers((prevState) => [...prevState, ...response.data]);
@@ -73,7 +73,7 @@ export function Main() {
    // getItems가 바뀔때마다 함수 실행
    React.useEffect(() => {
       getItems(page);
-   }, [refresh]);
+   }, [getItems, refresh]);
 
    // 사용자가 마지막 요소를 보고 있고, 로딩 중이 아니라면 setPage실행
    React.useEffect(() => {
@@ -81,10 +81,10 @@ export function Main() {
          setPage((prevState) => prevState + 1);
       }
    }, [inView, loading]);
-
+   console.log(user2Info.creatorGameInfo.roomId)
    const EnterBattle = () => {
       enterEs.play();
-      navigate(`/battle/${user2Info.roomId}`, { state: user2Info });
+      navigate(`/battle/${user2Info.creatorGameInfo.roomId}`, { state: user2Info });
    };
    const goSelection = () => {
       hoverEs.play();
@@ -99,6 +99,19 @@ export function Main() {
          setRefresh(true)
       }
    }
+
+   //랜덤 캐릭터 표출
+   const randomImg = () =>{
+      let img = [
+         "/img/ch1.svg",
+         "/img/ch2.svg",
+         "/img/mainUser2Img.png",
+         "/img/mainUser2Img2.png"
+      ]
+      let idx = Math.floor(Math.random() * (4 - 0)) + 0;
+      return img[idx]
+   }
+
    return (
       <>
          <div className="mainContainer">
@@ -127,12 +140,13 @@ export function Main() {
                      backgroundSize: 'contain',
                   }}
                >
-                  <img
-                     className="thumbnail"
-                     src={showUserImg === true ? (user2Info.userCharacter) : <></>}
-                     alt=""
-                     onError={(e) => (e.target.style.display = 'none')}
-                  />
+                  {(user2Info.creatorGameInfo.profileUrl !== "") &&
+                     <img
+                        className="thumbnail"
+                        src={user2Info.creatorGameInfo.profileUrl}
+                        alt=""
+                        onError={(e) => (e.target.style.display = 'none')}
+                     />}
 
                   <div className="description">
                      <p>이름: {user2Info.creatorGameInfo.playerName}</p>
@@ -145,12 +159,13 @@ export function Main() {
                </article>
 
 
-               <img
+               {(user2Info.creatorGameInfo.profileUrl !== "") &&
+                <img
                   id="player2"
-                  src={showUserImg === true ? (user2Info.userCharacter) : <></>}
+                  src={randomImg()}
                   alt=""
                   onError={(e) => (e.target.style.display = 'none')}
-               />
+               />}
 
             </main>
 
@@ -175,7 +190,6 @@ export function Main() {
                <div className="cardContainer">
                   {allUsers.length > 0 ? (
                      allUsers.map((item, idx) => {
-                        console.log(item.creatorGameInfo);
                         return (
                            <React.Fragment key={idx}>
                               {allUsers.length - 1 === idx ? (
@@ -194,7 +208,7 @@ export function Main() {
                                                 'url(/img/mainCard_F.svg)',
                                              backgroundRepeat: 'no-repeat',
                                              backgroundPosition: 'center',
-                                             backgroundSize: 'cover',
+                                             backgroundSize: 'contain',
                                           }}
                                        >
                                           <img
@@ -210,7 +224,7 @@ export function Main() {
                                                 'url(/img/mainCard_B.svg)',
                                              backgroundRepeat: 'no-repeat',
                                              backgroundPosition: 'center',
-                                             objectFit: 'cover',
+                                             objectFit: 'contain',
                                           }}
                                           onClick={() => {
                                              selectEs.play();
@@ -238,7 +252,7 @@ export function Main() {
                                                 'url(/img/mainCard_F.svg)',
                                              backgroundRepeat: 'no-repeat',
                                              backgroundPosition: 'center',
-                                             objectFit: 'cover',
+                                             objectFit: 'contain',
                                           }}
                                        >
                                           <img
@@ -254,7 +268,7 @@ export function Main() {
                                                 'url(/img/mainCard_B.svg)',
                                              backgroundRepeat: 'no-repeat',
                                              backgroundPosition: 'center',
-                                             objectFit: 'cover',
+                                             objectFit: 'contain',
                                           }}
                                           onClick={() => {
                                              selectEs.play();

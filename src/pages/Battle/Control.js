@@ -54,6 +54,10 @@ const Control = (props) => {
     alreadyToStart();
   }, [already]);
 
+  useEffect(()=>{
+    call(props.remotePeerIdValue)
+  },[remotePeerIdValue])
+
   return (
     <ControlDiv>
       <div>

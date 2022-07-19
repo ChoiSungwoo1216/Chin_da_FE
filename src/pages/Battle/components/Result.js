@@ -11,6 +11,8 @@ const Result = (props) => {
     const userSound = useSelector((state) => state.user.sound);
     const winEs = effectSound(winSound, userSound.es);
     const loseEs = effectSound(loseSound, userSound.es);
+    const { setROpen } = props;
+    const result = props.result;
     React.useEffect(() => {
         if (result === "WIN") {
             winEs.play();
@@ -18,10 +20,8 @@ const Result = (props) => {
             loseEs.play();
         }
     }, [])
-    const { setROpen } = props
     const navigate = useNavigate();
     const [player, setPlayer] = React.useState("Player 1")
-    const [result, setResult] = React.useState("WIN")
     const GoBackMain = () => {
         navigate("/Selection")
     }
@@ -32,13 +32,18 @@ const Result = (props) => {
                 <SettingWord>RESULT</SettingWord>
                 <BlackDiv>
                     <ResultEle>{player} 승리</ResultEle>
-                    {(result === "WIN") &&
+                    {(result === "WIN") ?(
                         <ResultLetterDiv>
                             <LetterNoAni src={"/img/W.svg"} alt="" />
                             <LetterAni src={"/img/I.svg"} alt="" />
                             <LetterNoAni src={"/img/N.svg"} alt="" />
-                            {/* <LetterSlopeAni  src={"img/N.svg"} alt="" /> */}
-                        </ResultLetterDiv>
+                        </ResultLetterDiv>) :(
+                        <ResultLetterDiv>
+                            <LetterNoAni src={"/img/L.svg"} alt="" />
+                            <LetterNoAni src={"/img/O.svg"} alt="" />
+                            <LetterNoAni src={"/img/S.svg"} alt="" />
+                            <LetterSlopeAni  src={"/img/E.svg"} alt="" />
+                        </ResultLetterDiv>)
                     }
                     <ResultElement>한판 더 하시겠습니까?</ResultElement>
                     <ReDiv>
@@ -194,24 +199,24 @@ animation: ${LetterRotate} 2s linear infinite;
 
 const LetterSlope = keyframes`
 0%{
-    transform-origin: top left;
-    transform: translateY(10px) rotate(10deg);
+    transform-origin: bottom left;
+    transform: translateY(5px) rotate(10deg);
 }
 40%{
-    transform-origin: top left;
-    transform: translateY(10px) rotate(20deg);
+    transform-origin: bottom left;
+    transform: translateY(5px) rotate(20deg);
 }
 60%{
-    transform-origin: top left;
-    transform: translateY(10px) rotate(30deg);
+    transform-origin: bottom left;
+    transform: translateY(5px) rotate(30deg);
 }
 80%{
-    transform-origin: top left;
-    transform: translateY(10px) rotate(20deg);
+    transform-origin: bottom left;
+    transform: translateY(5px) rotate(20deg);
 }
 100%{
-    transform-origin: top left;
-    transform: translateY(10px) rotate(10deg);
+    transform-origin: bottom left;
+    transform: translateY(5px) rotate(10deg);
 }
 `;
 
