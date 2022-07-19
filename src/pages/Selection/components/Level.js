@@ -82,21 +82,21 @@ const TypeBtn = styled.div`
   display: flex;
   flex-direction: column;
   ${(props) => {
-    if (props.language === "0") {
+    if (props.language === "2") {
       return css`
         background-image: url("/img/python3.svg");
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
       `;
-    } else if (props.language === "1"){
+    } else if (props.language === "0"){
       return css`
         background-image: url("/img/java.svg");
         background-position: cover;
         background-repeat: no-repeat;
         background-position: center;
         `;
-    }else if (props.language === "2"){
+    }else if (props.language === "1"){
       return css`
         background-image: url("/img/js.svg");
         background-position: cover;
@@ -105,8 +105,8 @@ const TypeBtn = styled.div`
         `;
     }
   }}
-  width: 100%;
-  height: 80%;
+  width: 70%;
+  height: 70%;
   overflow: hidden;
   object-fit: cover;
 `;
