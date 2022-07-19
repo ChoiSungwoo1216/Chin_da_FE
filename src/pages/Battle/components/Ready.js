@@ -172,7 +172,7 @@ const FillCircle = keyframes`
 
 `;
 
-const Pending = styled.div`
+const Pending = styled.span`
   width: 15vw;
   height: 15vw;
   border: 1vw solid white;
@@ -186,7 +186,7 @@ const Pending = styled.div`
   animation: ${FillCircle} 1s infinite linear;
 `;
 
-const PendingMsg = styled.div`
+const PendingMsg = styled.span`
   font-size: 100px;
   z-index: 3;
 `;
