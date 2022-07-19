@@ -67,12 +67,9 @@ const Blink = keyframes`
 const Bar = styled.div`
   display: flex;
   position: relative;
-
   width: 48.5vw;
   height: 5.94vh; //3.91vw 6.94vh 50px
-
   /* border: 1px solid white; */
-
   flex-direction: row;
   align-items: center;
   /* background: url("/img/pro_new_new.svg") no-repeat center fixed; */
@@ -83,7 +80,6 @@ const Bar = styled.div`
   border-right: 0.86vw solid #c1b78e;
   border-bottom: 10px solid #a0935c;
   bottom: 0.7vh;
-
   /* background-attachment: fixed; */
   //default 690x40, new 690x50, new_new 640x50
 `;
@@ -92,7 +88,6 @@ const Filler = styled.div`
   width: 100%;
   height: 100%;
   /* border: 1px solid blue; */
-
   display: inherit;
   position: inherit;
   justify-content: flex-start;
@@ -101,22 +96,16 @@ const Filler = styled.div`
 const CountBox = styled.div`
   position: relative;
   display: flex;
-
   justify-content: center;
   align-items: center;
   flex-direction: row;
-
   width: 7.24%; //46.375 92.75%
   height: 3.89vh;
-
   top: 1.2vh;
   margin-left: 1.25vw;
-
   background-color: #5777ce;
-
   background: url("/img/progress_block.svg") no-repeat center;
   background-size: 100% 100%;
-
   ${(props) =>
     props.count < 6
       ? css`
