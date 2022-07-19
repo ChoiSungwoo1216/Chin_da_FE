@@ -25,13 +25,39 @@ const Room = (props) => {
   // const createChannelAxios = async () => {
   //    await axios(
   //      {
-  //        url: "/room",
-  //        method: "post",
-  //        baseURL: "http://54.180.154.178",
+  //        url: "/game/room/create",
+  //        method: "POST",
+  //        baseURL: "http://3.34.40.201:8080",
+  //        data: {
+  //         "langIdx": parseInt(language),
+  //         "levelIdx": parseInt(level),
+  //        },
+  //        headers: {
+
+  //        },
+
   //      })
   //      .then((res) => {
   //        console.log(JSON.stringify(res.data));
-  //        dispatch(createchannel({id : res.data.channelid}))
+  //        dispatch(createchannel(
+  //         {
+  //           "roomId": "esg-sgdsg-egs",
+  //           "language": "JAVA",
+  //           "questionLevel": "EASY",
+  //           "server": "JAVAEASY",
+  //           "questionId": 1,
+  //           "questionTitle": "문제1",
+  //           "question": "문제",
+  //           "startTemplate": "string",
+  //           "creatorGameInfo": {
+  //             "playerName": "string",
+  //             "profileUrl": "string",
+  //             "winCnt": 0,
+  //             "loseCnt": 0
+  //           },
+  //           "enter": true
+  //         }
+  //        ))
   //      })
   //      .catch((error) => {
   //        console.log(error);
@@ -40,6 +66,8 @@ const Room = (props) => {
 
   const CreateRoom = () => {
     navigate("/Battle");
+    // navigate("/battle/" + id)
+    // dispatch(createChannelAxios())
     dispatch(updateselected({ language: language, level: level }));
     // dispatch(createChannelAxios())
     enterEs.play();
@@ -149,12 +177,13 @@ const TypeBtn = styled.div`
 const RoomSelectDiv = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   align-items: center;
+  justify-content: center;
   width: 22.03vw;
   height: 48.6vh;
   margin: 20px;
   padding: 1.5em;
+  gap: calc(2vh + 2vw);
   background-image: url(/img/selectBox.svg);
   background-repeat: no-repeat;
   background-size: contain;
@@ -219,9 +248,9 @@ align-items: center;
 justify-content: center;
 margin: 0;
 width: 81.3%;
-height: 35%;
+height: 25%;
 color: white;
-font-size: calc((1vh + 1vw));
+font-size: calc(0.5vh + 1vw);
 background-image: url(/img/selectRoomBtn.svg);
 background-repeat: no-repeat;
 background-size: contain;
@@ -242,9 +271,9 @@ align-items: center;
 justify-content: center;
 margin: 0;
 width: 81.3%;
-height: 35%;
+height: 25%;
 color: white;
-font-size: calc((1vh + 1vw));
+font-size: calc(0.5vh + 1vw);
 background-image: url(/img/selectRoomBtn.svg);
 background-repeat: no-repeat;
 background-size: contain;

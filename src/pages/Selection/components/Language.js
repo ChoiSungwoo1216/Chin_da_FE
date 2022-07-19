@@ -1,5 +1,5 @@
 import React from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
 const Language = (props) => {
   const { setLanguage, setLanOn, setLevOn, es,hoverEs } = props;
@@ -57,10 +57,10 @@ const TypeBtnDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 22.03vw;
+  width: 22vw;
   height: 48.6vh;
-  margin: auto 20px;
-  padding: 1.5em;
+  gap: calc(1vh + 1vw);
+  margin: 1vh 1vw;
   background-image: url(/img/selectBox.svg);
   background-repeat: no-repeat;
   background-size: contain;
@@ -76,11 +76,9 @@ const TypeBtnDiv = styled.div`
 const TypeBtn = styled.div`
   display: flex;
   flex-direction: column;
-  width: 50%;
-  height: 50%;
-  overflow: hidden;
-  object-fit: cover;
-  margin: 50px 0;
+  width: calc(6vh + 6vw);
+  height: calc(6vh + 6vw);
+  margin: 0;
   animation: motion 0.3s linear 0s infinite alternate;
   -webkit-animation: motion 0.3s linear 0s infinite alternate;
   animation-delay: 0.2s;
@@ -93,11 +91,9 @@ const TypeBtn = styled.div`
 const TypeBtnO = styled.div`
   display: flex;
   flex-direction: column;  
-  width: 50%;
-  height: 50%;
-  overflow: hidden;
-  object-fit: cover;
-  margin: 50px 0;
+  width: calc(6vh + 6vw);
+  height: calc(6vh + 6vw);
+  margin: 0;
   animation: motion 0.3s linear 0s infinite alternate;
   -webkit-animation: motion 0.3s linear 0s infinite alternate;
   animation-delay: 0.3s;
@@ -110,11 +106,9 @@ const TypeBtnO = styled.div`
 const TypeBtnT = styled.div`
   display: flex;
   flex-direction: column;
-  width: 50%;
-  height: 50%;
-  overflow: hidden;
-  object-fit: cover;
-  margin: 50px 0;
+  width: calc(6vh + 6vw);
+  height: calc(6vh + 6vw);
+  margin: 0;
   animation: motion 0.3s linear 0s infinite alternate;
   -webkit-animation: motion 0.3s linear 0s infinite alternate;
   animation-delay: 0.4s;
@@ -124,9 +118,8 @@ const TypeBtnT = styled.div`
   background-position: center;
 `;
 
-const InsideBtn = styled.h2`
+const InsideBtn = styled.div`
   color: white;
-  text-transform: uppercase;
   font-size: calc((3vh + 3vw)/2);
 `;
 export default Language;

@@ -122,9 +122,9 @@ export const SuccessModal = ({setROpen}) => {
           alt=""
         />
         <div className="ConfettiTxt">
-          <img src="/img/W.svg" alt="none" />
-          <img src="/img/I.svg" alt="none" />
-          <img src="/img/N.svg" alt="none" />
+          <img src="/img/W.svg" alt="" />
+          <img src="/img/I.svg" alt="" />
+          <img src="/img/N.svg" alt="" />
         </div>
         <ConfettiCanvas ribbonParticleMass={1} />
         <ConfettiCanvas ribbonParticleDrag={0.05} />
@@ -191,10 +191,10 @@ export const FailModal = ({setROpen}) => {
           alt=""
         />
         <div className="ConfettiTxt">
-          <img src="/img/.svg" alt="none" />
-          <img src="/img/.svg" alt="none" />
-          <img src="/img/.svg" alt="none" />
-          <img src="/img/.svg" alt="none" />
+          <img src="/img/L.svg" alt="" />
+          <img src="/img/O.svg" alt="" />
+          <img src="/img/S.svg" alt="" />
+          <img src="/img/E.svg" alt="" />
         </div>
       </Modal>
     </>
