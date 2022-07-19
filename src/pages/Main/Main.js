@@ -23,6 +23,7 @@ export function Main() {
       userLose: '2',
    };
    const showUserImg = useState(true);
+   console.log(showUserImg);
    const languageImg = [
       '/img/miniPython3.svg',
       '/img/miniJava.svg',
@@ -115,6 +116,7 @@ export function Main() {
                      className="thumbnail"
                      src={user2Info.userCharacter}
                      alt=""
+                     onError={(e) => (e.target.style.display = 'none')}
                   />
 
                   <div className="description">
@@ -127,12 +129,17 @@ export function Main() {
                   <img id="player1" src={user.userCharacter} alt="" />
                </article>
 
-               {showUserImg ? (
-                  <img id="player2" src={user2Info.userCharacter} alt="" />
-               ) : null}
+           
+                  <img
+                     id="player2"
+                     src={showUserImg ? (user2Info.userCharacter) : null}
+                     alt=""
+                     onError={(e) => (e.target.style.display = 'none')}
+                  />
+    
             </main>
 
-            <section>
+            <section className="mainSection">
                <div
                   className="nav"
                   style={{
@@ -177,7 +184,7 @@ export function Main() {
                                           <img
                                              className="characterImg"
                                              src={item.userImg}
-                                             alt="none"
+                                             alt=""
                                           />
                                        </div>
                                        <div
@@ -221,7 +228,7 @@ export function Main() {
                                           <img
                                              className="characterImg"
                                              src={item.userImg}
-                                             alt="none"
+                                             alt=""
                                           />
                                        </div>
                                        <div
@@ -249,7 +256,7 @@ export function Main() {
                         );
                      })
                   ) : (
-                     <p>there's no user.</p>
+                     <p>There's no user.</p>
                   )}
                </div>
                <div
@@ -281,7 +288,7 @@ export function Main() {
                </div>
             </section>
          </div>
-         <img className="txtVS" src="/img/txt_vs.svg" alt="none" />
+         <img className="txtVS" src="/img/txt_vs.svg" alt="" />
       </>
    );
 }

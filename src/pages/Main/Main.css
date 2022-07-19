@@ -36,7 +36,7 @@ article {
   margin: 2.2vh;
   width: calc((15vh + 15vw) / 4);
   height: calc((15vh + 15vw) / 4);
-  border: 1px solid transparent;
+  border: none;
 }
 
 .description {
@@ -55,7 +55,7 @@ article {
 }
 
 
-section {
+.mainSection {
   display: block;
   position: fixed;
   top: -2vh;
@@ -164,6 +164,7 @@ section {
 .characterImg {
   width: calc((20vh + 20vw) / 4);
   height: calc((20vh + 20vw) / 4);
+  border:none;
   border-radius: 1%;
   margin: 0;
 }
@@ -179,7 +180,7 @@ section {
   width: calc((90vh + 90vw) / 4);
   height: calc((90vh + 90vw) / 4);
   object-position: center;
-  animation: playerMoving 2s infinite alternate;
+  animation: Moving 2s infinite alternate;
 }
 
 #player2 {
@@ -188,13 +189,13 @@ section {
   right: 5vw;
   width: calc((90vh + 90vw) / 4);
   height: calc((90vh + 90vw) / 4);
-  object-position: center;
-  border: 1px solid transparent;
-  animation: playerMoving 2s infinite alternate;
+  object-position: center center;
+  /* border: none; */
+  animation: Moving 2s infinite alternate;
   animation-delay: 1s;
 }
 
-@keyframes playerMoving {
+@keyframes Moving {
   0% {
     transform: translate(0, 0);
   }
