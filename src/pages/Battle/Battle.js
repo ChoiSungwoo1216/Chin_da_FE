@@ -22,11 +22,12 @@ import {
   ReadyOpp,
   UserSubmitPending,
   OppSubmitPending,
-} from "./components/Ready";
+} from "./components/ReadyAndPending";
 
 import effectSound from "../../shared/effectSound";
 import btnSound from "../../audios/btnselect.mp3";
 import camSound from "../../audios/camOff.mp3";
+import axios from "axios";
 
 Modal.setAppElement("#root");
 
@@ -77,6 +78,11 @@ const Battle = () => {
   const [runAlert, setRunAlert] = React.useState(false);
   const [mesAlert, setMesAlert] = React.useState("FAIL");
 
+  const resAlert = (r) => {
+    setMesAlert(r);
+    setRunAlert(true);
+  };
+
   //countdown
   const [runCountdown, setRunCountdown] = React.useState(false);
 
@@ -84,7 +90,38 @@ const Battle = () => {
   const [gameStart, setGameStart] = React.useState(false);
 
   //Submit
-  const [runPending, setRunPending] = React.useState(false);
+  const [userPending, setUserPending] = React.useState(false);
+  const [oppPending, setOppPending] = React.useState(false);
+
+  const axiosSubmit = () => {
+    const CompileRequestDto = {
+      questionId: 1,
+      languageIdx: 0,
+      codeStr: "def solution(){}",
+    };
+    axios
+      .post({
+        url: "/api/compile",
+        baseUrl: "http://3.324.40.201:8080",
+        CompileRequestDto,
+        headers: {
+          type: "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        // {res.result === true ? setShowSuccessModal(true) : resAlert(res.msg)}
+      })
+      .catch((err) => {
+        console.log(err);
+        resAlert("Fail to connect to server!");
+      });
+  };
+
+  const onSubmit = () => {
+    setUserPending(true);
+    const timing = setTimeout(() => axiosSubmit(), 1000);
+  };
 
   //서버에서 받아오는 기본 형태들
   //    const JsDefault = `function solution(num) {
@@ -244,7 +281,7 @@ const Battle = () => {
       <BodyPart>
         <UserDiv>
           {gameStart === false ? <ReadyUser /> : null}
-          <UserSubmitPending run={runPending} setRun={setRunPending} />
+          <UserSubmitPending run={userPending} setRun={setUserPending} />
           <AceEditorPlayer mode={mode} theme={theme}></AceEditorPlayer>
 
           <UserCamDiv>
@@ -261,7 +298,9 @@ const Battle = () => {
               </Cam>
             )}
           </UserCamDiv>
-          <SubmitBtn>제&nbsp;&nbsp;&nbsp;&nbsp;출</SubmitBtn>
+          <SubmitBtn onClick={() => onSubmit()}>
+            제&nbsp;&nbsp;&nbsp;&nbsp;출
+          </SubmitBtn>
         </UserDiv>
         <OpponentDiv>
           {queOpen && (
@@ -280,6 +319,7 @@ const Battle = () => {
           )}
           <CodeDiv queOpen={queOpen} chatOpen={chatOpen}>
             {gameStart === false ? <ReadyOpp /> : null}
+            <OppSubmitPending run={oppPending} setRun={setOppPending} />
             <AceEditorOpp mode={mode} theme={theme} />
           </CodeDiv>
           <OpCamDiv>
@@ -319,7 +359,8 @@ const Battle = () => {
         setRunCountdown={setRunCountdown}
         setGameStart={setGameStart}
         setQueOpen={setQueOpen}
-        setRunPending={setRunPending}
+        setUserPending={setUserPending}
+        setOppPending={setOppPending}
       />
     </Container>
   );
