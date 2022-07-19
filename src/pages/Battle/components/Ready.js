@@ -1,0 +1,192 @@
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import styled, { css, keyframes } from "styled-components";
+import { alreadyUser } from "../../../redux/modules/user";
+import effectSound from "../../../shared/effectSound";
+import readySound from "../../../audios/ready.mp3";
+
+export const ReadyUser = () => {
+  const userReady = useSelector((state) => state.user.already.user);
+  const dispatch = useDispatch();
+  const userSound = useSelector((state) => state.user.sound);
+  const readyEs = effectSound(readySound, userSound.es);
+
+  const setReady = () => {
+    readyEs.play();
+    userReady === false
+      ? dispatch(alreadyUser({ user: true }))
+      : dispatch(alreadyUser({ user: false }));
+  };
+
+  return (
+    <UserContainer wait={userReady}>
+      <ReadyBtn onClick={setReady} />
+      <PendingMsg>wait...</PendingMsg>
+    </UserContainer>
+  );
+};
+
+export const ReadyOpp = () => {
+  const oppReady = useSelector((state) => state.user.already.opp);
+  const userSound = useSelector((state) => state.user.sound);
+  const readyEs = effectSound(readySound, userSound.es);
+  const dispatch = useDispatch();
+
+  const setReady = () => {
+    readyEs.play();
+    oppReady === false
+      ? dispatch(alreadyUser({ opp: true }))
+      : dispatch(alreadyUser({ opp: false }));
+  };
+
+  return (
+    <OppContainer>
+      <OppDiv wait={oppReady}>
+        <ReadyBtn onClick={setReady} />
+      </OppDiv>
+    </OppContainer>
+  );
+};
+
+export const UserSubmitPending = (p) => {
+  const run = p.run;
+  const set = p.set;
+  return (
+    <>
+      {p.run === true && (
+        <>
+          <UserContainer>
+            <Pending />
+          </UserContainer>
+        </>
+      )}
+    </>
+  );
+};
+
+export const OppSubmitPending = () => {
+  return (
+    <>
+      <OppContainer>
+        <OppDiv>
+          <Pending />
+        </OppDiv>
+      </OppContainer>
+    </>
+  );
+};
+
+const UserContainer = styled.div`
+  display: flex;
+  position: absolute;
+  width: 49.59vw;
+  height: 83.63vh;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  ${(props) =>
+    props.wait === true &&
+    css`
+      & div {
+        background: url("/img/already.svg") center no-repeat;
+        background-size: 100% 100%;
+      }
+    `}
+  z-index: 5;
+`;
+
+const OppContainer = styled.div`
+  display: flex;
+  position: absolute;
+  width: 42.13vw;
+  height: inherit;
+  justify-content: center;
+  align-items: center;
+`;
+
+const OppDiv = styled.div`
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 92%;
+  justify-content: center;
+  background-color: rgba(0, 0, 255, 0.3);
+  align-items: center;
+  ${(props) =>
+    props.wait === true &&
+    css`
+      & div {
+        background: url("/img/already.svg") center no-repeat;
+        background-size: 100% 100%;
+      }
+    `}
+  z-index: 5;
+`;
+
+const ReadyBtn = styled.div`
+  display: flex;
+  position: relative;
+  width: 14.0625vw;
+  height: 3.125vw;
+  background: url("/img/ready.svg") center no-repeat;
+  background-size: 100% 100%;
+  cursor: pointer;
+  z-index: 1;
+  border: none;
+`;
+
+const Rotate = keyframes`
+  to{
+    transform: rotate(359deg);
+  }
+
+`;
+
+const FillCircle = keyframes`
+
+12.5%{
+  border-top-color: white;
+}
+25%{
+  border-right-color: white;
+}
+37.5%{
+  border-bottom-color: white;
+}
+50%{
+  border-left-color: white;
+}
+62.5%{
+  border-top-color:black;
+}
+75%{
+  border-right-color: black;
+}
+87.5%{
+  border-bottom-color: black;
+}
+100%{
+  border-left-color: black;
+}
+
+
+`;
+
+const Pending = styled.div`
+  width: 15vw;
+  height: 15vw;
+  border: 1vw solid white;
+  border-top-color: black;
+  border-right-color: black;
+  border-bottom-color: black;
+  border-left-color: black;
+  border-radius: 50%;
+  border-top-right-radius: -50%;
+
+  animation: ${FillCircle} 1s infinite linear;
+`;
+
+const PendingMsg = styled.div`
+  font-size: 100px;
+  z-index: 3;
+`;

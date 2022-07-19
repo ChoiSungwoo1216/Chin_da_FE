@@ -5,12 +5,20 @@ import "./startAnimation.css";
 const Start = () => {
   const [modalOpen, setModalOpen] = React.useState(false);
   const [HOVER, setHOVER] = React.useState(false);
+  const [timing, setTiming] = React.useState(false);
+
   const open = () => {
     setModalOpen(true);
   };
   const close = () => {
     setModalOpen(false);
   };
+
+  React.useEffect(() => {
+    const count = setInterval(() => {
+      setTiming(true);
+    }, 5000);
+  }, []);
 
   return (
     <StartContainer>
@@ -24,11 +32,12 @@ const Start = () => {
 
       <LoginDiv
         HOVER={HOVER}
+        timing={timing}
         onMouseOut={() => {
           setHOVER(false);
         }}
         onClick={HOVER === true && open}
-        disabled="false"
+        disabled="true"
       >
         {HOVER === false && (
           <>
@@ -74,12 +83,12 @@ export default Start;
 
 const StartContainer = styled.div`
   display: flex;
-  position: absolute;
+  position: relative;
   flex-direction: column;
-
   align-items: center;
-
+  overflow-y: auto;
   width: 100vw;
+  min-height: 500px;
   height: 100vh;
   /* background-color: lightgray; */
   z-index: 1;
@@ -103,28 +112,29 @@ const loginUp = keyframes`
   0% {
     transform:scale(0,0) translateY(-500px);
     opacity: 1;
-    &:last-child() {
-      transform: rotate(20deg);
-    }
+
   }
   100% {
     transform:scale(1,1) translateY(0);
     opacity: 1;
-    &:last-child() {
-      transform: rotate(20deg);
-    }
+
   }
 `;
 const BtnMotion = keyframes`
  0%{
   margin-top:0px;
+  &:last-child() {
+      transform: rotate(20deg);
+    }
  }
  50%{
   margin-top:20px;
  }
  100%{
   margin-top:0px;
-
+  &:last-child() {
+      transform: rotate(20deg);
+    }
  }
 `;
 
@@ -133,9 +143,11 @@ const Btn = styled.span``;
 const LogoContainer = styled.div`
   position: relative;
   display: flex;
+
   width: 23.6%; //35.16vw = 450px, 27.34vw = 350px, 19.53vw=250px, 23.44vw=300px, 62:38
   height: 23.6vw;
   top: 22.06vh;
+
   /* border: 1px solid red; */
 `;
 const StartLogo = styled.div`
@@ -164,29 +176,27 @@ const StartLogo = styled.div`
   z-index: -1;
 `;
 
-const Shadow = styled.div`
-  position: relative;
-  display: flex;
-  width: 19.53%;
-  height: 19.53vw;
+// const Shadow = styled.div`
+//   position: relative;
+//   display: flex;
+//   width: 19.53%;
+//   height: 19.53vw;
 
-  top: 6.25%;
-  left: 12.5%;
-  /* left: 43vw;
-  top: 32%; */
-  border: 1px solid blue;
+//   top: 6.25%;
+//   left: 12.5%;
+//   /* left: 43vw;
+//   top: 32%; */
+//   border: 1px solid blue;
 
-  background-color: transparent;
-  border-radius: 50%;
-  animation: shadowGrow 1.5s infinite none;
-  z-index: -1;
-`;
+//   background-color: transparent;
+//   border-radius: 50%;
+//   animation: shadowGrow 1.5s infinite none;
+//   z-index: -1;
+// `;
 
 const Fist = styled.div`
   position: absolute;
   display: flex;
-
-  /* border: 1px solid white; */
 
   width: 7.81vw;
   height: 14.76vw;
@@ -215,7 +225,6 @@ const Dust = styled.div`
   background-size: 100% 100%;
   animation: dustChange 2s infinite;
   transition: none;
-  /* border: 1px solid red;  */
 `;
 
 const Title = styled.div`
@@ -223,7 +232,6 @@ const Title = styled.div`
   display: flex;
   justify-content: center;
 
-  /* border: 1px solid blue; */
   width: 27.34vw;
   height: 7.81vw; //13.89vh
 
@@ -233,7 +241,7 @@ const Title = styled.div`
 
   background: url("/img/logo_title_fill.svg") center no-repeat;
   background-size: 100%, 100%;
-  animation: OPACITY 0.1s 1.3s forwards, titleChange 0.5s infinite 1.5s steps(2);
+  animation: OPACITY 0.1s 1.5s forwards, titleChange 0.5s infinite 1.7s steps(2);
 `;
 
 const LoginDiv = styled.div`
@@ -250,13 +258,12 @@ const LoginDiv = styled.div`
 
   width: 19.16%;
   height: 8.13%;
-
-  margin: auto;
+  margin-top: 30vh;
 
   animation: OPACITY 0.1s linear 3s forwards;
   opacity: 0;
 
-  top: 10vmin;
+  /* top: 10vmin; */
 
   & span {
     width: 3.125vw;
@@ -268,46 +275,55 @@ const LoginDiv = styled.div`
     margin-left: 0.5vw;
     margin-right: 0.5vw;
 
-    /* animation: ${loginUp} 1s linear 4s forwards,
-      ${BtnMotion} 1.5s linear 5s infinite; */
-
     background-position: center;
     background-size: 100%, 100%;
     background-repeat: no-repeat;
-    animation: ${BtnMotion} 1.5s linear infinite, ${loginUp} 1s linear forwards;
 
     cursor: pointer;
-    /* &:hover {
-      transform: rotate(20deg) translateY(-10px);
-      transition: 1s linear;
-      z-index: 1;
-      width: 19.16vw;
-      height: 8.13vw;
-    } */
 
-    &:nth-child(1) {
-      animation: ${BtnMotion} 1.5s linear 3.2s infinite,
-        ${loginUp} 1s linear 4.2s forwards;
-    }
-    &:nth-child(2) {
-      top: 10px;
-      animation: ${BtnMotion} 1.5s linear 3.4s infinite,
-        ${loginUp} 1s linear 4.4s forwards;
-    }
-    &:nth-child(3) {
-      top: -10px;
-      animation: ${BtnMotion} 1.5s linear 3.6s infinite,
-        ${loginUp} 1s linear 4.6s forwards;
-    }
-    &:nth-child(4) {
-      animation: ${BtnMotion} 1.5s linear 3.8s infinite,
-        ${loginUp} 1s linear 4.8s forwards;
-    }
-    &:nth-child(5) {
-      animation: ${BtnMotion} 1.5s linear 4s infinite,
-        ${loginUp} 1s linear 5s forwards;
-      transform: rotate(20deg);
-    }
+    ${(props) =>
+      props.timing === false
+        ? css`
+            pointer-events: none;
+            animation: ${BtnMotion} 1s linear infinite,
+              ${loginUp} 1s linear forwards;
+            &:nth-child(1) {
+              animation-delay: 3.2s;
+            }
+            &:nth-child(2) {
+              animation-delay: 3.4s;
+            }
+            &:nth-child(3) {
+              animation-delay: 3.6s;
+            }
+            &:nth-child(4) {
+              animation-delay: 3.8s;
+            }
+            &:nth-child(5) {
+              animation-delay: 4s;
+              transform: rotate(20deg);
+            }
+          `
+        : css`
+            animation: ${BtnMotion} 1s linear infinite forwards;
+            opacity: 1;
+            &:nth-child(1) {
+              animation-delay: 0.2s;
+            }
+            &:nth-child(2) {
+              animation-delay: 0.4s;
+            }
+            &:nth-child(3) {
+              animation-delay: 0.6s;
+            }
+            &:nth-child(4) {
+              animation-delay: 0.8s;
+            }
+            &:nth-child(5) {
+              animation-delay: 1s;
+              transform: rotate(20deg);
+            }
+          `}
   }
 `;
 
