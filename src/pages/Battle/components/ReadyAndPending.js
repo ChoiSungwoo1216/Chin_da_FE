@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css, keyframes } from "styled-components";
 import { alreadyUser } from "../../../redux/modules/user";
@@ -21,7 +21,6 @@ export const ReadyUser = () => {
   return (
     <UserContainer wait={userReady}>
       <ReadyBtn onClick={setReady} />
-      <PendingMsg>wait...</PendingMsg>
     </UserContainer>
   );
 };
@@ -50,7 +49,19 @@ export const ReadyOpp = () => {
 
 export const UserSubmitPending = (p) => {
   const run = p.run;
-  const set = p.set;
+  const setRun = p.setRun;
+  const onPending = () => {
+    const count = setInterval(() => {
+      if (run === true) {
+        setRun(false);
+        clearInterval(count);
+      }
+    }, 1000);
+    return () => clearInterval(count);
+  };
+  useEffect(() => {
+    onPending();
+  }, [run]);
   return (
     <>
       {p.run === true && (
@@ -64,14 +75,32 @@ export const UserSubmitPending = (p) => {
   );
 };
 
-export const OppSubmitPending = () => {
+export const OppSubmitPending = (p) => {
+  const run = p.run;
+  const setRun = p.setRun;
+  const onPending = () => {
+    const count = setInterval(() => {
+      if (run === true) {
+        setRun(false);
+        clearInterval(count);
+      }
+    }, 1000);
+    return () => clearInterval(count);
+  };
+  useEffect(() => {
+    onPending();
+  }, [run]);
   return (
     <>
-      <OppContainer>
-        <OppDiv>
-          <Pending />
-        </OppDiv>
-      </OppContainer>
+      {p.run === true && (
+        <>
+          <OppContainer>
+            <OppDiv>
+              <Pending />
+            </OppDiv>
+          </OppContainer>
+        </>
+      )}
     </>
   );
 };
@@ -135,13 +164,6 @@ const ReadyBtn = styled.div`
   border: none;
 `;
 
-const Rotate = keyframes`
-  to{
-    transform: rotate(359deg);
-  }
-
-`;
-
 const FillCircle = keyframes`
 
 12.5%{
@@ -173,9 +195,9 @@ const FillCircle = keyframes`
 `;
 
 const Pending = styled.span`
-  width: 15vw;
-  height: 15vw;
-  border: 1vw solid white;
+  width: 7.5vw;
+  height: 7.5vw;
+  border: 0.75vw solid white;
   border-top-color: black;
   border-right-color: black;
   border-bottom-color: black;
@@ -183,10 +205,5 @@ const Pending = styled.span`
   border-radius: 50%;
   border-top-right-radius: -50%;
 
-  animation: ${FillCircle} 1s infinite linear;
-`;
-
-const PendingMsg = styled.span`
-  font-size: 100px;
-  z-index: 3;
+  animation: ${FillCircle} 0.5s infinite ease-in;
 `;

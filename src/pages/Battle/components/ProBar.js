@@ -8,7 +8,6 @@ const ProgressBarTwo = (p) => {
   const setActive = p.value.setActive;
 
   let [count, setCount] = React.useState(10);
-  // console.log(count);
 
   React.useEffect(() => {
     const countdown = setInterval(() => {
@@ -37,7 +36,6 @@ const ProgressBarTwo = (p) => {
     }
     return block;
   };
-  console.log(count);
 
   return (
     <>

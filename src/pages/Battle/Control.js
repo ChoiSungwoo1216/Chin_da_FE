@@ -20,7 +20,8 @@ const Control = (props) => {
     setRunCountdown,
     setGameStart,
     setQueOpen,
-    setRunPending,
+    setUserPending,
+    setOppPending,
   } = props;
 
   const already = useSelector((state) => state.user.already);
@@ -92,8 +93,11 @@ const Control = (props) => {
       <div>
         결과창 on
         <button onClick={() => setROpen(true)}>열기</button>
-        제출 Pending
-        <button onClick={() => setRunPending(true)}>ㄱㄱ</button>
+      </div>
+      <div>
+        제출
+        <button onClick={() => setUserPending(true)}>user제출</button>
+        <button onClick={() => setOppPending(true)}>opp제출</button>
       </div>
       <div>
         Peer 관련
