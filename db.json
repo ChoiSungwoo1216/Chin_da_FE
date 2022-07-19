@@ -20,41 +20,37 @@
   },
 
   "page" : [
-        {
-        "userCharacter": "/img/mainUser2Img.png",
-         "userImg":
-            "/img/mainUser2Img.png",
-         "userName": "연습1",
-         "channelId": "1",
-         "userWin": "1",
-         "userLose": "2"
-      },
-        {
-         "userCharacter": "/img/mainUser2Img2.png",
-         "userImg":
-            "/img/mainUser2Img2.png",
-         "userName": "연습2",
-         "channelId": "2",
-         "userWin": "2",
-         "userLose": "3"
-      },
-        {
-         "userCharacter": "/img/mainUser2Img.png",
-         "userImg":
-            "/img/mainUser2Img.png",
-        "userName": "연습3",
-         "channelId": "3",
-         "userWin": "1",
-         "userLose": "4"
-      },
-        {
-         "userCharacter": "/img/mainUser2Img2.png",
-         "userImg":
-            "/img/mainUser2Img2.png",
-         "userName": "연습4",
-         "channelId": "4",
-         "userWin": "3",
-         "userLose": "5"
-      }
+        {"creatorGameInfo":{
+         "profileUrl":
+            "/img/ch2.svg",
+         "playerName": "연습1",
+         "roomId": "1",
+         "winCnt": "1",
+         "loseCnt": "2"
+        }},
+        {"creatorGameInfo":{
+          "profileUrl":
+             "/img/ch1.svg",
+          "playerName": "연습2",
+          "roomId": "2",
+          "winCnt": "3",
+          "loseCnt": "4"
+         }},
+         {"creatorGameInfo":{
+          "profileUrl":
+             "/img/ch2.svg",
+          "playerName": "연습3",
+          "roomId": "3",
+          "winCnt": "5",
+          "loseCnt": "6"
+         }},
+         {"creatorGameInfo":{
+          "profileUrl":
+             "/img/ch1.svg",
+          "playerName": "연습4",
+          "roomId": "4",
+          "winCnt": "7",
+          "loseCnt": "8"
+         }}
 ]
 }

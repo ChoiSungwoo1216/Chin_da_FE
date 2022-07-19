@@ -81,10 +81,10 @@ export function Main() {
          setPage((prevState) => prevState + 1);
       }
    }, [inView, loading]);
-
+   console.log(user2Info.creatorGameInfo.roomId)
    const EnterBattle = () => {
       enterEs.play();
-      navigate(`/battle/${user2Info.roomId}`, { state: user2Info });
+      navigate(`/battle/${user2Info.creatorGameInfo.roomId}`, { state: user2Info });
    };
    const goSelection = () => {
       hoverEs.play();
