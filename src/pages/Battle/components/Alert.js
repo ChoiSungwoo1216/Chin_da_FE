@@ -3,15 +3,15 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Alert.css";
 import { useSelector } from "react-redux";
-import effectSound from '../../../shared/effectSound';
-import failSound from '../../../audios/FailSE4.mp3';
+import effectSound from "../../../shared/effectSound";
+import failSound from "../../../audios/FailSE4.mp3";
 
 const XBtn = ({ closeToast }) => {
   const userSound = useSelector((state) => state.user.sound);
   const failEs = effectSound(failSound, userSound.es);
-  React.useEffect(()=>{
+  React.useEffect(() => {
     failEs.play();
-  },[])
+  }, []);
   return (
     <div>
       <img src="/img/X_btn_black_30.svg" alt="xbtn" onClick={closeToast} />
@@ -84,7 +84,7 @@ const Alert = (p) => {
         //⬇⬇⬇toastContainer고유 설정값
         newestOnTop={false} //default false 최근 생성된 알람이 위치할 포지션
         rtl={false} //default false rtl-> right to left layout
-        pauseOnFocusLoss={true} //default true 페이지에서 포커스 해제되면 일시정지하는 기능
+        pauseOnFocusLoss={false} //default true 페이지에서 포커스 해제되면 일시정지하는 기능
         limit={5} //default false 갯수 제한시 출력을 거부하는게 아닌 스택이 쌓인후 순서대로 동작
       ></ToastContainer>
     </>
