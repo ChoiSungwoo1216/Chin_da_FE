@@ -3,12 +3,13 @@ import styled, { css, keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateselected } from "../../../redux/modules/user";
-// import axios from "axios";
+import axios from "axios";
 // import { createchannel } from "../../../redux/modules/channel";
 
 const Room = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [chInfo, setChInfo] = React.useState([])
   const { language, level, setLanOn, setLevOn, setRoomOn, es, hoverEs, enterEs } = props;
   //컴포넌트 이동
   const SelLang = () => {
@@ -21,55 +22,38 @@ const Room = (props) => {
     setLevOn(true);
     es.play();
   };
+  
+
   //방만들기 요청
-  // const createChannelAxios = async () => {
-  //    await axios(
-  //      {
-  //        url: "/game/room/create",
-  //        method: "POST",
-  //        baseURL: "http://3.34.40.201:8080",
-  //        data: {
-  //         "langIdx": parseInt(language),
-  //         "levelIdx": parseInt(level),
-  //        },
-  //        headers: {
+  const createChannelAxios = async () => {
+    await axios(
+      {
+        url: "/game/room/create",
+        method: "POST",
+        baseURL: "http://3.34.40.201:8080",
+        data: {
+          "langIdx": parseInt(language),
+          "levelIdx": parseInt(level),
+        },
+        headers: {
+          "Content-Type":"application/json",
+        },
 
-  //        },
-
-  //      })
-  //      .then((res) => {
-  //        console.log(JSON.stringify(res.data));
-  //        dispatch(createchannel(
-  //         {
-  //           "roomId": "esg-sgdsg-egs",
-  //           "language": "JAVA",
-  //           "questionLevel": "EASY",
-  //           "server": "JAVAEASY",
-  //           "questionId": 1,
-  //           "questionTitle": "문제1",
-  //           "question": "문제",
-  //           "startTemplate": "string",
-  //           "creatorGameInfo": {
-  //             "playerName": "string",
-  //             "profileUrl": "string",
-  //             "winCnt": 0,
-  //             "loseCnt": 0
-  //           },
-  //           "enter": true
-  //         }
-  //        ))
-  //      })
-  //      .catch((error) => {
-  //        console.log(error);
-  //      });
-  //  }
+      })
+      .then((response) => {
+        console.log(response);
+        setChInfo(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   const CreateRoom = () => {
-    navigate("/Battle");
-    // navigate("/battle/" + id)
-    // dispatch(createChannelAxios())
+    // navigate("/Battle");
+    // navigate(`/battle/${chInfo.roomId}`, { state: chInfo } );
+    createChannelAxios();
     dispatch(updateselected({ language: language, level: level }));
-    // dispatch(createChannelAxios())
     enterEs.play();
   };
 
@@ -79,7 +63,7 @@ const Room = (props) => {
     enterEs.play();
   };
 
-  const HoverEs = () =>{
+  const HoverEs = () => {
     hoverEs.play();
   }
 
@@ -87,15 +71,15 @@ const Room = (props) => {
     <>
       <Title>방 선택</Title>
       <Wrapper>
-        <SelectedDiv onClick={SelLang} onMouseEnter={()=>{HoverEs()}}>
+        <SelectedDiv onClick={SelLang} onMouseEnter={() => { HoverEs() }}>
           <TypeBtn language={language} />
         </SelectedDiv>
-        <SelectedDiv onClick={SelLev} onMouseEnter={()=>{HoverEs()}}>
+        <SelectedDiv onClick={SelLev} onMouseEnter={() => { HoverEs() }}>
           <InsideBtn1 level={level} />
         </SelectedDiv>
         <RoomSelectDiv>
-            <InsideBtn2 onClick={CreateRoom} onMouseOver={()=>{HoverEs()}}>방 만들기</InsideBtn2>
-            <InsideBtn3 onClick={EnterRoom} onMouseOver={()=>{HoverEs()}}>방 선택하기</InsideBtn3>
+          <InsideBtn2 onClick={CreateRoom} onMouseOver={() => { HoverEs() }}>방 만들기</InsideBtn2>
+          <InsideBtn3 onClick={EnterRoom} onMouseOver={() => { HoverEs() }}>방 선택하기</InsideBtn3>
         </RoomSelectDiv>
       </Wrapper>
     </>
@@ -144,32 +128,37 @@ const TypeBtn = styled.div`
   display: flex;
   flex-direction: column;
   ${(props) => {
-    if (props.language === "0") {
+    if (props.language === "2") {
       return css`
         background-image: url("/img/python3.svg");
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
+        width: 70%;
+        height: 70%;
       `;
-    } else if (props.language === "1") {
+    } else if (props.language === "0") {
       return css`
         background-image: url("/img/java.svg");
         background-position: cover;
         background-repeat: no-repeat;
         background-position: center;
         transform: scale(1.3);
+        width: 60%;
+        height: 60%;
         `;
-    } else if (props.language === "2") {
+    } else if (props.language === "1") {
       return css`
         background-image: url("/img/js.svg");
         background-position: cover;
         background-repeat: no-repeat;
         background-position: center;
+        width: 70%;
+        height: 70%;
         `;
     }
   }}
-  width: 80%;
-  height: 80%;
+
   overflow: hidden;
   object-fit: cover;
 `;
