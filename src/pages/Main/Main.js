@@ -51,7 +51,7 @@ export function Main() {
 
    // getItems:서버에서 아이템을 가지고 오는 함수
    const getItems = useCallback(
-      async (page) => {
+      async () => {
          setLoading(true);
          await axios
             // .get('http://3.34.40.201:8080/game/rooms', {params: {
@@ -81,15 +81,6 @@ export function Main() {
          setPage((prevState) => prevState + 1);
       }
    }, [inView, loading]);
-   console.log(user2Info.creatorGameInfo.roomId)
-   const EnterBattle = () => {
-      enterEs.play();
-      navigate(`/battle/${user2Info.creatorGameInfo.roomId}`, { state: user2Info });
-   };
-   const goSelection = () => {
-      hoverEs.play();
-      navigate('/selection');
-   };
 
    const refreshBtn = () => {
       selectEs.play();
@@ -100,16 +91,31 @@ export function Main() {
       }
    }
 
-   //랜덤 캐릭터 표출
-   const randomImg = () =>{
+   //페이지 이동
+   const EnterBattle = () => {
+      enterEs.play();
+      navigate(`/battle/${user2Info.creatorGameInfo.roomId}`, { state: user2Info });
+   };
+   const goSelection = () => {
+      hoverEs.play();
+      navigate('/selection');
+   };
+
+   //캐릭터 표출
+   const [ranImg, setRanImg] = React.useState('')
+   let rArr = [3, 2, 0, 1, 2, 3, 2, 0, 1, 2];
+   const randomImg = (index, rArr) => {
       let img = [
          "/img/ch1.svg",
          "/img/ch2.svg",
          "/img/mainUser2Img.png",
-         "/img/mainUser2Img2.png"
+         "/img/mainUser2Img2.png",
       ]
-      let idx = Math.floor(Math.random() * (4 - 0)) + 0;
-      return img[idx]
+      if (index >= 10) {
+         return img[rArr[index % 10]]
+      } else {
+         return img[rArr[index]]
+      }
    }
 
    return (
@@ -155,17 +161,17 @@ export function Main() {
                   </div>
                </div>
                <article className="article">
-                  <img id="player1" src={user.userCharacter} alt="" />
+                  <img id="player1" src="/img/ch1.svg" alt="" />
                </article>
 
 
                {(user2Info.creatorGameInfo.profileUrl !== "") &&
-                <img
-                  id="player2"
-                  src={randomImg()}
-                  alt=""
-                  onError={(e) => (e.target.style.display = 'none')}
-               />}
+                  <img
+                     id="player2"
+                     src={ranImg}
+                     alt=""
+                     onError={(e) => (e.target.style.display = 'none')}
+                  />}
 
             </main>
 
@@ -198,6 +204,7 @@ export function Main() {
                                     className="scene"
                                     onClick={() => {
                                        setUser2Info(allUsers[idx]);
+                                       setRanImg(randomImg(idx, rArr));
                                     }}
                                  >
                                     <div className="card">
@@ -213,7 +220,7 @@ export function Main() {
                                        >
                                           <img
                                              className="characterImg"
-                                             src={item.creatorGameInfo.profileUrl}
+                                             src={randomImg(idx, rArr)}
                                              alt=""
                                           />
                                        </div>
@@ -230,6 +237,7 @@ export function Main() {
                                              selectEs.play();
                                           }}
                                        >
+                                          <img src={item.creatorGameInfo.profileUrl} alt="" />
                                           <p>{item.creatorGameInfo.playerName}</p>
                                           <p>
                                              {item.creatorGameInfo.winCnt}승{item.creatorGameInfo.loseCnt}패
@@ -242,6 +250,7 @@ export function Main() {
                                     className="scene"
                                     onClick={() => {
                                        setUser2Info(allUsers[idx]);
+                                       setRanImg(randomImg(idx, rArr));
                                     }}
                                  >
                                     <div className="card">
@@ -257,7 +266,7 @@ export function Main() {
                                        >
                                           <img
                                              className="characterImg"
-                                             src={item.creatorGameInfo.profileUrl}
+                                             src={randomImg(idx, rArr)}
                                              alt=""
                                           />
                                        </div>
@@ -274,6 +283,7 @@ export function Main() {
                                              selectEs.play();
                                           }}
                                        >
+                                          <img className="userProfile" src={item.creatorGameInfo.profileUrl} alt="" />
                                           <p>{item.creatorGameInfo.playerName}</p>
                                           <p>
                                              {item.creatorGameInfo.winCnt}승 {item.creatorGameInfo.loseCnt}패
