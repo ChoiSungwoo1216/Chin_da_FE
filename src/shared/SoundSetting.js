@@ -13,7 +13,7 @@ const SoundSetting = (props) => {
   const SoundOnOff = (e) => {
     if (e.target.checked) {
       if (e.target.id === "switch") {
-        dispatch(editsound({ bgm: 1 }));
+        dispatch(editsound({ bgm: 0.2 }));
       } else if (e.target.id === "switch1") {
         dispatch(editsound({ es: 1 }));
       }
@@ -31,7 +31,7 @@ const SoundSetting = (props) => {
       <SoundSettingBackground />
       <SettingDiv>
         <ExitSetting
-          src={"/img/X_btn_black_30.png"}
+          src={"/img/X_btn_black_30.svg"}
           alt=""
           onClick={() => setSetting(false)}
         />
@@ -43,11 +43,11 @@ const SoundSetting = (props) => {
               <input
                 type="checkbox"
                 id="switch"
-                checked={userSound.bgm === 1 ? true : false}
+                checked={userSound.bgm === 0.2 ? true : false}
                 onClick={(e) => SoundOnOff(e)}
               />
               <label for="switch" class="switch_label">
-                {userSound.bgm === 1 ? (
+                {userSound.bgm === 0.2 ? (
                   <img src={"/img/BtnOn.png"} alt="" class="onf_btn" />
                 ) : (
                   <img src={"/img/BtnOff.png"} alt="" class="onf_btn" />
@@ -161,7 +161,7 @@ const ExitSetting = styled.img`
   height: calc((2vw + 2vh) / 2);
   z-index: 12;
   :hover {
-    content: url(/img/X_btn_white_30.png);
+    content: url(/img/X_btn_white_30.svg);
   }
 `;
 
