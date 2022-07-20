@@ -30,11 +30,11 @@ const GitLogin = () => {
       .then((res) => {
         console.log(res.data);
         loading("selection");
-        // res에 포함된 토큰 받아서 원하는 로직을 하면된다.
+        //
       })
       .catch((err) => {
         console.log(err.response.status + "------err");
-        loading("selection");
+        loading("selection");//login으로 수정
       });
   };
 
