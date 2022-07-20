@@ -34,6 +34,7 @@ import axios from "axios";
 Modal.setAppElement("#root");
 
 const Battle = (props) => {
+  //배경음악
   const {setMbmute} = props
   const volume = useSelector((state) => state.user.sound);
   const [bbmute, setBbmute] = React.useState(true)
@@ -202,6 +203,8 @@ const Battle = (props) => {
 
   //나가기
   const BackToMain = () => {
+    setBbmute(true);
+    setMbmute(false);
     btnEs.play();
     navigate(`/Main`);
   };
