@@ -22,6 +22,8 @@ const Control = (props) => {
     setQueOpen,
     setUserPending,
     setOppPending,
+    setMbmute,
+    setBbmute,
   } = props;
 
   const already = useSelector((state) => state.user.already);
@@ -30,6 +32,7 @@ const Control = (props) => {
   const onCountdown = () => {
     setGameStart(true);
     setRunCountdown(true);
+    setMbmute(true)
     const countdown = setInterval(() => {
       setRunTimer(true);
       setRunCountdown(false);
@@ -37,6 +40,7 @@ const Control = (props) => {
       dispatch(alreadyUser({ user: false, opp: false }));
       clearInterval(countdown);
       setQueOpen(true);
+      setBbmute(false)
     }, 3150);
     return () => clearInterval(countdown);
   };

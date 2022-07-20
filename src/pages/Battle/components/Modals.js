@@ -90,11 +90,15 @@ export const QuestionModal = (p) => {
 };
 
 /*SuccessModal*/
-export const SuccessModal = ({setROpen, setResult}) => {
+export const SuccessModal = ({setROpen, setResult, setBbmute}) => {
   const userSound = useSelector((state) => state.user.sound);
   const winEs = effectSound(winSound, userSound.es);
+  const muteBb = ()=>{
+    setBbmute(true);
+  }
   React.useEffect(() => {
     winEs.play();
+    muteBb();    
   }, [])
   const [modalIsOpen, setIsOpen] = React.useState(true);
   const customModalStyles = {
@@ -134,11 +138,15 @@ export const SuccessModal = ({setROpen, setResult}) => {
 };
 
 /*FailModal*/
-export const FailModal = ({setROpen, setResult}) => {
+export const FailModal = ({setROpen, setResult, setBbmute}) => {
   const userSound = useSelector((state) => state.user.sound);
   const loseEs = effectSound(loseSound, userSound.es);
+  const muteBb = ()=>{
+    setBbmute(true);
+  }
   React.useEffect(() => {
     loseEs.play();
+    muteBb();
   }, [])
   const [modalIsOpen, setIsOpen] = React.useState(true);
   const confetti = new JSConfetti();
