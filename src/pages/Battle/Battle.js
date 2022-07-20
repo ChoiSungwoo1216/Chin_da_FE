@@ -24,14 +24,21 @@ import {
   OppSubmitPending,
 } from "./components/ReadyAndPending";
 
+import useSound from "../../shared/useSound";
 import effectSound from "../../shared/effectSound";
 import btnSound from "../../audios/btnselect.mp3";
 import camSound from "../../audios/camOff.mp3";
+import battleBgm from "../../audios/battle_bgm.mp3"
 import axios from "axios";
 
 Modal.setAppElement("#root");
 
-const Battle = () => {
+const Battle = (props) => {
+  const {setMbmute} = props
+  const volume = useSelector((state) => state.user.sound);
+  const [bbmute, setBbmute] = React.useState(true)
+  useSound(battleBgm, volume.bgm, bbmute);
+  
   const selected = useSelector((state) => state.user.selected);
   const navigate = useNavigate();
   const location = useLocation();
@@ -348,9 +355,9 @@ const Battle = () => {
         </OpponentDiv>
       </BodyPart>
       {showQuestionModal && <QuestionModal setValue={setShowQuestionModal} />}
-      {showSuccessModal && <SuccessModal setROpen={setROpen} setResult={setResult} />}
-      {showFailModal && <FailModal setROpen={setROpen} setResult={setResult} />}
-      {rOpen && <Result setROpen={setROpen} result={result} />}
+      {showSuccessModal && <SuccessModal setROpen={setROpen} setResult={setResult} setBbmute={setBbmute}/>}
+      {showFailModal && <FailModal setROpen={setROpen} setResult={setResult} setBbmute={setBbmute}/>}
+      {rOpen && <Result setROpen={setROpen} result={result} setMbmute={setMbmute}/>}
 
       <Control
         setRunTimer={setRunTimer}
@@ -370,6 +377,8 @@ const Battle = () => {
         setQueOpen={setQueOpen}
         setUserPending={setUserPending}
         setOppPending={setOppPending}
+        setMbmute={setMbmute}
+        setBbmute={setBbmute}
       />
     </Container>
   );

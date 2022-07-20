@@ -11,7 +11,7 @@ const Result = (props) => {
     const userSound = useSelector((state) => state.user.sound);
     const winEs = effectSound(winSound, userSound.es);
     const loseEs = effectSound(loseSound, userSound.es);
-    const { setROpen } = props;
+    const { setROpen, setMbmute } = props;
     const result = props.result;
     React.useEffect(() => {
         if (result === "WIN") {
@@ -23,11 +23,12 @@ const Result = (props) => {
     const navigate = useNavigate();
     const [player, setPlayer] = React.useState("Player 1")
     const GoBackMain = () => {
+        setMbmute(false);
         navigate("/Selection")
     }
     return (
         <>
-            <ResultBackground onClick={() => setROpen(false)} />
+            <ResultBackground onClick={() => {setROpen(false); setMbmute(false);}} />
             <ResultDiv>
                 <SettingWord>RESULT</SettingWord>
                 <BlackDiv>
@@ -47,7 +48,7 @@ const Result = (props) => {
                     }
                     <ResultElement>한판 더 하시겠습니까?</ResultElement>
                     <ReDiv>
-                        <ResultBtn onClick={() => { setROpen(false) }}>Yes</ResultBtn>
+                        <ResultBtn onClick={() => { setROpen(false); setMbmute(false);}}>Yes</ResultBtn>
                         <ResultBtn onClick={GoBackMain}>No</ResultBtn>
                     </ReDiv>
                 </BlackDiv>
