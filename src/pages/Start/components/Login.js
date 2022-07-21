@@ -2,10 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 const Login = () => {
-  const GitKey = "44af62885d9f67153ed1";
-  const redirectUri = "http://localhost:3000/github";
-  const locateGit = `https://github.com/login/oauth/authorize?client_id=${GitKey}&redirect_uri=${redirectUri}`;
-
+  const client_id = process.env.REACT_APP_GIT_CLIENT_ID;
+  const redirect_uri = process.env.REACT_APP_GIT_REDIRECT_URI;
+  const locateGit = `https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}`;
   return (
     <>
       <Wrap>
@@ -23,12 +22,6 @@ const Login = () => {
 
 export default Login;
 
-// const Container = styled.div`
-
-//    background-color: white;
-//    box-sizing: border-box;
-
-// `;
 const Wrap = styled.div`
   width: 100%;
   height: 100%;
@@ -83,5 +76,4 @@ const GithubBtn = styled.div`
 const BtnA = styled.a`
   text-decoration: none;
   color: black;
-  /* margin-top: 1.91vw; */
 `;
