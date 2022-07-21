@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -16,7 +16,12 @@ export function Main() {
    const dispatch = useDispatch();
 
    const [user2Info, setUser2Info] = useState({
-      creatorGameInfo: { playerName: '', profileUrl: '', winCnt: '', loseCnt: '' }
+      creatorGameInfo: {
+         playerName: '',
+         profileUrl: '',
+         winCnt: '',
+         loseCnt: '',
+      },
    });
    const user = {
       userName: 'player1',
@@ -50,25 +55,24 @@ export function Main() {
    const level = selected.level;
 
    // getItems:서버에서 아이템을 가지고 오는 함수
-   const getItems = useCallback(
-      async () => {
-         setLoading(true);
-         await axios
-            // .get('http://3.34.40.201:8080/game/rooms', {params: {
-            //    langIdx : parseInt(language),
-            //    levelIdx : parseInt(level),
-            //  },
-            // headers:{"Content-Type": 'application/json'}})
-            .get('http://localhost:5001/page')
-            .then((response) => {
-               console.log(response.data);
-               setAllUsers((prevState) => [...prevState, ...response.data]);
-            })
-            .catch((error) => {
-               console.log(error);
-            });
-         setLoading(false);
-      }, [page]);
+   const getItems = useCallback(async () => {
+      setLoading(true);
+      await axios
+         // .get('http://3.34.40.201:8080/game/rooms', {params: {
+         //    langIdx : parseInt(language),
+         //    levelIdx : parseInt(level),
+         //  },
+         // headers:{"Content-Type": 'application/json'}})
+         .get('http://localhost:5001/page')
+         .then((response) => {
+            console.log(response.data);
+            setAllUsers((prevState) => [...prevState, ...response.data]);
+         })
+         .catch((error) => {
+            console.log(error);
+         });
+      setLoading(false);
+   }, [page]);
 
    // getItems가 바뀔때마다 함수 실행
    React.useEffect(() => {
@@ -85,16 +89,18 @@ export function Main() {
    const refreshBtn = () => {
       selectEs.play();
       if (refresh) {
-         setRefresh(false)
+         setRefresh(false);
       } else {
-         setRefresh(true)
+         setRefresh(true);
       }
-   }
+   };
 
    //페이지 이동
    const EnterBattle = () => {
       enterEs.play();
-      navigate(`/battle/${user2Info.creatorGameInfo.roomId}`, { state: user2Info });
+      navigate(`/battle/${user2Info.creatorGameInfo.roomId}`, {
+         state: user2Info,
+      });
    };
    const goSelection = () => {
       hoverEs.play();
@@ -102,21 +108,21 @@ export function Main() {
    };
 
    //캐릭터 표출
-   const [ranImg, setRanImg] = React.useState('')
+   const [ranImg, setRanImg] = React.useState('');
    let rArr = [3, 2, 0, 1, 2, 3, 2, 0, 1, 2];
    const randomImg = (index, rArr) => {
       let img = [
-         "/img/ch1.svg",
-         "/img/ch2.svg",
-         "/img/mainUser2Img.png",
-         "/img/mainUser2Img2.png",
-      ]
+         '/img/ch1.svg',
+         '/img/ch2.svg',
+         '/img/mainUser2Img.png',
+         '/img/mainUser2Img2.png',
+      ];
       if (index >= 10) {
-         return img[rArr[index % 10]]
+         return img[rArr[index % 10]];
       } else {
-         return img[rArr[index]]
+         return img[rArr[index]];
       }
-   }
+   };
 
    return (
       <>
@@ -137,42 +143,41 @@ export function Main() {
                      <p>LOSE: {user.userLose}</p>
                   </div>
                </div>
-
-               <div
-                  className="profile"
-                  style={{
-                     backgroundImage: 'url(/img/mainCardPlayer.svg)',
-                     backgroundRepeat: 'no-repeat',
-                     backgroundSize: 'contain',
-                  }}
-               >
-                  {(user2Info.creatorGameInfo.profileUrl !== "") &&
+               {user2Info.creatorGameInfo.profileUrl !== '' && (
+                  <div
+                     className="profile"
+                     style={{
+                        backgroundImage: 'url(/img/mainCardPlayer.svg)',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'contain',
+                     }}
+                  >
                      <img
                         className="thumbnail"
                         src={user2Info.creatorGameInfo.profileUrl}
                         alt=""
                         onError={(e) => (e.target.style.display = 'none')}
-                     />}
+                     />
 
-                  <div className="description">
-                     <p>이름: {user2Info.creatorGameInfo.playerName}</p>
-                     <p>WIN: {user2Info.creatorGameInfo.winCnt}</p>
-                     <p>LOSE: {user2Info.creatorGameInfo.loseCnt}</p>
+                     <div className="description">
+                        <p>이름: {user2Info.creatorGameInfo.playerName}</p>
+                        <p>WIN: {user2Info.creatorGameInfo.winCnt}</p>
+                        <p>LOSE: {user2Info.creatorGameInfo.loseCnt}</p>
+                     </div>
                   </div>
-               </div>
+               )}
                <article className="article">
                   <img id="player1" src="/img/ch1.svg" alt="" />
                </article>
 
-
-               {(user2Info.creatorGameInfo.profileUrl !== "") &&
+               {user2Info.creatorGameInfo.profileUrl !== '' && (
                   <img
                      id="player2"
                      src={ranImg}
                      alt=""
                      onError={(e) => (e.target.style.display = 'none')}
-                  />}
-
+                  />
+               )}
             </main>
 
             <section className="mainSection">
@@ -237,10 +242,18 @@ export function Main() {
                                              selectEs.play();
                                           }}
                                        >
-                                          <img src={item.creatorGameInfo.profileUrl} alt="" />
-                                          <p>{item.creatorGameInfo.playerName}</p>
+                                          <img
+                                             src={
+                                                item.creatorGameInfo.profileUrl
+                                             }
+                                             alt=""
+                                          />
                                           <p>
-                                             {item.creatorGameInfo.winCnt}승{item.creatorGameInfo.loseCnt}패
+                                             {item.creatorGameInfo.playerName}
+                                          </p>
+                                          <p>
+                                             {item.creatorGameInfo.winCnt}승
+                                             {item.creatorGameInfo.loseCnt}패
                                           </p>
                                        </div>
                                     </div>
@@ -283,10 +296,19 @@ export function Main() {
                                              selectEs.play();
                                           }}
                                        >
-                                          <img className="userProfile" src={item.creatorGameInfo.profileUrl} alt="" />
-                                          <p>{item.creatorGameInfo.playerName}</p>
+                                          <img
+                                             className="userProfile"
+                                             src={
+                                                item.creatorGameInfo.profileUrl
+                                             }
+                                             alt=""
+                                          />
                                           <p>
-                                             {item.creatorGameInfo.winCnt}승 {item.creatorGameInfo.loseCnt}패
+                                             {item.creatorGameInfo.playerName}
+                                          </p>
+                                          <p>
+                                             {item.creatorGameInfo.winCnt}승{' '}
+                                             {item.creatorGameInfo.loseCnt}패
                                           </p>
                                        </div>
                                     </div>
@@ -334,4 +356,3 @@ export function Main() {
 }
 
 export default Main;
-
