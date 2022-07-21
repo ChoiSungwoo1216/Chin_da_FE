@@ -18,10 +18,12 @@ const GitLogin = () => {
     let params = new URL(document.location.toString()).searchParams;
     let code = params.get("code"); // 인가코드 받는 부분
 
-    console.log(API, code + "----");
     await axios({
       method: "get",
       url: `${API}/login/oauth2/code/github`,
+      params: {
+        code: code,
+      },
     })
       .then((res) => {
         sessionStorage.setItem("Authorization", res.data.token);
