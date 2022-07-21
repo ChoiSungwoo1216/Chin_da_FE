@@ -17,12 +17,14 @@
 @keyframes dustChange {
   0% {
     background-image: url("../../../public/img/logo_dust.svg");
+    opacity: 1;
   }
   50% {
     background-image: url("../../../public/img/logo_dust_reverse.svg");
   }
   100% {
     background-image: url("../../../public/img/logo_dust.svg");
+    opacity: 1;
   }
 }
 
@@ -97,5 +99,29 @@
   }
   100% {
     filter: drop-shadow(0 20px 50px rgb(23, 32, 90));
+  }
+}
+@keyframes fistMovingY {
+  from {
+    transform: translateY(-700px);
+    opacity: 1;
+  }
+  /* 20% {
+    transform: translateY(-400px);
+  } */
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fistMovingX {
+  from {
+    transform: translateX(-50vw) rotate(90deg);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100vw) rotate(90deg);
+    opacity: 1;
   }
 }

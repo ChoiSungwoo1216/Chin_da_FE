@@ -13,8 +13,9 @@ const GitLogin = () => {
       navigate(`/${a}`);
     }, 3000);
   }
-  const client_secret = "7fdbc1019122ced80cfffef473cfa4b3398e2df3";
-  const client_id = "44af62885d9f67153ed1";
+  const client_secret = process.env.REACT_APP_CLIENT_SECRET;
+  const client_id = process.env.REACT_APP_GIT_CLIENT_ID;
+  
 
   const gitAxios = async () => {
     let params = new URL(document.location.toString()).searchParams;

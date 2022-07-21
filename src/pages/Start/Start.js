@@ -2,6 +2,7 @@ import React from "react";
 import LoginModal from "./components/LoginModal";
 import styled, { keyframes, css } from "styled-components";
 import "./startAnimation.css";
+
 const Start = () => {
   const [modalOpen, setModalOpen] = React.useState(false);
   const [HOVER, setHOVER] = React.useState(false);
@@ -20,6 +21,7 @@ const Start = () => {
     }, 5000);
   }, []);
 
+  console.log(process.env.REACT_APP_API);
   return (
     <StartContainer>
       <LogoContainer>
@@ -94,6 +96,7 @@ const StartContainer = styled.div`
   z-index: 1;
   top: 0;
   left: 0;
+  overflow: hidden;
 `;
 const zoomIn = keyframes`
   0% {
@@ -202,12 +205,15 @@ const Fist = styled.div`
   height: 14.76vw;
   top: -13%;
   left: 38%;
-
+  opacity: 0;
   background: url("/img/fist_fire_left.svg") center no-repeat;
   background-size: 100% 100%;
   z-index: 1;
 
-  animation: fistChange 0.5s steps(1) infinite;
+  animation: fistMovingX 2s ease-in-out, fistMovingY 2s ease-in-out 2s forwards,
+    fistChange 0.5s 4s steps(1) infinite;
+
+  /* fistChange 0.5s steps(1) infinite; */
 `;
 
 const Dust = styled.div`
@@ -220,10 +226,10 @@ const Dust = styled.div`
 
   bottom: 35%;
   left: 1.95vw;
-
+  opacity: 0;
   background: url("/img/logo_dust.svg") center no-repeat;
   background-size: 100% 100%;
-  animation: dustChange 2s infinite;
+  animation: dustChange 2s infinite 3.5s;
   transition: none;
 `;
 
@@ -241,7 +247,7 @@ const Title = styled.div`
 
   background: url("/img/logo_title_fill.svg") center no-repeat;
   background-size: 100%, 100%;
-  animation: OPACITY 0.1s 1.5s forwards, titleChange 0.5s infinite 1.7s steps(2);
+  animation: OPACITY 0.1s 2.5s forwards, titleChange 0.5s infinite 1.7s steps(2);
 `;
 
 const LoginDiv = styled.div`
@@ -278,7 +284,7 @@ const LoginDiv = styled.div`
     background-position: center;
     background-size: 100%, 100%;
     background-repeat: no-repeat;
-
+    overflow-y: hidden;
     cursor: pointer;
 
     ${(props) =>
