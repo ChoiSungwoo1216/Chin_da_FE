@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Start from "./pages/Start/Start";
 import Main from "./pages/Main/Main";
+import { LoginCheck } from "./shared/sessionStorage";
 
 import Battle from "./pages/Battle/Battle";
 import Profile from "./pages/Profile/Profile";
@@ -12,15 +13,15 @@ import TutorialBtn from "./pages/Tutorial/TutorialBtn";
 import SoundSettingBtn from "./shared/SoundSettingBtn";
 
 import { useSelector } from "react-redux";
-import useSound from "./shared/useSound"
-import mainBgm from "./audios/main_bgm.mp3"
+import useSound from "./shared/useSound";
+import mainBgm from "./audios/main_bgm.mp3";
 import React from "react";
 
 function App() {
   const volume = useSelector((state) => state.user.sound);
-  const [mbmute, setMbmute] = React.useState(false)
+  const [mbmute, setMbmute] = React.useState(true);
   useSound(mainBgm, volume.bgm, mbmute);
-  
+
   return (
     <div className="App">
       <div id="stars"></div>
@@ -29,13 +30,28 @@ function App() {
       <TutorialBtn />
       <SoundSettingBtn />
       <Routes>
-        <Route path="/" element={<Start />} />
-        <Route path="/github" element={<GitLogin />} />
-        <Route path="/main" element={<Main />}></Route>
-        <Route path="/battle/" element={<Battle setMbmute={setMbmute}/>}></Route>
-        <Route path="/battle/:id" element={<Battle setMbmute={setMbmute}/>}></Route>
-        <Route path="/profile" element={<Profile />}></Route>
-        <Route path="/selection" element={<Selection />}></Route>
+        {LoginCheck !== true ? (
+          <>
+            <Route path="/" element={<Start />} />
+            <Route path="/github" element={<GitLogin />} />
+            <Route path="/*" element={<Start />} />
+          </>
+        ) : (
+          <>
+            <Route path="/main" element={<Main />}></Route>
+            <Route
+              path="/battle/"
+              element={<Battle setMbmute={setMbmute} />}
+            ></Route>
+            <Route
+              path="/battle/:id"
+              element={<Battle setMbmute={setMbmute} />}
+            ></Route>
+            <Route path="/profile" element={<Profile />}></Route>
+            <Route path="/selection" element={<Selection />}></Route>
+            <Route path="/*" element={<Selection />} />
+          </>
+        )}
       </Routes>
     </div>
   );
