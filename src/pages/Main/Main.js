@@ -1,19 +1,16 @@
 import React, { useState, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useInView } from 'react-intersection-observer';
+// import { useInView } from 'react-intersection-observer';
 import './Main.css';
-// import { loadChannelAxios } from "../../redux/modules/channel";
-
 import effectSound from '../../shared/effectSound';
-import selectSound from '../../audios/MainCardSelectSE1.mp3';
-import enterSound from '../..//audios/MainStartSE1.mp3';
+import selSound from '../../audios/MainCardSelectSE1.mp3';
+import entSound from '../..//audios/MainStartSE1.mp3';
 import hoverSound from '../../audios/BtnHoverSE1.mp3';
 
 export function Main() {
    const navigate = useNavigate();
-   const dispatch = useDispatch();
 
    const [user2Info, setUser2Info] = useState({
       creatorGameInfo: {
@@ -24,10 +21,10 @@ export function Main() {
       },
    });
    const user = {
-      userName: 'player1',
-      userCharacter: '/img/ch1.svg',
-      userWin: '1',
-      userLose: '2',
+      userName: sessionStorage.getItem("username"),
+      userCharacter: sessionStorage.getItem("profile"),
+      userWin: sessionStorage.getItem("winCnt"),
+      userLose: sessionStorage.getItem("loseCnt"),
    };
    const languageImg = [
       '/img/miniJava.svg',
@@ -40,30 +37,39 @@ export function Main() {
       '/img/miniStar3.svg',
    ];
    const [allUsers, setAllUsers] = useState([]);
-   const [page, setPage] = useState(1);
-   const [loading, setLoading] = useState(false);
-   const [ref, inView] = useInView();
+   //무한스크롤
+   // const [page, setPage] = useState(1);
+   // const [loading, setLoading] = useState(false);
+   // const [ref, inView] = useInView();
+
    const [refresh, setRefresh] = useState(false);
 
    const userSound = useSelector((state) => state.user.sound);
-   const selectEs = effectSound(selectSound, userSound.es);
+   const selEs = effectSound(selSound, userSound.es);
    const hoverEs = effectSound(hoverSound, userSound.es);
-   const enterEs = effectSound(enterSound, userSound.es);
+   const entEs = effectSound(entSound, userSound.es);
 
    const selected = useSelector((state) => state.user.selected);
    const language = selected.language;
    const level = selected.level;
 
    // getItems:서버에서 아이템을 가지고 오는 함수
-   const getItems = useCallback(async () => {
-      setLoading(true);
+   const getItems = useCallback(async (language, level) => {
+      const api = process.env.REACT_APP_API;
+      const Authorization = sessionStorage.getItem("Authorization")
+      const numLan = parseInt(language)
+      const numLev = parseInt(level)
+      // setLoading(true);
       await axios
-         // .get('http://3.34.40.201:8080/game/rooms', {params: {
-         //    langIdx : parseInt(language),
-         //    levelIdx : parseInt(level),
-         //  },
-         // headers:{"Content-Type": 'application/json'}})
-         .get('http://localhost:5001/page')
+         .get(`${api}/game/rooms`, {
+            params: {
+               "langIdx": numLan,
+               "levelIdx": numLev,
+            },
+            headers: {
+               "Authorization": Authorization
+            }
+         })
          .then((response) => {
             console.log(response.data);
             setAllUsers((prevState) => [...prevState, ...response.data]);
@@ -71,23 +77,25 @@ export function Main() {
          .catch((error) => {
             console.log(error);
          });
-      setLoading(false);
-   }, [page]);
+      // setLoading(false);
+   }, []
+   // [page]
+   );
 
    // getItems가 바뀔때마다 함수 실행
    React.useEffect(() => {
-      getItems(page);
-   }, [getItems, refresh]);
+      getItems(language, level);
+   }, [getItems, refresh, language, level]);
 
    // 사용자가 마지막 요소를 보고 있고, 로딩 중이 아니라면 setPage실행
-   React.useEffect(() => {
-      if (inView && !loading) {
-         setPage((prevState) => prevState + 1);
-      }
-   }, [inView, loading]);
+   // React.useEffect(() => {
+   //    if (inView && !loading) {
+   //       setPage((prevState) => prevState + 1);
+   //    }
+   // }, [inView, loading]);
 
    const refreshBtn = () => {
-      selectEs.play();
+      selEs.play();
       if (refresh) {
          setRefresh(false);
       } else {
@@ -97,7 +105,7 @@ export function Main() {
 
    //페이지 이동
    const EnterBattle = () => {
-      enterEs.play();
+      entEs.play();
       navigate(`/battle/${user2Info.creatorGameInfo.roomId}`, {
          state: user2Info,
       });
@@ -138,7 +146,7 @@ export function Main() {
                >
                   <img className="thumbnail" src={user.userCharacter} alt="" />
                   <div className="description">
-                     <p>이름: {user.userName}</p>
+                     <p>{user.userName}</p>
                      <p>WIN: {user.userWin}</p>
                      <p>LOSE: {user.userLose}</p>
                   </div>
@@ -160,7 +168,7 @@ export function Main() {
                      />
 
                      <div className="description">
-                        <p>이름: {user2Info.creatorGameInfo.playerName}</p>
+                        <p>{user2Info.creatorGameInfo.playerName}</p>
                         <p>WIN: {user2Info.creatorGameInfo.winCnt}</p>
                         <p>LOSE: {user2Info.creatorGameInfo.loseCnt}</p>
                      </div>
@@ -203,7 +211,7 @@ export function Main() {
                      allUsers.map((item, idx) => {
                         return (
                            <React.Fragment key={idx}>
-                              {allUsers.length - 1 === idx ? (
+                              {/* {allUsers.length - 1 === idx ? (
                                  <div
                                     ref={ref}
                                     className="scene"
@@ -239,7 +247,7 @@ export function Main() {
                                              objectFit: 'contain',
                                           }}
                                           onClick={() => {
-                                             selectEs.play();
+                                             selEs.play();
                                           }}
                                        >
                                           <img
@@ -258,7 +266,7 @@ export function Main() {
                                        </div>
                                     </div>
                                  </div>
-                              ) : (
+                              ) : ( */}
                                  <div
                                     className="scene"
                                     onClick={() => {
@@ -293,7 +301,7 @@ export function Main() {
                                              objectFit: 'contain',
                                           }}
                                           onClick={() => {
-                                             selectEs.play();
+                                             selEs.play();
                                           }}
                                        >
                                           <img
@@ -313,7 +321,7 @@ export function Main() {
                                        </div>
                                     </div>
                                  </div>
-                              )}
+                              {/* )} */}
                            </React.Fragment>
                         );
                      })

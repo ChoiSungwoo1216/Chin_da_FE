@@ -54,9 +54,40 @@ const Battle = (props) => {
 
   //RoomInfo
   const info = location.state;
-  const roomId = params;
+  const roomId = params.id;
+  const questionId = location.state.questionId;
+  const languageType = location.state.language;
+  const server = location.state.server;
   console.log(info);
   console.log(roomId);
+  console.log(questionId)
+  console.log(languageType)
+  console.log(server)
+  //방나가기 요청
+  const leaveRoomAxios = async () => {
+    const api = process.env.REACT_APP_API;
+    const Authorization = sessionStorage.getItem("Authorization")
+    await axios(
+      {
+        url: "/game/room/exit",
+        method: "PUT",
+        baseURL: api,
+        data: {
+          "roomId": roomId,
+          "server": server
+        },
+        headers: {
+          "Authorization": Authorization,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
 
   //Modals
   const [showQuestionModal, setShowQuestionModal] = useState();
@@ -204,6 +235,7 @@ const Battle = (props) => {
 
   //나가기
   const BackToMain = () => {
+    leaveRoomAxios();
     setBbmute(true);
     setMbmute(false);
     btnEs.play();
