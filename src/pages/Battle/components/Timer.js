@@ -52,8 +52,8 @@ const Counts = styled.span`
   display: flex;
   position: absolute;
   width: 6.5%;
-  top: 30%;
-  left: 2.5%;
+  top: 36%;
+  left: 2.7%;
   justify-content: center;
 
   color: black;

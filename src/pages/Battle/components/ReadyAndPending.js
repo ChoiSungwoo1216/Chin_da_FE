@@ -5,7 +5,7 @@ import { alreadyUser } from "../../../redux/modules/user";
 import effectSound from "../../../shared/effectSound";
 import readySound from "../../../audios/ready.mp3";
 
-export const ReadyUser = () => {
+export const ReadyUser = ({sendReady}) => {
   const userReady = useSelector((state) => state.user.already.user);
   const dispatch = useDispatch();
   const userSound = useSelector((state) => state.user.sound);
@@ -13,14 +13,14 @@ export const ReadyUser = () => {
 
   const setReady = () => {
     readyEs.play();
+    sendReady();
     userReady === false
-      ? dispatch(alreadyUser({ user: true }))
-      : dispatch(alreadyUser({ user: false }));
+      && dispatch(alreadyUser({ user: true }))
   };
 
   return (
     <UserContainer wait={userReady}>
-      <ReadyBtn onClick={setReady} />
+      <ReadyBtn disabled={userReady} onClick={setReady} />
     </UserContainer>
   );
 };
@@ -34,14 +34,13 @@ export const ReadyOpp = () => {
   const setReady = () => {
     readyEs.play();
     oppReady === false
-      ? dispatch(alreadyUser({ opp: true }))
-      : dispatch(alreadyUser({ opp: false }));
+      && dispatch(alreadyUser({ opp: true }))
   };
 
   return (
     <OppContainer>
       <OppDiv wait={oppReady}>
-        <ReadyBtn onClick={setReady} />
+        <ReadyBtn disabled={oppReady} onClick={setReady} />
       </OppDiv>
     </OppContainer>
   );
@@ -116,7 +115,7 @@ const UserContainer = styled.div`
   ${(props) =>
     props.wait === true &&
     css`
-      & div {
+      & button {
         background: url("/img/already.svg") center no-repeat;
         background-size: 100% 100%;
       }
@@ -144,7 +143,7 @@ const OppDiv = styled.div`
   ${(props) =>
     props.wait === true &&
     css`
-      & div {
+      & button {
         background: url("/img/already.svg") center no-repeat;
         background-size: 100% 100%;
       }
@@ -152,7 +151,7 @@ const OppDiv = styled.div`
   z-index: 5;
 `;
 
-const ReadyBtn = styled.div`
+const ReadyBtn = styled.button`
   display: flex;
   position: relative;
   width: 14.0625vw;
