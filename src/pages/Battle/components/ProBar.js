@@ -25,7 +25,7 @@ const ProgressBarTwo = (p) => {
       } else {
         refesh();
       }
-    }, time * 100);
+    }, time * 1000);
     return () => clearInterval(countdown);
   }, [count, active]);
 

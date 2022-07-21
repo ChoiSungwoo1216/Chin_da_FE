@@ -4,7 +4,6 @@ import Main from "./pages/Main/Main";
 import { LoginCheck } from "./shared/sessionStorage";
 
 import Battle from "./pages/Battle/Battle";
-import Profile from "./pages/Profile/Profile";
 import Selection from "./pages/Selection/Selection";
 import "./App.css";
 import "./animation.css";
@@ -30,7 +29,7 @@ function App() {
       <TutorialBtn />
       <SoundSettingBtn />
       <Routes>
-        {LoginCheck !== true ? (
+        {LoginCheck === true ? (
           <>
             <Route path="/" element={<Start />} />
             <Route path="/github" element={<GitLogin />} />
@@ -47,7 +46,6 @@ function App() {
               path="/battle/:id"
               element={<Battle setMbmute={setMbmute} />}
             ></Route>
-            <Route path="/profile" element={<Profile />}></Route>
             <Route path="/selection" element={<Selection />}></Route>
             <Route path="/*" element={<Selection />} />
           </>
