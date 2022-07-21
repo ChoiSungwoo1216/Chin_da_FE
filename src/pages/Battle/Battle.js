@@ -1,390 +1,424 @@
-import React from "react";
+import React,{useState, useEffect, useRef} from "react";
 import styled, { css, keyframes } from "styled-components";
-import Modal from "react-modal";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import axios from 'axios';
+import Peer from 'peerjs';
+import Modal from 'react-modal';
 
 /*COMPONENTS*/
-import AceEditorPlayer from "./components/AceEditorPlayer";
-import AceEditorOpp from "./components/AceEditorOpp";
-import Control from "./Control";
-import ChatBox from "./components/ChatBox";
-import ProBar from "./components/ProBar";
-import Alert from "./components/Alert";
-import Result from "./components/Result";
-import Countdown from "./components/CountDown";
-// import Accordion from './components/Accordion';
-import { QuestionModal, SuccessModal, FailModal } from "./components/Modals";
+import Control from './Control';
+import{ AceEditorPlayer, AceEditorOpp } from "./components/AceEditors";
+import {QuestionModal, SuccessModal, FailModal, Result} from './components/Modals';
+import {ReadyUser, ReadyOpp, UserSubmitPending, OppSubmitPending} from "./components/ReadyAndPending";
+import ChatBox from './components/ChatBox';
+import ProBar from './components/ProBar';
+import Alert from './components/Alert';
+import Countdown from './components/CountDown';
 
-import Peer from "peerjs";
-import {
-  ReadyUser,
-  ReadyOpp,
-  UserSubmitPending,
-  OppSubmitPending,
-} from "./components/ReadyAndPending";
-
+/*AUDIO*/
 import useSound from "../../shared/useSound";
 import effectSound from "../../shared/effectSound";
 import btnSound from "../../audios/btnselect.mp3";
 import camSound from "../../audios/camOff.mp3";
 import battleBgm from "../../audios/battle_bgm.mp3"
-import axios from "axios";
+
 
 Modal.setAppElement("#root");
 
 const Battle = (props) => {
-  //배경음악
-  const {setMbmute} = props
-  const volume = useSelector((state) => state.user.sound);
-  const [bbmute, setBbmute] = React.useState(true)
-  useSound(battleBgm, volume.bgm, bbmute);
-  
-  const selected = useSelector((state) => state.user.selected);
-  const navigate = useNavigate();
-  const location = useLocation();
-  const params = useParams();
-  // 방 정보
-  const info = location.state;
-  const roomId = params;
-  console.log(info)
-  console.log(roomId)
-  //sound
-  const userSound = useSelector((state) => state.user.sound);
-  const btnEs = effectSound(btnSound, userSound.es);
-  const camEs = effectSound(camSound, userSound.es);
+   const selected = useSelector((state) => state.user.selected);
+   const navigate = useNavigate();
+   const location = useLocation();
+   const params = useParams();
 
-  //modals
-  const [showQuestionModal, setShowQuestionModal] = React.useState();
-  const [showSuccessModal, setShowSuccessModal] = React.useState();
-  const [showFailModal, setShowFailModal] = React.useState();
+   //Bgm
+   const { setMbmute } = props;
+   const volume = useSelector((state) => state.user.sound);
+   const [bbmute, setBbmute] = useState(true);
+   useSound(battleBgm, volume.bgm, bbmute);
 
-  //ace editor
-  const [mode, setMode] = React.useState("java");
-  const [theme, setTheme] = React.useState("monokai");
-  const [startTemp, setStartTemp] = React.useState("");
+   //Sound
+   const userSound = useSelector((state) => state.user.sound);
+   const btnEs = effectSound(btnSound, userSound.es);
+   const camEs = effectSound(camSound, userSound.es);
 
-  //timer,progressBar
-  const [runTimer, setRunTimer] = React.useState("false");
-  const [timeSetting, setTimeSetting] = React.useState(300);
-  const timerValue = {
-    Time: timeSetting,
-    Active: runTimer,
-    setActive: setRunTimer,
-  };
+   //RoomInfo
+   const info = location.state;
+   const roomId = params;
+   console.log(info);
+   console.log(roomId);
 
-  const SetTime = () => {
-    if (selected.level === "0") {
-      setTimeSetting(300);
-    } else if (selected.level === "1") {
-      setTimeSetting(600);
-    } else if (selected.level === "2") {
-      setTimeSetting(900);
-    } else {
-      setTimeSetting(300);
-    }
-  };
-  React.useEffect(() => {
-    SetTime();
-  }, []);
+   //Modals
+   const [showQuestionModal, setShowQuestionModal] = useState();
+   const [showSuccessModal, setShowSuccessModal] = useState();
+   const [showFailModal, setShowFailModal] = useState();
 
-  //toastify alert
-  const [runAlert, setRunAlert] = React.useState(false);
-  const [mesAlert, setMesAlert] = React.useState("FAIL");
+   //AceEditor
+   const [mode, setMode] = useState('java');
+   const [theme, setTheme] = useState('monokai');
+   const [startTemp, setStartTemp] = useState('');
 
-  const resAlert = (r) => {
-    setMesAlert(r);
-    setRunAlert(true);
-  };
+   //Timer,ProgressBar
+   const [runTimer, setRunTimer] = useState('false');
+   const [timeSetting, setTimeSetting] = useState(300);
+   const timerValue = {
+      Time: timeSetting,
+      Active: runTimer,
+      setActive: setRunTimer,
+   };
+   const SetTime = () => {
+      if (selected.level === '0') {
+         setTimeSetting(300);
+      } else if (selected.level === '1') {
+         setTimeSetting(600);
+      } else if (selected.level === '2') {
+         setTimeSetting(900);
+      } else {
+         setTimeSetting(300);
+      }
+   };
+   useEffect(() => {
+      SetTime();
+   }, []);
 
-  //countdown
-  const [runCountdown, setRunCountdown] = React.useState(false);
+   //Toastify Alert
+   const [runAlert, setRunAlert] = useState(false);
+   const [mesAlert, setMesAlert] = useState('FAIL');
+   const resAlert = (r) => {
+      setMesAlert(r);
+      setRunAlert(true);
+   };
 
-  //ReadyUser
-  const [gameStart, setGameStart] = React.useState(false);
+   //CountDown
+   const [runCountdown, setRunCountdown] =useState(false);
 
-  //Submit
-  const [userPending, setUserPending] = React.useState(false);
-  const [oppPending, setOppPending] = React.useState(false);
+   //ReadyUser
+   const [gameStart, setGameStart] = useState(false);
 
-  const axiosSubmit = () => {
-    const CompileRequestDto = {
-      questionId: 1,
-      languageIdx: 0,
-      codeStr: "def solution(){}",
-    };
-    axios
-      .post({
-        url: "/api/compile",
-        baseUrl: "http://3.324.40.201:8080",
-        CompileRequestDto,
-        headers: {
-          type: "application/json",
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        // {res.result === true ? setShowSuccessModal(true) : resAlert(res.msg)}
-      })
-      .catch((err) => {
-        console.log(err);
-        resAlert("Fail to connect to server!");
+   //Submit
+   const [userPending, setUserPending] = useState(false);
+   const [oppPending, setOppPending] = useState(false);
+   const axiosSubmit = () => {
+      const CompileRequestDto = {
+         questionId: 1,
+         languageIdx: 0,
+         codeStr: 'def solution(){}',
+      };
+      axios
+         .post({
+            url: '/api/compile',
+            baseUrl: 'http://3.324.40.201:8080',
+            CompileRequestDto,
+            headers: {
+               type: 'application/json',
+            },
+         })
+         .then((res) => {
+            console.log(res);
+            // {res.result === true ? setShowSuccessModal(true) : resAlert(res.msg)}
+         })
+         .catch((err) => {
+            console.log(err);
+            resAlert('Fail to connect to server!');
+         });
+   };
+
+   const onSubmit = () => {
+      setUserPending(true);
+      const timing = setTimeout(() => axiosSubmit(), 1000);
+   };
+
+   //서버에서 받아오는 기본 형태들
+   //    const JsDefault = `function solution(num) {
+   //    var answer = '';
+   //       return answer;
+   // }`;
+   //    const JavaDefault = `public String solution(int num) {
+   //    String answer = '';
+   //       return answer;
+   // }`
+   //    const PythonDefault = `def solution(num):
+   //    answer = ''
+   //    return answer`;
+   //    const DefaultTemp = "//함수와 변수를 임의로 변경하지 마세요" + `\n` + JavaDefault;
+   //    const DefaultTempTwo = "//함수와 변수를 임의로 변경하지 마세요" + `\n` + JavaDefault;
+
+   //카메라창 열고 닫기
+   const [userCamSlide, setUserCamSlide] = useState(true);
+   const [opCamSlide, setOpCamSlide] = useState(true);
+
+   const openUserCam = () => {
+      camEs.play();
+      if (userCamSlide) {
+         setUserCamSlide(false);
+      } else {
+         setUserCamSlide(true);
+         call(remotePeerIdValue);
+      }
+   };
+   const openOpCam = () => {
+      camEs.play();
+      if (opCamSlide) {
+         setOpCamSlide(false);
+      } else {
+         setOpCamSlide(true);
+         call(remotePeerIdValue);
+      }
+   };
+
+   //채팅 열고 닫기
+   const [chatOpen, setChatOpen] = useState(false);
+   const openChat = () => {
+      btnEs.play();
+      if (chatOpen) {
+         setChatOpen(false);
+      } else {
+         setChatOpen(true);
+      }
+   };
+
+   //문제 열고 닫기
+   const [queOpen, setQueOpen] = useState(false);
+   const openQue = () => {
+      btnEs.play();
+      if (queOpen) {
+         setQueOpen(false);
+      } else {
+         setQueOpen(true);
+      }
+   };
+
+   //결과창 열기
+   const [rOpen, setROpen] = useState(false);
+   const [result, setResult] = useState('WIN');
+
+   //나가기
+   const BackToMain = () => {
+      setBbmute(true);
+      setMbmute(false);
+      btnEs.play();
+      navigate(`/Main`);
+   };
+
+   //아이템 사용 불가 메세지
+   const NoItemSys = () => {
+      setMesAlert('아직 패치 중');
+      setRunAlert(true);
+   };
+
+   //Peer
+   const [peerId, setPeerId] = useState('');
+   const [remotePeerIdValue, setRemotePeerIdValue] = useState('');
+   const remoteVideoRef = useRef(null);
+   const peerInstance = useRef(null);
+   const currentUserVideoRef = useRef(null);
+
+   useEffect(() => {
+      const peer = new Peer();
+      //제일 처음 peer가 만들어지면서 랜덤한 id가 만들어짐
+      peer.on('open', (id) => {
+         setPeerId(id);
       });
-  };
 
-  const onSubmit = () => {
-    setUserPending(true);
-    const timing = setTimeout(() => axiosSubmit(), 1000);
-  };
+      peer.on('call', (call) => {
+         var getUserMedia =
+            navigator.getUserMedia ||
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia;
 
-  //서버에서 받아오는 기본 형태들
-  //    const JsDefault = `function solution(num) {
-  //    var answer = '';
-  //       return answer;
-  // }`;
-  //    const JavaDefault = `public String solution(int num) {
-  //    String answer = '';
-  //       return answer;
-  // }`
-  //    const PythonDefault = `def solution(num):
-  //    answer = ''
-  //    return answer`;
-  //    const DefaultTemp = "//함수와 변수를 임의로 변경하지 마세요" + `\n` + JavaDefault;
-  //    const DefaultTempTwo = "//함수와 변수를 임의로 변경하지 마세요" + `\n` + JavaDefault;
+         getUserMedia({ /*audio: true,*/ video: true }, (mediaStream) => {
+            currentUserVideoRef.current.srcObject = mediaStream;
+            currentUserVideoRef.current.play();
+            call.answer(mediaStream);
+            call.on('stream', (remoteStream) => {
+               remoteVideoRef.current.srcObject = remoteStream;
+               remoteVideoRef.current.play();
+            });
+         });
+      });
 
-  //카메라 창 열고 닫기
-  const [userCamSlide, setUserCamSlide] = React.useState(true);
-  const [opCamSlide, setOpCamSlide] = React.useState(true);
+      peerInstance.current = peer;
+      //외부로 peer 선언해주려고
+   }, []);
 
-  const openUserCam = () => {
-    camEs.play();
-    if (userCamSlide) {
-      setUserCamSlide(false);
-    } else {
-      setUserCamSlide(true);
-      call(remotePeerIdValue)
-    }
-  };
-  const openOpCam = () => {
-    camEs.play();
-    if (opCamSlide) {
-      setOpCamSlide(false);
-    } else {
-      setOpCamSlide(true);
-      call(remotePeerIdValue)
-    }
-  };
-
-  //채팅 열고 닫기
-  const [chatOpen, setChatOpen] = React.useState(false);
-  const openChat = () => {
-    btnEs.play();
-    if (chatOpen) {
-      setChatOpen(false);
-    } else {
-      setChatOpen(true);
-    }
-  };
-
-  //문제 열고 닫기
-  const [queOpen, setQueOpen] = React.useState(false);
-  const openQue = () => {
-    btnEs.play();
-    if (queOpen) {
-      setQueOpen(false);
-    } else {
-      setQueOpen(true);
-    }
-  };
-
-  //결과창 열기
-  const [rOpen, setROpen] = React.useState(false);
-  const [result, setResult] = React.useState("WIN")
-
-  //나가기
-  const BackToMain = () => {
-    setBbmute(true);
-    setMbmute(false);
-    btnEs.play();
-    navigate(`/Main`);
-  };
-
-  //아이템 사용 불가 메세지
-  const NoItemSys = () => {
-    setMesAlert("아직 패치 중");
-    setRunAlert(true);
-  };
-
-  //Peer
-  const [peerId, setPeerId] = React.useState("");
-  const [remotePeerIdValue, setRemotePeerIdValue] = React.useState("");
-  const remoteVideoRef = React.useRef(null);
-  const peerInstance = React.useRef(null);
-  const currentUserVideoRef = React.useRef(null);
-
-  React.useEffect(() => {
-    const peer = new Peer();
-    //제일 처음 peer가 만들어지면서 랜덤한 id가 만들어짐
-    peer.on("open", (id) => {
-      setPeerId(id);
-    });
-
-    peer.on("call", (call) => {
+   const call = (remotePeerId) => {
       var getUserMedia =
-        navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia;
+         navigator.getUserMedia ||
+         navigator.webkitGetUserMedia ||
+         navigator.mozGetUserMedia;
 
       getUserMedia({ /*audio: true,*/ video: true }, (mediaStream) => {
-        currentUserVideoRef.current.srcObject = mediaStream;
-        currentUserVideoRef.current.play();
-        call.answer(mediaStream);
-        call.on("stream", (remoteStream) => {
-          remoteVideoRef.current.srcObject = remoteStream;
-          remoteVideoRef.current.play();
-        });
+         //현재 내 화면
+         currentUserVideoRef.current.srcObject = mediaStream;
+         currentUserVideoRef.current.play();
+
+         const call = peerInstance.current.call(remotePeerId, mediaStream);
+
+         call.on('stream', (remoteStream) => {
+            // Show stream in some video/canvas element.
+            // 상대방 영상 받아오는 부분
+            // 두개 같이 써줘야 작동함
+            remoteVideoRef.current.srcObject = remoteStream;
+            remoteVideoRef.current.play();
+         });
       });
-    });
+   };
 
-    peerInstance.current = peer;
-    //외부로 peer 선언해주려고
-  }, []);
+   // console.log(peerId);
 
-  const call = (remotePeerId) => {
-    var getUserMedia =
-      navigator.getUserMedia ||
-      navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia;
+   return (
+      <Container>
+         {runCountdown === true ? <Countdown /> : null}
+         <Alert
+            runAlert={runAlert}
+            setRunAlert={setRunAlert}
+            mesAlert={mesAlert}
+         />
+         <HeadPart>
+            <TimerDiv>
+               <ProBar value={timerValue} />
+            </TimerDiv>
+            <BtnDiv>
+               <BtnOnOff onClick={openQue} change={queOpen}>
+                  문제
+               </BtnOnOff>
+               <BtnOnOff onClick={openChat} change={chatOpen}>
+                  채팅
+               </BtnOnOff>
+               <BtnOnOff onClick={NoItemSys}>아이템</BtnOnOff>
+               <ExitBtn onClick={BackToMain}>나가기</ExitBtn>
+            </BtnDiv>
+         </HeadPart>
+         <BodyPart>
+            <UserDiv>
+               {gameStart === false ? <ReadyUser /> : null}
+               <UserSubmitPending run={userPending} setRun={setUserPending} />
+               <AceEditorPlayer mode={mode} theme={theme}></AceEditorPlayer>
+               <UserCamDiv>
+                  <CamBar>
+                     <span>Player1</span>
+                     <CamIcon
+                        src={
+                           userCamSlide === true
+                              ? '/img/cam_icon.svg'
+                              : '/img/cam_double_cross.svg'
+                        }
+                        alt=""
+                        onClick={openUserCam}
+                     />
+                  </CamBar>
+                  {userCamSlide && (
+                     <Cam>
+                        <video
+                           style={{
+                              width: 'auto',
+                              maxWidth: '100%',
+                              height: 'auto',
+                              objectFit: 'cover',
+                           }}
+                           ref={currentUserVideoRef}
+                        />
+                     </Cam>
+                  )}
+               </UserCamDiv>
+               <SubmitBtn onClick={() => onSubmit()}>
+                  제&nbsp;&nbsp;&nbsp;&nbsp;출
+               </SubmitBtn>
+            </UserDiv>
+            <OpponentDiv>
+               {queOpen && (
+                  <QueDiv queOpen={queOpen} chatOpen={chatOpen}>
+                     <QueHead>Question</QueHead>
+                     <QueBox></QueBox>
+                  </QueDiv>
+               )}
+               {chatOpen && (
+                  <ChatingDiv>
+                     <ChatHead>Chatting</ChatHead>
+                     <ChatBox
+                     // id={channelId}
+                     />
+                  </ChatingDiv>
+               )}
+               <CodeDiv queOpen={queOpen} chatOpen={chatOpen}>
+                  {gameStart === false ? <ReadyOpp /> : null}
+                  <OppSubmitPending run={oppPending} setRun={setOppPending} />
+                  <AceEditorOpp mode={mode} theme={theme} />
+               </CodeDiv>
+               <OpCamDiv>
+                  <CamBar>
+                     <span>Player2</span>
+                     <CamIcon
+                        src={
+                           opCamSlide === true
+                              ? '/img/cam_icon.svg'
+                              : '/img/cam_double_cross.svg'
+                        }
+                        alt=""
+                        onClick={openOpCam}
+                     />
+                  </CamBar>
+                  {opCamSlide && (
+                     <Cam>
+                        <video
+                           style={{
+                              width: 'auto',
+                              maxWidth: '100%',
+                              height: 'auto',
+                              objectFit: 'cover',
+                           }}
+                           ref={remoteVideoRef}
+                        />
+                     </Cam>
+                  )}
+               </OpCamDiv>
+            </OpponentDiv>
+         </BodyPart>
+         {showQuestionModal && (
+            <QuestionModal setValue={setShowQuestionModal} />
+         )}
+         {showSuccessModal && (
+            <SuccessModal
+               setROpen={setROpen}
+               setResult={setResult}
+               setBbmute={setBbmute}
+            />
+         )}
+         {showFailModal && (
+            <FailModal
+               setROpen={setROpen}
+               setResult={setResult}
+               setBbmute={setBbmute}
+            />
+         )}
+         {rOpen && (
+            <Result setROpen={setROpen} result={result} setMbmute={setMbmute} />
+         )}
 
-    getUserMedia({ /*audio: true,*/ video: true }, (mediaStream) => {
-      //현재 내 화면
-      currentUserVideoRef.current.srcObject = mediaStream;
-      currentUserVideoRef.current.play();
-
-      const call = peerInstance.current.call(remotePeerId, mediaStream);
-
-      call.on("stream", (remoteStream) => {
-        // Show stream in some video/canvas element.
-        // 상대방 영상 받아오는 부분
-        // 두개 같이 써줘야 작동함
-        remoteVideoRef.current.srcObject = remoteStream;
-        remoteVideoRef.current.play();
-      });
-    });
-  };
-
-  // console.log(peerId);
-
-  return (
-    <Container>
-      {runCountdown === true ? <Countdown /> : null}
-      <Alert
-        runAlert={runAlert}
-        setRunAlert={setRunAlert}
-        mesAlert={mesAlert}
-      />
-      <HeadPart>
-        <TimerDiv>
-          <ProBar value={timerValue} />
-        </TimerDiv>
-        <BtnDiv>
-          <BtnOnOff onClick={openQue} change={queOpen}>
-            문제
-          </BtnOnOff>
-          <BtnOnOff onClick={openChat} change={chatOpen}>
-            채팅
-          </BtnOnOff>
-          <BtnOnOff onClick={NoItemSys}>아이템</BtnOnOff>
-          <ExitBtn onClick={BackToMain}>나가기</ExitBtn>
-        </BtnDiv>
-      </HeadPart>
-      <BodyPart>
-        <UserDiv>
-          {gameStart === false ? <ReadyUser /> : null}
-          <UserSubmitPending run={userPending} setRun={setUserPending} />
-          <AceEditorPlayer mode={mode} theme={theme}></AceEditorPlayer>
-          <UserCamDiv>
-            <CamBar>
-              <span>Player1</span>
-              <CamIcon src={userCamSlide === true ? "/img/cam_icon.svg" : "/img/cam_double_cross.svg"} alt="" onClick={openUserCam} />
-            </CamBar>
-            {userCamSlide && (
-              <Cam>
-                <video
-                  style={{ width: "auto", maxWidth: "100%", height: "auto", objectFit:"cover"}}
-                  ref={currentUserVideoRef}
-                />
-              </Cam>
-            )}
-          </UserCamDiv>
-          <SubmitBtn onClick={() => onSubmit()}>
-            제&nbsp;&nbsp;&nbsp;&nbsp;출
-          </SubmitBtn>
-        </UserDiv>
-        <OpponentDiv>
-          {queOpen && (
-            <QueDiv queOpen={queOpen} chatOpen={chatOpen}>
-              <QueHead>Question</QueHead>
-              <QueBox></QueBox>
-            </QueDiv>
-          )}
-          {chatOpen && (
-            <ChatingDiv>
-              <ChatHead>Chatting</ChatHead>
-              <ChatBox
-              // id={channelId}
-              />
-            </ChatingDiv>
-          )}
-          <CodeDiv queOpen={queOpen} chatOpen={chatOpen}>
-            {gameStart === false ? <ReadyOpp /> : null}
-            <OppSubmitPending run={oppPending} setRun={setOppPending} />
-            <AceEditorOpp mode={mode} theme={theme} />
-          </CodeDiv>
-          <OpCamDiv>
-            <CamBar>
-              <span>Player2</span>
-              <CamIcon src={opCamSlide === true ? "/img/cam_icon.svg" : "/img/cam_double_cross.svg"} alt="" onClick={openOpCam} />
-            </CamBar>
-            {opCamSlide && (
-              <Cam>
-                <video
-                  style={{ width: "auto", maxWidth: "100%", height: "auto", objectFit:"cover" }}
-                  ref={remoteVideoRef}
-                />
-              </Cam>
-            )}
-          </OpCamDiv>
-        </OpponentDiv>
-      </BodyPart>
-      {showQuestionModal && <QuestionModal setValue={setShowQuestionModal} />}
-      {showSuccessModal && <SuccessModal setROpen={setROpen} setResult={setResult} setBbmute={setBbmute}/>}
-      {showFailModal && <FailModal setROpen={setROpen} setResult={setResult} setBbmute={setBbmute}/>}
-      {rOpen && <Result setROpen={setROpen} result={result} setMbmute={setMbmute}/>}
-
-      <Control
-        setRunTimer={setRunTimer}
-        setTimeSetting={setTimeSetting}
-        setShowQuestionModal={setShowQuestionModal}
-        setShowSuccessModal={setShowSuccessModal}
-        setShowFailModal={setShowFailModal}
-        setRunAlert={setRunAlert}
-        setROpen={setROpen}
-        setMesAlert={setMesAlert}
-        remotePeerIdValue={remotePeerIdValue}
-        setRemotePeerIdValue={setRemotePeerIdValue}
-        call={call}
-        peerId={peerId}
-        setRunCountdown={setRunCountdown}
-        setGameStart={setGameStart}
-        setQueOpen={setQueOpen}
-        setUserPending={setUserPending}
-        setOppPending={setOppPending}
-        setMbmute={setMbmute}
-        setBbmute={setBbmute}
-      />
-    </Container>
-  );
+         <Control
+            setRunTimer={setRunTimer}
+            setTimeSetting={setTimeSetting}
+            setShowQuestionModal={setShowQuestionModal}
+            setShowSuccessModal={setShowSuccessModal}
+            setShowFailModal={setShowFailModal}
+            setRunAlert={setRunAlert}
+            setROpen={setROpen}
+            setMesAlert={setMesAlert}
+            remotePeerIdValue={remotePeerIdValue}
+            setRemotePeerIdValue={setRemotePeerIdValue}
+            call={call}
+            peerId={peerId}
+            setRunCountdown={setRunCountdown}
+            setGameStart={setGameStart}
+            setQueOpen={setQueOpen}
+            setUserPending={setUserPending}
+            setOppPending={setOppPending}
+            setMbmute={setMbmute}
+            setBbmute={setBbmute}
+         />
+      </Container>
+   );
 };
 
 const Container = styled.div`
