@@ -9,6 +9,8 @@ import './Modals.css';
 import effectSound from '../../../shared/effectSound';
 import winSound from '../../../audios/WinSE1.mp3';
 import loseSound from '../../../audios/LoseSE1.mp3';
+import win1Sound from '../../../audios/WinSE2.mp3';
+import lose1Sound from '../../../audios/FailSE1.mp3';
 
 /*QuestionModal*/
 export const QuestionModal = (p) => {
@@ -92,11 +94,12 @@ export const QuestionModal = (p) => {
 };
 
 /*SuccessModal*/
-export const SuccessModal = ({setROpen, setResult, setBbmute}) => {
+export const SuccessModal = ({setROpen, setResult, setRunTimer, setBbmute}) => {
   const userSound = useSelector((state) => state.user.sound);
   const winEs = effectSound(winSound, userSound.es);
   const muteBb = ()=>{
     setBbmute(true);
+    setRunTimer(false)
   }
   React.useEffect(() => {
     winEs.play();
@@ -140,11 +143,12 @@ export const SuccessModal = ({setROpen, setResult, setBbmute}) => {
 };
 
 /*FailModal*/
-export const FailModal = ({setROpen, setResult, setBbmute}) => {
+export const FailModal = ({setROpen, setResult, setRunTimer, setBbmute}) => {
   const userSound = useSelector((state) => state.user.sound);
   const loseEs = effectSound(loseSound, userSound.es);
   const muteBb = ()=>{
     setBbmute(true);
+    setRunTimer(false);
   }
   React.useEffect(() => {
     loseEs.play();
@@ -214,8 +218,8 @@ export const FailModal = ({setROpen, setResult, setBbmute}) => {
 /*Result Modal*/
 export const Result = (props) => {
    const userSound = useSelector((state) => state.user.sound);
-   const winEs = effectSound(winSound, userSound.es);
-   const loseEs = effectSound(loseSound, userSound.es);
+   const winEs = effectSound(win1Sound, userSound.es);
+   const loseEs = effectSound(lose1Sound, userSound.es);
    const { setROpen, setMbmute } = props;
    const result = props.result;
    React.useEffect(() => {

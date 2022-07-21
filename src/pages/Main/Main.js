@@ -72,7 +72,8 @@ export function Main() {
          })
          .then((response) => {
             console.log(response.data);
-            setAllUsers((prevState) => [...prevState, ...response.data]);
+            setAllUsers(response.data);
+            // setAllUsers((prevState) => [...prevState, ...response.data]);
          })
          .catch((error) => {
             console.log(error);
@@ -106,7 +107,7 @@ export function Main() {
    //페이지 이동
    const EnterBattle = () => {
       entEs.play();
-      navigate(`/battle/${user2Info.creatorGameInfo.roomId}`, {
+      navigate(`/battle/${user2Info.roomId}`, {
          state: user2Info,
       });
    };
