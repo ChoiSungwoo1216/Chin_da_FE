@@ -4,7 +4,7 @@ import styled from "styled-components";
 const Login = () => {
   const client_id = process.env.REACT_APP_GIT_CLIENT_ID;
   const redirect_uri = process.env.REACT_APP_GIT_REDIRECT_URI;
-  const locateGit = `https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}`;
+  const locateGit = `https:/github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}`;
   return (
     <>
       <Wrap>

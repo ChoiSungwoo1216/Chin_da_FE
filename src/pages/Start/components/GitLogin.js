@@ -7,35 +7,30 @@ import { useNavigate } from "react-router-dom";
 
 const GitLogin = () => {
   const navigate = useNavigate();
-
+  let API = process.env.REACT_APP_API;
   function loading(a) {
     setTimeout(() => {
-      navigate(`/${a}`);
+      navigate(a);
     }, 3000);
   }
-  const client_secret = process.env.REACT_APP_CLIENT_SECRET;
-  const client_id = process.env.REACT_APP_GIT_CLIENT_ID;
-  
 
   const gitAxios = async () => {
     let params = new URL(document.location.toString()).searchParams;
     let code = params.get("code"); // 인가코드 받는 부분
-    // const GitApi = `https://github.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${code}`;
-    // console.log(GitApi);
-    // axios.defaults.withCredentials = true;
+
+    console.log(API, code + "----");
     await axios({
-      method: "post",
-      url: ``,
-      data: { client_id, client_secret, code },
+      method: "get",
+      url: `${API}/login/oauth2/code/github`,
     })
       .then((res) => {
-        console.log(res.data);
-        loading("selection");
-        //
+        sessionStorage.setItem("Authorization", res.data.token);
+        sessionStorage.setItem("userinfo", res.data.userinfo);
+        loading("/selection");
       })
       .catch((err) => {
-        console.log(err.response.status + "------err");
-        loading("selection");//login으로 수정
+        console.log(err + "------err");
+        loading("/"); //login으로 수정
       });
   };
 
@@ -46,7 +41,7 @@ const GitLogin = () => {
   return (
     <GitContainer>
       <Gitimage></Gitimage>
-      <GitLogo />
+      <GitLogo onClick={() => gitAxios()} />
     </GitContainer>
   );
 };
