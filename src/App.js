@@ -29,7 +29,7 @@ function App() {
       <TutorialBtn />
       <SoundSettingBtn />
       <Routes>
-        {LoginCheck === true ? (
+        {LoginCheck !== true ? (
           <>
             <Route path="/" element={<Start />} />
             <Route path="/github" element={<GitLogin />} />
