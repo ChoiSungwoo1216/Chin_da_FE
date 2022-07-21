@@ -2,15 +2,13 @@
 
 // Actions
 
-const ADD = "user/ADD";
-const DELETE = "user/DELETE";
 const EDIT = "sound/EDIT";
 const UPDATE = "selected/UPDATE";
 const ALREADY = "already/ALREADY";
 
 const initialState = {
   list: [{}],
-  sound: { bgm: 0.2, es: 1 },
+  sound: { bgm: 0.1, es: 0.5 },
   selected: { language: "", level: "" },
   already: { user: false, opp: false },
 };
@@ -55,7 +53,6 @@ export default function reducer(state = initialState, action = {}) {
 
     case "sound/EDIT": {
       const edit_sound_list = { ...state.sound, ...action.sound };
-      console.log(edit_sound_list);
       return { ...state, sound: edit_sound_list };
     }
 
