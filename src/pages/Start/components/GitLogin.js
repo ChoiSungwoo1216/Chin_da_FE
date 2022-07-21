@@ -13,8 +13,9 @@ const GitLogin = () => {
       navigate(`/${a}`);
     }, 3000);
   }
-  const client_secret = "7fdbc1019122ced80cfffef473cfa4b3398e2df3";
-  const client_id = "44af62885d9f67153ed1";
+  const client_secret = process.env.REACT_APP_CLIENT_SECRET;
+  const client_id = process.env.REACT_APP_GIT_CLIENT_ID;
+  
 
   const gitAxios = async () => {
     let params = new URL(document.location.toString()).searchParams;
@@ -30,11 +31,11 @@ const GitLogin = () => {
       .then((res) => {
         console.log(res.data);
         loading("selection");
-        // res에 포함된 토큰 받아서 원하는 로직을 하면된다.
+        //
       })
       .catch((err) => {
         console.log(err.response.status + "------err");
-        loading("selection");
+        loading("selection");//login으로 수정
       });
   };
 
