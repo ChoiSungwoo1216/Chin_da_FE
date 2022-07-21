@@ -1,78 +1,81 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled, { css, keyframes } from "styled-components";
-import Modal from "react-modal";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import Peer from "peerjs";
+import Modal from "react-modal";
 
 /*COMPONENTS*/
-import AceEditorPlayer from "./components/AceEditorPlayer";
-import AceEditorOpp from "./components/AceEditorOpp";
 import Control from "./Control";
-import ChatBox from "./components/ChatBox";
-import ProBar from "./components/ProBar";
-import Alert from "./components/Alert";
-import Result from "./components/Result";
-import Countdown from "./components/CountDown";
-// import Accordion from './components/Accordion';
-import { QuestionModal, SuccessModal, FailModal } from "./components/Modals";
-
-import Peer from "peerjs";
+import { AceEditorPlayer, AceEditorOpp } from "./components/AceEditors";
+import {
+  QuestionModal,
+  SuccessModal,
+  FailModal,
+  Result,
+} from "./components/Modals";
 import {
   ReadyUser,
   ReadyOpp,
   UserSubmitPending,
   OppSubmitPending,
 } from "./components/ReadyAndPending";
+import ChatBox from "./components/ChatBox";
+import ProBar from "./components/ProBar";
+import Alert from "./components/Alert";
+import Countdown from "./components/CountDown";
 
+/*AUDIO*/
 import useSound from "../../shared/useSound";
 import effectSound from "../../shared/effectSound";
 import btnSound from "../../audios/btnselect.mp3";
 import camSound from "../../audios/camOff.mp3";
-import battleBgm from "../../audios/battle_bgm.mp3"
-import axios from "axios";
+import battleBgm from "../../audios/battle_bgm.mp3";
 
 Modal.setAppElement("#root");
 
 const Battle = (props) => {
-  //배경음악
-  const {setMbmute} = props
-  const volume = useSelector((state) => state.user.sound);
-  const [bbmute, setBbmute] = React.useState(true)
-  useSound(battleBgm, volume.bgm, bbmute);
-  
   const selected = useSelector((state) => state.user.selected);
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
-  // 방 정보
-  const info = location.state;
-  const roomId = params;
-  console.log(info);
-  console.log(roomId);
-  //sound
+
+  //Bgm
+  const { setMbmute } = props;
+  const volume = useSelector((state) => state.user.sound);
+  const [bbmute, setBbmute] = useState(true);
+  useSound(battleBgm, volume.bgm, bbmute);
+
+  //Sound
   const userSound = useSelector((state) => state.user.sound);
   const btnEs = effectSound(btnSound, userSound.es);
   const camEs = effectSound(camSound, userSound.es);
 
-  //modals
-  const [showQuestionModal, setShowQuestionModal] = React.useState();
-  const [showSuccessModal, setShowSuccessModal] = React.useState();
-  const [showFailModal, setShowFailModal] = React.useState();
+  //RoomInfo
+  const info = location.state;
+  const roomId = params;
+  console.log(info);
+  console.log(roomId);
 
-  //ace editor
-  const [mode, setMode] = React.useState("java");
-  const [theme, setTheme] = React.useState("monokai");
-  const [startTemp, setStartTemp] = React.useState("");
+  //Modals
+  const [showQuestionModal, setShowQuestionModal] = useState();
+  const [showSuccessModal, setShowSuccessModal] = useState();
+  const [showFailModal, setShowFailModal] = useState();
 
-  //timer,progressBar
-  const [runTimer, setRunTimer] = React.useState("false");
-  const [timeSetting, setTimeSetting] = React.useState(300);
+  //AceEditor
+  const [mode, setMode] = useState("java");
+  const [theme, setTheme] = useState("monokai");
+  const [startTemp, setStartTemp] = useState("");
+
+  //Timer,ProgressBar
+  const [runTimer, setRunTimer] = useState("false");
+  const [timeSetting, setTimeSetting] = useState(300);
   const timerValue = {
     Time: timeSetting,
     Active: runTimer,
     setActive: setRunTimer,
   };
-
   const SetTime = () => {
     if (selected.level === "0") {
       setTimeSetting(300);
@@ -84,29 +87,27 @@ const Battle = (props) => {
       setTimeSetting(300);
     }
   };
-  React.useEffect(() => {
+  useEffect(() => {
     SetTime();
   }, []);
 
-  //toastify alert
-  const [runAlert, setRunAlert] = React.useState(false);
-  const [mesAlert, setMesAlert] = React.useState("FAIL");
-
+  //Toastify Alert
+  const [runAlert, setRunAlert] = useState(false);
+  const [mesAlert, setMesAlert] = useState("FAIL");
   const resAlert = (r) => {
     setMesAlert(r);
     setRunAlert(true);
   };
 
-  //countdown
-  const [runCountdown, setRunCountdown] = React.useState(false);
+  //CountDown
+  const [runCountdown, setRunCountdown] = useState(false);
 
   //ReadyUser
-  const [gameStart, setGameStart] = React.useState(false);
+  const [gameStart, setGameStart] = useState(false);
 
   //Submit
-  const [userPending, setUserPending] = React.useState(false);
-  const [oppPending, setOppPending] = React.useState(false);
-
+  const [userPending, setUserPending] = useState(false);
+  const [oppPending, setOppPending] = useState(false);
   const axiosSubmit = () => {
     const CompileRequestDto = {
       questionId: 1,
@@ -152,9 +153,9 @@ const Battle = (props) => {
   //    const DefaultTemp = "//함수와 변수를 임의로 변경하지 마세요" + `\n` + JavaDefault;
   //    const DefaultTempTwo = "//함수와 변수를 임의로 변경하지 마세요" + `\n` + JavaDefault;
 
-  //카메라 창 열고 닫기
-  const [userCamSlide, setUserCamSlide] = React.useState(true);
-  const [opCamSlide, setOpCamSlide] = React.useState(true);
+  //카메라창 열고 닫기
+  const [userCamSlide, setUserCamSlide] = useState(true);
+  const [opCamSlide, setOpCamSlide] = useState(true);
 
   const openUserCam = () => {
     camEs.play();
@@ -176,7 +177,7 @@ const Battle = (props) => {
   };
 
   //채팅 열고 닫기
-  const [chatOpen, setChatOpen] = React.useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
   const openChat = () => {
     btnEs.play();
     if (chatOpen) {
@@ -187,7 +188,7 @@ const Battle = (props) => {
   };
 
   //문제 열고 닫기
-  const [queOpen, setQueOpen] = React.useState(false);
+  const [queOpen, setQueOpen] = useState(false);
   const openQue = () => {
     btnEs.play();
     if (queOpen) {
@@ -198,8 +199,8 @@ const Battle = (props) => {
   };
 
   //결과창 열기
-  const [rOpen, setROpen] = React.useState(false);
-  const [result, setResult] = React.useState("WIN");
+  const [rOpen, setROpen] = useState(false);
+  const [result, setResult] = useState("WIN");
 
   //나가기
   const BackToMain = () => {
@@ -216,13 +217,13 @@ const Battle = (props) => {
   };
 
   //Peer
-  const [peerId, setPeerId] = React.useState("");
-  const [remotePeerIdValue, setRemotePeerIdValue] = React.useState("");
-  const remoteVideoRef = React.useRef(null);
-  const peerInstance = React.useRef(null);
-  const currentUserVideoRef = React.useRef(null);
+  const [peerId, setPeerId] = useState("");
+  const [remotePeerIdValue, setRemotePeerIdValue] = useState("");
+  const remoteVideoRef = useRef(null);
+  const peerInstance = useRef(null);
+  const currentUserVideoRef = useRef(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const peer = new Peer();
     //제일 처음 peer가 만들어지면서 랜덤한 id가 만들어짐
     peer.on("open", (id) => {
@@ -384,10 +385,23 @@ const Battle = (props) => {
         </OpponentDiv>
       </BodyPart>
       {showQuestionModal && <QuestionModal setValue={setShowQuestionModal} />}
-      {showSuccessModal && <SuccessModal setROpen={setROpen} setResult={setResult} setBbmute={setBbmute}/>}
-      {showFailModal && <FailModal setROpen={setROpen} setResult={setResult} setBbmute={setBbmute}/>}
-      {rOpen && <Result setROpen={setROpen} result={result} setMbmute={setMbmute}/>}
-
+      {showSuccessModal && (
+        <SuccessModal
+          setROpen={setROpen}
+          setResult={setResult}
+          setBbmute={setBbmute}
+        />
+      )}
+      {showFailModal && (
+        <FailModal
+          setROpen={setROpen}
+          setResult={setResult}
+          setBbmute={setBbmute}
+        />
+      )}
+      {rOpen && (
+        <Result setROpen={setROpen} result={result} setMbmute={setMbmute} />
+      )}
 
       <Control
         setRunTimer={setRunTimer}
