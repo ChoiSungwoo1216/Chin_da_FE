@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from "react";
+import React,{useState, useEffect, useRef} from "react";
 import styled, { css, keyframes } from "styled-components";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -210,9 +210,9 @@ const Battle = (props) => {
    //Peer
    const [peerId, setPeerId] = useState('');
    const [remotePeerIdValue, setRemotePeerIdValue] = useState('');
-   const remoteVideoRef = React.useRef(null);
-   const peerInstance = React.useRef(null);
-   const currentUserVideoRef = React.useRef(null);
+   const remoteVideoRef = useRef(null);
+   const peerInstance = useRef(null);
+   const currentUserVideoRef = useRef(null);
 
    useEffect(() => {
       const peer = new Peer();
