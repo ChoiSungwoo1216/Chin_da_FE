@@ -4,12 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateselected } from "../../../redux/modules/user";
 import axios from "axios";
-// import { createchannel } from "../../../redux/modules/channel";
 
 const Room = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [chInfo, setChInfo] = React.useState([])
   const { language, level, setLanOn, setLevOn, setRoomOn, es, hoverEs, enterEs } = props;
   //컴포넌트 이동
   const SelLang = () => {
@@ -22,27 +20,30 @@ const Room = (props) => {
     setLevOn(true);
     es.play();
   };
-  
+
 
   //방만들기 요청
-  const createChannelAxios = async () => {
+  const createRoomAxios = async () => {
+    const api = process.env.REACT_APP_API;
+    const Authorization = sessionStorage.getItem("Authorization")
+    const numLan = parseInt(language);
+    const numLev = parseInt(level)
     await axios(
       {
         url: "/game/room/create",
         method: "POST",
-        baseURL: "http://3.34.40.201:8080",
+        baseURL: api,
         data: {
-          "langIdx": parseInt(language),
-          "levelIdx": parseInt(level),
+          "langIdx": numLan,
+          "levelIdx": numLev
         },
         headers: {
-          "Content-Type":"application/json",
+          "Authorization": Authorization,
         },
-
       })
       .then((response) => {
-        console.log(response);
-        setChInfo(response.data);
+        console.log(response.data);
+        navigate(`/battle/${response.data.roomId}`, { state: response.data } );
       })
       .catch((error) => {
         console.log(error);
@@ -50,9 +51,7 @@ const Room = (props) => {
   }
 
   const CreateRoom = () => {
-    // navigate("/Battle");
-    // navigate(`/battle/${chInfo.roomId}`, { state: chInfo } );
-    createChannelAxios();
+    createRoomAxios();
     dispatch(updateselected({ language: language, level: level }));
     enterEs.play();
   };

@@ -8,14 +8,13 @@ const SoundSetting = (props) => {
   const { setSetting } = props;
   const dispatch = useDispatch();
   const userSound = useSelector((state) => state.user.sound);
-  console.log(userSound);
 
   const SoundOnOff = (e) => {
     if (e.target.checked) {
       if (e.target.id === "switch") {
-        dispatch(editsound({ bgm: 0.2 }));
+        dispatch(editsound({ bgm: 0.1 }));
       } else if (e.target.id === "switch1") {
-        dispatch(editsound({ es: 1 }));
+        dispatch(editsound({ es: 0.5 }));
       }
     } else {
       if (e.target.id === "switch") {
@@ -43,11 +42,11 @@ const SoundSetting = (props) => {
               <input
                 type="checkbox"
                 id="switch"
-                checked={userSound.bgm === 0.2 ? true : false}
+                checked={userSound.bgm === 0.1 ? true : false}
                 onClick={(e) => SoundOnOff(e)}
               />
               <label for="switch" class="switch_label">
-                {userSound.bgm === 0.2 ? (
+                {userSound.bgm === 0.1 ? (
                   <img src={"/img/BtnOn.png"} alt="" class="onf_btn" />
                 ) : (
                   <img src={"/img/BtnOff.png"} alt="" class="onf_btn" />
@@ -59,11 +58,11 @@ const SoundSetting = (props) => {
               <input
                 type="checkbox"
                 id="switch1"
-                checked={userSound.es === 1 ? true : false}
+                checked={userSound.es === 0.5 ? true : false}
                 onClick={(e) => SoundOnOff(e)}
               />
               <label for="switch1" class="switch_label1">
-                {userSound.es === 1 ? (
+                {userSound.es === 0.5 ? (
                   <img src={"/img/BtnOn.png"} alt="" class="onf_btn1" />
                 ) : (
                   <img src={"/img/BtnOff.png"} alt="" class="onf_btn1" />

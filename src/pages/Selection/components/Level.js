@@ -16,8 +16,6 @@ const Level = (props) => {
     es.play();
   };
 
-  console.log(language)
-
   return (
     <>
       <Title>난이도 선택</Title>
@@ -131,12 +129,6 @@ const LevelBtn = styled.div`
     transition: 0.5s;
     transform: scale(1.05);
   }
-`;
-
-const InsideBtn1 = styled.div`
-  color: #fff;
-  text-transform: uppercase;
-  font-size: calc((3vh + 3vw)/2);
 `;
 
 const InsideBtnO = styled.div`
