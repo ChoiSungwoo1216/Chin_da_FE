@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Start from "./pages/Start/Start";
 import Main from "./pages/Main/Main";
-import { LoginCheck } from "./shared/sessionStorage";
 
 import Battle from "./pages/Battle/Battle";
 import Selection from "./pages/Selection/Selection";
@@ -18,8 +17,16 @@ import React from "react";
 
 function App() {
   const volume = useSelector((state) => state.user.sound);
-  const [mbmute, setMbmute] = React.useState(true);
+  const [mbmute, setMbmute] = React.useState(false);
   useSound(mainBgm, volume.bgm, mbmute);
+  const token = sessionStorage.getItem("Authorization");
+  const logined = () =>{
+    if (token === null){
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   return (
     <div className="App">
@@ -29,7 +36,7 @@ function App() {
       <TutorialBtn />
       <SoundSettingBtn />
       <Routes>
-        {LoginCheck !== true ? (
+        {logined() ? (
           <>
             <Route path="/" element={<Start />} />
             <Route path="/github" element={<GitLogin />} />
@@ -37,6 +44,7 @@ function App() {
           </>
         ) : (
           <>
+            <Route path="/selection" element={<Selection />}></Route>
             <Route path="/main" element={<Main />}></Route>
             <Route
               path="/battle/"
@@ -46,7 +54,6 @@ function App() {
               path="/battle/:id"
               element={<Battle setMbmute={setMbmute} />}
             ></Route>
-            <Route path="/selection" element={<Selection />}></Route>
             <Route path="/*" element={<Selection />} />
           </>
         )}
@@ -56,21 +63,3 @@ function App() {
 }
 
 export default App;
-// 대충 나중에 적용
-/* <Routes>
-   {뭐 대충 로그인 체크 변수 ? (
-      <>
-         <Route path="/" element={<Start />}/>
-         <Route path="/github" element={<GitLogin/>}/>
-         <Route path="*" element={<Start />}/>      
-      </>
-      ) : (
-      <>
-         <Route path="/Main" element={<Main />}></Route>
-         <Route path="/Battle" element={<Battle />}></Route>
-         <Route path="/Profile" element={<Profile />}></Route>
-         <Route path="/Selection" element={<Selection />}></Route>
-      </>
-      )
-   }
-</Routes> */

@@ -3,29 +3,33 @@ import axios from "axios";
 import React from "react";
 import styled from "styled-components";
 import { keyframes } from "styled-components";
-import { useNavigate } from "react-router-dom";
 
 const GitLogin = () => {
-  const navigate = useNavigate();
   let API = process.env.REACT_APP_API;
   function loading(a) {
     setTimeout(() => {
-      navigate(a);
+    window.location.replace(a);
     }, 3000);
   }
 
   const gitAxios = async () => {
     let params = new URL(document.location.toString()).searchParams;
     let code = params.get("code"); // 인가코드 받는 부분
-
-    console.log(API, code + "----");
     await axios({
       method: "get",
       url: `${API}/login/oauth2/code/github`,
+      params:{
+        code : code
+      }
     })
       .then((res) => {
+        console.log(res);
         sessionStorage.setItem("Authorization", res.data.token);
-        sessionStorage.setItem("userinfo", res.data.userinfo);
+        sessionStorage.setItem("username", res.data.username);
+        sessionStorage.setItem("profile", res.data.profile);
+        sessionStorage.setItem("winCnt", res.data.winCnt);
+        sessionStorage.setItem("loseCnt", res.data.loseCnt);
+        sessionStorage.setItem("newUser", res.data.newUser);
         loading("/selection");
       })
       .catch((err) => {
