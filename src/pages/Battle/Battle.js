@@ -67,7 +67,7 @@ const Battle = (props) => {
   const languageType = location.state.language;
   const server = location.state.server;
   console.log(info);
-  console.log(languageType);
+  console.log(roomId);
 
   //Timer,ProgressBar
   const [runTimer, setRunTimer] = useState("false");
