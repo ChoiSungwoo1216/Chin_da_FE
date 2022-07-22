@@ -31,6 +31,7 @@ const StartTemp = [JavaDefault, JsDefault, PythonDefault]
 export const AceEditorPlayer = (props) => {
     const { mode, setCode } = props;
     const selected = useSelector((state) => state.user.selected)
+
     function onChangeOne(newValue) {
         setCode(newValue);
         console.log(newValue)
