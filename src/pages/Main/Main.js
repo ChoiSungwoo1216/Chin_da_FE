@@ -44,6 +44,25 @@ export function Main() {
    // const [loading, setLoading] = useState(false);
    // const [ref, inView] = useInView();
 
+   const img = [
+      '/img/Char2.svg',
+      '/img/Char3.svg',
+      '/img/Char4.svg',
+      '/img/Char5.svg',
+      '/img/Char6.svg',
+   ];
+
+   //rArr
+   // const imgArray = Object.keys(img);
+   // const randomIndex = () => {
+   //    return imgArray.sort(() => Math.random() - 0.5);
+   // };
+   // const randomImages = randomIndex(imgArray);
+   // console.log('randomImages?', randomImages);
+
+
+   // console.log('randomImage?', randomImage);
+
    const [refresh, setRefresh] = useState(false);
 
    const userSound = useSelector((state) => state.user.sound);
@@ -71,7 +90,7 @@ export function Main() {
             }
          })
          .then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             setAllUsers(response.data);
             // setAllUsers((prevState) => [...prevState, ...response.data]);
          })
@@ -141,21 +160,25 @@ export function Main() {
 
    //캐릭터 표출
    const [ranImg, setRanImg] = React.useState('');
-   let rArr = [3, 2, 0, 1, 2, 3, 2, 0, 1, 2];
-   const randomImg = (index, rArr) => {
-      let img = [
-         '/img/ch1.svg',
-         '/img/ch2.svg',
-         '/img/mainUser2Img.png',
-         '/img/mainUser2Img2.png',
-      ];
-      if (index >= 10) {
-         return img[rArr[index % 10]];
-      } else {
-         return img[rArr[index]];
-      }
-   };
-
+   // let rArr = [3, 2, 0, 1, 2, 3, 2, 0, 1, 2];
+   // const randomImg = (index, rArr) => {
+   //    let img = [
+   //       '/img/ch1.svg',
+   //       '/img/ch2.svg',
+   //       '/img/mainUser2Img.png',
+   //       '/img/mainUser2Img2.png',
+   //    ];
+   //    if (index >= 10) {
+   //       return img[rArr[index % 10]];
+   //    } else {
+   //       return img[rArr[index]];
+   //    }
+   // };
+   function randomImg(array) {
+      const random = Math.floor(Math.random() * array.length);
+      return array[random];
+   }
+   const randomImage = randomImg(img);
    return (
       <>
          <div className="mainContainer">
@@ -186,7 +209,7 @@ export function Main() {
                   >
                      <img
                         className="thumbnail"
-                        src={user2Info.creatorGameInfo.profileUrl}
+                        src={randomImage}
                         alt=""
                         onError={(e) => (e.target.style.display = 'none')}
                      />
@@ -205,7 +228,8 @@ export function Main() {
                {user2Info.creatorGameInfo.profileUrl !== '' && (
                   <img
                      id="player2"
-                     src={ranImg}
+                     src={randomImage}
+                     onChange={console.log('randomImage', randomImage)}
                      alt=""
                      onError={(e) => (e.target.style.display = 'none')}
                   />
@@ -295,7 +319,7 @@ export function Main() {
                                  className="scene"
                                  onClick={() => {
                                     setUser2Info(allUsers[idx]);
-                                    setRanImg(randomImg(idx, rArr));
+                                    setRanImg(ranImg((idx, randomImage)));
                                  }}
                               >
                                  <div className="card">
@@ -311,7 +335,7 @@ export function Main() {
                                     >
                                        <img
                                           className="characterImg"
-                                          src={randomImg(idx, rArr)}
+                                          src={randomImage}
                                           alt=""
                                        />
                                     </div>
@@ -330,16 +354,12 @@ export function Main() {
                                     >
                                        <img
                                           className="userProfile"
-                                          src={
-                                             item.creatorGameInfo.profileUrl
-                                          }
+                                          src={randomImage}
                                           alt=""
                                        />
+                                       <p>{item.creatorGameInfo.playerName}</p>
                                        <p>
-                                          {item.creatorGameInfo.playerName}
-                                       </p>
-                                       <p>
-                                          {item.creatorGameInfo.winCnt}승{' '}
+                                          {item.creatorGameInfo.winCnt}승
                                           {item.creatorGameInfo.loseCnt}패
                                        </p>
                                     </div>
