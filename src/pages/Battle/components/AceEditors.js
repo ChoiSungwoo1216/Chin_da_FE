@@ -34,7 +34,6 @@ export const AceEditorPlayer = (props) => {
 
     function onChangeOne(newValue) {
         setCode(newValue);
-        console.log(newValue)
     }
 
     const DefaultTemp = "//함수와 변수를 임의로 변경하지 마세요" + `\n` + StartTemp[parseInt(selected.language)];

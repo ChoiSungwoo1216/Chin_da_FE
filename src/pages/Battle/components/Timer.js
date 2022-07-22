@@ -11,6 +11,7 @@ function Timer(p) {
 
   const [minutes, setMinutes] = useState(minute);
   const [seconds, setSeconds] = useState(second);
+  const [send, setSend] = useState("")
 
 
   useEffect(() => {
@@ -41,6 +42,8 @@ function Timer(p) {
     }, 1000);
 
     return () => clearInterval(countdown);
+
+    
   }, [minutes, seconds, active]);
 
   return (

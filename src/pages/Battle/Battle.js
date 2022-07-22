@@ -72,6 +72,7 @@ const Battle = (props) => {
   console.log(info);
 
 
+
   //Timer,ProgressBar
   const [runTimer, setRunTimer] = useState("false");
   const [timeSetting, setTimeSetting] = useState(300);
@@ -178,6 +179,7 @@ const Battle = (props) => {
     }))
   }
   //코드전송
+
   const [sendT, setSendT] = useState(false)
   const checkT = () =>{
     sendT ? setSendT(false) : setSendT(true);
@@ -187,6 +189,7 @@ const Battle = (props) => {
       setTimeout(()=>sendCode(), 500)
     }
   }, [sendT])
+
 
   //방나가기 요청
   const leaveRoomAxios = async () => {

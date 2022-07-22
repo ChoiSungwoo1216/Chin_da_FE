@@ -20,13 +20,13 @@ function App() {
   const [mbmute, setMbmute] = React.useState(false);
   useSound(mainBgm, volume.bgm, mbmute);
   const token = sessionStorage.getItem("Authorization");
-  const logined = () =>{
-    if (token === null){
+  const logined = () => {
+    if (token === null) {
       return true;
     } else {
       return false;
     }
-  }
+  };
 
   return (
     <div className="App">

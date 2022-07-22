@@ -8,7 +8,7 @@ const GitLogin = () => {
   let API = process.env.REACT_APP_API;
   function loading(a) {
     setTimeout(() => {
-    window.location.replace(a);
+      window.location.replace(a);
     }, 3000);
   }
 
@@ -18,9 +18,9 @@ const GitLogin = () => {
     await axios({
       method: "get",
       url: `${API}/login/oauth2/code/github`,
-      params:{
-        code : code
-      }
+      params: {
+        code: code,
+      },
     })
       .then((res) => {
         console.log(res);
@@ -45,7 +45,7 @@ const GitLogin = () => {
   return (
     <GitContainer>
       <Gitimage></Gitimage>
-      <GitLogo onClick={() => gitAxios()} />
+      <GitLogo />
     </GitContainer>
   );
 };
