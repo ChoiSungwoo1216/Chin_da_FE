@@ -87,7 +87,7 @@ export function Main() {
    const enterRoomAxios = async () => {
       await axios(
          {
-            url: "/game/room/exit",
+            url: "/game/room/enter",
             method: "PUT",
             baseURL: api,
             data: {

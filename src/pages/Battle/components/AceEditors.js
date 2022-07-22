@@ -12,7 +12,6 @@ import 'ace-builds/src-noconflict/theme-solarized_dark';
 import 'ace-builds/src-noconflict/theme-solarized_light';
 import 'ace-builds/src-noconflict/theme-terminal';
 import 'ace-builds/src-noconflict/ext-language_tools';
-import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 const JsDefault = `function solution(num) { 
@@ -95,7 +94,7 @@ export const AceEditorOpp = (props) => {
                     enableLiveAutocompletion: true,
                     enableSnippets: true,
                 }}
-                defaultvalue={DefaultTempTwo}
+                value={DefaultTempTwo}
                 // {opCode}
                 placeholder="Placeholder Text"
             />
