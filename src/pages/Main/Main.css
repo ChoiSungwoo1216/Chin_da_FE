@@ -231,7 +231,8 @@ article {
 
 .txtVS {
 display: block;
-margin: auto;
+margin: 23vh auto;
+padding-right: 2.5vw;
 text-align: center;
 width: 12%;
 height: 12%;
