@@ -45,11 +45,11 @@ const SoundSetting = (props) => {
                 defaultChecked={userSound.bgm === 0.1 ? true : false}
                 onClick={(e) => SoundOnOff(e)}
               />
-              <label for="switch" className="switch_label">
+              <label htmlFor="switch" className="switch_label">
                 {userSound.bgm === 0.1 ? (
-                  <img src={"/img/BtnOn.png"} alt="" class="onf_btn" />
+                  <img src={"/img/BtnOn.png"} alt="" className="onf_btn" />
                 ) : (
-                  <img src={"/img/BtnOff.png"} alt="" class="onf_btn" />
+                  <img src={"/img/BtnOff.png"} alt="" className="onf_btn" />
                 )}
               </label>
             </SetLine>
@@ -61,11 +61,11 @@ const SoundSetting = (props) => {
                 defaultChecked={userSound.es === 0.5 ? true : false}
                 onClick={(e) => SoundOnOff(e)}
               />
-              <label for="switch1" className="switch_label1">
+              <label htmlFor="switch1" className="switch_label1">
                 {userSound.es === 0.5 ? (
-                  <img src={"/img/BtnOn.png"} alt="" class="onf_btn1" />
+                  <img src={"/img/BtnOn.png"} alt="" className="onf_btn1" />
                 ) : (
-                  <img src={"/img/BtnOff.png"} alt="" class="onf_btn1" />
+                  <img src={"/img/BtnOff.png"} alt="" className="onf_btn1" />
                 )}
               </label>
             </SetLine>
