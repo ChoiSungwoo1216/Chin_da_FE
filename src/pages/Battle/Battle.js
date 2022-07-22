@@ -32,6 +32,7 @@ import effectSound from "../../shared/effectSound";
 import btnSound from "../../audios/btnselect.mp3";
 import camSound from "../../audios/camOff.mp3";
 import battleBgm from "../../audios/battle_bgm.mp3";
+import newOp from "../../audios/newOpponent.mp3"
 
 //websocket
 import * as StompJS from "stompjs";
@@ -60,6 +61,8 @@ const Battle = (props) => {
   const userSound = useSelector((state) => state.user.sound);
   const btnEs = effectSound(btnSound, userSound.es);
   const camEs = effectSound(camSound, userSound.es);
+  const newOpEs = effectSound(newOp, userSound.es);
+
 
   //RoomInfo
   const info = location.state;
@@ -67,6 +70,7 @@ const Battle = (props) => {
   const questionId = location.state.questionId;
   const server = location.state.server;
   console.log(info);
+
 
 
   //Timer,ProgressBar
@@ -94,6 +98,15 @@ const Battle = (props) => {
 
   //ReadyUser
   const [gameStart, setGameStart] = useState(false);
+
+    //Toastify Alert
+    const [runAlert, setRunAlert] = useState(false);
+    const [mesAlert, setMesAlert] = useState("FAIL");
+    const [newOpAlert, setNewOpAlert] = useState(false);
+    const resAlert = (r) => {
+      setMesAlert(r);
+      setRunAlert(true);
+    };
 
   //game server
   const username = sessionStorage.getItem("username")
@@ -135,6 +148,10 @@ const Battle = (props) => {
           setQuestionTitle(mes.title);
           dispatch(alreadyUser({ opp: true }))
           break;
+          case "USERINFO":
+            newOpEs.play();
+            setNewOpAlert(true);
+            resAlert("상대 입장");
         default:
       }
     } else {
@@ -154,32 +171,25 @@ const Battle = (props) => {
     }));
   }
   //실시간 코드 전송
-  const sendCode = (code) => {
-    client.send(`/app/game/codeMessage`, {}, JSON.stringify({
+  const sendCode = async() => {
+    await client.send(`/app/game/codeMessage`, {}, JSON.stringify({
       roomId: roomId,
       sender: username,
       message: code
     }))
   }
   //코드전송
-  const setCode10s = () => {
-    let i = 0;
-    const count = setInterval(() => {
-      if (i < 1) {
-        i++;
-      } else {
-        i = 0;
-        clearInterval(count);
-      }
-    }, 10000);
-    return () => clearInterval(count);
-  };
 
+  const [sendT, setSendT] = useState(false)
+  const checkT = () =>{
+    sendT ? setSendT(false) : setSendT(true);
+  }
   useEffect(() => {
     if (gameStart === true) {
-      setTimeout(() => sendCode(code), 0);
+      setTimeout(()=>sendCode(), 500)
     }
-  }, [])
+  }, [sendT])
+
 
   //방나가기 요청
   const leaveRoomAxios = async () => {
@@ -218,13 +228,7 @@ const Battle = (props) => {
   ]
   const mode = langType[parseInt(selected.language)];
 
-  //Toastify Alert
-  const [runAlert, setRunAlert] = useState(false);
-  const [mesAlert, setMesAlert] = useState("FAIL");
-  const resAlert = (r) => {
-    setMesAlert(r);
-    setRunAlert(true);
-  };
+
 
   //CountDown
   const [runCountdown, setRunCountdown] = useState(false);
@@ -395,10 +399,12 @@ const Battle = (props) => {
         runAlert={runAlert}
         setRunAlert={setRunAlert}
         mesAlert={mesAlert}
+        newOpAlert = {newOpAlert}
+        setNewOpAlert = {setNewOpAlert}
       />
       <HeadPart>
         <TimerDiv>
-          <ProBar value={timerValue} />
+          <ProBar value={timerValue} checkT={checkT}/>
         </TimerDiv>
         <BtnDiv>
           <BtnOnOff onClick={openQue} change={queOpen}>

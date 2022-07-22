@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Start from "./pages/Start/Start";
 import Main from "./pages/Main/Main";
 
@@ -20,13 +20,13 @@ function App() {
   const [mbmute, setMbmute] = React.useState(false);
   useSound(mainBgm, volume.bgm, mbmute);
   const token = sessionStorage.getItem("Authorization");
-  const logined = () =>{
-    if (token === null){
+  const logined = () => {
+    if (token === null) {
       return true;
     } else {
       return false;
     }
-  }
+  };
 
   return (
     <div className="App">
@@ -40,7 +40,7 @@ function App() {
           <>
             <Route path="/" element={<Start />} />
             <Route path="/github" element={<GitLogin />} />
-            <Route path="/*" element={<Start />} />
+            <Route path="/*" element={<Navigate to="/" replace />} />
           </>
         ) : (
           <>
@@ -54,7 +54,7 @@ function App() {
               path="/battle/:id"
               element={<Battle setMbmute={setMbmute} />}
             ></Route>
-            <Route path="/*" element={<Selection />} />
+            <Route path="/*" element={<Navigate to="/selection" replace  />} />
           </>
         )}
       </Routes>

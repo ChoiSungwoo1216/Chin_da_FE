@@ -8,7 +8,16 @@ import axios from "axios";
 const Room = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { language, level, setLanOn, setLevOn, setRoomOn, es, hoverEs, enterEs } = props;
+  const {
+    language,
+    level,
+    setLanOn,
+    setLevOn,
+    setRoomOn,
+    es,
+    hoverEs,
+    enterEs,
+  } = props;
   //컴포넌트 이동
   const SelLang = () => {
     setRoomOn(false);
@@ -21,26 +30,24 @@ const Room = (props) => {
     es.play();
   };
 
-
   //방만들기 요청
   const createRoomAxios = async () => {
     const api = process.env.REACT_APP_API;
-    const Authorization = sessionStorage.getItem("Authorization")
+    const Authorization = sessionStorage.getItem("Authorization");
     const numLan = parseInt(language);
-    const numLev = parseInt(level)
-    await axios(
-      {
-        url: "/game/room/create",
-        method: "POST",
-        baseURL: api,
-        data: {
-          "langIdx": numLan,
-          "levelIdx": numLev
-        },
-        headers: {
-          "Authorization": Authorization,
-        },
-      })
+    const numLev = parseInt(level);
+    await axios({
+      url: "/game/room/create",
+      method: "POST",
+      baseURL: api,
+      data: {
+        langIdx: numLan,
+        levelIdx: numLev,
+      },
+      headers: {
+        Authorization: Authorization,
+      },
+    })
       .then((response) => {
         console.log(response.data);
         navigate(`/battle/${response.data.roomId}`, { state: response.data } );
@@ -50,7 +57,7 @@ const Room = (props) => {
       .catch((error) => {
         console.log(error);
       });
-  }
+  };
 
   const CreateRoom = () => {
     createRoomAxios();
@@ -64,21 +71,45 @@ const Room = (props) => {
 
   const HoverEs = () => {
     hoverEs.play();
-  }
+  };
 
   return (
     <>
       <Title>방 선택</Title>
       <Wrapper>
-        <SelectedDiv onClick={SelLang} onMouseEnter={() => { HoverEs() }}>
+        <SelectedDiv
+          onClick={SelLang}
+          onMouseEnter={() => {
+            HoverEs();
+          }}
+        >
           <TypeBtn language={language} />
         </SelectedDiv>
-        <SelectedDiv onClick={SelLev} onMouseEnter={() => { HoverEs() }}>
+        <SelectedDiv
+          onClick={SelLev}
+          onMouseEnter={() => {
+            HoverEs();
+          }}
+        >
           <InsideBtn1 level={level} />
         </SelectedDiv>
         <RoomSelectDiv>
-          <InsideBtn2 onClick={CreateRoom} onMouseOver={() => { HoverEs() }}>방 만들기</InsideBtn2>
-          <InsideBtn3 onClick={EnterRoom} onMouseOver={() => { HoverEs() }}>방 선택하기</InsideBtn3>
+          <InsideBtn2
+            onClick={CreateRoom}
+            onMouseOver={() => {
+              HoverEs();
+            }}
+          >
+            방 만들기
+          </InsideBtn2>
+          <InsideBtn3
+            onClick={EnterRoom}
+            onMouseOver={() => {
+              HoverEs();
+            }}
+          >
+            방 선택하기
+          </InsideBtn3>
         </RoomSelectDiv>
       </Wrapper>
     </>
@@ -117,7 +148,7 @@ const SelectedDiv = styled.div`
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
-  &:hover{
+  &:hover {
     transition: 0.5s;
     opacity: 0.75;
   }
@@ -145,7 +176,7 @@ const TypeBtn = styled.div`
         transform: scale(1.3);
         width: 60%;
         height: 60%;
-        `;
+      `;
     } else if (props.language === "1") {
       return css`
         background-image: url("/img/js.svg");
@@ -154,7 +185,7 @@ const TypeBtn = styled.div`
         background-position: center;
         width: 70%;
         height: 70%;
-        `;
+      `;
     }
   }}
 
@@ -193,15 +224,14 @@ const InsideBtn1 = styled.div`
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
-        `;
+      `;
     } else if (props.level === "2") {
       return css`
-
         background-image: url("/img/starThree.svg");
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
-        `;
+      `;
     }
   }}
   width: 70%;
@@ -231,48 +261,48 @@ const shackBtn = keyframes`
 `;
 
 const InsideBtn2 = styled.div`
-display: flex;
-align-items: center;
-justify-content: center;
-margin: 0;
-width: 81.3%;
-height: 25%;
-color: white;
-font-size: calc(0.5vh + 1vw);
-background-image: url(/img/selectRoomBtn.svg);
-background-repeat: no-repeat;
-background-size: contain;
-background-position: center;  
-animation: ${shackBtn} 2s linear infinite;
--webkit-animation: ${shackBtn} 2s linear infinite;
-opacity: 0.85;
-&:hover{
-  opacity: 1;
-  transform: scale(1.1);
-  animation: none;
-}
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  width: 81.3%;
+  height: 25%;
+  color: white;
+  font-size: calc(0.5vh + 1vw);
+  background-image: url(/img/selectRoomBtn.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  animation: ${shackBtn} 2s linear infinite;
+  -webkit-animation: ${shackBtn} 2s linear infinite;
+  opacity: 0.85;
+  &:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    animation: none;
+  }
 `;
 
 const InsideBtn3 = styled.div`
-display: flex;
-align-items: center;
-justify-content: center;
-margin: 0;
-width: 81.3%;
-height: 25%;
-color: white;
-font-size: calc(0.5vh + 1vw);
-background-image: url(/img/selectRoomBtn.svg);
-background-repeat: no-repeat;
-background-size: contain;
-background-position: center;  
-animation: ${shackBtn} 2s linear infinite;
--webkit-animation: ${shackBtn} 2s linear infinite;
-opacity: 0.85;
-&:hover{
-  opacity: 1;
-  transform: scale(1.1);
-  animation: none
-}
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  width: 81.3%;
+  height: 25%;
+  color: white;
+  font-size: calc(0.5vh + 1vw);
+  background-image: url(/img/selectRoomBtn.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  animation: ${shackBtn} 2s linear infinite;
+  -webkit-animation: ${shackBtn} 2s linear infinite;
+  opacity: 0.85;
+  &:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    animation: none;
+  }
 `;
 export default Room;
