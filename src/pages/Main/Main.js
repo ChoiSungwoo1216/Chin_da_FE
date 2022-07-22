@@ -160,25 +160,22 @@ export function Main() {
 
    //캐릭터 표출
    const [ranImg, setRanImg] = React.useState('');
-   // let rArr = [3, 2, 0, 1, 2, 3, 2, 0, 1, 2];
-   // const randomImg = (index, rArr) => {
-   //    let img = [
-   //       '/img/ch1.svg',
-   //       '/img/ch2.svg',
-   //       '/img/mainUser2Img.png',
-   //       '/img/mainUser2Img2.png',
-   //    ];
-   //    if (index >= 10) {
-   //       return img[rArr[index % 10]];
-   //    } else {
-   //       return img[rArr[index]];
-   //    }
-   // };
-   function randomImg(array) {
-      const random = Math.floor(Math.random() * array.length);
-      return array[random];
-   }
-   const randomImage = randomImg(img);
+   const randomImg = (index) => {
+      let img = [
+         '/img/Char2.svg',
+         '/img/Char3.svg',
+         '/img/Char4.svg',
+         '/img/Char5.svg',
+         '/img/Char6.svg',
+      ];
+      let rArr = Math.floor(Math.random() * img.length);
+      return img[(rArr + index) % 5];
+   };
+   // function randomImg(array) {
+   //    const random = Math.floor(Math.random() * array.length);
+   //    return array[random];
+   // }
+   // const randomImage = randomImg(img);
    return (
       <>
          <div className="mainContainer">
@@ -209,7 +206,7 @@ export function Main() {
                   >
                      <img
                         className="thumbnail"
-                        src={randomImage}
+                        src={user2Info.creatorGameInfo.profileUrl}
                         alt=""
                         onError={(e) => (e.target.style.display = 'none')}
                      />
@@ -222,14 +219,13 @@ export function Main() {
                   </div>
                )}
                <article className="article">
-                  <img id="player1" src="/img/ch1.svg" alt="" />
+                  <img id="player1" src="/img/Char1.svg" alt="" />
                </article>
 
                {user2Info.creatorGameInfo.profileUrl !== '' && (
                   <img
                      id="player2"
-                     src={randomImage}
-                     onChange={console.log('randomImage', randomImage)}
+                     src={ranImg}
                      alt=""
                      onError={(e) => (e.target.style.display = 'none')}
                   />
@@ -319,7 +315,7 @@ export function Main() {
                                  className="scene"
                                  onClick={() => {
                                     setUser2Info(allUsers[idx]);
-                                    setRanImg(ranImg((idx, randomImage)));
+                                    setRanImg(randomImg(idx));
                                  }}
                               >
                                  <div className="card">
@@ -335,7 +331,7 @@ export function Main() {
                                     >
                                        <img
                                           className="characterImg"
-                                          src={randomImage}
+                                          src={randomImg(idx)}
                                           alt=""
                                        />
                                     </div>
@@ -354,7 +350,7 @@ export function Main() {
                                     >
                                        <img
                                           className="userProfile"
-                                          src={randomImage}
+                                          src={item.creatorGameInfo.profileUrl}
                                           alt=""
                                        />
                                        <p>{item.creatorGameInfo.playerName}</p>
