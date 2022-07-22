@@ -154,32 +154,23 @@ const Battle = (props) => {
     }));
   }
   //실시간 코드 전송
-  const sendCode = (code) => {
-    client.send(`/app/game/codeMessage`, {}, JSON.stringify({
+  const sendCode = async() => {
+    await client.send(`/app/game/codeMessage`, {}, JSON.stringify({
       roomId: roomId,
       sender: username,
       message: code
     }))
   }
   //코드전송
-  const setCode10s = () => {
-    let i = 0;
-    const count = setInterval(() => {
-      if (i < 1) {
-        i++;
-      } else {
-        i = 0;
-        clearInterval(count);
-      }
-    }, 10000);
-    return () => clearInterval(count);
-  };
-
+  const [sendT, setSendT] = useState(false)
+  const checkT = () =>{
+    sendT ? setSendT(false) : setSendT(true);
+  }
   useEffect(() => {
     if (gameStart === true) {
-      setTimeout(() => sendCode(code), 0);
+      setTimeout(()=>sendCode(), 0)
     }
-  }, [])
+  }, [sendT])
 
   //방나가기 요청
   const leaveRoomAxios = async () => {
@@ -398,7 +389,7 @@ const Battle = (props) => {
       />
       <HeadPart>
         <TimerDiv>
-          <ProBar value={timerValue} />
+          <ProBar value={timerValue} checkT={checkT}/>
         </TimerDiv>
         <BtnDiv>
           <BtnOnOff onClick={openQue} change={queOpen}>

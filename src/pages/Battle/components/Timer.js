@@ -4,12 +4,14 @@ import styled from "styled-components";
 function Timer(p) {
   const times = p.value.Time; // 난이도별 시간
   const active = p.value.Active;
+  const checkT = p.checkT
 
   const minute = Math.floor(times / 60); // 분
   const second = times - minute * 60; // 초
 
   const [minutes, setMinutes] = useState(minute);
   const [seconds, setSeconds] = useState(second);
+
 
   useEffect(() => {
     setMinutes(minute);
@@ -21,6 +23,7 @@ function Timer(p) {
       if (active === true) {
         if (parseInt(seconds) > 0) {
           setSeconds(parseInt(seconds) - 1);
+          (seconds % 10 === 0) && checkT();
         }
         if (parseInt(seconds) === 0) {
           if (parseInt(minutes) === 0) {
@@ -28,6 +31,7 @@ function Timer(p) {
           } else {
             setMinutes(parseInt(minutes) - 1);
             setSeconds(59);
+            (seconds % 10 === 0) && checkT()
           }
         }
       } else {
