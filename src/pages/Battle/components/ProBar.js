@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import styled, { keyframes, css } from "styled-components";
 import Timer from "./Timer";
 
@@ -9,8 +9,11 @@ const ProgressBarTwo = (p) => {
   const checkT = p.checkT
 
   let [count, setCount] = React.useState(10);
+  useEffect(() => {
+active === false && setCount(10);
+  }, [active]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const countdown = setInterval(() => {
       const refesh = () => {
         setCount(10);
