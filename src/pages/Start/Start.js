@@ -36,8 +36,7 @@ const Start = () => {
         onMouseOut={() => {
           setHOVER(false);
         }}
-        onClick={HOVER === true && open}
-        disabled="true"
+        onClick={(HOVER === true) ? open : undefined}
       >
         {HOVER === false && (
           <>
