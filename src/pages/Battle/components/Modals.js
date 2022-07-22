@@ -15,6 +15,8 @@ import lose1Sound from '../../../audios/FailSE1.mp3';
 /*QuestionModal*/
 export const QuestionModal = (p) => {
   const setClose = p.setValue;
+  const question = p.question;
+  const questionTitle = p.questionTitle;
   const [modalIsOpen, setIsOpen] = React.useState(true);
   const customModalStyles = {
     overlay: {
@@ -45,39 +47,13 @@ export const QuestionModal = (p) => {
       >
         <div className="ModalBody">
           <header>
-            <h3>문제1</h3>
+            <h3>Question</h3>
           </header>
           <div className="ModalContent">
             <table>
-              <th>문제 설명</th>
+              <th>{questionTitle}</th>
               <tr>
-                새로 생긴 놀이기구는 인기가 매우 많아 줄이 끊이질 않습니다. 이
-                놀이기구의 원래 이용료는 price원 인데, 놀이기구를 N 번 째
-                이용한다면 원래 이용료의 N배를 받기로 하였습니다. 즉, 처음
-                이용료가 100이었다면 2번째에는 200, 3번째에는 300으로 요금이
-                인상됩니다. 놀이기구를 count번 타게 되면 현재 자신이 가지고 있는
-                금액에서 얼마가 모자라는지를 return 하도록 solution 함수를
-                완성하세요. 단, 금액이 부족하지 않으면 0을 return 하세요.
-              </tr>
-              <th>제한사항</th>
-              <tr>
-                놀이기구의 이용료 price : 1 ≤ price ≤ 2,500, price는 자연수 처음
-                가지고 있던 금액 money : 1 ≤ money ≤ 1,000,000,000, money는
-                자연수 놀이기구의 이용 횟수 count : 1 ≤ count ≤ 2,500, count는
-                자연수
-              </tr>
-              <th>입출력 예 설명</th>
-              <tr>
-                입출력 예 #1 이용금액이 3인 놀이기구를 4번 타고 싶은 고객이 현재
-                가진 금액이 20이라면, 총 필요한 놀이기구의 이용 금액은 30 (=
-                3+6+9+12) 이 되어 10만큼 부족하므로 10을 return 합니다.
-              </tr>
-              <th>참고 사항</th>
-              <tr>
-                미션 언어는 Java, JavaScript, Python3, C++ 만 해당 됩니다. 같은
-                코드를 제출한 사람이 여럿이라면 코드를 가장 먼저 제출한 분께
-                상품을 드립니다. 좋아요 수가 동일할 경우 코드를 가장 먼저 제출한
-                분께 상품을 드립니다.
+                {question}
               </tr>
             </table>
           </div>
@@ -94,16 +70,16 @@ export const QuestionModal = (p) => {
 };
 
 /*SuccessModal*/
-export const SuccessModal = ({setROpen, setResult, setRunTimer, setBbmute}) => {
+export const SuccessModal = ({ setROpen, setResult, setRunTimer, setBbmute }) => {
   const userSound = useSelector((state) => state.user.sound);
   const winEs = effectSound(winSound, userSound.es);
-  const muteBb = ()=>{
+  const muteBb = () => {
     setBbmute(true);
     setRunTimer(false)
   }
   React.useEffect(() => {
     winEs.play();
-    muteBb();    
+    muteBb();
   }, [])
   const [modalIsOpen, setIsOpen] = React.useState(true);
   const customModalStyles = {
@@ -121,13 +97,13 @@ export const SuccessModal = ({setROpen, setResult, setRunTimer, setBbmute}) => {
     <>
       <Modal
         isOpen={modalIsOpen}
-        onRequestClose={() => {setIsOpen(false); setROpen(true); setResult("WIN")}}
+        onRequestClose={() => { setIsOpen(false); setROpen(true); setResult("WIN") }}
         style={customModalStyles}
       >
         <img
           className="ExitBtn"
           src="/img/X_btn_black_30.svg"
-          onClick={() => {setIsOpen(false); setROpen(true); setResult("WIN")}}
+          onClick={() => { setIsOpen(false); setROpen(true); setResult("WIN") }}
           alt=""
         />
         <div className="ConfettiTxt">
@@ -143,10 +119,10 @@ export const SuccessModal = ({setROpen, setResult, setRunTimer, setBbmute}) => {
 };
 
 /*FailModal*/
-export const FailModal = ({setROpen, setResult, setRunTimer, setBbmute}) => {
+export const FailModal = ({ setROpen, setResult, setRunTimer, setBbmute }) => {
   const userSound = useSelector((state) => state.user.sound);
   const loseEs = effectSound(loseSound, userSound.es);
-  const muteBb = ()=>{
+  const muteBb = () => {
     setBbmute(true);
     setRunTimer(false);
   }
@@ -195,13 +171,13 @@ export const FailModal = ({setROpen, setResult, setRunTimer, setBbmute}) => {
     <>
       <Modal
         isOpen={modalIsOpen}
-        onRequestClose={() => {setIsOpen(false); setROpen(true);}}
+        onRequestClose={() => { setIsOpen(false); setROpen(true); }}
         style={customModalStyles}
       >
         <img
           className="ExitBtn"
           src="/img/X_btn_black_30.svg"
-          onClick={() => {setIsOpen(false); setROpen(true); setResult("LOSE");}}
+          onClick={() => { setIsOpen(false); setROpen(true); setResult("LOSE"); }}
           alt=""
         />
         <div className="ConfettiTxt">
@@ -217,66 +193,66 @@ export const FailModal = ({setROpen, setResult, setRunTimer, setBbmute}) => {
 
 /*Result Modal*/
 export const Result = (props) => {
-   const userSound = useSelector((state) => state.user.sound);
-   const winEs = effectSound(win1Sound, userSound.es);
-   const loseEs = effectSound(lose1Sound, userSound.es);
-   const { setROpen, setMbmute } = props;
-   const result = props.result;
-   React.useEffect(() => {
-      if (result === 'WIN') {
-         winEs.play();
-      } else {
-         loseEs.play();
-      }
-   }, []);
-   const navigate = useNavigate();
-   const [player, setPlayer] = React.useState('Player 1');
-   const GoBackMain = () => {
-      setMbmute(false);
-      navigate('/Selection');
-   };
-   return (
-      <>
-         <ResultBackground
-            onClick={() => {
-               setROpen(false);
-               setMbmute(false);
-            }}
-         />
-         <ResultDiv>
-            <SettingWord>RESULT</SettingWord>
-            <BlackDiv>
-               <ResultEle>{player} 승리</ResultEle>
-               {result === 'WIN' ? (
-                  <ResultLetterDiv>
-                     <LetterNoAni src={'/img/W.svg'} alt="" />
-                     <LetterAni src={'/img/I.svg'} alt="" />
-                     <LetterNoAni src={'/img/N.svg'} alt="" />
-                  </ResultLetterDiv>
-               ) : (
-                  <ResultLetterDiv>
-                     <LetterNoAni src={'/img/L.svg'} alt="" />
-                     <LetterNoAni src={'/img/O.svg'} alt="" />
-                     <LetterNoAni src={'/img/S.svg'} alt="" />
-                     <LetterSlopeAni src={'/img/E.svg'} alt="" />
-                  </ResultLetterDiv>
-               )}
-               <ResultElement>한판 더 하시겠습니까?</ResultElement>
-               <ReDiv>
-                  <ResultBtn
-                     onClick={() => {
-                        setROpen(false);
-                        setMbmute(false);
-                     }}
-                  >
-                     Yes
-                  </ResultBtn>
-                  <ResultBtn onClick={GoBackMain}>No</ResultBtn>
-               </ReDiv>
-            </BlackDiv>
-         </ResultDiv>
-      </>
-   );
+  const userSound = useSelector((state) => state.user.sound);
+  const winEs = effectSound(win1Sound, userSound.es);
+  const loseEs = effectSound(lose1Sound, userSound.es);
+  const { setROpen, setMbmute } = props;
+  const result = props.result;
+  React.useEffect(() => {
+    if (result === 'WIN') {
+      winEs.play();
+    } else {
+      loseEs.play();
+    }
+  }, []);
+  const navigate = useNavigate();
+  const [player, setPlayer] = React.useState('Player 1');
+  const GoBackMain = () => {
+    setMbmute(false);
+    navigate('/Selection');
+  };
+  return (
+    <>
+      <ResultBackground
+        onClick={() => {
+          setROpen(false);
+          setMbmute(false);
+        }}
+      />
+      <ResultDiv>
+        <SettingWord>RESULT</SettingWord>
+        <BlackDiv>
+          <ResultEle>{player} 승리</ResultEle>
+          {result === 'WIN' ? (
+            <ResultLetterDiv>
+              <LetterNoAni src={'/img/W.svg'} alt="" />
+              <LetterAni src={'/img/I.svg'} alt="" />
+              <LetterNoAni src={'/img/N.svg'} alt="" />
+            </ResultLetterDiv>
+          ) : (
+            <ResultLetterDiv>
+              <LetterNoAni src={'/img/L.svg'} alt="" />
+              <LetterNoAni src={'/img/O.svg'} alt="" />
+              <LetterNoAni src={'/img/S.svg'} alt="" />
+              <LetterSlopeAni src={'/img/E.svg'} alt="" />
+            </ResultLetterDiv>
+          )}
+          <ResultElement>한판 더 하시겠습니까?</ResultElement>
+          <ReDiv>
+            <ResultBtn
+              onClick={() => {
+                setROpen(false);
+                setMbmute(false);
+              }}
+            >
+              Yes
+            </ResultBtn>
+            <ResultBtn onClick={GoBackMain}>No</ResultBtn>
+          </ReDiv>
+        </BlackDiv>
+      </ResultDiv>
+    </>
+  );
 };
 
 
