@@ -6,6 +6,7 @@ const ProgressBarTwo = (p) => {
   const time = p.value.Time / 10;
   const active = p.value.Active;
   const setActive = p.value.setActive;
+  const checkT = p.checkT
 
   let [count, setCount] = React.useState(10);
 
@@ -45,7 +46,7 @@ const ProgressBarTwo = (p) => {
             return <CountBox key={idx} active={active} count={count} />;
           })}
         </Filler>
-        <Timer value={p.value}/>
+        <Timer value={p.value} checkT={checkT}/>
       </Bar>
     </>
   );
