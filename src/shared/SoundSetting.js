@@ -42,10 +42,10 @@ const SoundSetting = (props) => {
               <input
                 type="checkbox"
                 id="switch"
-                checked={userSound.bgm === 0.1 ? true : false}
+                defaultChecked={userSound.bgm === 0.1 ? true : false}
                 onClick={(e) => SoundOnOff(e)}
               />
-              <label for="switch" class="switch_label">
+              <label for="switch" className="switch_label">
                 {userSound.bgm === 0.1 ? (
                   <img src={"/img/BtnOn.png"} alt="" class="onf_btn" />
                 ) : (
@@ -58,7 +58,7 @@ const SoundSetting = (props) => {
               <input
                 type="checkbox"
                 id="switch1"
-                checked={userSound.es === 0.5 ? true : false}
+                defaultChecked={userSound.es === 0.5 ? true : false}
                 onClick={(e) => SoundOnOff(e)}
               />
               <label for="switch1" class="switch_label1">
