@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import styled, { css, keyframes } from "styled-components";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Peer from "peerjs";
 import Modal from "react-modal";
@@ -46,6 +46,7 @@ const Battle = (props) => {
 
   const selected = useSelector((state) => state.user.selected);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const location = useLocation();
   const params = useParams();
 
@@ -64,11 +65,9 @@ const Battle = (props) => {
   const info = location.state;
   const roomId = params.id;
   const questionId = location.state.questionId;
-  const languageType = location.state.language;
   const server = location.state.server;
   console.log(info);
-  console.log(roomId)
-  console.log(languageType);
+
 
   //Timer,ProgressBar
   const [runTimer, setRunTimer] = useState("false");
@@ -103,8 +102,8 @@ const Battle = (props) => {
   let client = StompJS.over(sock);
   const [code, setCode] = useState("")
   const [opCode, setOpCode] = useState("");
-  const [questionTitle, setQuestionTitle] = useState("x만큼 간격이 있는 n개의 숫자")
-  const [question, setQuestion] = useState("함수 solution은 정수 x와 자연수 n을 입력 받아, x부터 시작해 x씩 증가하는 숫자를 n개 지니는 리스트를 리턴해야 합니다. 다음 제한 조건을 보고, 조건을 만족하는 함수, solution을 완성해주세요.")
+  const [questionTitle, setQuestionTitle] = useState("")
+  const [question, setQuestion] = useState("")
 
   React.useEffect(() => {
     if (roomId !== undefined) {
@@ -119,35 +118,29 @@ const Battle = (props) => {
   // 서버 연결 성공 시 콜백함수
   const onConnected = () => {
     //입장자 정보 전송 구독, ready 구독 주소
-    client.subscribe(`/topic/game/room/${roomId}`,
-      function (message) {
-        console.log(message.body)
-        if (message.body) {
-          const newData = JSON.parse(message.body);
-          console.log(newData);
-          // if (상대방 ready true){
-          //   dispatchEvent(alreadyUser({ opp: true }))
-          // }
-        } else {
-          alert("error");
-        }
-      }, headers
-    );
+    client.subscribe(`/topic/game/room/${roomId}`, ReceiveCallBack);
 
     //실시간 코드 전송 구독 주소
-    client.subscribe(`/user/queue/game/codeMessage/${roomId}`,
-      function (message) {
-        console.log(message.body)
-        if (message.body) {
-          const oppCode = JSON.parse(message.body);
-          console.log(oppCode);
-          setOpCode(oppCode);
-        } else {
-          alert("error")
-        }
-      }, headers
-    );
+    client.subscribe(`/user/queue/game/codeMessage/${roomId}`, ReceiveCallBack);
   };
+
+  const ReceiveCallBack = (message) => {
+    console.log(message)
+    if (message.body) {
+      const mes = JSON.parse(message.body);
+      console.log(mes);
+      switch (mes.type) {
+        case "READY":
+          setQuestion(mes.question);
+          setQuestionTitle(mes.title);
+          dispatch(alreadyUser({ opp: true }))
+          break;
+        default:
+      }
+    } else {
+      alert("error");
+    }
+  }
 
   // 서버 연결 실패시
   const onError = (err) => {
@@ -169,20 +162,24 @@ const Battle = (props) => {
     }))
   }
   //코드전송
-  const tenTimer = setInterval(() => {
-    if (runTimer !== true) {
-      clearInterval(tenTimer);
-    } else {
-      let i = 0;
-      return i++;
-    }
-  }, 10000);
+  const setCode10s = () => {
+    let i = 0;
+    const count = setInterval(() => {
+      if (i < 1) {
+        i++;
+      } else {
+        i = 0;
+        clearInterval(count);
+      }
+    }, 10000);
+    return () => clearInterval(count);
+  };
 
-  // useEffect(() => {
-  //   if (runTimer === true && gameStart === true) {
-  //     setTimeout(() => sendCode(code), 10000);
-  //   }
-  // }, [tenTimer])
+  useEffect(() => {
+    if (gameStart === true) {
+      setTimeout(() => sendCode(code), 0);
+    }
+  }, [])
 
   //방나가기 요청
   const leaveRoomAxios = async () => {
@@ -520,7 +517,7 @@ const Battle = (props) => {
         />
       )}
       {rOpen && (
-        <Result setROpen={setROpen} result={result} setMbmute={setMbmute} />
+        <Result setROpen={setROpen} result={result} setMbmute={setMbmute} setGameStart={setGameStart} />
       )}
 
       <Control
@@ -790,11 +787,13 @@ const QueBox = styled.div`
   margin: 0;
   padding: 5px;
   background-color: #111823;
-  color : white;
+  color : lightgray;
   border-right: 6px solid #a0935c;
   border-left: 6px solid #fffae3;
   border-bottom: 6px solid #a0935c;
   overflow-y: auto;
+  line-height: 1.5;
+  font-size : calc((2vw + 2vh)/3)
 `;
 
 const CodeDiv = styled.div`

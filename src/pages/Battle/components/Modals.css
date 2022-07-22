@@ -39,23 +39,30 @@ header h3 {
 }
 
 .ModalBody {
-  display: table;
+  display: flex;
   height: 100%;
 }
 .ModalContent {
   position: relative;
   height: 97%;
+  width: 100%;
   top: 20px;
   color: #fff;
   margin: auto -13px;
   overflow-y: scroll;
-}
-
-.ModalContent th,
-tr,
-td {
   padding: 15px;
   float: left;
+}
+
+.qTitle {
+  margin-bottom: 10px;
+  font-weight: 600;
+  width: 100%;
+}
+
+.q {
+  margin-top: 20px;
+  width: 100%;
 }
 
 .ModalContent::-webkit-scrollbar {

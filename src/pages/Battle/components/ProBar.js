@@ -45,7 +45,7 @@ const ProgressBarTwo = (p) => {
             return <CountBox key={idx} active={active} count={count} />;
           })}
         </Filler>
-        <Timer value={p.value} />
+        <Timer value={p.value}/>
       </Bar>
     </>
   );

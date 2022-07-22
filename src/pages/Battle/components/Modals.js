@@ -50,12 +50,8 @@ export const QuestionModal = (p) => {
             <h3>Question</h3>
           </header>
           <div className="ModalContent">
-            <table>
-              <th>{questionTitle}</th>
-              <tr>
-                {question}
-              </tr>
-            </table>
+                <div className="qTitle">{questionTitle}</div>
+                <div className="q">{question}</div>
           </div>
         </div>
         <img
@@ -196,7 +192,7 @@ export const Result = (props) => {
   const userSound = useSelector((state) => state.user.sound);
   const winEs = effectSound(win1Sound, userSound.es);
   const loseEs = effectSound(lose1Sound, userSound.es);
-  const { setROpen, setMbmute } = props;
+  const { setROpen, setMbmute, setGameStart } = props;
   const result = props.result;
   React.useEffect(() => {
     if (result === 'WIN') {
@@ -206,7 +202,7 @@ export const Result = (props) => {
     }
   }, []);
   const navigate = useNavigate();
-  const [player, setPlayer] = React.useState('Player 1');
+  const player = sessionStorage.getItem("username");
   const GoBackMain = () => {
     setMbmute(false);
     navigate('/Selection');
@@ -243,6 +239,7 @@ export const Result = (props) => {
               onClick={() => {
                 setROpen(false);
                 setMbmute(false);
+                setGameStart(false);
               }}
             >
               Yes
