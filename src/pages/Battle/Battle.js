@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled, { css, keyframes } from "styled-components";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -72,7 +72,6 @@ const Battle = (props) => {
   console.log(info);
 
 
-
   //Timer,ProgressBar
   const [runTimer, setRunTimer] = useState("false");
   const [timeSetting, setTimeSetting] = useState(300);
@@ -99,14 +98,14 @@ const Battle = (props) => {
   //ReadyUser
   const [gameStart, setGameStart] = useState(false);
 
-    //Toastify Alert
-    const [runAlert, setRunAlert] = useState(false);
-    const [mesAlert, setMesAlert] = useState("FAIL");
-    const [newOpAlert, setNewOpAlert] = useState(false);
-    const resAlert = (r) => {
-      setMesAlert(r);
-      setRunAlert(true);
-    };
+  //Toastify Alert
+  const [runAlert, setRunAlert] = useState(false);
+  const [mesAlert, setMesAlert] = useState("FAIL");
+  const [newOpAlert, setNewOpAlert] = useState("");
+  const resAlert = (r) => {
+    setMesAlert(r);
+    setRunAlert(true);
+  };
 
   //game server
   const username = sessionStorage.getItem("username")
@@ -114,7 +113,7 @@ const Battle = (props) => {
   let sock = new SockJS(`${api}/ws-stomp?username=` + encodeURI(username));
   let client = StompJS.over(sock);
   const [code, setCode] = useState("")
-  const [opCode, setOpCode] = useState("");
+  const [opCode, setOpCode] = useState(false);
   const [questionTitle, setQuestionTitle] = useState("")
   const [question, setQuestion] = useState("")
 
@@ -148,10 +147,11 @@ const Battle = (props) => {
           setQuestionTitle(mes.title);
           dispatch(alreadyUser({ opp: true }))
           break;
-          case "USERINFO":
-            newOpEs.play();
-            setNewOpAlert(true);
-            resAlert("상대 입장");
+        case "USERINFO":
+          newOpEs.play();
+          setNewOpAlert(true);
+          resAlert("상대 입장");
+          break;
         default:
       }
     } else {
@@ -171,7 +171,7 @@ const Battle = (props) => {
     }));
   }
   //실시간 코드 전송
-  const sendCode = async() => {
+  const sendCode = async () => {
     await client.send(`/app/game/codeMessage`, {}, JSON.stringify({
       roomId: roomId,
       sender: username,
@@ -179,17 +179,15 @@ const Battle = (props) => {
     }))
   }
   //코드전송
-
   const [sendT, setSendT] = useState(false)
-  const checkT = () =>{
+  const checkT = () => {
     sendT ? setSendT(false) : setSendT(true);
   }
   useEffect(() => {
     if (gameStart === true) {
-      setTimeout(()=>sendCode(), 500)
+      setTimeout(() => sendCode(), 500)
     }
   }, [sendT])
-
 
   //방나가기 요청
   const leaveRoomAxios = async () => {
@@ -207,7 +205,10 @@ const Battle = (props) => {
         },
       })
       .then((response) => {
-        console.log(response.data);
+        setBbmute(true);
+        setMbmute(false);
+        btnEs.play();
+        navigate(`/Main`);
       })
       .catch((error) => {
         console.log(error);
@@ -320,10 +321,6 @@ const Battle = (props) => {
   //나가기
   const BackToMain = () => {
     leaveRoomAxios();
-    setBbmute(true);
-    setMbmute(false);
-    btnEs.play();
-    navigate(`/Main`);
   };
 
   //아이템 사용 불가 메세지
@@ -399,12 +396,12 @@ const Battle = (props) => {
         runAlert={runAlert}
         setRunAlert={setRunAlert}
         mesAlert={mesAlert}
-        newOpAlert = {newOpAlert}
-        setNewOpAlert = {setNewOpAlert}
+        newOpAlert={newOpAlert}
+        setNewOpAlert={setNewOpAlert}
       />
       <HeadPart>
         <TimerDiv>
-          <ProBar value={timerValue} checkT={checkT}/>
+          <ProBar value={timerValue} checkT={checkT} />
         </TimerDiv>
         <BtnDiv>
           <BtnOnOff onClick={openQue} change={queOpen}>
