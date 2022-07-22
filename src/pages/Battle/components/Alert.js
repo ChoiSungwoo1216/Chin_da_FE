@@ -25,9 +25,9 @@ const Alert = (p) => {
   const userSound = useSelector((state) => state.user.sound);
   const failEs = effectSound(failSound, userSound.es);
   React.useEffect(() => {
-    if (newOpAlert !== true) {
+    if (newOpAlert !== true ) {
       failEs.play();
-    } else {
+    }  else {
       setNewOpAlert(false);
     }
   }, [newOpAlert]);

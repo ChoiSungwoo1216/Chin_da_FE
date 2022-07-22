@@ -61,7 +61,7 @@ const SoundSetting = (props) => {
                 defaultChecked={userSound.es === 0.5 ? true : false}
                 onClick={(e) => SoundOnOff(e)}
               />
-              <label for="switch1" class="switch_label1">
+              <label for="switch1" className="switch_label1">
                 {userSound.es === 0.5 ? (
                   <img src={"/img/BtnOn.png"} alt="" class="onf_btn1" />
                 ) : (
