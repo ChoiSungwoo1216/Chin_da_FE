@@ -62,11 +62,15 @@ const Control = (props) => {
     call(props.remotePeerIdValue)
   },[remotePeerIdValue])
 
+  const ReReady = () =>{
+    setGameStart(false)
+    dispatch( dispatch(alreadyUser({ user : false })))
+  }
   return (
     <ControlDiv>
       <div>
         레디버튼 살려내기
-        <button onClick={() => setGameStart(false)}>살려내기</button>
+        <button onClick={ReReady}>살려내기</button>
       </div>
       <div>
         타이머 시작

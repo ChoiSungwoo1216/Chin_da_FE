@@ -20,8 +20,6 @@ const Start = () => {
       setTiming(true);
     }, 5000);
   }, []);
-
-  console.log(process.env.REACT_APP_API);
   return (
     <StartContainer>
       <LogoContainer>
