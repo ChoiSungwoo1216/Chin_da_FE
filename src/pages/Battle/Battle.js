@@ -67,17 +67,41 @@ const Battle = (props) => {
   const languageType = location.state.language;
   const server = location.state.server;
   console.log(info);
-  console.log(roomId);
-  console.log(questionId)
-  console.log(languageType)
-  console.log(server)
+
+  //Timer,ProgressBar
+  const [runTimer, setRunTimer] = useState("false");
+  const [timeSetting, setTimeSetting] = useState(300);
+  const timerValue = {
+    Time: timeSetting,
+    Active: runTimer,
+    setActive: setRunTimer,
+  };
+  const SetTime = () => {
+    if (selected.level === "0") {
+      setTimeSetting(300);
+    } else if (selected.level === "1") {
+      setTimeSetting(600);
+    } else if (selected.level === "2") {
+      setTimeSetting(900);
+    } else {
+      setTimeSetting(300);
+    }
+  };
+  useEffect(() => {
+    SetTime();
+  }, []);
+
+  //ReadyUser
+  const [gameStart, setGameStart] = useState(false);
 
   //game server
   const username = sessionStorage.getItem("username")
-  const headers = Authorization;
+  const headers = { "Authorization": Authorization };
   let sock = new SockJS(`${api}/ws-stomp?username=${username}`);
   let client = StompJS.over(sock);
+  const [code, setCode] = useState("")
   const [opCode, setOpCode] = useState("");
+  console.log(code)
 
   React.useEffect(() => {
     if (roomId !== undefined) {
@@ -140,14 +164,15 @@ const Battle = (props) => {
     client.send(`/app/game/codeMessage/`, headers, JSON.stringify({
       roomId: roomId,
       sender: username,
-      message: { code }
+      message: code
     }))
   }
-  const [code, setCode] = useState("")
-
+  //코드전송
   useEffect(() => {
-    setTimeout(() => sendCode(code), 10000);
-  }, [code])
+    if (runTimer === true && gameStart === true) {
+      setTimeout(() => sendCode(code), 10000);
+    }
+  }, [runTimer])
 
   //방나가기 요청
   const leaveRoomAxios = async () => {
@@ -186,28 +211,7 @@ const Battle = (props) => {
   ]
   const [mode, setMode] = useState(langType[parseInt(selected.language)]);
 
-  //Timer,ProgressBar
-  const [runTimer, setRunTimer] = useState("false");
-  const [timeSetting, setTimeSetting] = useState(300);
-  const timerValue = {
-    Time: timeSetting,
-    Active: runTimer,
-    setActive: setRunTimer,
-  };
-  const SetTime = () => {
-    if (selected.level === "0") {
-      setTimeSetting(300);
-    } else if (selected.level === "1") {
-      setTimeSetting(600);
-    } else if (selected.level === "2") {
-      setTimeSetting(900);
-    } else {
-      setTimeSetting(300);
-    }
-  };
-  useEffect(() => {
-    SetTime();
-  }, []);
+
 
   //Toastify Alert
   const [runAlert, setRunAlert] = useState(false);
@@ -220,18 +224,16 @@ const Battle = (props) => {
   //CountDown
   const [runCountdown, setRunCountdown] = useState(false);
 
-  //ReadyUser
-  const [gameStart, setGameStart] = useState(false);
-
   //Submit
   const [userPending, setUserPending] = useState(false);
   const [oppPending, setOppPending] = useState(false);
 
   const axiosSubmit = () => {
     const CompileRequestDto = {
+      roomId: roomId,
       questionId: questionId,
       languageIdx: parseInt(selected.language),
-      codeStr: "def solution(){}",
+      codeStr: code,
     };
     axios
       .post({
@@ -244,7 +246,7 @@ const Battle = (props) => {
       })
       .then((res) => {
         console.log(res);
-        // {res.result === true ? setShowSuccessModal(true) : resAlert(res.msg)}
+        { res.result === true ? setShowSuccessModal(true) : resAlert(res.msg) }
       })
       .catch((err) => {
         console.log(err);

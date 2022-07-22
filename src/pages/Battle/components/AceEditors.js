@@ -34,6 +34,7 @@ export const AceEditorPlayer = (props) => {
     const selected = useSelector((state) => state.user.selected)
     function onChangeOne(newValue) {
         setCode(newValue);
+        console.log(newValue)
     }
 
     const DefaultTemp = "//함수와 변수를 임의로 변경하지 마세요" + `\n` + StartTemp[parseInt(selected.language)];
@@ -59,7 +60,7 @@ export const AceEditorPlayer = (props) => {
                     tabSize: 4,
                     // fontFamily:"Neo",
                 }}
-                value={DefaultTemp}
+                defaultValue={DefaultTemp}
                 placeholder="Placeholder Text"
             />
         </>
@@ -94,7 +95,7 @@ export const AceEditorOpp = (props) => {
                     enableLiveAutocompletion: true,
                     enableSnippets: true,
                 }}
-                value={DefaultTempTwo}
+                defaultvalue={DefaultTempTwo}
                 // {opCode}
                 placeholder="Placeholder Text"
             />
