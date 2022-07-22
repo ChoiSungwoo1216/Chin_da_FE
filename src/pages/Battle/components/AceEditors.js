@@ -95,8 +95,7 @@ export const AceEditorOpp = (props) => {
                     enableLiveAutocompletion: true,
                     enableSnippets: true,
                 }}
-                value={DefaultTempTwo}
-                // {opCode}
+                value={opCode}
                 placeholder="Placeholder Text"
             />
         </>
