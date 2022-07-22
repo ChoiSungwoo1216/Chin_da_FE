@@ -99,7 +99,7 @@ export function Main() {
             },
          })
          .then((response) => {
-            navigate(`/battle/${response.data.roomId}`, {
+            navigate(`/battle/${user2Info.roomId}`, {
                state: user2Info,
             });
          })
