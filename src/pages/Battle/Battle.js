@@ -228,12 +228,13 @@ const Battle = (props) => {
   //Submit
   const [userPending, setUserPending] = useState(false);
   const [oppPending, setOppPending] = useState(false);
-
+  
   const axiosSubmit = () => {
     axios
-      .post({
+      ({
         url: "/api/compile",
-        baseUrl: api,
+        method:"POST",
+        baseURL: api,
         data: {
           roomId: roomId,
           questionId: questionId,
@@ -246,7 +247,7 @@ const Battle = (props) => {
       })
       .then((res) => {
         console.log(res);
-         (res.result === true) ? setShowSuccessModal(true) : resAlert(res.msg) 
+         (res.data.result === true) ? setShowSuccessModal(true) : resAlert(res.data.msg) 
       })
       .catch((err) => {
         console.log(err);
@@ -258,21 +259,6 @@ const Battle = (props) => {
     setUserPending(true);
     setTimeout(() => axiosSubmit(), 1000);
   };
-
-  //서버에서 받아오는 기본 형태들
-  //    const JsDefault = `function solution(num) {
-  //    var answer = '';
-  //       return answer;
-  // }`;
-  //    const JavaDefault = `public String solution(int num) {
-  //    String answer = '';
-  //       return answer;
-  // }`
-  //    const PythonDefault = `def solution(num):
-  //    answer = ''
-  //    return answer`;
-  //    const DefaultTemp = "//함수와 변수를 임의로 변경하지 마세요" + `\n` + JavaDefault;
-  //    const DefaultTempTwo = "//함수와 변수를 임의로 변경하지 마세요" + `\n` + JavaDefault;
 
   //카메라창 열고 닫기
   const [userCamSlide, setUserCamSlide] = useState(true);
