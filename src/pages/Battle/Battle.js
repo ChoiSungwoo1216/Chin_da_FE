@@ -67,7 +67,9 @@ const Battle = (props) => {
   const languageType = location.state.language;
   const server = location.state.server;
   console.log(info);
-  console.log(roomId);
+  console.log(roomId)
+  console.log(languageType);
+
 
   //Timer,ProgressBar
   const [runTimer, setRunTimer] = useState("false");
@@ -98,13 +100,12 @@ const Battle = (props) => {
   //game server
   const username = sessionStorage.getItem("username")
   const headers = { "Authorization": Authorization };
-  let sock = new SockJS(`${api}/ws-stomp?username=${username}`);
+  let sock = new SockJS(`${api}/ws-stomp?username=` + encodeURI(username));
   let client = StompJS.over(sock);
   const [code, setCode] = useState("")
   const [opCode, setOpCode] = useState("");
   const [questionTitle, setQuestionTitle] = useState("x만큼 간격이 있는 n개의 숫자")
   const [question, setQuestion] = useState("함수 solution은 정수 x와 자연수 n을 입력 받아, x부터 시작해 x씩 증가하는 숫자를 n개 지니는 리스트를 리턴해야 합니다. 다음 제한 조건을 보고, 조건을 만족하는 함수, solution을 완성해주세요.")
-  console.log(code)
 
   React.useEffect(() => {
     if (roomId !== undefined) {
@@ -153,29 +154,36 @@ const Battle = (props) => {
   const onError = (err) => {
     console.log(err);
   }
-
   //준비 전송
   const sendReady = () => {
-    client.send(`/app/game/ready/`, headers, JSON.stringify({
+    client.send(`/app/game/ready`, {}, JSON.stringify({
       roomId: roomId,
       server: server,
-      sender: username,
     }));
   }
   //실시간 코드 전송
   const sendCode = (code) => {
-    client.send(`/app/game/codeMessage/`, headers, JSON.stringify({
+    client.send(`/app/game/codeMessage`, {}, JSON.stringify({
       roomId: roomId,
       sender: username,
       message: code
     }))
   }
   //코드전송
-  useEffect(() => {
-    if (runTimer === true && gameStart === true) {
-      setTimeout(() => sendCode(code), 10000);
+  const tenTimer = setInterval(() => {
+    if (runTimer !== true) {
+      clearInterval(tenTimer);
+    } else {
+      let i = 0;
+      return i++;
     }
-  }, [runTimer])
+  }, 10000);
+
+  // useEffect(() => {
+  //   if (runTimer === true && gameStart === true) {
+  //     setTimeout(() => sendCode(code), 10000);
+  //   }
+  // }, [tenTimer])
 
   //방나가기 요청
   const leaveRoomAxios = async () => {
@@ -228,12 +236,12 @@ const Battle = (props) => {
   //Submit
   const [userPending, setUserPending] = useState(false);
   const [oppPending, setOppPending] = useState(false);
-  
+
   const axiosSubmit = () => {
     axios
       ({
         url: "/api/compile",
-        method:"POST",
+        method: "POST",
         baseURL: api,
         data: {
           roomId: roomId,
@@ -247,7 +255,7 @@ const Battle = (props) => {
       })
       .then((res) => {
         console.log(res);
-         (res.data.result === true) ? setShowSuccessModal(true) : resAlert(res.data.msg) 
+        (res.data.result === true) ? setShowSuccessModal(true) : resAlert(res.data.msg)
       })
       .catch((err) => {
         console.log(err);
@@ -448,7 +456,7 @@ const Battle = (props) => {
             <QueDiv queOpen={queOpen} chatOpen={chatOpen}>
               <QueHead>Question</QueHead>
               <QueBox>
-                {questionTitle}<br/><br/>
+                {questionTitle}<br /><br />
                 {question}
               </QueBox>
             </QueDiv>
@@ -495,7 +503,7 @@ const Battle = (props) => {
           </OpCamDiv>
         </OpponentDiv>
       </BodyPart>
-      {showQuestionModal && <QuestionModal setValue={setShowQuestionModal} questionTitle={questionTitle} question={question}/>}
+      {showQuestionModal && <QuestionModal setValue={setShowQuestionModal} questionTitle={questionTitle} question={question} />}
       {showSuccessModal && (
         <SuccessModal
           setROpen={setROpen}
