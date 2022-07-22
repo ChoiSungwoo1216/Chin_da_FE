@@ -7,11 +7,6 @@ import effectSound from "../../../shared/effectSound";
 import failSound from "../../../audios/FailSE4.mp3";
 
 const XBtn = ({ closeToast }) => {
-  const userSound = useSelector((state) => state.user.sound);
-  const failEs = effectSound(failSound, userSound.es);
-  React.useEffect(() => {
-    failEs.play();
-  }, []);
   return (
     <div>
       <img src="/img/X_btn_black_30.svg" alt="xbtn" onClick={closeToast} />
@@ -24,6 +19,18 @@ const Alert = (p) => {
   const runValue = p.runAlert;
   const refresh = p.setRunAlert;
   const mesAlert = p.mesAlert;
+  const newOpAlert = p.newOpAlert;
+  const setNewOpAlert = p.setNewOpAlert
+
+  const userSound = useSelector((state) => state.user.sound);
+  const failEs = effectSound(failSound, userSound.es);
+  React.useEffect(() => {
+    if (newOpAlert !== true) {
+      failEs.play();
+    } else {
+      setNewOpAlert(false);
+    }
+  }, [newOpAlert]);
   // console.log(runValue + "--alert");
   const ToastDefault = () => {
     //type선언 default:toast, type: toast.success,error,warning,info,promise,dismiss
