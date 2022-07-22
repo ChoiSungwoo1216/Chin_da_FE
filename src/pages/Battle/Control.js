@@ -13,10 +13,10 @@ const Control = (props) => {
     setROpen,
     setTimeSetting,
     setMesAlert,
-    remotePeerIdValue,
-    setRemotePeerIdValue,
-    call,
-    peerId,
+    // remotePeerIdValue,
+    // setRemotePeerIdValue,
+    // call,
+    // peerId,
     setRunCountdown,
     setGameStart,
     setQueOpen,
@@ -58,9 +58,9 @@ const Control = (props) => {
     alreadyToStart();
   }, [already]);
 
-  useEffect(()=>{
-    call(props.remotePeerIdValue)
-  },[remotePeerIdValue])
+  // useEffect(()=>{
+  //   call(props.remotePeerIdValue)
+  // },[remotePeerIdValue])
 
   const ReReady = () =>{
     setGameStart(false)
@@ -111,7 +111,7 @@ const Control = (props) => {
         <button onClick={() => setUserPending(true)}>user제출</button>
         <button onClick={() => setOppPending(true)}>opp제출</button>
       </div>
-      <div>
+      {/* <div>
         Peer 관련
         <div>peerId : {props.peerId}</div>
         <input
@@ -120,7 +120,7 @@ const Control = (props) => {
           onChange={(e) => setRemotePeerIdValue(e.target.value)}
         />
         <button onClick={() => call(props.remotePeerIdValue)}>Call</button>
-      </div>
+      </div> */}
     </ControlDiv>
   );
 };

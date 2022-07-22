@@ -113,7 +113,7 @@ const Battle = (props) => {
   let sock = new SockJS(`${api}/ws-stomp?username=` + encodeURI(username));
   let client = StompJS.over(sock);
   const [code, setCode] = useState("")
-  const [opCode, setOpCode] = useState(false);
+  const [opCode, setOpCode] = useState("");
   const [questionTitle, setQuestionTitle] = useState("")
   const [question, setQuestion] = useState("")
 
@@ -131,13 +131,11 @@ const Battle = (props) => {
   const onConnected = () => {
     //입장자 정보 전송 구독, ready 구독 주소
     client.subscribe(`/topic/game/room/${roomId}`, ReceiveCallBack);
-
     //실시간 코드 전송 구독 주소
     client.subscribe(`/user/queue/game/codeMessage/${roomId}`, ReceiveCallBack);
   };
 
   const ReceiveCallBack = (message) => {
-    console.log(message)
     if (message.body) {
       const mes = JSON.parse(message.body);
       console.log(mes);
@@ -152,6 +150,9 @@ const Battle = (props) => {
           setNewOpAlert(true);
           resAlert("상대 입장");
           break;
+          case "GAME":
+            setOpCode(mes.message)
+            break;
         default:
       }
     } else {
@@ -270,27 +271,27 @@ const Battle = (props) => {
   };
 
   //카메라창 열고 닫기
-  const [userCamSlide, setUserCamSlide] = useState(true);
-  const [opCamSlide, setOpCamSlide] = useState(true);
+  // const [userCamSlide, setUserCamSlide] = useState(true);
+  // const [opCamSlide, setOpCamSlide] = useState(true);
 
-  const openUserCam = () => {
-    camEs.play();
-    if (userCamSlide) {
-      setUserCamSlide(false);
-    } else {
-      setUserCamSlide(true);
-      call(remotePeerIdValue);
-    }
-  };
-  const openOpCam = () => {
-    camEs.play();
-    if (opCamSlide) {
-      setOpCamSlide(false);
-    } else {
-      setOpCamSlide(true);
-      call(remotePeerIdValue);
-    }
-  };
+  // const openUserCam = () => {
+  //   camEs.play();
+  //   if (userCamSlide) {
+  //     setUserCamSlide(false);
+  //   } else {
+  //     setUserCamSlide(true);
+  //     call(remotePeerIdValue);
+  //   }
+  // };
+  // const openOpCam = () => {
+  //   camEs.play();
+  //   if (opCamSlide) {
+  //     setOpCamSlide(false);
+  //   } else {
+  //     setOpCamSlide(true);
+  //     call(remotePeerIdValue);
+  //   }
+  // };
 
   //채팅 열고 닫기
   const [chatOpen, setChatOpen] = useState(false);
@@ -330,62 +331,62 @@ const Battle = (props) => {
   };
 
   //Peer
-  const [peerId, setPeerId] = useState("");
-  const [remotePeerIdValue, setRemotePeerIdValue] = useState("");
-  const remoteVideoRef = useRef(null);
-  const peerInstance = useRef(null);
-  const currentUserVideoRef = useRef(null);
+  // const [peerId, setPeerId] = useState("");
+  // const [remotePeerIdValue, setRemotePeerIdValue] = useState("");
+  // const remoteVideoRef = useRef(null);
+  // const peerInstance = useRef(null);
+  // const currentUserVideoRef = useRef(null);
 
-  useEffect(() => {
-    const peer = new Peer();
-    //제일 처음 peer가 만들어지면서 랜덤한 id가 만들어짐
-    peer.on("open", (id) => {
-      setPeerId(id);
-    });
+  // useEffect(() => {
+  //   const peer = new Peer();
+  //   //제일 처음 peer가 만들어지면서 랜덤한 id가 만들어짐
+  //   peer.on("open", (id) => {
+  //     setPeerId(id);
+  //   });
 
-    peer.on("call", (call) => {
-      var getUserMedia =
-        navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia;
+  //   peer.on("call", (call) => {
+  //     var getUserMedia =
+  //       navigator.getUserMedia ||
+  //       navigator.webkitGetUserMedia ||
+  //       navigator.mozGetUserMedia;
 
-      getUserMedia({ /*audio: true,*/ video: true }, (mediaStream) => {
-        currentUserVideoRef.current.srcObject = mediaStream;
-        currentUserVideoRef.current.play();
-        call.answer(mediaStream);
-        call.on("stream", (remoteStream) => {
-          remoteVideoRef.current.srcObject = remoteStream;
-          remoteVideoRef.current.play();
-        });
-      });
-    });
+  //     getUserMedia({ /*audio: true,*/ video: true }, (mediaStream) => {
+  //       currentUserVideoRef.current.srcObject = mediaStream;
+  //       currentUserVideoRef.current.play();
+  //       call.answer(mediaStream);
+  //       call.on("stream", (remoteStream) => {
+  //         remoteVideoRef.current.srcObject = remoteStream;
+  //         remoteVideoRef.current.play();
+  //       });
+  //     });
+  //   });
 
-    peerInstance.current = peer;
-    //외부로 peer 선언해주려고
-  }, []);
+  //   peerInstance.current = peer;
+  //   //외부로 peer 선언해주려고
+  // }, []);
 
-  const call = (remotePeerId) => {
-    var getUserMedia =
-      navigator.getUserMedia ||
-      navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia;
+  // const call = (remotePeerId) => {
+  //   var getUserMedia =
+  //     navigator.getUserMedia ||
+  //     navigator.webkitGetUserMedia ||
+  //     navigator.mozGetUserMedia;
 
-    getUserMedia({ /*audio: true,*/ video: true }, (mediaStream) => {
-      //현재 내 화면
-      currentUserVideoRef.current.srcObject = mediaStream;
-      currentUserVideoRef.current.play();
+  //   getUserMedia({ /*audio: true,*/ video: true }, (mediaStream) => {
+  //     //현재 내 화면
+  //     currentUserVideoRef.current.srcObject = mediaStream;
+  //     currentUserVideoRef.current.play();
 
-      const call = peerInstance.current.call(remotePeerId, mediaStream);
+  //     const call = peerInstance.current.call(remotePeerId, mediaStream);
 
-      call.on("stream", (remoteStream) => {
-        // Show stream in some video/canvas element.
-        // 상대방 영상 받아오는 부분
-        // 두개 같이 써줘야 작동함
-        remoteVideoRef.current.srcObject = remoteStream;
-        remoteVideoRef.current.play();
-      });
-    });
-  };
+  //     call.on("stream", (remoteStream) => {
+  //       // Show stream in some video/canvas element.
+  //       // 상대방 영상 받아오는 부분
+  //       // 두개 같이 써줘야 작동함
+  //       remoteVideoRef.current.srcObject = remoteStream;
+  //       remoteVideoRef.current.play();
+  //     });
+  //   });
+  // };
 
   // console.log(peerId);
 
@@ -419,7 +420,7 @@ const Battle = (props) => {
           {gameStart === false ? <ReadyUser sendReady={sendReady} /> : null}
           <UserSubmitPending run={userPending} setRun={setUserPending} />
           <AceEditorPlayer mode={mode} setCode={setCode}></AceEditorPlayer>
-          <UserCamDiv>
+          {/* <UserCamDiv>
             <CamBar>
               <span>Player1</span>
               <CamIcon
@@ -445,7 +446,7 @@ const Battle = (props) => {
                 />
               </Cam>
             )}
-          </UserCamDiv>
+          </UserCamDiv> */}
           <SubmitBtn onClick={() => onSubmit()}>
             제&nbsp;&nbsp;&nbsp;&nbsp;출
           </SubmitBtn>
@@ -473,7 +474,7 @@ const Battle = (props) => {
             <OppSubmitPending run={oppPending} setRun={setOppPending} />
             <AceEditorOpp mode={mode} opCode={opCode} />
           </CodeDiv>
-          <OpCamDiv>
+          {/* <OpCamDiv>
             <CamBar>
               <span>Player2</span>
               <CamIcon
@@ -499,7 +500,7 @@ const Battle = (props) => {
                 />
               </Cam>
             )}
-          </OpCamDiv>
+          </OpCamDiv> */}
         </OpponentDiv>
       </BodyPart>
       {showQuestionModal && <QuestionModal setValue={setShowQuestionModal} questionTitle={questionTitle} question={question} />}
@@ -532,10 +533,10 @@ const Battle = (props) => {
         setRunAlert={setRunAlert}
         setROpen={setROpen}
         setMesAlert={setMesAlert}
-        remotePeerIdValue={remotePeerIdValue}
-        setRemotePeerIdValue={setRemotePeerIdValue}
-        call={call}
-        peerId={peerId}
+        // remotePeerIdValue={remotePeerIdValue}
+        // setRemotePeerIdValue={setRemotePeerIdValue}
+        // call={call}
+        // peerId={peerId}
         setRunCountdown={setRunCountdown}
         setGameStart={setGameStart}
         setQueOpen={setQueOpen}

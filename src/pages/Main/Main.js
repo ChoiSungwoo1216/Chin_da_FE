@@ -44,6 +44,25 @@ export function Main() {
    // const [loading, setLoading] = useState(false);
    // const [ref, inView] = useInView();
 
+   const img = [
+      '/img/Char2.svg',
+      '/img/Char3.svg',
+      '/img/Char4.svg',
+      '/img/Char5.svg',
+      '/img/Char6.svg',
+   ];
+
+   //rArr
+   // const imgArray = Object.keys(img);
+   // const randomIndex = () => {
+   //    return imgArray.sort(() => Math.random() - 0.5);
+   // };
+   // const randomImages = randomIndex(imgArray);
+   // console.log('randomImages?', randomImages);
+
+
+   // console.log('randomImage?', randomImage);
+
    const [refresh, setRefresh] = useState(false);
 
    const userSound = useSelector((state) => state.user.sound);
@@ -71,7 +90,7 @@ export function Main() {
             }
          })
          .then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             setAllUsers(response.data);
             // setAllUsers((prevState) => [...prevState, ...response.data]);
          })
@@ -141,21 +160,22 @@ export function Main() {
 
    //캐릭터 표출
    const [ranImg, setRanImg] = React.useState('');
-   let rArr = [3, 2, 0, 1, 2, 3, 2, 0, 1, 2];
-   const randomImg = (index, rArr) => {
+   const randomImg = (index) => {
       let img = [
-         '/img/ch1.svg',
-         '/img/ch2.svg',
-         '/img/mainUser2Img.png',
-         '/img/mainUser2Img2.png',
+         '/img/Char2.svg',
+         '/img/Char3.svg',
+         '/img/Char4.svg',
+         '/img/Char5.svg',
+         '/img/Char6.svg',
       ];
-      if (index >= 10) {
-         return img[rArr[index % 10]];
-      } else {
-         return img[rArr[index]];
-      }
+      let rArr = Math.floor(Math.random() * img.length);
+      return img[(rArr + index) % 5];
    };
-
+   // function randomImg(array) {
+   //    const random = Math.floor(Math.random() * array.length);
+   //    return array[random];
+   // }
+   // const randomImage = randomImg(img);
    return (
       <>
          <div className="mainContainer">
@@ -199,7 +219,7 @@ export function Main() {
                   </div>
                )}
                <article className="article">
-                  <img id="player1" src="/img/ch1.svg" alt="" />
+                  <img id="player1" src="/img/Char1.svg" alt="" />
                </article>
 
                {user2Info.creatorGameInfo.profileUrl !== '' && (
@@ -295,7 +315,7 @@ export function Main() {
                                  className="scene"
                                  onClick={() => {
                                     setUser2Info(allUsers[idx]);
-                                    setRanImg(randomImg(idx, rArr));
+                                    setRanImg(randomImg(idx));
                                  }}
                               >
                                  <div className="card">
@@ -311,7 +331,7 @@ export function Main() {
                                     >
                                        <img
                                           className="characterImg"
-                                          src={randomImg(idx, rArr)}
+                                          src={randomImg(idx)}
                                           alt=""
                                        />
                                     </div>
@@ -330,16 +350,12 @@ export function Main() {
                                     >
                                        <img
                                           className="userProfile"
-                                          src={
-                                             item.creatorGameInfo.profileUrl
-                                          }
+                                          src={item.creatorGameInfo.profileUrl}
                                           alt=""
                                        />
+                                       <p>{item.creatorGameInfo.playerName}</p>
                                        <p>
-                                          {item.creatorGameInfo.playerName}
-                                       </p>
-                                       <p>
-                                          {item.creatorGameInfo.winCnt}승{' '}
+                                          {item.creatorGameInfo.winCnt}승
                                           {item.creatorGameInfo.loseCnt}패
                                        </p>
                                     </div>
