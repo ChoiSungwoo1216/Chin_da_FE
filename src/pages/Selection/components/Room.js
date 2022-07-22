@@ -50,7 +50,9 @@ const Room = (props) => {
     })
       .then((response) => {
         console.log(response.data);
-        navigate(`/battle/${response.data.roomId}`, { state: response.data });
+        navigate(`/battle/${response.data.roomId}`, { state: response.data } );
+        dispatch(updateselected({ language: language, level: level }));
+        enterEs.play();
       })
       .catch((error) => {
         console.log(error);
@@ -59,8 +61,6 @@ const Room = (props) => {
 
   const CreateRoom = () => {
     createRoomAxios();
-    dispatch(updateselected({ language: language, level: level }));
-    enterEs.play();
   };
 
   const EnterRoom = () => {

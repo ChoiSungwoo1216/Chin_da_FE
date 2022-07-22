@@ -11,6 +11,8 @@ import hoverSound from '../../audios/BtnHoverSE1.mp3';
 
 export function Main() {
    const navigate = useNavigate();
+   const api = process.env.REACT_APP_API;
+   const Authorization = sessionStorage.getItem("Authorization")
 
    const [user2Info, setUser2Info] = useState({
       creatorGameInfo: {
@@ -55,8 +57,6 @@ export function Main() {
 
    // getItems:서버에서 아이템을 가지고 오는 함수
    const getItems = useCallback(async (language, level) => {
-      const api = process.env.REACT_APP_API;
-      const Authorization = sessionStorage.getItem("Authorization")
       const numLan = parseInt(language)
       const numLev = parseInt(level)
       // setLoading(true);
@@ -80,8 +80,33 @@ export function Main() {
          });
       // setLoading(false);
    }, []
-   // [page]
+      // [page]
    );
+
+   //방 입장
+   const enterRoomAxios = async () => {
+      await axios(
+         {
+            url: "/game/room/enter",
+            method: "PUT",
+            baseURL: api,
+            data: {
+               "roomId": user2Info.roomId,
+               "server": user2Info.server
+            },
+            headers: {
+               "Authorization": Authorization,
+            },
+         })
+         .then((response) => {
+            navigate(`/battle/${response.data.roomId}`, {
+               state: user2Info,
+            });
+         })
+         .catch((error) => {
+            console.log(error);
+         });
+   }
 
    // getItems가 바뀔때마다 함수 실행
    React.useEffect(() => {
@@ -107,9 +132,7 @@ export function Main() {
    //페이지 이동
    const EnterBattle = () => {
       entEs.play();
-      navigate(`/battle/${user2Info.roomId}`, {
-         state: user2Info,
-      });
+      enterRoomAxios();
    };
    const goSelection = () => {
       hoverEs.play();
@@ -268,60 +291,60 @@ export function Main() {
                                     </div>
                                  </div>
                               ) : ( */}
-                                 <div
-                                    className="scene"
-                                    onClick={() => {
-                                       setUser2Info(allUsers[idx]);
-                                       setRanImg(randomImg(idx, rArr));
-                                    }}
-                                 >
-                                    <div className="card">
-                                       <div
-                                          className="face front"
-                                          style={{
-                                             backgroundImage:
-                                                'url(/img/mainCard_F.svg)',
-                                             backgroundRepeat: 'no-repeat',
-                                             backgroundPosition: 'center',
-                                             objectFit: 'contain',
-                                          }}
-                                       >
-                                          <img
-                                             className="characterImg"
-                                             src={randomImg(idx, rArr)}
-                                             alt=""
-                                          />
-                                       </div>
-                                       <div
-                                          className="face back"
-                                          style={{
-                                             backgroundImage:
-                                                'url(/img/mainCard_B.svg)',
-                                             backgroundRepeat: 'no-repeat',
-                                             backgroundPosition: 'center',
-                                             objectFit: 'contain',
-                                          }}
-                                          onClick={() => {
-                                             selEs.play();
-                                          }}
-                                       >
-                                          <img
-                                             className="userProfile"
-                                             src={
-                                                item.creatorGameInfo.profileUrl
-                                             }
-                                             alt=""
-                                          />
-                                          <p>
-                                             {item.creatorGameInfo.playerName}
-                                          </p>
-                                          <p>
-                                             {item.creatorGameInfo.winCnt}승{' '}
-                                             {item.creatorGameInfo.loseCnt}패
-                                          </p>
-                                       </div>
+                              <div
+                                 className="scene"
+                                 onClick={() => {
+                                    setUser2Info(allUsers[idx]);
+                                    setRanImg(randomImg(idx, rArr));
+                                 }}
+                              >
+                                 <div className="card">
+                                    <div
+                                       className="face front"
+                                       style={{
+                                          backgroundImage:
+                                             'url(/img/mainCard_F.svg)',
+                                          backgroundRepeat: 'no-repeat',
+                                          backgroundPosition: 'center',
+                                          objectFit: 'contain',
+                                       }}
+                                    >
+                                       <img
+                                          className="characterImg"
+                                          src={randomImg(idx, rArr)}
+                                          alt=""
+                                       />
+                                    </div>
+                                    <div
+                                       className="face back"
+                                       style={{
+                                          backgroundImage:
+                                             'url(/img/mainCard_B.svg)',
+                                          backgroundRepeat: 'no-repeat',
+                                          backgroundPosition: 'center',
+                                          objectFit: 'contain',
+                                       }}
+                                       onClick={() => {
+                                          selEs.play();
+                                       }}
+                                    >
+                                       <img
+                                          className="userProfile"
+                                          src={
+                                             item.creatorGameInfo.profileUrl
+                                          }
+                                          alt=""
+                                       />
+                                       <p>
+                                          {item.creatorGameInfo.playerName}
+                                       </p>
+                                       <p>
+                                          {item.creatorGameInfo.winCnt}승{' '}
+                                          {item.creatorGameInfo.loseCnt}패
+                                       </p>
                                     </div>
                                  </div>
+                              </div>
                               {/* )} */}
                            </React.Fragment>
                         );

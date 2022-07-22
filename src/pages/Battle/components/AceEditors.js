@@ -12,7 +12,6 @@ import 'ace-builds/src-noconflict/theme-solarized_dark';
 import 'ace-builds/src-noconflict/theme-solarized_light';
 import 'ace-builds/src-noconflict/theme-terminal';
 import 'ace-builds/src-noconflict/ext-language_tools';
-import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 const JsDefault = `function solution(num) { 
@@ -34,6 +33,7 @@ export const AceEditorPlayer = (props) => {
     const selected = useSelector((state) => state.user.selected)
     function onChangeOne(newValue) {
         setCode(newValue);
+        console.log(newValue)
     }
 
     const DefaultTemp = "//함수와 변수를 임의로 변경하지 마세요" + `\n` + StartTemp[parseInt(selected.language)];
@@ -59,7 +59,7 @@ export const AceEditorPlayer = (props) => {
                     tabSize: 4,
                     // fontFamily:"Neo",
                 }}
-                value={DefaultTemp}
+                defaultValue={DefaultTemp}
                 placeholder="Placeholder Text"
             />
         </>

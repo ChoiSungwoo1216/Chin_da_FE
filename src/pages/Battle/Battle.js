@@ -67,17 +67,44 @@ const Battle = (props) => {
   const languageType = location.state.language;
   const server = location.state.server;
   console.log(info);
-  console.log(roomId);
-  console.log(questionId)
-  console.log(languageType)
-  console.log(server)
+  console.log(languageType);
+
+  //Timer,ProgressBar
+  const [runTimer, setRunTimer] = useState("false");
+  const [timeSetting, setTimeSetting] = useState(300);
+  const timerValue = {
+    Time: timeSetting,
+    Active: runTimer,
+    setActive: setRunTimer,
+  };
+  const SetTime = () => {
+    if (selected.level === "0") {
+      setTimeSetting(300);
+    } else if (selected.level === "1") {
+      setTimeSetting(600);
+    } else if (selected.level === "2") {
+      setTimeSetting(900);
+    } else {
+      setTimeSetting(300);
+    }
+  };
+  useEffect(() => {
+    SetTime();
+  }, []);
+
+  //ReadyUser
+  const [gameStart, setGameStart] = useState(false);
 
   //game server
   const username = sessionStorage.getItem("username")
-  const headers = Authorization;
+  const headers = { "Authorization": Authorization };
   let sock = new SockJS(`${api}/ws-stomp?username=${username}`);
   let client = StompJS.over(sock);
+  const [code, setCode] = useState("")
   const [opCode, setOpCode] = useState("");
+  const [questionTitle, setQuestionTitle] = useState("x만큼 간격이 있는 n개의 숫자")
+  const [question, setQuestion] = useState("함수 solution은 정수 x와 자연수 n을 입력 받아, x부터 시작해 x씩 증가하는 숫자를 n개 지니는 리스트를 리턴해야 합니다. 다음 제한 조건을 보고, 조건을 만족하는 함수, solution을 완성해주세요.")
+  console.log(code)
 
   React.useEffect(() => {
     if (roomId !== undefined) {
@@ -140,14 +167,15 @@ const Battle = (props) => {
     client.send(`/app/game/codeMessage/`, headers, JSON.stringify({
       roomId: roomId,
       sender: username,
-      message: { code }
+      message: code
     }))
   }
-  const [code, setCode] = useState("")
-
+  //코드전송
   useEffect(() => {
-    setTimeout(() => sendCode(code), 10000);
-  }, [code])
+    if (runTimer === true && gameStart === true) {
+      setTimeout(() => sendCode(code), 10000);
+    }
+  }, [runTimer])
 
   //방나가기 요청
   const leaveRoomAxios = async () => {
@@ -184,30 +212,7 @@ const Battle = (props) => {
     "javascript",
     "python"
   ]
-  const [mode, setMode] = useState(langType[parseInt(selected.language)]);
-
-  //Timer,ProgressBar
-  const [runTimer, setRunTimer] = useState("false");
-  const [timeSetting, setTimeSetting] = useState(300);
-  const timerValue = {
-    Time: timeSetting,
-    Active: runTimer,
-    setActive: setRunTimer,
-  };
-  const SetTime = () => {
-    if (selected.level === "0") {
-      setTimeSetting(300);
-    } else if (selected.level === "1") {
-      setTimeSetting(600);
-    } else if (selected.level === "2") {
-      setTimeSetting(900);
-    } else {
-      setTimeSetting(300);
-    }
-  };
-  useEffect(() => {
-    SetTime();
-  }, []);
+  const mode = langType[parseInt(selected.language)];
 
   //Toastify Alert
   const [runAlert, setRunAlert] = useState(false);
@@ -220,31 +225,28 @@ const Battle = (props) => {
   //CountDown
   const [runCountdown, setRunCountdown] = useState(false);
 
-  //ReadyUser
-  const [gameStart, setGameStart] = useState(false);
-
   //Submit
   const [userPending, setUserPending] = useState(false);
   const [oppPending, setOppPending] = useState(false);
 
   const axiosSubmit = () => {
-    const CompileRequestDto = {
-      questionId: questionId,
-      languageIdx: parseInt(selected.language),
-      codeStr: "def solution(){}",
-    };
     axios
       .post({
         url: "/api/compile",
         baseUrl: api,
-        CompileRequestDto,
+        data: {
+          roomId: roomId,
+          questionId: questionId,
+          languageIdx: parseInt(selected.language),
+          codeStr: code,
+        },
         headers: {
           Authorization: Authorization,
         },
       })
       .then((res) => {
         console.log(res);
-        // {res.result === true ? setShowSuccessModal(true) : resAlert(res.msg)}
+         (res.result === true) ? setShowSuccessModal(true) : resAlert(res.msg) 
       })
       .catch((err) => {
         console.log(err);
@@ -254,7 +256,7 @@ const Battle = (props) => {
 
   const onSubmit = () => {
     setUserPending(true);
-    const timing = setTimeout(() => axiosSubmit(), 1000);
+    setTimeout(() => axiosSubmit(), 1000);
   };
 
   //서버에서 받아오는 기본 형태들
@@ -459,7 +461,10 @@ const Battle = (props) => {
           {queOpen && (
             <QueDiv queOpen={queOpen} chatOpen={chatOpen}>
               <QueHead>Question</QueHead>
-              <QueBox></QueBox>
+              <QueBox>
+                {questionTitle}<br/><br/>
+                {question}
+              </QueBox>
             </QueDiv>
           )}
           {chatOpen && (
@@ -504,7 +509,7 @@ const Battle = (props) => {
           </OpCamDiv>
         </OpponentDiv>
       </BodyPart>
-      {showQuestionModal && <QuestionModal setValue={setShowQuestionModal} />}
+      {showQuestionModal && <QuestionModal setValue={setShowQuestionModal} questionTitle={questionTitle} question={question}/>}
       {showSuccessModal && (
         <SuccessModal
           setROpen={setROpen}
@@ -787,13 +792,16 @@ const QueHead = styled.div`
   border-bottom: 4px solid black;
 `;
 const QueBox = styled.div`
-  width: 98.5%;
+  width: 96.5%;
   height: 88%;
   margin: 0;
+  padding: 5px;
   background-color: #111823;
+  color : white;
   border-right: 6px solid #a0935c;
   border-left: 6px solid #fffae3;
   border-bottom: 6px solid #a0935c;
+  overflow-y: auto;
 `;
 
 const CodeDiv = styled.div`
