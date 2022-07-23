@@ -2,84 +2,76 @@ import React from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 // import { LoadChatAxios, addchatlist } from "../redux/modules/chatlist";
-import {addchatlist} from "../../../redux/modules/chatlist"
-import { useParams } from "react-router-dom";
+import { addchatlist } from "../../../redux/modules/chatlist"
 
-// import * as StompJS from "stompjs";
-// import * as SockJS from "sockjs-client";
+import * as StompJS from "stompjs";
+import * as SockJS from "sockjs-client";
 
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-
-const ChatBox = () => {
+const ChatBox = (props) => {
     const dispatch = useDispatch();
-    const params = useParams();
-    const channelId = params.id;
-    console.log(channelId)
+
     //채널 정보
-    // const { openProfile } = props;
-    // const { userInfo } = props;
-    // const { channelInfo } = props;
-    // const channelId = channelInfo.channelId
-    // const headers = { "Authorization": localStorage.getItem('access_token') };
+    const roomId = props.roomId;
+    const username = props.username;
+    const Authorization = sessionStorage.getItem("Authorization")
+    const headers = { "Authorization": Authorization };
+    const ChatApi = "http://13.209.42.37:8080"
+
+    let socket = new SockJS(`${ChatApi}/ws-stomp?username=` + encodeURI(username));
+    let clientChat = StompJS.over(socket);
+
     //메세지 보내기
     const [message, setMessage] = React.useState("");
+
     //채팅 기록
     const chattinglist = useSelector((state) => state.chatlist.list);
 
-    // React.useEffect(() => {
-    //     if (channelId !== undefined) {
-    //         connect();
-    //         return () => { client.disconnect() };
-    //     }
-    // }, [channelId])
-
-    const sendMessage=()=>{
-        dispatch(addchatlist({iconUrl :"https://image.shutterstock.com/image-vector/pixel-art-black-bodyguard-character-260nw-1056562499.jpg",
-        message: message, nickname:"연습3", }))
-        setMessage("");
-    }
     //socket
 
-    // let sock = new SockJS("http://54.180.154.178/socket");
-    // let client = StompJS.over(sock);
+    React.useEffect(() => {
+        if (roomId !== undefined) {
+            connect();
+            return () => { clientChat.disconnect() };
+        }
+    }, [roomId])
 
-    // const connect = () => {
-    //     client.connect(headers, onConnected, onError);
-    // };
+    const connect = () => {
+        clientChat.connect(headers, onConnect, onError);
+    };
 
-    // const onConnected = () => {
-    //     client.subscribe(`/sub/channel/${channelId}`,
-    //         function (message) {
-    //             console.log(message.body)
-    //             if (message.body) {
-    //                 const new_Data = JSON.parse(message.body);
-    //                 dispatch(addchatlist(new_Data));
-    //             } else {
-    //                 alert("got empty message");
-    //             }
-    //         }, headers
-    //     );
-    // };
-    // const onError = (err) => {
-    //     console.log(err);
-    // }
+    const onConnect = () => {
+        clientChat.subscribe(`/sub/chat/room/${roomId}`, ReceiveFunc);
+    };
 
-    // const sendMessage = () => {
-    //     client.send(`/pub/message/${channelId}`, headers, JSON.stringify({
-    //         channelId: channelId,
-    //         message: message,
-    //     }));
-    //     setMessage("");
-    // }
+    const ReceiveFunc = (message) => {
+        if (message.body) {
+            const mes = JSON.parse(message.body);
+            console.log(mes);
+        } else {
+            alert("error");
+        }
+    }
+    
+    const onError = (err) => {
+        console.log(err);
+    }
+
+    const sendMessage = () => {
+        clientChat.send(`/room/enter/${roomId}`, {}, JSON.stringify(
+            {
+                message: message,
+            })
+        );
+        setMessage("");
+    }
 
 
-    //엔터키 입력 시
-    // const onKeyPress = (e) => {
-    //     if (e.key == "Enter") {
-    //         sendMessage();
-    //     }
-    // }
+    // 엔터키 입력 시
+    const onKeyPress = (e) => {
+        if (e.key == "Enter") {
+            sendMessage();
+        }
+    }
 
     return (
         <ChatBoxDiv>
@@ -87,7 +79,6 @@ const ChatBox = () => {
                 {chattinglist.map((list, idx) => {
                     return (
                         <SingleMes key={idx}>
-                            {/* <ChatImg src={list.iconUrl} alt="none" /> */}
                             <SingleMesInfo>
                                 <div>{list.nickname}&nbsp;:&nbsp;{list.message}</div>
                             </SingleMesInfo>
@@ -98,13 +89,13 @@ const ChatBox = () => {
             </ChattingDiv>
             <ChatInputDiv>
                 <ChatInput
-                value={message}
-                // // onKeyPress={onKeyPress}
-                onChange={(e) => { setMessage(e.target.value); }}
-                placeholder="메세지 보내기"
+                    value={message}
+                    onKeyPress={onKeyPress}
+                    onChange={(e) => { setMessage(e.target.value); }}
+                    placeholder="메세지 보내기"
                 />
                 <ChatSend
-                onClick={sendMessage}
+                    onClick={sendMessage}
                 />
             </ChatInputDiv>
         </ChatBoxDiv>
