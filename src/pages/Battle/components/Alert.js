@@ -16,33 +16,15 @@ const Alert = (p) => {
   const runValue = p.runAlert;
   const refresh = p.setRunAlert;
   const mesAlert = p.mesAlert;
-
   // console.log(runValue + "--alert");
   const ToastDefault = () => {
-    //type선언 default:toast, type: toast.success,error,warning,info,promise,dismiss
-    toast.error(
-      `${mesAlert}`, //Component도 사용가능
-      {
-        //toast default 속성값 선언 안해도 됨
-        // position: "top-right",
-        // autoClose: 5000,
-        // hideProgressBar: false,
-        // closeOnClick: true,
-        // pauseOnHover: true,
-        // draggable: true,
-        //⬆⬆⬆ toastContainer와 공유하는 설정 값
-        //⬆⬆⬆ 유형별 속성 정의가 필요하면 본 위치에서 설정
-        icon: "💫", //default true false 및 이모지나 이미지 설정가능 "💫" or
-        //아이콘 : ( { theme, type } ) => < img src = " url " /> 현재 테마와 타입을 프롭스로 사용함
-        //⬆⬆⬆ 공유값이긴 하나 컨테이너보단 toast에서 개별 설정해주는게 편함
-
-        //⬇⬇⬇ toast 단일 설정 값
-        progress: undefined, //몰?루
-        theme: "colored", // colored dark default
-        delay: 0, //default 0 ms
-        closeButton: <XBtn />, //default true component로 이미지적용가능
-      }
-    );
+    toast.error(`${mesAlert}`, {
+      icon: "💫",
+      progress: undefined,
+      theme: "colored",
+      delay: 0,
+      closeButton: <XBtn />,
+    });
   };
 
   // const RunToast = () => {
