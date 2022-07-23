@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LoginModal from "./components/LoginModal";
 import styled, { keyframes, css } from "styled-components";
 import "./startAnimation.css";
 
-const Start = () => {
+const Start = ({setMMute}) => {
   const [modalOpen, setModalOpen] = React.useState(false);
   const [HOVER, setHOVER] = React.useState(false);
   const [timing, setTiming] = React.useState(false);
@@ -14,8 +14,11 @@ const Start = () => {
   const close = () => {
     setModalOpen(false);
   };
-
+  const bgmOn =() =>{
+    setMMute(false);
+  }
   React.useEffect(() => {
+    bgmOn();
     const count = setInterval(() => {
       setTiming(true);
     }, 5000);
@@ -285,8 +288,8 @@ const LoginDiv = styled.div`
     cursor: pointer;
 
     ${(props) =>
-      props.timing === false
-        ? css`
+    props.timing === false
+      ? css`
             pointer-events: none;
             animation: ${BtnMotion} 1s linear infinite,
               ${loginUp} 1s linear forwards;
@@ -307,7 +310,7 @@ const LoginDiv = styled.div`
               transform: rotate(20deg);
             }
           `
-        : css`
+      : css`
             animation: ${BtnMotion} 1s linear infinite forwards;
             opacity: 1;
             &:nth-child(1) {
