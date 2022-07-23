@@ -3,7 +3,7 @@ import styled, { css, keyframes } from "styled-components";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import Peer from "peerjs";
+// import Peer from "peerjs";
 import Modal from "react-modal";
 
 /*COMPONENTS*/
@@ -30,16 +30,18 @@ import Countdown from "./components/CountDown";
 import useSound from "../../shared/useSound";
 import effectSound from "../../shared/effectSound";
 import btnSound from "../../audios/btnselect.mp3";
-import camSound from "../../audios/camOff.mp3";
+// import camSound from "../../audios/camOff.mp3";
 import battleBgm from "../../audios/battle_bgm.mp3";
 import newOp from "../../audios/newOpponent.mp3"
 import failSound from "../../audios/FailSE4.mp3";
 import noItem from "../../audios/noItemSE1.mp3"
-
+import newMes from "../../audios/newMessage.mp3"
 
 //websocket
 import * as StompJS from "stompjs";
 import * as SockJS from "sockjs-client";
+import { addchatlist } from "../../redux/modules/chatlist";
+
 import { alreadyUser } from "../../redux/modules/user";
 
 Modal.setAppElement("#root");
@@ -63,10 +65,11 @@ const Battle = (props) => {
   //Sound
   const userSound = useSelector((state) => state.user.sound);
   const btnEs = effectSound(btnSound, userSound.es);
-  // const camEs = effectSound(camSound, userSound.es);
   const newOpEs = effectSound(newOp, userSound.es);
   const failEs = effectSound(failSound, userSound.es);
   const noItemEs = effectSound(noItem, userSound.es);
+  const newMesEs = effectSound(newMes, userSound.es);
+  // const camEs = effectSound(camSound, userSound.es);
 
   //RoomInfo
   const info = location.state;
@@ -115,10 +118,10 @@ const Battle = (props) => {
   const headers = { "Authorization": Authorization };
   let sock = new SockJS(`${api}/ws-stomp?username=` + encodeURI(username));
   let client = StompJS.over(sock);
-  const [code, setCode] = useState("")
   const [opCode, setOpCode] = useState("");
   const [questionTitle, setQuestionTitle] = useState("")
   const [question, setQuestion] = useState("")
+  const codeRef = useRef("")
 
   React.useEffect(() => {
     if (roomId !== undefined) {
@@ -155,6 +158,13 @@ const Battle = (props) => {
         case "GAME":
           setOpCode(mes.message)
           break;
+        case "LOSE":
+          setShowFailModal(true)
+          break;
+        case "OPFAIL":
+          resAlert(mes.message)
+          noItemEs.play()
+          break;
         default:
       }
     } else {
@@ -166,6 +176,7 @@ const Battle = (props) => {
   const onError = (err) => {
     console.log(err);
   }
+
   //준비 전송
   const sendReady = () => {
     client.send(`/app/game/ready`, {}, JSON.stringify({
@@ -173,24 +184,91 @@ const Battle = (props) => {
       server: server,
     }));
   }
+
   //실시간 코드 전송
   const sendCode = async () => {
     await client.send(`/app/game/codeMessage`, {}, JSON.stringify({
       roomId: roomId,
       sender: username,
-      message: code
+      message: codeRef
     }))
   }
+
   //코드전송
   const [sendT, setSendT] = useState(false)
+
   const checkT = () => {
     sendT ? setSendT(false) : setSendT(true);
   }
+
   useEffect(() => {
     if (gameStart === true) {
       setTimeout(() => sendCode(), 500)
     }
   }, [sendT])
+
+  //채팅 서버
+  const ChatApi = "http://13.209.42.37"
+
+  let socket = new SockJS(`${ChatApi}/ws-stomp?username=` + encodeURI(username));
+  let clientChat = StompJS.over(socket);
+
+  React.useEffect(() => {
+    if (roomId !== undefined) {
+      Chatconnect();
+      return () => { clientChat.disconnect() };
+    }
+  }, [roomId])
+
+  const Chatconnect = () => {
+    clientChat.connect(headers, onConnect, onError);
+  };
+
+  const onConnect = () => {
+    clientChat.subscribe(`/sub/chat/room/${roomId}`, ReceiveFunc);
+    clientChat.send(`/pub/chat/message`, {}, JSON.stringify(
+      {
+        type: "ENTER",
+        roomId: { roomId },
+        sender: { username },
+      })
+    );
+  };
+
+  const ReceiveFunc = (message) => {
+    if (message.body) {
+      newMesEs.play();
+      const mesType = JSON.parse(message.body.type);
+      const mesMessage = JSON.parse(message.body.message);
+      const mesSender = JSON.parse(message.body.sender);
+      switch (mesType) {
+        case "ENTER":
+          dispatch(addchatlist({
+            type: mesType,
+            message: mesMessage,
+            sender: mesSender,
+          }))
+          break;
+        case "TALK":
+          dispatch(addchatlist({
+            type: mesType,
+            message: mesMessage,
+            sender: mesSender,
+          }))
+          break;
+        case "EXIT":
+          dispatch(addchatlist({
+            type: mesType,
+            message: mesMessage,
+            sender: mesSender,
+          }))
+          break;
+        default:
+      }
+    } else {
+      alert("error");
+    }
+  }
 
   //방나가기 요청
   const leaveRoomAxios = async () => {
@@ -232,8 +310,6 @@ const Battle = (props) => {
   ]
   const mode = langType[parseInt(selected.language)];
 
-
-
   //CountDown
   const [runCountdown, setRunCountdown] = useState(false);
 
@@ -251,7 +327,7 @@ const Battle = (props) => {
           roomId: roomId,
           questionId: questionId,
           languageIdx: parseInt(selected.language),
-          codeStr: code,
+          codeStr: codeRef,
         },
         headers: {
           Authorization: Authorization,
@@ -426,7 +502,7 @@ const Battle = (props) => {
         <UserDiv>
           {gameStart === false ? <ReadyUser sendReady={sendReady} /> : null}
           <UserSubmitPending run={userPending} setRun={setUserPending} />
-          <AceEditorPlayer mode={mode} setCode={setCode}></AceEditorPlayer>
+          <AceEditorPlayer mode={mode} codeRef={codeRef}></AceEditorPlayer>
           {/* <UserCamDiv>
             <CamBar>
               <span>Player1</span>
@@ -474,6 +550,7 @@ const Battle = (props) => {
               <ChatBox
                 roomId={roomId}
                 username={username}
+                clientChat={clientChat}
               />
             </ChatingDiv>
           )}
@@ -672,53 +749,53 @@ const UserDiv = styled.div`
   border-bottom: 7px solid #a0935c;
 `;
 
-const UserCamDiv = styled.div`
-  position: absolute;
-  left: 40%;
-  top: 9.1vh;
-  height: 22.6vh;
-  width: 14vw;
-`;
+// const UserCamDiv = styled.div`
+//   position: absolute;
+//   left: 40%;
+//   top: 9.1vh;
+//   height: 22.6vh;
+//   width: 14vw;
+// `;
 
-const OpCamDiv = styled.div`
-  position: absolute;
-  right: -2.3%;
-  top: 8.9vh;
-  height: 22.6vh;
-  width: 14vw;
-`;
-const CamBar = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 30%;
-  width: 85%;
-  height: 20%;
-  background-color: #5777ce;
-  color: white;
-  font-size: calc((2vh + 2vw) / 2);
-  opacity: 0.8;
-  border: 3px solid black;
-`;
+// const OpCamDiv = styled.div`
+//   position: absolute;
+//   right: -2.3%;
+//   top: 8.9vh;
+//   height: 22.6vh;
+//   width: 14vw;
+// `;
+// const CamBar = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: center;
+//   align-items: center;
+//   gap: 30%;
+//   width: 85%;
+//   height: 20%;
+//   background-color: #5777ce;
+//   color: white;
+//   font-size: calc((2vh + 2vw) / 2);
+//   opacity: 0.8;
+//   border: 3px solid black;
+// `;
 
-const CamIcon = styled.img`
-  width: calc((2vh + 2vw) / 2);
-  height: calc((2vh + 2vw) / 2);
-  &:hover {
-    content: url("/img/cam_cross.svg");
-  }
-`;
+// const CamIcon = styled.img`
+//   width: calc((2vh + 2vw) / 2);
+//   height: calc((2vh + 2vw) / 2);
+//   &:hover {
+//     content: url("/img/cam_cross.svg");
+//   }
+// `;
 
-const Cam = styled.div`
-  display: flex;
-  width: 11.9vw;
-  height: 11.9vw;
-  background-color: white;
-  border-left: 3px solid black;
-  border-right: 3px solid black;
-  border-bottom: 3px solid black;
-`;
+// const Cam = styled.div`
+//   display: flex;
+//   width: 11.9vw;
+//   height: 11.9vw;
+//   background-color: white;
+//   border-left: 3px solid black;
+//   border-right: 3px solid black;
+//   border-bottom: 3px solid black;
+// `;
 
 const SubmitBtn = styled.button`
   width: 100%;
@@ -805,7 +882,7 @@ const QueBox = styled.div`
   border-bottom: 6px solid #a0935c;
   overflow-y: auto;
   line-height: 1.5;
-  font-size : calc((2vw + 2vh)/3)
+  font-size : calc((2vw + 2vh)/3);
 `;
 
 const CodeDiv = styled.div`

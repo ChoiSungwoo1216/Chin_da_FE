@@ -13,6 +13,7 @@ import 'ace-builds/src-noconflict/theme-solarized_light';
 import 'ace-builds/src-noconflict/theme-terminal';
 import 'ace-builds/src-noconflict/ext-language_tools';
 import { useSelector } from 'react-redux';
+import { current } from '@reduxjs/toolkit';
 
 const JsDefault = `function solution(num) { 
     var answer = '';
@@ -29,12 +30,11 @@ const StartTemp = [JavaDefault, JsDefault, PythonDefault]
 
 
 export const AceEditorPlayer = (props) => {
-    const { mode, setCode } = props;
+    const { mode, codeRef } = props;
     const selected = useSelector((state) => state.user.selected)
 
     function onChangeOne(newValue) {
-        setCode(newValue);
-        console.log(newValue)
+        codeRef.current = newValue;
     }
 
     const DefaultTemp = "//함수와 변수를 임의로 변경하지 마세요" + `\n` + StartTemp[parseInt(selected.language)];
@@ -58,7 +58,6 @@ export const AceEditorPlayer = (props) => {
                     enableLiveAutocompletion: true,
                     enableSnippets: true,
                     tabSize: 4,
-                    // fontFamily:"Neo",
                 }}
                 defaultValue={DefaultTemp}
                 placeholder="Placeholder Text"
@@ -69,13 +68,10 @@ export const AceEditorPlayer = (props) => {
 
 export const AceEditorOpp = (props) => {
     const { mode, opCode } = props;
-    const selected = useSelector((state) => state.user.selected)
     function onChangeTwo(newValue) {
         console.log('2:', newValue);
     }
 
-    const DefaultTempTwo =
-        '//함수와 변수를 임의로 변경하지 마세요' + `\n` + StartTemp[parseInt(selected.language)];
     return (
         <>
             <AceEditor
