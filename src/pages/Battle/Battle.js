@@ -60,7 +60,7 @@ const Battle = (props) => {
   //Sound
   const userSound = useSelector((state) => state.user.sound);
   const btnEs = effectSound(btnSound, userSound.es);
-  const camEs = effectSound(camSound, userSound.es);
+  // const camEs = effectSound(camSound, userSound.es);
   const newOpEs = effectSound(newOp, userSound.es);
 
 
@@ -465,7 +465,8 @@ const Battle = (props) => {
             <ChatingDiv>
               <ChatHead>Chatting</ChatHead>
               <ChatBox
-              // id={channelId}
+              roomId={roomId}
+              username={username}
               />
             </ChatingDiv>
           )}
