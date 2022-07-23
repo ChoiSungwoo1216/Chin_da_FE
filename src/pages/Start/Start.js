@@ -7,8 +7,7 @@ const Start = ({ setMMute }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [HOVER, setHOVER] = useState(false);
   const [timing, setTiming] = useState(false);
-//teststest
-let hi;
+
   const open = () => {
     setModalOpen(true);
   };
