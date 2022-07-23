@@ -1,8 +1,9 @@
-import React from "react";
+import React,{useState} from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import "./SoundSetting.css";
 import { editsound } from "../redux/modules/user";
+
 
 const SoundSetting = (props) => {
   const { setSetting } = props;
@@ -40,60 +41,94 @@ const SoundSetting = (props) => {
     sessionStorage.removeItem("winCnt");
     sessionStorage.removeItem("loseCnt");
     sessionStorage.removeItem("newUser");
+    window.location.replace('/');
   }
-  return (
-    <>
-      <SoundSettingBackground />
-      <SettingDiv>
-        <ExitSetting
-          src={"/img/X_btn_black_30.svg"}
-          alt=""
-          onClick={() => setSetting(false)}
-        />
-        <WordDiv>
-          <SettingWord>S E T T I N G</SettingWord>
-          <WhiteDiv>
-            <SetLine>
-              <SetName>배경음악</SetName>
-              <input
-                type="checkbox"
-                id="switch"
-                defaultChecked={userSound.bgm === 0.1 ? true : false}
-                onClick={(e) => SoundOnOff(e)}
-              />
-              <label htmlFor="switch" className="switch_label">
-                {userSound.bgm === 0.1 ? (
-                  <img src={"/img/BtnOn.png"} alt="" className="onf_btn" />
-                ) : (
-                  <img src={"/img/BtnOff.png"} alt="" className="onf_btn" />
-                )}
-              </label>
-            </SetLine>
-            <SetLine>
-              <SetName>효과음</SetName>
-              <input
-                type="checkbox"
-                id="switch1"
-                defaultChecked={userSound.es === 0.5 ? true : false}
-                onClick={(e) => SoundOnOff(e)}
-              />
-              <label htmlFor="switch1" className="switch_label1">
-                {userSound.es === 0.5 ? (
-                  <img src={"/img/BtnOn.png"} alt="" className="onf_btn1" />
-                ) : (
-                  <img src={"/img/BtnOff.png"} alt="" className="onf_btn1" />
-                )}
-              </label>
-            </SetLine>
-            {/* {logined ? ( */}
-            {/* <div onClick={logout}>
+    const [isActive, setIsActive] = useState(false);
+    // const handleClick = () => {
+    //    setIsActive((current) => !current);
+    // };
 
-            </div> */}
-            {/* ) : <></>} */}
-          </WhiteDiv>
-        </WordDiv>
-      </SettingDiv>
-    </>
+  return (
+     <>
+        <SoundSettingBackground />
+        <SettingDiv>
+           <ExitSetting
+              src={'/img/X_btn_black_30.svg'}
+              alt=""
+              onClick={() => setSetting(false)}
+           />
+           <WordDiv>
+              <SettingWord>SETTING</SettingWord>
+              <WhiteDiv>
+                 <SetLine>
+                    <SetName>배경음악</SetName>
+                    <input
+                       type="checkbox"
+                       id="switch"
+                       defaultChecked={userSound.bgm === 0.1 ? true : false}
+                       onClick={(e) => SoundOnOff(e)}
+                    />
+                    <label htmlFor="switch" className="switch_label">
+                       {userSound.bgm === 0.1 ? (
+                          <img
+                             src={'/img/BtnOn.svg'}
+                             alt=""
+                             className="onf_btn"
+                          />
+                       ) : (
+                          <img
+                             src={'/img/BtnOff.svg'}
+                             alt=""
+                             className="onf_btn"
+                          />
+                       )}
+                    </label>
+                 </SetLine>
+                 <SetLine>
+                    <SetName>효과음</SetName>
+                    <input
+                       type="checkbox"
+                       id="switch1"
+                       defaultChecked={userSound.es === 0.5 ? true : false}
+                       onClick={(e) => SoundOnOff(e)}
+                    />
+                    <label htmlFor="switch1" className="switch_label1">
+                       {userSound.es === 0.5 ? (
+                          <img
+                             src={'/img/BtnOn.svg'}
+                             alt=""
+                             className="onf_btn1"
+                          />
+                       ) : (
+                          <img
+                             src={'/img/BtnOff.svg'}
+                             alt=""
+                             className="onf_btn1"
+                          />
+                       )}
+                    </label>
+                 </SetLine>
+
+                 {logined ? (
+                    <LogOutBtn
+                       style={{
+                          backgroundImage: !isActive
+                             ? 'url(/img/login_btn_white.svg)'
+                             : 'url(/img/login_btn_black.svg)',
+                             color: !isActive? 'black': 'white'
+                       }}
+                       onClick={()=> { setIsActive(!isActive);
+                       logout()}}
+                    >
+                       <p>LogOut</p>
+                    </LogOutBtn>
+                 ) : (
+                    <></>
+                 )}
+              </WhiteDiv>
+           </WordDiv>
+        </SettingDiv>
+     </>
   );
 };
 export default SoundSetting;
@@ -110,14 +145,16 @@ const SoundSettingBackground = styled.div`
   z-index: 12;
 `;
 const SettingWord = styled.div`
-  font-size: calc((2vw + 2vh) / 2);
+  font-size: calc((2.5vw + 2.5vh) / 2);
   z-index: 12;
   color: white;
   font-weight: 600;
-  width: calc(100% - 5px);
-  height: 15%;
+  width: calc(100% - 7px);
+  height: 4vh;
+  gap: 1em;
   text-align: center;
-  padding-top: 5%;
+  letter-spacing: .5vw;
+  padding-top: 1vh;
   background-color: #5777ce;
   border-top: 3px solid #c0cfff;
   border-left: 3px solid #c0cfff;
@@ -138,57 +175,103 @@ const SettingDiv = styled.div`
   margin: 0;
   padding: 0;
   background: #fff;
-  height: 36vh;
-  width: 30vw;
+  height: 40vh;
+  width: 29vw;
   border: 5px solid black;
 `;
 
 const WhiteDiv = styled.div`
+  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 15%;
-  width: calc(100% - 5px);
-  height: 74%;
-  border-left: 2px solid #fffae3;
-  border-right: 2px solid #c1b78e;
-  border-bottom: 2px solid #a0935c;
+  margin: 1.5vh auto;
+  width: calc(100% - 4px);
+  height: 79%;
+
 `;
 
+const LogOutBtn = styled.div`
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-position: center;
+   background-size: 100%, 100%, cover;
+   background-repeat: no-repeat;
+   width: calc((27vh + 40vw) / 4);
+   height: calc((27vh + 40vw) / 4);
+   font-size: 1.6vw;
+   cursor: pointer;
+   @keyframes push {
+      50% {
+         transform: scale(.98);
+      }
+      100% {
+         transform: scale(1);
+      }
+   }
+   &:hover {
+      cursor: pointer;
+      animation-name: push;
+      animation-duration: 0.5s;
+      animation-timing-function: ease-in;
+      animation-iteration-count: 1;
+   }
+`;
 const SetLine = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: calc((5vw + 5vh) / 2); ;
+   display: flex;
+   justify-content: center;
+   text-align: center;
+   padding: .3vh 0;
+   margin-top: 1.5vh;
 `;
 
 const SetName = styled.div`
   position: relative;
-  color: black;
   width: 8vw;
   height: 7vh;
   line-height: 7vh;
-  font-size: calc((2vw + 2vh) / 2);
+  font-size: calc((1.8vw + 1.8vh) / 2);
   font-weight: 600;
+  padding-right: 4vw;
+  text-align: left;
+
 `;
 
 const ExitSetting = styled.img`
-  position: absolute;
-  top: calc((2vw + 2vh) / 4 * -1);
-  right: calc((2vw + 2vh) / 4 * -1);
-  width: calc((2vw + 2vh) / 2);
-  height: calc((2vw + 2vh) / 2);
-  z-index: 12;
-  :hover {
-    content: url(/img/X_btn_white_30.svg);
-  }
+   position: absolute;
+   top: calc((2.5vw + 2.5vh) / 4 * -1);
+   right: calc((2.5vw + 2.5vh) / 4 * -1);
+   width: calc((2.5vw + 2.5vh) / 2);
+   height: calc((2.5vw + 2.5vh) / 2);
+   z-index: 12;
+
+   @keyframes push {
+      50% {
+         transform: scale(0.98);
+      }
+      100% {
+         transform: scale(1);
+      }
+   }
+   &:hover {
+      content: url(/img/X_btn_white_30.svg);
+      cursor: pointer;
+      animation-name: push;
+      animation-duration: 0.5s;
+      animation-timing-function: ease-in;
+      animation-iteration-count: 1;
+   }
 `;
 
 const WordDiv = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 99.5%;
+   height: 100%;
+   border-left: 2px solid #fffae3;
+   border-right: 2px solid #c1b78e;
+   border-bottom: 2px solid #a0935c;
 `;

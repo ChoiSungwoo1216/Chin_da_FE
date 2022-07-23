@@ -10,9 +10,9 @@
   position: relative;
   cursor: pointer;
   display: inline-block;
-  width: 7vw;
-  height: 7vh;
-  background-image: url(../../public/img/BtnBox.png);
+  width: 5.5vw;
+  height: 5.5vh;
+  background-image: url(../../public/img/BtnBox.svg);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
@@ -22,7 +22,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-130%, -50%);
+  transform: translate(-115%, -50%);
   display: inline-block;
   width: 2vw;
   height: 2vw;
@@ -47,9 +47,9 @@
   position: relative;
   cursor: pointer;
   display: inline-block;
-  width: 7vw;
-  height: 7vh;
-  background-image: url(../../public/img/BtnBox.png);
+  width: 5.5vw;
+  height: 5.5vh;
+  background-image: url(../../public/img/BtnBox.svg);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
@@ -59,7 +59,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-130%, -50%);
+  transform: translate(-115%, -50%);
   display: inline-block;
   width: 2vw;
   height: 2vw;
