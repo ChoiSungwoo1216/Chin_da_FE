@@ -41,7 +41,7 @@ import newMes from "../../audios/newMessage.mp3";
 //websocket
 import * as StompJS from "stompjs";
 import * as SockJS from "sockjs-client";
-import { addchatlist } from "../../redux/modules/chatlist";
+import { addchatlist, deletechatlist } from "../../redux/modules/chatlist";
 
 import { alreadyUser } from "../../redux/modules/user";
 
@@ -129,6 +129,7 @@ const Battle = (props) => {
       connect();
       Chatconnect();
       return () => {
+        dispatch(deletechatlist())
         client.disconnect();
         clientChat.disconnect();
       };

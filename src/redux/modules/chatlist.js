@@ -3,6 +3,7 @@
 // Actions
 
 const ADD = "chatlist/ADD";
+const DELETE = "chatlist/DELETE";
 
 const initialState = {
   list: [],
@@ -13,6 +14,9 @@ const initialState = {
 export function addchatlist(chatlist) {
   return { type: ADD, chatlist: chatlist };
 }
+export function deletechatlist() {
+  return { type: DELETE };
+}
 
 // Reducer
 export default function reducer(state = initialState, action = {}) {
@@ -21,6 +25,11 @@ export default function reducer(state = initialState, action = {}) {
     case "chatlist/ADD": {
       const new_chatlist_list = [action.chatlist, ...state.list];
       return { list: new_chatlist_list };
+    }
+
+    case "chatlist/DELETE":{
+      const new_post_list = []
+      return { list: new_post_list };
     }
     default:
 
