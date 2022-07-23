@@ -43,10 +43,6 @@ const SoundSetting = (props) => {
     sessionStorage.removeItem("newUser");
     window.location.replace('/');
   }
-    const [isActive, setIsActive] = useState(false);
-    // const handleClick = () => {
-    //    setIsActive((current) => !current);
-    // };
 
   return (
      <>
@@ -108,23 +104,13 @@ const SoundSetting = (props) => {
                        )}
                     </label>
                  </SetLine>
-
-                 {logined ? (
-                    <LogOutBtn
-                       style={{
-                          backgroundImage: !isActive
-                             ? 'url(/img/login_btn_white.svg)'
-                             : 'url(/img/login_btn_black.svg)',
-                             color: !isActive? 'black': 'white'
-                       }}
-                       onClick={()=> { setIsActive(!isActive);
-                       logout()}}
-                    >
+         
+                    {logined ? (
+                    <LogOutBtn onClick={logout}>
                        <p>LogOut</p>
                     </LogOutBtn>
-                 ) : (
-                    <></>
-                 )}
+                    ) : <></>}
+           
               </WhiteDiv>
            </WordDiv>
         </SettingDiv>
@@ -145,7 +131,7 @@ const SoundSettingBackground = styled.div`
   z-index: 12;
 `;
 const SettingWord = styled.div`
-  font-size: calc((2.5vw + 2.5vh) / 2);
+  font-size: calc((2.7vw + 2.7vh) / 2);
   z-index: 12;
   color: white;
   font-weight: 600;
@@ -175,8 +161,8 @@ const SettingDiv = styled.div`
   margin: 0;
   padding: 0;
   background: #fff;
-  height: 40vh;
-  width: 29vw;
+  height: 44vh;
+  width: 32vw;
   border: 5px solid black;
 `;
 
@@ -196,6 +182,7 @@ const LogOutBtn = styled.div`
    display: flex;
    justify-content: center;
    align-items: center;
+   background-image: url('/img/login_btn_white.svg');
    background-position: center;
    background-size: 100%, 100%, cover;
    background-repeat: no-repeat;
@@ -212,11 +199,15 @@ const LogOutBtn = styled.div`
       }
    }
    &:hover {
+      background-image: url('/img/login_btn_black.svg');
       cursor: pointer;
       animation-name: push;
       animation-duration: 0.5s;
       animation-timing-function: ease-in;
       animation-iteration-count: 1;
+      & p {
+         color: white;
+      }
    }
 `;
 const SetLine = styled.div`
@@ -224,7 +215,7 @@ const SetLine = styled.div`
    justify-content: center;
    text-align: center;
    padding: .3vh 0;
-   margin-top: 1.5vh;
+   margin-top: 1.7vh;
 `;
 
 const SetName = styled.div`
@@ -232,7 +223,7 @@ const SetName = styled.div`
   width: 8vw;
   height: 7vh;
   line-height: 7vh;
-  font-size: calc((1.8vw + 1.8vh) / 2);
+  font-size: calc((1.9vw + 1.9vh) / 2);
   font-weight: 600;
   padding-right: 4vw;
   text-align: left;
@@ -241,10 +232,10 @@ const SetName = styled.div`
 
 const ExitSetting = styled.img`
    position: absolute;
-   top: calc((2.5vw + 2.5vh) / 4 * -1);
-   right: calc((2.5vw + 2.5vh) / 4 * -1);
-   width: calc((2.5vw + 2.5vh) / 2);
-   height: calc((2.5vw + 2.5vh) / 2);
+   top: calc((2.7vw + 2.7vh) / 4 * -1);
+   right: calc((2.7vw + 2.7vh) / 4 * -1);
+   width: calc((2.7vw + 2.7vh) / 2);
+   height: calc((2.7vw + 2.7vh) / 2);
    z-index: 12;
 
    @keyframes push {
