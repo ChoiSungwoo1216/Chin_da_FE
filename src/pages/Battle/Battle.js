@@ -126,11 +126,14 @@ const Battle = (props) => {
   React.useEffect(() => {
     if (roomId !== undefined) {
       connect();
+      Chatconnect();
       return () => {
         client.disconnect();
+        clientChat.disconnect();
       };
     }
   }, [roomId]);
+
   //서버 연결
   const connect = () => {
     client.connect(headers, onConnected, onError);
@@ -221,25 +224,21 @@ const Battle = (props) => {
   const ChatApi = process.env.REACT_APP_API_CHAT;
 
   let socket = new SockJS(
-    `${ChatApi}/ws-stomp`
+    `${ChatApi}/ws-stomp?name=` + encodeURI(username)
   );
   let clientChat = StompJS.over(socket);
 
-  React.useEffect(() => {
-    if (roomId !== undefined) {
-      Chatconnect();
-      return () => {
-        clientChat.disconnect();
-      };
-    }
-  }, [roomId]);
 
   const Chatconnect = () => {
-    clientChat.connect(headers, onConnect, onError);
+    clientChat.connect({}, onConnect, onError);
   };
 
   const onConnect = () => {
     clientChat.subscribe(`/sub/chat/room/${roomId}`, ReceiveFunc);
+    EnterSend();
+  };
+
+  const EnterSend = () =>{
     clientChat.send(
       `/pub/chat/message${roomId}`,
       {},
@@ -248,8 +247,8 @@ const Battle = (props) => {
         roomId: { roomId },
         sender: { username },
       })
-    );
-  };
+    )
+  }
 
   const ReceiveFunc = (message) => {
     if (message.body) {
@@ -509,7 +508,7 @@ const Battle = (props) => {
           <BtnOnOff onClick={openChat} change={chatOpen}>
             채팅
           </BtnOnOff>
-          <BtnOnOff onClick={setGameRuleModal(true)}>GameRule</BtnOnOff>
+          <BtnOnOff onClick={()=>setGameRuleModal(true)}>GameRule</BtnOnOff>
           <ExitBtn onClick={BackToMain}>나가기</ExitBtn>
         </BtnDiv>
       </HeadPart>
@@ -567,7 +566,6 @@ const Battle = (props) => {
               <ChatBox
                 roomId={roomId}
                 username={username}
-                clientChat={clientChat}
               />
             </ChatingDiv>
           )}
