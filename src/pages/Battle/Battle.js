@@ -135,10 +135,8 @@ const Battle = (props) => {
   };
   // 서버 연결 성공 시 콜백함수
   const onConnected = () => {
-    //입장자 정보 전송 구독, ready 구독 주소
-    client.subscribe(`/topic/game/room/${roomId}`, ReceiveCallBack);
-    //실시간 코드 전송 구독 주소
-    client.subscribe(`/user/queue/game/codeMessage/${roomId}`, ReceiveCallBack);
+    client.subscribe(`/topic/game/room/${roomId}`, ReceiveCallBack); //입장자 정보 전송 구독, ready 구독 주소
+    client.subscribe(`/user/queue/game/codeMessage/${roomId}`, ReceiveCallBack); //실시간 코드 전송 구독 주소
   };
 
   const ReceiveCallBack = (message) => {
@@ -152,8 +150,10 @@ const Battle = (props) => {
           dispatch(alreadyUser({ opp: true }))
           break;
         case "USERINFO":
-          newOpEs.play();
-          resAlert("상대 입장");
+          if (mes.sender !== username) {
+            newOpEs.play();
+            resAlert("상대 입장");
+          }
           break;
         case "GAME":
           setOpCode(mes.message)
@@ -316,8 +316,10 @@ const Battle = (props) => {
   //Submit
   const [userPending, setUserPending] = useState(false);
   const [oppPending, setOppPending] = useState(false);
+  const [trySub, setTrySub] = useState(3);
 
   const axiosSubmit = () => {
+    setTrySub(trySub - 1)
     axios
       ({
         url: "/api/compile",
@@ -338,8 +340,12 @@ const Battle = (props) => {
         if (res.data.result === true) {
           setShowSuccessModal(true)
         } else {
-          (resAlert(res.data.msg))
-          failEs.play();
+          if (trySub === 1) {
+            setShowFailModal(true)
+          } else {
+            (resAlert(res.data.msg))
+            failEs.play();
+          }
         }
       })
       .catch((err) => {
@@ -531,7 +537,7 @@ const Battle = (props) => {
             )}
           </UserCamDiv> */}
           <SubmitBtn onClick={() => onSubmit()}>
-            제&nbsp;&nbsp;&nbsp;&nbsp;출
+            제&nbsp;&nbsp;&nbsp;&nbsp;출&nbsp;&nbsp;{trySub}&nbsp;/&nbsp;3
           </SubmitBtn>
         </UserDiv>
         <OpponentDiv>
@@ -606,7 +612,7 @@ const Battle = (props) => {
         />
       )}
       {rOpen && (
-        <Result setROpen={setROpen} result={result} setMbmute={setMbmute} setGameStart={setGameStart} />
+        <Result setROpen={setROpen} result={result} setMbmute={setMbmute} setGameStart={setGameStart} setTrySub={setTrySub} />
       )}
 
       <Control
