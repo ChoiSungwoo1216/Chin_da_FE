@@ -218,7 +218,7 @@ const Battle = (props) => {
   }, [sendT]);
 
   //채팅 서버
-  const ChatApi = "http://3.36.64.91";
+  const ChatApi = process.env.REACT_APP_API_CHAT;
 
   let socket = new SockJS(
     `${ChatApi}/ws-stomp`
