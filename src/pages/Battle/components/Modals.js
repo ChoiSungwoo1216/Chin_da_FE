@@ -192,7 +192,7 @@ export const Result = (props) => {
   const userSound = useSelector((state) => state.user.sound);
   const winEs = effectSound(win1Sound, userSound.es);
   const loseEs = effectSound(lose1Sound, userSound.es);
-  const { setROpen, setMbmute, setGameStart } = props;
+  const { setROpen, setMbmute, setGameStart, setTrySub } = props;
   const result = props.result;
   React.useEffect(() => {
     if (result === 'WIN') {
@@ -206,15 +206,11 @@ export const Result = (props) => {
   const GoBackMain = () => {
     setMbmute(false);
     navigate('/Selection');
+    setTrySub(3);
   };
   return (
     <>
-      <ResultBackground
-        onClick={() => {
-          setROpen(false);
-          setMbmute(false);
-        }}
-      />
+      <ResultBackground/>
       <ResultDiv>
         <SettingWord>RESULT</SettingWord>
         <BlackDiv>
