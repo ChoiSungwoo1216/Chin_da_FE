@@ -202,7 +202,7 @@ const Battle = (props) => {
       JSON.stringify({
         roomId: roomId,
         sender: username,
-        message: codeRef,
+        message: codeRef.current,
       })
     );
   };
