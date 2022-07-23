@@ -34,7 +34,7 @@ export default function SubTutorial(props) {
                style={{ color: '#000' }}
             >
                <div class="xBtn" onClick={() => setTutoOpen(false)}>
-                  <img src="/img/X_btn_black_30.png" />
+                  <ExitBtn src="/img/X_btn_black_30.svg" />
                </div>
 
                <SwiperSlide>
@@ -71,4 +71,29 @@ const Background = styled.div`
     background-color: rgba(255,255,255,0.15);
     backdrop-filter: blur(5px);
     z-index: 10;
+`;
+const ExitBtn = styled.img`
+   position: absolute;
+   top: calc((2.7vw + 2.7vh) / 8.5 * -1);
+   right: calc((2.7vw + 2.7vh) / 8.5 * -1);
+   width: calc((2.7vw + 2.7vh) / 2);
+   height: calc((2.7vw + 2.7vh) / 2);
+   z-index: 12;
+
+   @keyframes push {
+      50% {
+         transform: scale(0.98);
+      }
+      100% {
+         transform: scale(1);
+      }
+   }
+   &:hover {
+      content: url(/img/X_btn_white_30.svg);
+      cursor: pointer;
+      animation-name: push;
+      animation-duration: 0.5s;
+      animation-timing-function: ease-in;
+      animation-iteration-count: 1;
+   }
 `;
