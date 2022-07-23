@@ -240,12 +240,12 @@ const Battle = (props) => {
 
   const EnterSend = () =>{
     clientChat.send(
-      `/pub/chat/message${roomId}`,
+      `/pub/chat/message/${roomId}`,
       {},
       JSON.stringify({
         type: "ENTER",
-        roomId: { roomId },
-        sender: { username },
+        roomId: roomId,
+        sender: username,
       })
     )
   }
