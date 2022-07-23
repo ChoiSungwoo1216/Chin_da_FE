@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import "./SoundSetting.css";
@@ -43,6 +43,11 @@ const SoundSetting = (props) => {
     sessionStorage.removeItem("newUser");
     window.location.replace('/');
   }
+    const [isActive, setIsActive] = useState(false);
+    // const handleClick = () => {
+    //    setIsActive((current) => !current);
+    // };
+
   return (
      <>
         <SoundSettingBackground />
@@ -103,13 +108,23 @@ const SoundSetting = (props) => {
                        )}
                     </label>
                  </SetLine>
-         
-                    {logined ? (
-                    <LogOutBtn onClick={logout}>
+
+                 {logined ? (
+                    <LogOutBtn
+                       style={{
+                          backgroundImage: !isActive
+                             ? 'url(/img/login_btn_white.svg)'
+                             : 'url(/img/login_btn_black.svg)',
+                             color: !isActive? 'black': 'white'
+                       }}
+                       onClick={()=> { setIsActive(!isActive);
+                       logout()}}
+                    >
                        <p>LogOut</p>
                     </LogOutBtn>
-                    ) : <></>}
-           
+                 ) : (
+                    <></>
+                 )}
               </WhiteDiv>
            </WordDiv>
         </SettingDiv>
@@ -181,34 +196,27 @@ const LogOutBtn = styled.div`
    display: flex;
    justify-content: center;
    align-items: center;
-
-   background-image: url('/img/login_btn_white.svg');
    background-position: center;
    background-size: 100%, 100%, cover;
    background-repeat: no-repeat;
    width: calc((27vh + 40vw) / 4);
    height: calc((27vh + 40vw) / 4);
-   font-size: 1.5vw;
+   font-size: 1.6vw;
    cursor: pointer;
    @keyframes push {
       50% {
-         transform: scale(.985);
+         transform: scale(.98);
       }
       100% {
          transform: scale(1);
       }
    }
    &:hover {
-      background-image: url('/img/login_btn_black.svg');
       cursor: pointer;
       animation-name: push;
       animation-duration: 0.5s;
       animation-timing-function: ease-in;
       animation-iteration-count: 1;
-      & p {
-         color: white;
-         
-      }
    }
 `;
 const SetLine = styled.div`
@@ -232,16 +240,29 @@ const SetName = styled.div`
 `;
 
 const ExitSetting = styled.img`
-  position: absolute;
-  top: calc((2.5vw + 2.5vh) / 4 * -1);
-  right: calc((2.5vw + 2.5vh) / 4 * -1);
-  width: calc((2.5vw + 2.5vh) / 2);
-  height: calc((2.5vw + 2.5vh) / 2);
-  z-index: 12;
-  :hover {
-    content: url(/img/X_btn_white_30.svg);
-  }
-  
+   position: absolute;
+   top: calc((2.5vw + 2.5vh) / 4 * -1);
+   right: calc((2.5vw + 2.5vh) / 4 * -1);
+   width: calc((2.5vw + 2.5vh) / 2);
+   height: calc((2.5vw + 2.5vh) / 2);
+   z-index: 12;
+
+   @keyframes push {
+      50% {
+         transform: scale(0.98);
+      }
+      100% {
+         transform: scale(1);
+      }
+   }
+   &:hover {
+      content: url(/img/X_btn_white_30.svg);
+      cursor: pointer;
+      animation-name: push;
+      animation-duration: 0.5s;
+      animation-timing-function: ease-in;
+      animation-iteration-count: 1;
+   }
 `;
 
 const WordDiv = styled.div`
