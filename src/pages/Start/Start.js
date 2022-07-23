@@ -3,7 +3,7 @@ import LoginModal from "./components/LoginModal";
 import styled, { keyframes, css } from "styled-components";
 import "./startAnimation.css";
 
-const Start = ({setMMute}) => {
+const Start = ({ setMMute }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [HOVER, setHOVER] = useState(false);
   const [timing, setTiming] = useState(false);
@@ -14,9 +14,9 @@ const Start = ({setMMute}) => {
   const close = () => {
     setModalOpen(false);
   };
-  const bgmOn =() =>{
+  const bgmOn = () => {
     setMMute(false);
-  }
+  };
   React.useEffect(() => {
     bgmOn();
     setInterval(() => {
@@ -39,7 +39,7 @@ const Start = ({setMMute}) => {
         onMouseOut={() => {
           setHOVER(false);
         }}
-        onClick={(HOVER === true) ? open : undefined}
+        onClick={HOVER === true ? open : undefined}
       >
         {HOVER === false && (
           <>
@@ -288,8 +288,8 @@ const LoginDiv = styled.div`
     cursor: pointer;
 
     ${(props) =>
-    props.timing === false
-      ? css`
+      props.timing === false
+        ? css`
             pointer-events: none;
             animation: ${BtnMotion} 1s linear infinite,
               ${loginUp} 1s linear forwards;
@@ -310,7 +310,7 @@ const LoginDiv = styled.div`
               transform: rotate(20deg);
             }
           `
-      : css`
+        : css`
             animation: ${BtnMotion} 1s linear infinite forwards;
             opacity: 1;
             &:nth-child(1) {

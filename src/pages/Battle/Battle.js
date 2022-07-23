@@ -14,6 +14,7 @@ import {
   SuccessModal,
   FailModal,
   Result,
+  GameRuleModal,
 } from "./components/Modals";
 import {
   ReadyUser,
@@ -32,10 +33,10 @@ import effectSound from "../../shared/effectSound";
 import btnSound from "../../audios/btnselect.mp3";
 // import camSound from "../../audios/camOff.mp3";
 import battleBgm from "../../audios/battle_bgm.mp3";
-import newOp from "../../audios/newOpponent.mp3"
+import newOp from "../../audios/newOpponent.mp3";
 import failSound from "../../audios/FailSE4.mp3";
-import noItem from "../../audios/noItemSE1.mp3"
-import newMes from "../../audios/newMessage.mp3"
+import noItem from "../../audios/noItemSE1.mp3";
+import newMes from "../../audios/newMessage.mp3";
 
 //websocket
 import * as StompJS from "stompjs";
@@ -48,7 +49,7 @@ Modal.setAppElement("#root");
 
 const Battle = (props) => {
   const api = process.env.REACT_APP_API;
-  const Authorization = sessionStorage.getItem("Authorization")
+  const Authorization = sessionStorage.getItem("Authorization");
 
   const selected = useSelector((state) => state.user.selected);
   const navigate = useNavigate();
@@ -77,7 +78,6 @@ const Battle = (props) => {
   const questionId = location.state.questionId;
   const server = location.state.server;
   console.log(info);
-
 
   //Timer,ProgressBar
   const [runTimer, setRunTimer] = useState("false");
@@ -114,21 +114,23 @@ const Battle = (props) => {
   };
 
   //game server
-  const username = sessionStorage.getItem("username")
-  const headers = { "Authorization": Authorization };
+  const username = sessionStorage.getItem("username");
+  const headers = { Authorization: Authorization };
   let sock = new SockJS(`${api}/ws-stomp?username=` + encodeURI(username));
   let client = StompJS.over(sock);
   const [opCode, setOpCode] = useState("");
-  const [questionTitle, setQuestionTitle] = useState("")
-  const [question, setQuestion] = useState("")
-  const codeRef = useRef("")
+  const [questionTitle, setQuestionTitle] = useState("");
+  const [question, setQuestion] = useState("");
+  const codeRef = useRef("");
 
   React.useEffect(() => {
     if (roomId !== undefined) {
       connect();
-      return () => { client.disconnect() };
+      return () => {
+        client.disconnect();
+      };
     }
-  }, [roomId])
+  }, [roomId]);
   //서버 연결
   const connect = () => {
     client.connect(headers, onConnected, onError);
@@ -147,7 +149,7 @@ const Battle = (props) => {
         case "READY":
           setQuestion(mes.question);
           setQuestionTitle(mes.title);
-          dispatch(alreadyUser({ opp: true }))
+          dispatch(alreadyUser({ opp: true }));
           break;
         case "USERINFO":
           if (mes.sender !== username) {
@@ -156,69 +158,81 @@ const Battle = (props) => {
           }
           break;
         case "GAME":
-          setOpCode(mes.message)
+          setOpCode(mes.message);
           break;
         case "LOSE":
-          setShowFailModal(true)
+          setShowFailModal(true);
           break;
         case "OPFAIL":
-          resAlert(mes.message)
-          noItemEs.play()
+          resAlert(mes.message);
+          noItemEs.play();
           break;
         default:
       }
     } else {
       alert("error");
     }
-  }
+  };
 
   // 서버 연결 실패시
   const onError = (err) => {
     console.log(err);
-  }
+  };
 
   //준비 전송
   const sendReady = () => {
-    client.send(`/app/game/ready`, {}, JSON.stringify({
-      roomId: roomId,
-      server: server,
-    }));
-  }
+    client.send(
+      `/app/game/ready`,
+      {},
+      JSON.stringify({
+        roomId: roomId,
+        server: server,
+      })
+    );
+  };
 
   //실시간 코드 전송
   const sendCode = async () => {
-    await client.send(`/app/game/codeMessage`, {}, JSON.stringify({
-      roomId: roomId,
-      sender: username,
-      message: codeRef
-    }))
-  }
+    await client.send(
+      `/app/game/codeMessage`,
+      {},
+      JSON.stringify({
+        roomId: roomId,
+        sender: username,
+        message: codeRef,
+      })
+    );
+  };
 
   //코드전송
-  const [sendT, setSendT] = useState(false)
+  const [sendT, setSendT] = useState(false);
 
   const checkT = () => {
     sendT ? setSendT(false) : setSendT(true);
-  }
+  };
 
   useEffect(() => {
     if (gameStart === true) {
-      setTimeout(() => sendCode(), 500)
+      setTimeout(() => sendCode(), 500);
     }
-  }, [sendT])
+  }, [sendT]);
 
   //채팅 서버
-  const ChatApi = "http://13.209.42.37"
+  const ChatApi = "http://13.209.42.37";
 
-  let socket = new SockJS(`${ChatApi}/ws-stomp?username=` + encodeURI(username));
+  let socket = new SockJS(
+    `${ChatApi}/ws-stomp?username=` + encodeURI(username)
+  );
   let clientChat = StompJS.over(socket);
 
   React.useEffect(() => {
     if (roomId !== undefined) {
       Chatconnect();
-      return () => { clientChat.disconnect() };
+      return () => {
+        clientChat.disconnect();
+      };
     }
-  }, [roomId])
+  }, [roomId]);
 
   const Chatconnect = () => {
     clientChat.connect(headers, onConnect, onError);
@@ -226,8 +240,10 @@ const Battle = (props) => {
 
   const onConnect = () => {
     clientChat.subscribe(`/sub/chat/room/${roomId}`, ReceiveFunc);
-    clientChat.send(`/pub/chat/message`, {}, JSON.stringify(
-      {
+    clientChat.send(
+      `/pub/chat/message`,
+      {},
+      JSON.stringify({
         type: "ENTER",
         roomId: { roomId },
         sender: { username },
@@ -243,48 +259,53 @@ const Battle = (props) => {
       const mesSender = JSON.parse(message.body.sender);
       switch (mesType) {
         case "ENTER":
-          dispatch(addchatlist({
-            type: mesType,
-            message: mesMessage,
-            sender: mesSender,
-          }))
+          dispatch(
+            addchatlist({
+              type: mesType,
+              message: mesMessage,
+              sender: mesSender,
+            })
+          );
           break;
         case "TALK":
-          dispatch(addchatlist({
-            type: mesType,
-            message: mesMessage,
-            sender: mesSender,
-          }))
+          dispatch(
+            addchatlist({
+              type: mesType,
+              message: mesMessage,
+              sender: mesSender,
+            })
+          );
           break;
         case "EXIT":
-          dispatch(addchatlist({
-            type: mesType,
-            message: mesMessage,
-            sender: mesSender,
-          }))
+          dispatch(
+            addchatlist({
+              type: mesType,
+              message: mesMessage,
+              sender: mesSender,
+            })
+          );
           break;
         default:
       }
     } else {
       alert("error");
     }
-  }
+  };
 
   //방나가기 요청
   const leaveRoomAxios = async () => {
-    await axios(
-      {
-        url: "/game/room/exit",
-        method: "PUT",
-        baseURL: api,
-        data: {
-          "roomId": roomId,
-          "server": server
-        },
-        headers: {
-          "Authorization": Authorization,
-        },
-      })
+    await axios({
+      url: "/game/room/exit",
+      method: "PUT",
+      baseURL: api,
+      data: {
+        roomId: roomId,
+        server: server,
+      },
+      headers: {
+        Authorization: Authorization,
+      },
+    })
       .then((response) => {
         setBbmute(true);
         setMbmute(false);
@@ -294,20 +315,16 @@ const Battle = (props) => {
       .catch((error) => {
         console.log(error);
       });
-  }
-
+  };
 
   //Modals
   const [showQuestionModal, setShowQuestionModal] = useState();
   const [showSuccessModal, setShowSuccessModal] = useState();
   const [showFailModal, setShowFailModal] = useState();
+  const [showGameRuleModal, setGameRuleModal] = useState();
 
   //AceEditor
-  const langType = [
-    "java",
-    "javascript",
-    "python"
-  ]
+  const langType = ["java", "javascript", "python"];
   const mode = langType[parseInt(selected.language)];
 
   //CountDown
@@ -319,31 +336,30 @@ const Battle = (props) => {
   const [trySub, setTrySub] = useState(3);
 
   const axiosSubmit = () => {
-    setTrySub(trySub - 1)
-    axios
-      ({
-        url: "/api/compile",
-        method: "POST",
-        baseURL: api,
-        data: {
-          roomId: roomId,
-          questionId: questionId,
-          languageIdx: parseInt(selected.language),
-          codeStr: codeRef,
-        },
-        headers: {
-          Authorization: Authorization,
-        },
-      })
+    setTrySub(trySub - 1);
+    axios({
+      url: "/api/compile",
+      method: "POST",
+      baseURL: api,
+      data: {
+        roomId: roomId,
+        questionId: questionId,
+        languageIdx: parseInt(selected.language),
+        codeStr: codeRef,
+      },
+      headers: {
+        Authorization: Authorization,
+      },
+    })
       .then((res) => {
         console.log(res);
         if (res.data.result === true) {
-          setShowSuccessModal(true)
+          setShowSuccessModal(true);
         } else {
           if (trySub === 1) {
-            setShowFailModal(true)
+            setShowFailModal(true);
           } else {
-            (resAlert(res.data.msg))
+            resAlert(res.data.msg);
             failEs.play();
           }
         }
@@ -412,13 +428,6 @@ const Battle = (props) => {
   //나가기
   const BackToMain = () => {
     leaveRoomAxios();
-  };
-
-  //아이템 사용 불가 메세지
-  const NoItemSys = () => {
-    setMesAlert("아직 패치 중");
-    setRunAlert(true);
-    noItemEs.play();
   };
 
   //Peer
@@ -500,7 +509,7 @@ const Battle = (props) => {
           <BtnOnOff onClick={openChat} change={chatOpen}>
             채팅
           </BtnOnOff>
-          <BtnOnOff onClick={NoItemSys}>아이템</BtnOnOff>
+          <BtnOnOff onClick={setGameRuleModal(true)}>GameRule</BtnOnOff>
           <ExitBtn onClick={BackToMain}>나가기</ExitBtn>
         </BtnDiv>
       </HeadPart>
@@ -545,7 +554,9 @@ const Battle = (props) => {
             <QueDiv queOpen={queOpen} chatOpen={chatOpen}>
               <QueHead>Question</QueHead>
               <QueBox>
-                {questionTitle}<br /><br />
+                {questionTitle}
+                <br />
+                <br />
                 {question}
               </QueBox>
             </QueDiv>
@@ -594,7 +605,13 @@ const Battle = (props) => {
           </OpCamDiv> */}
         </OpponentDiv>
       </BodyPart>
-      {showQuestionModal && <QuestionModal setValue={setShowQuestionModal} questionTitle={questionTitle} question={question} />}
+      {showQuestionModal && (
+        <QuestionModal
+          setValue={setShowQuestionModal}
+          questionTitle={questionTitle}
+          question={question}
+        />
+      )}
       {showSuccessModal && (
         <SuccessModal
           setROpen={setROpen}
@@ -611,8 +628,15 @@ const Battle = (props) => {
           setRunTimer={setRunTimer}
         />
       )}
+      {showGameRuleModal && <GameRuleModal setClose={setGameRuleModal} />}
       {rOpen && (
-        <Result setROpen={setROpen} result={result} setMbmute={setMbmute} setGameStart={setGameStart} setTrySub={setTrySub} />
+        <Result
+          setROpen={setROpen}
+          result={result}
+          setMbmute={setMbmute}
+          setGameStart={setGameStart}
+          setTrySub={setTrySub}
+        />
       )}
 
       <Control
@@ -882,13 +906,13 @@ const QueBox = styled.div`
   margin: 0;
   padding: 5px;
   background-color: #111823;
-  color : lightgray;
+  color: lightgray;
   border-right: 6px solid #a0935c;
   border-left: 6px solid #fffae3;
   border-bottom: 6px solid #a0935c;
   overflow-y: auto;
   line-height: 1.5;
-  font-size : calc((2vw + 2vh)/3);
+  font-size: calc((2vw + 2vh) / 3);
 `;
 
 const CodeDiv = styled.div`
