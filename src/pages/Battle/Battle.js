@@ -118,6 +118,7 @@ const Battle = (props) => {
   const headers = { Authorization: Authorization };
   let sock = new SockJS(`${api}/ws-stomp?username=` + encodeURI(username));
   let client = StompJS.over(sock);
+  client.heartbeat.outgoing = 20000;
   const [opCode, setOpCode] = useState("");
   const [questionTitle, setQuestionTitle] = useState("");
   const [question, setQuestion] = useState("");
@@ -227,7 +228,7 @@ const Battle = (props) => {
     `${ChatApi}/ws-stomp?name=` + encodeURI(username)
   );
   let clientChat = StompJS.over(socket);
-
+  clientChat.heartbeat.outgoing = 20000;
 
   const Chatconnect = () => {
     clientChat.connect({}, onConnect, onError);
@@ -240,7 +241,7 @@ const Battle = (props) => {
 
   const EnterSend = () =>{
     clientChat.send(
-      `/pub/chat/message/${roomId}`,
+      `/pub/chat/message`,
       {},
       JSON.stringify({
         type: "ENTER",
@@ -253,34 +254,33 @@ const Battle = (props) => {
   const ReceiveFunc = (message) => {
     if (message.body) {
       newMesEs.play();
-      const mesType = JSON.parse(message.body.type);
-      const mesMessage = JSON.parse(message.body.message);
-      const mesSender = JSON.parse(message.body.sender);
-      switch (mesType) {
+      const mes = JSON.parse(message.body)
+      console.log(mes)
+      switch (mes.type) {
         case "ENTER":
           dispatch(
             addchatlist({
-              type: mesType,
-              message: mesMessage,
-              sender: mesSender,
+              type: mes.type,
+              message: mes.message,
+              sender: mes.sender,
             })
           );
           break;
         case "TALK":
           dispatch(
             addchatlist({
-              type: mesType,
-              message: mesMessage,
-              sender: mesSender,
+              type: mes.type,
+              message: mes.message,
+              sender: mes.sender,
             })
           );
           break;
         case "EXIT":
           dispatch(
             addchatlist({
-              type: mesType,
-              message: mesMessage,
-              sender: mesSender,
+              type: mes.type,
+              message: mes.message,
+              sender: mes.sender,
             })
           );
           break;
