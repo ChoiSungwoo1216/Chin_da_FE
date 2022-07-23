@@ -20,7 +20,7 @@ const ChatBox = (props) => {
 
     const sendMessage = () => {
         inputRef.current.focus();
-        clientChat.send(`/pub/chat/message`, {}, JSON.stringify(
+        clientChat.send(`/pub/chat/message${roomId}`, {}, JSON.stringify(
             {
                 type: "TALK",
                 roomId: { roomId },
