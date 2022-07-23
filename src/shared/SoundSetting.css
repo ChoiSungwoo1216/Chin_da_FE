@@ -10,8 +10,8 @@
   position: relative;
   cursor: pointer;
   display: inline-block;
-  width: 7vw;
-  height: 7vh;
+  width: 5.5vw;
+  height: 5.5vh;
   background-image: url(../../public/img/BtnBox.png);
   background-repeat: no-repeat;
   background-size: contain;
@@ -22,7 +22,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-130%, -50%);
+  transform: translate(-115%, -50%);
   display: inline-block;
   width: 2vw;
   height: 2vw;
@@ -47,8 +47,8 @@
   position: relative;
   cursor: pointer;
   display: inline-block;
-  width: 7vw;
-  height: 7vh;
+  width: 5.5vw;
+  height: 5.5vh;
   background-image: url(../../public/img/BtnBox.png);
   background-repeat: no-repeat;
   background-size: contain;
@@ -59,7 +59,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-130%, -50%);
+  transform: translate(-115%, -50%);
   display: inline-block;
   width: 2vw;
   height: 2vw;
