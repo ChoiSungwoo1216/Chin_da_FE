@@ -33,6 +33,9 @@ import btnSound from "../../audios/btnselect.mp3";
 import camSound from "../../audios/camOff.mp3";
 import battleBgm from "../../audios/battle_bgm.mp3";
 import newOp from "../../audios/newOpponent.mp3"
+import failSound from "../../audios/FailSE4.mp3";
+import noItem from "../../audios/noItemSE1.mp3"
+
 
 //websocket
 import * as StompJS from "stompjs";
@@ -62,7 +65,8 @@ const Battle = (props) => {
   const btnEs = effectSound(btnSound, userSound.es);
   // const camEs = effectSound(camSound, userSound.es);
   const newOpEs = effectSound(newOp, userSound.es);
-
+  const failEs = effectSound(failSound, userSound.es);
+  const noItemEs = effectSound(noItem, userSound.es);
 
   //RoomInfo
   const info = location.state;
@@ -101,7 +105,6 @@ const Battle = (props) => {
   //Toastify Alert
   const [runAlert, setRunAlert] = useState(false);
   const [mesAlert, setMesAlert] = useState("FAIL");
-  const [newOpAlert, setNewOpAlert] = useState("");
   const resAlert = (r) => {
     setMesAlert(r);
     setRunAlert(true);
@@ -147,12 +150,11 @@ const Battle = (props) => {
           break;
         case "USERINFO":
           newOpEs.play();
-          setNewOpAlert(true);
           resAlert("상대 입장");
           break;
-          case "GAME":
-            setOpCode(mes.message)
-            break;
+        case "GAME":
+          setOpCode(mes.message)
+          break;
         default:
       }
     } else {
@@ -257,11 +259,17 @@ const Battle = (props) => {
       })
       .then((res) => {
         console.log(res);
-        (res.data.result === true) ? setShowSuccessModal(true) : resAlert(res.data.msg)
+        if (res.data.result === true) {
+          setShowSuccessModal(true)
+        } else {
+          (resAlert(res.data.msg))
+          failEs.play();
+        }
       })
       .catch((err) => {
         console.log(err);
         resAlert("Fail to connect to server!");
+        failEs.play();
       });
   };
 
@@ -328,6 +336,7 @@ const Battle = (props) => {
   const NoItemSys = () => {
     setMesAlert("아직 패치 중");
     setRunAlert(true);
+    noItemEs.play();
   };
 
   //Peer
@@ -397,8 +406,6 @@ const Battle = (props) => {
         runAlert={runAlert}
         setRunAlert={setRunAlert}
         mesAlert={mesAlert}
-        newOpAlert={newOpAlert}
-        setNewOpAlert={setNewOpAlert}
       />
       <HeadPart>
         <TimerDiv>
@@ -465,8 +472,8 @@ const Battle = (props) => {
             <ChatingDiv>
               <ChatHead>Chatting</ChatHead>
               <ChatBox
-              roomId={roomId}
-              username={username}
+                roomId={roomId}
+                username={username}
               />
             </ChatingDiv>
           )}

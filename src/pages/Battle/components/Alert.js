@@ -2,9 +2,6 @@ import React, { useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Alert.css";
-import { useSelector } from "react-redux";
-import effectSound from "../../../shared/effectSound";
-import failSound from "../../../audios/FailSE4.mp3";
 
 const XBtn = ({ closeToast }) => {
   return (
@@ -19,18 +16,7 @@ const Alert = (p) => {
   const runValue = p.runAlert;
   const refresh = p.setRunAlert;
   const mesAlert = p.mesAlert;
-  const newOpAlert = p.newOpAlert;
-  const setNewOpAlert = p.setNewOpAlert
 
-  const userSound = useSelector((state) => state.user.sound);
-  const failEs = effectSound(failSound, userSound.es);
-  React.useEffect(() => {
-    if (newOpAlert !== true ) {
-      failEs.play();
-    }  else {
-      setNewOpAlert(false);
-    }
-  }, [newOpAlert]);
   // console.log(runValue + "--alert");
   const ToastDefault = () => {
     //type선언 default:toast, type: toast.success,error,warning,info,promise,dismiss
