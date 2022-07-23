@@ -91,7 +91,7 @@ export const GameRuleModal = (p) => {
           </header>
           <div className="ModalContent">
             <div className="qTitle">GAME RULE</div>
-            <div className="q">1.ablalalal~~~</div>
+            <div className="q">System.out.println()</div>
           </div>
         </div>
         <img
