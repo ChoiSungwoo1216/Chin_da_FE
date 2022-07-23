@@ -66,13 +66,13 @@ const SoundSetting = (props) => {
                     <label htmlFor="switch" className="switch_label">
                        {userSound.bgm === 0.1 ? (
                           <img
-                             src={'/img/BtnOn.png'}
+                             src={'/img/BtnOn.svg'}
                              alt=""
                              className="onf_btn"
                           />
                        ) : (
                           <img
-                             src={'/img/BtnOff.png'}
+                             src={'/img/BtnOff.svg'}
                              alt=""
                              className="onf_btn"
                           />
@@ -90,13 +90,13 @@ const SoundSetting = (props) => {
                     <label htmlFor="switch1" className="switch_label1">
                        {userSound.es === 0.5 ? (
                           <img
-                             src={'/img/BtnOn.png'}
+                             src={'/img/BtnOn.svg'}
                              alt=""
                              className="onf_btn1"
                           />
                        ) : (
                           <img
-                             src={'/img/BtnOff.png'}
+                             src={'/img/BtnOff.svg'}
                              alt=""
                              className="onf_btn1"
                           />
@@ -160,8 +160,8 @@ const SettingDiv = styled.div`
   margin: 0;
   padding: 0;
   background: #fff;
-  height: 37vh;
-  width: 25vw;
+  height: 40vh;
+  width: 29vw;
   border: 5px solid black;
 `;
 
@@ -181,20 +181,33 @@ const LogOutBtn = styled.div`
    display: flex;
    justify-content: center;
    align-items: center;
-   margin-bottom: 1.7vh;
+
    background-image: url('/img/login_btn_white.svg');
    background-position: center;
    background-size: 100%, 100%, cover;
    background-repeat: no-repeat;
-   width: calc((27vh + 30vw) / 4);
-   height: calc((27vh + 30vw) / 4);
+   width: calc((27vh + 40vw) / 4);
+   height: calc((27vh + 40vw) / 4);
    font-size: 1.5vw;
    cursor: pointer;
-
+   @keyframes push {
+      50% {
+         transform: scale(.985);
+      }
+      100% {
+         transform: scale(1);
+      }
+   }
    &:hover {
       background-image: url('/img/login_btn_black.svg');
+      cursor: pointer;
+      animation-name: push;
+      animation-duration: 0.5s;
+      animation-timing-function: ease-in;
+      animation-iteration-count: 1;
       & p {
          color: white;
+         
       }
    }
 `;
@@ -203,7 +216,7 @@ const SetLine = styled.div`
    justify-content: center;
    text-align: center;
    padding: .3vh 0;
-   margin-top: 1vh;
+   margin-top: 1.5vh;
 `;
 
 const SetName = styled.div`
@@ -213,21 +226,22 @@ const SetName = styled.div`
   line-height: 7vh;
   font-size: calc((1.8vw + 1.8vh) / 2);
   font-weight: 600;
-  padding-right: 4vh;
+  padding-right: 4vw;
   text-align: left;
 
 `;
 
 const ExitSetting = styled.img`
   position: absolute;
-  top: calc((2vw + 2vh) / 4 * -1);
-  right: calc((2vw + 2vh) / 4 * -1);
+  top: calc((2.5vw + 2.5vh) / 4 * -1);
+  right: calc((2.5vw + 2.5vh) / 4 * -1);
   width: calc((2.5vw + 2.5vh) / 2);
   height: calc((2.5vw + 2.5vh) / 2);
   z-index: 12;
   :hover {
     content: url(/img/X_btn_white_30.svg);
   }
+  
 `;
 
 const WordDiv = styled.div`
