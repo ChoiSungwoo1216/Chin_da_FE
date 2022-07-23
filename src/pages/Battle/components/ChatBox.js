@@ -5,15 +5,13 @@ import * as StompJS from "stompjs";
 import * as SockJS from "sockjs-client";
 
 const ChatBox = (props) => {
-    const inputRef = useRef();
-
     //채널 정보
     const roomId = props.roomId;
     const username = props.username;
 
     //메세지 보내기
-    const [message, setMessage] = React.useState("");
-
+    const messageRef = useRef("");
+    console.log(messageRef)
     //채팅 기록
     const chattinglist = useSelector((state) => state.chatlist.list);
 
@@ -25,16 +23,15 @@ const ChatBox = (props) => {
     let clientChat = StompJS.over(socket);
 
     const sendMessage = () => {
-        inputRef.current.focus();
         clientChat.send(`/pub/chat/message/${roomId}`, {}, JSON.stringify(
             {
                 type: "TALK",
                 roomId: roomId,
                 sender: username,
-                message: message,
+                message: messageRef.current.value,
             })
         );
-        setMessage("");
+        messageRef.current.value="";
     }
 
     // 엔터키 입력 시
@@ -64,11 +61,12 @@ const ChatBox = (props) => {
             </ChattingDiv>
             <ChatInputDiv>
                 <ChatInput
-                    value={message}
+                    // value={message}
+                    type = "text"
                     onKeyPress={onKeyPress}
-                    onChange={(e) => { setMessage(e.target.value); }}
+                    onChange={(e) => { messageRef.current = e.target;}}
                     placeholder="메세지 보내기"
-                    ref={inputRef}
+                    ref={messageRef}
                 />
                 <ChatSend
                     onClick={sendMessage}
