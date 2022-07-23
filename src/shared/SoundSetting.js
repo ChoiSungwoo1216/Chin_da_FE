@@ -25,6 +25,22 @@ const SoundSetting = (props) => {
     }
   };
 
+  const token = sessionStorage.getItem("Authorization");
+  const logined = () => {
+    if (token === null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  const logout = ()=>{
+    sessionStorage.removeItem("Authorization");
+    sessionStorage.removeItem("username");
+    sessionStorage.removeItem("profile");
+    sessionStorage.removeItem("winCnt");
+    sessionStorage.removeItem("loseCnt");
+    sessionStorage.removeItem("newUser");
+  }
   return (
     <>
       <SoundSettingBackground />
@@ -69,6 +85,11 @@ const SoundSetting = (props) => {
                 )}
               </label>
             </SetLine>
+            {/* {logined ? ( */}
+            {/* <div onClick={logout}>
+
+            </div> */}
+            {/* ) : <></>} */}
           </WhiteDiv>
         </WordDiv>
       </SettingDiv>

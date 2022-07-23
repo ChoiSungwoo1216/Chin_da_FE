@@ -11,9 +11,10 @@ import GitLogin from "./pages/Start/components/GitLogin.js";
 import TutorialBtn from "./pages/Tutorial/TutorialBtn.js";
 import SoundSettingBtn from "./shared/SoundSettingBtn.js";
 
-import MainB from "./shared/MainB"
+import { MainB, MainA } from "./shared/MainBgm"
 
 function App() {
+  const [mMute, setMMute] = React.useState(false);
   const [mbmute, setMbmute] = React.useState(false);
   const token = sessionStorage.getItem("Authorization");
   const logined = () => {
@@ -31,13 +32,15 @@ function App() {
       <div id="stars3"></div>
       <TutorialBtn />
       <SoundSettingBtn />
-      {/* <Routes> */}
       {logined() ? (
-        <Routes>
-          <Route path="/" element={<Start />} />
-          <Route path="/github" element={<GitLogin />} />
-          <Route path="/*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <>
+          <MainA mMute={mMute}/>
+          <Routes>
+            <Route path="/" element={<Start setMMute={setMMute}/>} />
+            <Route path="/github" element={<GitLogin setMMute={setMMute}/>} />
+            <Route path="/*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </>
       ) : (
         <>
           <MainB mbmute={mbmute} />
@@ -56,7 +59,6 @@ function App() {
           </Routes>
         </>
       )}
-      {/* </Routes> */}
     </div>
   );
 }
