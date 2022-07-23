@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LoginModal from "./components/LoginModal";
 import styled, { keyframes, css } from "styled-components";
 import "./startAnimation.css";
 
-const Start = () => {
+const Start = ({ setMMute }) => {
   const [modalOpen, setModalOpen] = React.useState(false);
   const [HOVER, setHOVER] = React.useState(false);
   const [timing, setTiming] = React.useState(false);
@@ -14,8 +14,11 @@ const Start = () => {
   const close = () => {
     setModalOpen(false);
   };
-
+  const bgmOn = () => {
+    setMMute(false);
+  };
   React.useEffect(() => {
+    bgmOn();
     const count = setInterval(() => {
       setTiming(true);
     }, 5000);
@@ -36,7 +39,7 @@ const Start = () => {
         onMouseOut={() => {
           setHOVER(false);
         }}
-        onClick={(HOVER === true) ? open : undefined}
+        onClick={HOVER === true ? open : undefined}
       >
         {HOVER === false && (
           <>
