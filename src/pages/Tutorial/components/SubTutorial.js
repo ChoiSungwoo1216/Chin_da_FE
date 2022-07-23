@@ -13,11 +13,11 @@ import { useNavigate } from 'react-router-dom';
 import { Pagination, Navigation, Mousewheel, Keyboard } from 'swiper';
 export default function SubTutorial(props) {
    const navigate = useNavigate();
-   const { setTutoOpen } = props
-   
+   const { setTutoOpen } = props;
+
    const PlayGame = () => {
-      navigate('../../Main/Main')
-   }
+      navigate('../../Main/Main');
+   };
    return (
       <>
          <Background onClick={() => setTutoOpen(false)} />
@@ -38,22 +38,22 @@ export default function SubTutorial(props) {
                </div>
 
                <SwiperSlide>
-                  <img src="/img/selection.jpg" />
+                  <img src="/img/selection.jpg" alt="" />
                </SwiperSlide>
                <SwiperSlide>
-                  <img src="/img/selection.jpg" />
+                  <img src="/img/selection.jpg" alt="" />
                </SwiperSlide>
                <SwiperSlide>
-                  <img src="/img/selection.jpg" />
+                  <img src="/img/selection.jpg" alt="" />
                </SwiperSlide>
                <SwiperSlide>
-                  <img src="/img/selection.jpg" />
+                  <img src="/img/selection.jpg" alt="" />
                </SwiperSlide>
                <SwiperSlide>
-                  <img src="/img/selection.jpg" />
+                  <img src="/img/selection.jpg" alt="" />
                </SwiperSlide>
                <SwiperSlide>
-                  <img src="/img/selection.jpg" />
+                  <img src="/img/selection.jpg" alt=''/>
                   <button className="PlayBtn" onClick="PlayGame">
                      PLAY
                   </button>
@@ -64,13 +64,13 @@ export default function SubTutorial(props) {
    );
 }
 const Background = styled.div`
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    background-color: rgba(255,255,255,0.15);
-    backdrop-filter: blur(5px);
-    z-index: 10;
+   position: fixed;
+   width: 100%;
+   height: 100%;
+   top: 0;
+   background-color: rgba(255, 255, 255, 0.15);
+   backdrop-filter: blur(5px);
+   z-index: 10;
 `;
 const ExitBtn = styled.img`
    position: absolute;
