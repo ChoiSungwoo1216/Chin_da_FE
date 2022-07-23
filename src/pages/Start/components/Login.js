@@ -17,6 +17,7 @@ const Login = () => {
         </GithubBtn>
       </Wrap>
     </>
+
   );
 };
 
@@ -30,7 +31,6 @@ const Wrap = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   gap: 2.34vw;
 `;
 
@@ -45,32 +45,42 @@ const Text = styled.p`
 `;
 
 const GithubBtn = styled.div`
-  cursor: pointer;
-  position: relative;
-  display: flex;
-  background-color: transparent;
-  margin: 0;
+   cursor: pointer;
+   position: relative;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin: 0;
 
-  background-image: url("/img/login_btn_white.svg");
-  background-position: center;
-  background-size: 100%, 100%, cover;
-  background-repeat: no-repeat;
+   background-image: url('/img/login_btn_white.svg');
+   background-position: center;
+   background-size: 100%, 100%, cover;
+   background-repeat: no-repeat;
 
-  width: 14.06vw;
-  height: 3.91vw;
+   width: 14.06vw;
+   height: 3.91vw;
 
-  justify-content: center;
-  align-items: center;
-  font-size: 1.56vw;
-  font-family: Neo;
-  line-height: 1;
-
-  &:hover {
-    background-image: url("/img/login_btn_black.svg");
-    & a {
-      color: white;
-    }
-  }
+   font-size: 1.56vw;
+   line-height: 1;
+   @keyframes push {
+      50% {
+         transform: scale(0.98);
+      }
+      100% {
+         transform: scale(1);
+      }
+   }
+   &:hover {
+      background-image: url('/img/login_btn_black.svg');
+      cursor: pointer;
+      animation-name: push;
+      animation-duration: 0.5s;
+      animation-timing-function: ease-in;
+      animation-iteration-count: 1;
+      & a {
+         color: white;
+      }
+   }
 `;
 
 const BtnA = styled.a`
