@@ -20,7 +20,7 @@ const Alert = (p) => {
   const refresh = p.setRunAlert;
   const mesAlert = p.mesAlert;
   const newOpAlert = p.newOpAlert;
-  const setNewOpAlert = p.setNewOpAlert
+  const setNewOpAlert = p.setNewOpAlert;
 
   const userSound = useSelector((state) => state.user.sound);
   const failEs = effectSound(failSound, userSound.es);
@@ -33,28 +33,14 @@ const Alert = (p) => {
   // }, [newOpAlert]);
   // console.log(runValue + "--alert");
   const ToastDefault = () => {
-    toast.error(
-      `${mesAlert}`,
-      {
-        icon: "💫", 
-        progress: undefined, 
-        theme: "colored", 
-        delay: 0, 
-        closeButton: <XBtn />, 
-      }
-    );
-  };
-
-  const ToastEnter = ()=>{
-    toast.error(`${mesAlert}`,
-    {
-      position: "top-center",
+    toast.error(`${mesAlert}`, {
+      icon: "💫",
       progress: undefined,
       theme: "colored",
-delay: 0,
-closeButton: <XBtn/>
-    })
-  }
+      delay: 0,
+      closeButton: <XBtn />,
+    });
+  };
 
   // const RunToast = () => {
   //   return runValue === true ? ToastDefault() : null;
