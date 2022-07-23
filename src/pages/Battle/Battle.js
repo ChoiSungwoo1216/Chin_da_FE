@@ -218,10 +218,10 @@ const Battle = (props) => {
   }, [sendT]);
 
   //채팅 서버
-  const ChatApi = "http://13.209.42.37";
+  const ChatApi = "http://3.36.64.91";
 
   let socket = new SockJS(
-    `${ChatApi}/ws-stomp?username=` + encodeURI(username)
+    `${ChatApi}/ws-stomp`
   );
   let clientChat = StompJS.over(socket);
 
@@ -241,7 +241,7 @@ const Battle = (props) => {
   const onConnect = () => {
     clientChat.subscribe(`/sub/chat/room/${roomId}`, ReceiveFunc);
     clientChat.send(
-      `/pub/chat/message`,
+      `/pub/chat/message${roomId}`,
       {},
       JSON.stringify({
         type: "ENTER",
