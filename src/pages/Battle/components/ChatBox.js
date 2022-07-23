@@ -1,6 +1,8 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
+import * as StompJS from "stompjs";
+import * as SockJS from "sockjs-client";
 
 const ChatBox = (props) => {
     const inputRef = useRef();
@@ -16,7 +18,11 @@ const ChatBox = (props) => {
     const chattinglist = useSelector((state) => state.chatlist.list);
 
     //Websocket
-    const clientChat = props.clientChat
+    const ChatApi = process.env.REACT_APP_API_CHAT;
+    let socket = new SockJS(
+        `${ChatApi}/ws-stomp?name=` + encodeURI(username)
+    );
+    let clientChat = StompJS.over(socket);
 
     const sendMessage = () => {
         inputRef.current.focus();
