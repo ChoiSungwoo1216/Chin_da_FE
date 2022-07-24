@@ -81,17 +81,47 @@ export const GameRuleModal = (p) => {
   return (
     <>
       <Modal
-        className="ModalBox"
+        className="ModalBox ruleBox"
         isOpen={modalIsOpen}
         style={customModalStyles}
       >
         <div className="ModalBody">
           <header>
-            <h3>GameRule</h3>
+            <h3>G A M E R U L E</h3>
           </header>
-          <div className="ModalContent">
-            <div className="qTitle">GAME RULE</div>
-            <div className="q">System.out.println()</div>
+          <div className="ModalContent ruleContent">
+            <div className="qTitle">규 칙</div>
+            <hr />
+            <div className="q">
+              <ol>
+                <li>
+                  게임 중 뒤로가거나 새로고침 시,
+                  <br />
+                  방에서 나가지며, 패배처리가 됩니다.
+                </li>
+                <hr />
+                <li>제출이 가능한 횟수는 총 3번입니다.</li>
+                <hr />
+                <li>시간이 끝나면 플레이어 모두 패배처리가 됩니다.</li>
+                <hr />
+                <li>
+                  코드 작성 시, 기존에 제시한 함수와 변수명을 변경하지
+                  말아주세요. (오답처리가 될 수 있습니다.)
+                </li>
+                <hr />
+                <li>
+                  출력문을 입력하지 말아주세요
+                  <br />
+                  <br />
+                  Python : print()
+                  <br />
+                  java : System.out.println
+                  <br />
+                  javascript : console.log()
+                </li>
+                <hr />
+              </ol>
+            </div>
           </div>
         </div>
         <img

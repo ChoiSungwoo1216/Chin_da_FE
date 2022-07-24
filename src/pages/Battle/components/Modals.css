@@ -11,6 +11,9 @@
   border: 1px solid #fff;
   animation: modalAnimation 0.5s linear forwards;
 }
+.ruleBox {
+  background-color: white;
+}
 
 @keyframes modalAnimation {
   0% {
@@ -34,14 +37,16 @@ header {
 
 header h3 {
   margin: auto;
-  padding: 4px;
+  padding: 6px;
   color: #fff;
+  font-family: Neo;
 }
 
 .ModalBody {
   display: flex;
   height: 100%;
 }
+
 .ModalContent {
   position: relative;
   height: 97%;
@@ -52,6 +57,21 @@ header h3 {
   overflow-y: scroll;
   padding: 15px;
   float: left;
+}
+
+.ruleContent {
+  position: relative;
+  display: flex-box;
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  font-family: Neo;
+  font-size: 30px;
+
+  color: black;
+  text-align: center;
 }
 
 .qTitle {
