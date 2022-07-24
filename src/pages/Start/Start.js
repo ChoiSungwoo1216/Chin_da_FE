@@ -150,8 +150,6 @@ const LogoContainer = styled.div`
   width: 23.6%; //35.16vw = 450px, 27.34vw = 350px, 19.53vw=250px, 23.44vw=300px, 62:38
   height: 23.6vw;
   top: 22.06vh;
-
-  /* border: 1px solid red; */
 `;
 const StartLogo = styled.div`
   position: relative;
@@ -163,8 +161,6 @@ const StartLogo = styled.div`
 
   background: url("/img/logo_badge_blue.svg") center no-repeat;
   background-size: 100% 100%;
-
-  /* font-size: 15vmin; */
 
   width: 100%; //35.16vw = 450px, 27.34vw = 350px, 19.53vw=250px, 23.44vw=300px 62:38
   height: 100%;
@@ -212,8 +208,6 @@ const Fist = styled.div`
 
   animation: fistMovingX 2s ease-in-out, fistMovingY 2s ease-in-out 2s forwards,
     fistChange 0.5s 4s steps(1) infinite;
-
-  /* fistChange 0.5s steps(1) infinite; */
 `;
 
 const Dust = styled.div`

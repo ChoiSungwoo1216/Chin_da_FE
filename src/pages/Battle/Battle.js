@@ -41,7 +41,7 @@ import newMes from "../../audios/newMessage.mp3";
 //websocket
 import * as StompJS from "stompjs";
 import * as SockJS from "sockjs-client";
-import { addchatlist } from "../../redux/modules/chatlist";
+import { addchatlist, deletechatlist } from "../../redux/modules/chatlist";
 
 import { alreadyUser } from "../../redux/modules/user";
 
@@ -129,6 +129,7 @@ const Battle = (props) => {
       connect();
       Chatconnect();
       return () => {
+        dispatch(deletechatlist());
         client.disconnect();
         clientChat.disconnect();
       };
@@ -224,9 +225,7 @@ const Battle = (props) => {
   //채팅 서버
   const ChatApi = process.env.REACT_APP_API_CHAT;
 
-  let socket = new SockJS(
-    `${ChatApi}/ws-stomp?name=` + encodeURI(username)
-  );
+  let socket = new SockJS(`${ChatApi}/ws-stomp?name=` + encodeURI(username));
   let clientChat = StompJS.over(socket);
   clientChat.heartbeat.outgoing = 20000;
 
@@ -239,7 +238,7 @@ const Battle = (props) => {
     EnterSend();
   };
 
-  const EnterSend = () =>{
+  const EnterSend = () => {
     clientChat.send(
       `/pub/chat/message`,
       {},
@@ -248,14 +247,14 @@ const Battle = (props) => {
         roomId: roomId,
         sender: username,
       })
-    )
-  }
+    );
+  };
 
   const ReceiveFunc = (message) => {
     if (message.body) {
       newMesEs.play();
-      const mes = JSON.parse(message.body)
-      console.log(mes)
+      const mes = JSON.parse(message.body);
+      console.log(mes);
       switch (mes.type) {
         case "ENTER":
           dispatch(
@@ -508,7 +507,7 @@ const Battle = (props) => {
           <BtnOnOff onClick={openChat} change={chatOpen}>
             채팅
           </BtnOnOff>
-          <BtnOnOff onClick={()=>setGameRuleModal(true)}>GameRule</BtnOnOff>
+          <BtnOnOff onClick={() => setGameRuleModal(true)}>규칙</BtnOnOff>
           <ExitBtn onClick={BackToMain}>나가기</ExitBtn>
         </BtnDiv>
       </HeadPart>
@@ -563,10 +562,7 @@ const Battle = (props) => {
           {chatOpen && (
             <ChatingDiv>
               <ChatHead>Chatting</ChatHead>
-              <ChatBox
-                roomId={roomId}
-                username={username}
-              />
+              <ChatBox roomId={roomId} username={username} />
             </ChatingDiv>
           )}
           <CodeDiv queOpen={queOpen} chatOpen={chatOpen}>
