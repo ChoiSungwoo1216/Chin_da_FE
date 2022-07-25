@@ -1,17 +1,23 @@
 import React from "react";
 import styled from "styled-components";
 
+import effectSound from "../../../shared/effectSound";
+import enterSound from "../../../audios/SelectionRoomClickSE1.mp3"
+
 const Login = () => {
   const client_id = process.env.REACT_APP_GIT_CLIENT_ID;
   const redirect_uri = process.env.REACT_APP_GIT_REDIRECT_URI;
   const locateGit = `https:/github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}`;
+  const esVol = sessionStorage.getItem("es");
+  const enterEs = effectSound(enterSound, esVol);
+
   return (
     <>
       <Wrap>
         <Text>너 개발자면서 github도</Text>
         <Text>없는건 아니겠지?</Text>
         <GithubBtn>
-          <BtnA href={locateGit} git={locateGit}>
+          <BtnA href={locateGit} git={locateGit} onClick={()=>enterEs.play()}>
             <p> GithubLogin </p>
           </BtnA>
         </GithubBtn>

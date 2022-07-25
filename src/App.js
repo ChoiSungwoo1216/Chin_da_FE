@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import Start from "./pages/Start/Start.js";
@@ -12,8 +12,11 @@ import TutorialBtn from "./pages/Tutorial/TutorialBtn.js";
 import SoundSettingBtn from "./shared/SoundSettingBtn.js";
 
 import { MainB, MainA } from "./shared/MainBgm"
+import { useDispatch } from "react-redux";
+import { editsound } from "./redux/modules/user.js";
 
 function App() {
+  const dispatch = useDispatch();
   const [mMute, setMMute] = React.useState(false);
   const [mbmute, setMbmute] = React.useState(false);
   const token = sessionStorage.getItem("Authorization");
@@ -24,7 +27,13 @@ function App() {
       return false;
     }
   }
-
+  useEffect(() => {
+    if (!localStorage.getItem("bgm") || !localStorage.getItem("es")) {
+      localStorage.setItem("bgm", 0.1)
+      localStorage.setItem("es", 0.5)
+      dispatch((editsound({ bgm: parseInt(localStorage.getItem("bgm")), es: parseInt(localStorage.getItem("es"))})))
+    }
+  }, [])
   return (
     <div className="App">
       <div id="stars"></div>
@@ -34,10 +43,10 @@ function App() {
       <SoundSettingBtn />
       {logined() ? (
         <>
-          <MainA mMute={mMute}/>
+          <MainA mMute={mMute} />
           <Routes>
-            <Route path="/" element={<Start setMMute={setMMute}/>} />
-            <Route path="/github" element={<GitLogin setMMute={setMMute}/>} />
+            <Route path="/" element={<Start setMMute={setMMute} />} />
+            <Route path="/github" element={<GitLogin setMMute={setMMute} />} />
             <Route path="/*" element={<Navigate to="/" replace />} />
           </Routes>
         </>

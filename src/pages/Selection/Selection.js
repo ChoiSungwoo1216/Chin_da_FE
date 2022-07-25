@@ -8,8 +8,7 @@ import { useSelector } from "react-redux";
 import effectSound from "../../shared/effectSound";
 import selectSound from "../../audios/btnselect.mp3"
 import hoverSound from "../../audios/BtnHoverSE1.mp3"
-import enterSound from "../..//audios/SelectionRoomClickSE1.mp3"
-
+import enterSound from "../../audios/SelectionRoomClickSE1.mp3"
 const Selection = () => {
    const userSound = useSelector((state) => state.user.sound);
 
