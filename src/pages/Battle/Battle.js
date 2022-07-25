@@ -295,7 +295,15 @@ const Battle = (props) => {
             navigate(`/Main`);
          })
          .catch((error) => {
-            console.log(error);
+            if (error.response.data.reLogin === true){
+               sessionStorage.removeItem("Authorization");
+               sessionStorage.removeItem("username");
+               sessionStorage.removeItem("profile");
+               sessionStorage.removeItem("winCnt");
+               sessionStorage.removeItem("loseCnt");
+               sessionStorage.removeItem("newUser");
+               window.location.replace('/');
+            }
          });
    };
 

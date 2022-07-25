@@ -66,6 +66,7 @@ const Control = (props) => {
 
   const ReReady = () => {
     dispatch(gameSwitch(false));
+    dispatch(alreadyUser({ user: false, opp: false }));
   };
   //pending
   const userPending = () => dispatch(setPending({ user: true }));
