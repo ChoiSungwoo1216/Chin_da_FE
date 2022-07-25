@@ -205,20 +205,15 @@ export const FailModal = ({ setROpen, setResult, setBbmute }) => {
   const [modalIsOpen, setIsOpen] = React.useState(true);
   const confetti = new JSConfetti();
   const confettiList = () => {
-    const customModalStyles = {
-      content: {
-        color: "#fff",
-      },
-    };
+
     confetti.addConfetti({
       emojiSize: 30,
       emojis: ["Lose"],
-      // confettiColor: '#fff',
     });
     confetti.addConfetti({
       emojis: ["😭", "😥"],
-      emojiSize: 50,
-      confettiNumber: 30,
+      emojiSize: 70,
+      confettiNumber: 50,
     });
   };
 
