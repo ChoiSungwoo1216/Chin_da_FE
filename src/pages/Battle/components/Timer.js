@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  gameSwitch,
+  sendCodeTiming,
+} from "../../../redux/modules/battleFunction";
 
 function Timer(p) {
-  const times = p.value.Time; // 난이도별 시간
-  const active = p.value.Active;
-  const checkT = p.checkT
+  const sendT = useSelector((state) => state.battleFunction.sendRun);
+  const dispatch = useDispatch();
+
+  const times = p.Time; // 난이도별 시간
+  const active = p.setActive;
 
   const minute = Math.floor(times / 60); // 분
   const second = times - minute * 60; // 초
@@ -12,6 +19,9 @@ function Timer(p) {
   const [minutes, setMinutes] = useState(minute);
   const [seconds, setSeconds] = useState(second);
 
+  const checkT = () => {
+    sendT ? dispatch(sendCodeTiming(false)) : dispatch(sendCodeTiming(true));
+  };
 
   useEffect(() => {
     setMinutes(minute);
@@ -23,15 +33,16 @@ function Timer(p) {
       if (active === true) {
         if (parseInt(seconds) > 0) {
           setSeconds(parseInt(seconds) - 1);
-          (seconds % 10 === 0) && checkT();
+          seconds % 10 === 0 && checkT();
         }
         if (parseInt(seconds) === 0) {
           if (parseInt(minutes) === 0) {
             clearInterval(countdown);
+            dispatch(gameSwitch(false));
           } else {
             setMinutes(parseInt(minutes) - 1);
             setSeconds(59);
-            (seconds % 10 === 0) && checkT()
+            seconds % 10 === 0 && checkT();
           }
         }
       } else {

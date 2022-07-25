@@ -2,86 +2,84 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { QuestionModal, SuccessModal, FailModal } from "./components/Modals";
 import { useDispatch, useSelector } from "react-redux";
-import { alreadyUser } from "../../redux/modules/user";
+import {
+  alreadyUser,
+  gameSwitch,
+  setMsg,
+  setAlert,
+  setCountdown,
+  setPending,
+} from "../../redux/modules/battleFunction";
 const Control = (props) => {
   const {
-    setRunTimer,
     setShowQuestionModal,
     setShowSuccessModal,
     setShowFailModal,
-    setRunAlert,
     setROpen,
-    setTimeSetting,
-    setMesAlert,
     // remotePeerIdValue,
     // setRemotePeerIdValue,
     // call,
     // peerId,
-    setRunCountdown,
-    setGameStart,
     setQueOpen,
-    setUserPending,
-    setOppPending,
     setMbmute,
     setBbmute,
   } = props;
 
-  const already = useSelector((state) => state.user.already);
+  const already = useSelector((state) => state.battleFunction.already);
+  const gameStatus = useSelector((state) => state.battleFunction.gameStatus);
   const dispatch = useDispatch();
 
   const onCountdown = () => {
-    setGameStart(true);
-    setRunCountdown(true);
-    setMbmute(true)
+    dispatch(setCountdown(true));
+    setMbmute(true);
     const countdown = setInterval(() => {
-      setRunTimer(true);
-      setRunCountdown(false);
+      dispatch(setCountdown(false));
       setShowQuestionModal(true);
       dispatch(alreadyUser({ user: false, opp: false }));
       clearInterval(countdown);
       setQueOpen(true);
-      setBbmute(false)
+      setBbmute(false);
     }, 3150);
     return () => clearInterval(countdown);
   };
 
   const AlertMes = () => {
-    setMesAlert("Fail");
-    setRunAlert(true);
+    dispatch(setMsg("Fail"));
+    dispatch(setAlert(true));
   };
 
   const alreadyToStart = () => {
-    already.user && already.opp === true && onCountdown();
+    already.user && already.opp === true && dispatch(gameSwitch(true));
+  };
+
+  const gameStart = () => {
+    gameStatus === true && onCountdown();
   };
 
   useEffect(() => {
     alreadyToStart();
   }, [already]);
 
+  useEffect(() => {
+    gameStart();
+  }, [gameStatus]);
+
+  const ReReady = () => {
+    dispatch(gameSwitch(false));
+  };
+  //pending
+  const userPending = () => dispatch(setPending({ user: true }));
+  const oppPending = () => dispatch(setPending({ opp: true }));
+
   // useEffect(()=>{
   //   call(props.remotePeerIdValue)
   // },[remotePeerIdValue])
 
-  const ReReady = () =>{
-    setGameStart(false)
-    dispatch( dispatch(alreadyUser({ user : false })))
-  }
   return (
     <ControlDiv>
       <div>
-        레디버튼 살려내기
-        <button onClick={ReReady}>살려내기</button>
-      </div>
-      <div>
-        타이머 시작
-        <button onClick={() => setRunTimer(true)}>시작</button>
-        <button onClick={() => setRunTimer(false)}>끝</button>
-      </div>
-      <div>
-        시간 조작
-        <button onClick={() => setTimeSetting(300)}>하 5분</button>
-        <button onClick={() => setTimeSetting(600)}>중 10분</button>
-        <button onClick={() => setTimeSetting(900)}>상 15분</button>
+        게임 초기화
+        <button onClick={ReReady}>초기화</button>
       </div>
       <div>
         문제 모달창 오픈
@@ -108,8 +106,8 @@ const Control = (props) => {
       </div>
       <div>
         제출
-        <button onClick={() => setUserPending(true)}>user제출</button>
-        <button onClick={() => setOppPending(true)}>opp제출</button>
+        <button onClick={() => userPending()}>user제출</button>
+        <button onClick={() => oppPending()}>opp제출</button>
       </div>
       {/* <div>
         Peer 관련

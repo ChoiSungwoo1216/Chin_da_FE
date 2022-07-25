@@ -4,13 +4,14 @@ import Modal from "react-modal";
 import JSConfetti from "js-confetti";
 import ConfettiCanvas from "react-confetti-canvas";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./Modals.css";
 import effectSound from "../../../shared/effectSound";
 import winSound from "../../../audios/WinSE1.mp3";
 import loseSound from "../../../audios/LoseSE1.mp3";
 import win1Sound from "../../../audios/WinSE2.mp3";
 import lose1Sound from "../../../audios/FailSE1.mp3";
+import { gameSwitch } from "../../../redux/modules/battleFunction";
 
 /*QuestionModal*/
 export const QuestionModal = (p) => {
@@ -136,17 +137,13 @@ export const GameRuleModal = (p) => {
 };
 
 /*SuccessModal*/
-export const SuccessModal = ({
-  setROpen,
-  setResult,
-  setRunTimer,
-  setBbmute,
-}) => {
+export const SuccessModal = ({ setROpen, setResult, setBbmute }) => {
   const userSound = useSelector((state) => state.user.sound);
   const winEs = effectSound(winSound, userSound.es);
+  const dispatch = useDispatch();
   const muteBb = () => {
     setBbmute(true);
-    setRunTimer(false);
+    dispatch(gameSwitch(false));
   };
   React.useEffect(() => {
     winEs.play();
@@ -198,12 +195,13 @@ export const SuccessModal = ({
 };
 
 /*FailModal*/
-export const FailModal = ({ setROpen, setResult, setRunTimer, setBbmute }) => {
+export const FailModal = ({ setROpen, setResult, setBbmute }) => {
   const userSound = useSelector((state) => state.user.sound);
   const loseEs = effectSound(loseSound, userSound.es);
+  const dispatch = useDispatch();
   const muteBb = () => {
     setBbmute(true);
-    setRunTimer(false);
+    dispatch(gameSwitch(false));
   };
   React.useEffect(() => {
     loseEs.play();
@@ -282,8 +280,9 @@ export const Result = (props) => {
   const userSound = useSelector((state) => state.user.sound);
   const winEs = effectSound(win1Sound, userSound.es);
   const loseEs = effectSound(lose1Sound, userSound.es);
-  const { setROpen, setMbmute, setGameStart, setTrySub } = props;
+  const { setROpen, setMbmute, setTrySub } = props;
   const result = props.result;
+  const dispatch = useDispatch();
   React.useEffect(() => {
     if (result === "WIN") {
       winEs.play();
@@ -324,7 +323,7 @@ export const Result = (props) => {
               onClick={() => {
                 setROpen(false);
                 setMbmute(false);
-                setGameStart(false);
+                dispatch(gameSwitch(false));
                 setTrySub(3);
               }}
             >

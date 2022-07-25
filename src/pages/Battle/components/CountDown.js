@@ -6,14 +6,17 @@ import countDownSound from "../../../audios/CountdownSE1.mp3";
 const Countdown = () => {
   const userSound = useSelector((state) => state.user.sound);
   const countDownEs = effectSound(countDownSound, userSound.es);
+  const runCD = useSelector((state) => state.battleFunction.runCountdown);
   React.useEffect(() => {
-    countDownEs.play();
-  }, []);
+    runCD === true && countDownEs.play();
+  }, [runCD]);
   return (
     <>
-      <CountContainer>
-        <Count></Count>
-      </CountContainer>
+      {runCD === true && (
+        <CountContainer>
+          <Count></Count>
+        </CountContainer>
+      )}
     </>
   );
 };

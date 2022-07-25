@@ -1,26 +1,47 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import styled, { keyframes, css } from "styled-components";
 import Timer from "./Timer";
+import { gameSwitch } from "../../../redux/modules/battleFunction";
+import { useDispatch, useSelector } from "react-redux";
 
-const ProgressBarTwo = (p) => {
-  const time = p.value.Time / 10;
-  const active = p.value.Active;
-  const setActive = p.value.setActive;
-  const checkT = p.checkT
+const ProgressBarTwo = () => {
+  const level = useSelector((state) => state.battleFunction.level);
+  const setActive = useSelector((state) => state.battleFunction.gameStatus);
+  const dispatch = useDispatch();
+
+  const [timeToLevel, setTimeToLevel] = React.useState(0);
+  const levelTime = () => {
+    if (level === "0") {
+      setTimeToLevel(300);
+    } else if (level === "1") {
+      setTimeToLevel(600);
+    } else if (level === "2") {
+      setTimeToLevel(900);
+    } else {
+      setTimeToLevel(300);
+    }
+  };
+  useEffect(() => {
+    levelTime();
+  }, [level]);
+
+  useEffect(() => {}, [setActive]);
+
+  const time = timeToLevel / 10;
 
   let [count, setCount] = React.useState(10);
   useEffect(() => {
-active === false && setCount(10);
-  }, [active]);
+    setActive === false && setCount(10);
+  }, [setActive]);
 
   useEffect(() => {
     const countdown = setInterval(() => {
       const refesh = () => {
         setCount(10);
-        setActive(false);
+        dispatch(gameSwitch(false));
         clearInterval(countdown);
       };
-      if (active === true) {
+      if (setActive === true) {
         if (count > 0) {
           setCount(parseInt(count) - 1);
         } else {
@@ -31,7 +52,7 @@ active === false && setCount(10);
       }
     }, time * 1000);
     return () => clearInterval(countdown);
-  }, [count, active]);
+  }, [count, setActive]);
 
   const calculator = (b) => {
     let block = [];
@@ -46,10 +67,10 @@ active === false && setCount(10);
       <Bar>
         <Filler>
           {calculator(count)?.map((idx) => {
-            return <CountBox key={idx} active={active} count={count} />;
+            return <CountBox key={idx} active={setActive} count={count} />;
           })}
         </Filler>
-        <Timer value={p.value} checkT={checkT}/>
+        <Timer setActive={setActive} Time={timeToLevel} />
       </Bar>
     </>
   );
