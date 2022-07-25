@@ -71,7 +71,9 @@ const ChatBox = (props) => {
           placeholder="메세지 보내기"
           ref={messageRef}
         />
-        <ChatSend onClick={sendMessage}>보내기</ChatSend>
+        <ChatSend onClick={sendMessage}>
+          <p>보내기</p>
+        </ChatSend>
       </ChatInputDiv>
     </ChatBoxDiv>
   );
