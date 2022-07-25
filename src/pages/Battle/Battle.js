@@ -125,7 +125,8 @@ const Battle = (props) => {
                setTimeout(() => { client.disconnect() }, 500)
             }
             dispatch(deletechatlist());
-            clientChat.disconnect();
+            EnterSend();
+            setTimeout(()=>{clientChat.disconnect()}, 500)
          };
       }
    }, [roomId]);
@@ -296,6 +297,18 @@ const Battle = (props) => {
          {},
          JSON.stringify({
             type: "ENTER",
+            roomId: roomId,
+            sender: username,
+         })
+      );
+   };
+
+   const ExitSend = () => {
+      clientChat.send(
+         `/pub/chat/message`,
+         {},
+         JSON.stringify({
+            type: "EXIT",
             roomId: roomId,
             sender: username,
          })

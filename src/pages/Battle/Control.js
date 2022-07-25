@@ -27,6 +27,7 @@ const Control = (props) => {
 
   const already = useSelector((state) => state.battleFunction.already);
   const gameStatus = useSelector((state) => state.battleFunction.gameStatus);
+  const modal = useSelector((state) => state.battleFunction.modalOpen);
   const dispatch = useDispatch();
 
   const onCountdown = () => {
@@ -37,7 +38,7 @@ const Control = (props) => {
       setShowQuestionModal(true);
       dispatch(alreadyUser({ user: false, opp: false }));
       clearInterval(countdown);
-      dispatch(ModalOpen({que : true}))
+      dispatch(ModalOpen({chat: false, que : true}))
       setBbmute(false);
     }, 3150);
     return () => clearInterval(countdown);

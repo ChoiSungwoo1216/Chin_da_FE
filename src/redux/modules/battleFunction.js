@@ -30,7 +30,7 @@ const initialState = {
   runCountdown: false,
   pendingRun: { user: false, opp: false },
   sendRun: false,
-  modalOpen : { chat : false, que: false, rule: true}
+  modalOpen : { chat : true, que: false, rule: true}
 };
 
 // Action Creators
