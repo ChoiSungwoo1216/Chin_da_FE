@@ -16,8 +16,7 @@ import { gameSwitch, ModalOpen, NewQue } from "../../../redux/modules/battleFunc
 /*QuestionModal*/
 export const QuestionModal = (p) => {
   const setClose = p.setValue;
-  const question = p.question;
-  const questionTitle = p.questionTitle;
+  const que = p.que;
   const [modalIsOpen, setIsOpen] = React.useState(true);
   const customModalStyles = {
     overlay: {
@@ -51,8 +50,8 @@ export const QuestionModal = (p) => {
             <h3>Question</h3>
           </header>
           <div className="ModalContent">
-            <div className="qTitle">{questionTitle}</div>
-            <div className="q">{question}</div>
+            <div className="qTitle">{que.questionTitle}</div>
+            <div className="q">{que.question}</div>
           </div>
         </div>
         <img
