@@ -125,7 +125,7 @@ const Battle = (props) => {
                setTimeout(() => { client.disconnect() }, 500)
             }
             dispatch(deletechatlist());
-            EnterSend();
+            ExitSend();
             setTimeout(()=>{clientChat.disconnect()}, 500)
          };
       }
@@ -174,7 +174,7 @@ const Battle = (props) => {
                setShowSuccessModal(true);
                break;
             case "EXIT":
-               resAlert(mes.message)
+               resAlert(mes.msg)
                newMesEs.play();
                break;
             default:
