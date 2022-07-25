@@ -17,7 +17,7 @@ const TutorialBtn = () => {
     return (
         <div>
             {tutoOpen ? (<Tutorial setTutoOpen={setTutoOpen}/>) : (
-            <TutoBtn src="/img/question_btn_black.png" onClick={open} onMouseOver={()=>hoverEs.play()}/>
+            <TutoBtn src="/img/question_btn_black.svg" onClick={open} onMouseOver={()=>hoverEs.play()}/>
             )}
         </div>
     )
@@ -31,7 +31,7 @@ width: calc(1vh + 1vw);
 height: calc(1vh + 1vw);
 z-index: 10;
 &:hover{
-    content: url(/img/question_btn_white.png);
+    content: url(/img/question_btn_white.svg);
 }
 `;
 

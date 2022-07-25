@@ -8,16 +8,11 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { useNavigate } from 'react-router-dom';
 // import required modules
 import { Pagination, Navigation, Mousewheel, Keyboard } from 'swiper';
 export default function SubTutorial(props) {
-   const navigate = useNavigate();
    const { setTutoOpen } = props;
 
-   const PlayGame = () => {
-      navigate('../../Main/Main');
-   };
    return (
       <>
          <Background onClick={() => setTutoOpen(false)} />
@@ -54,9 +49,6 @@ export default function SubTutorial(props) {
                </SwiperSlide>
                <SwiperSlide>
                   <img src="/img/selection.jpg" alt=''/>
-                  <button className="PlayBtn" onClick="PlayGame">
-                     PLAY
-                  </button>
                </SwiperSlide>
             </Swiper>
          </div>
