@@ -108,8 +108,9 @@ const Battle = (props) => {
    const opCode = useRef();
    const [questionTitle, setQuestionTitle] = useState("");
    const [question, setQuestion] = useState("");
+   const [template, setTemplate] = useState("");
    const codeRef = useRef("");
-
+   
    React.useEffect(() => {
       if (roomId !== undefined) {
          connect();
@@ -140,7 +141,6 @@ const Battle = (props) => {
       client.subscribe(`/topic/game/room/${roomId}`, ReceiveCallBack); //입장자 정보 전송 구독, ready 구독 주소
       client.subscribe(`/user/queue/game/codeMessage/${roomId}`, ReceiveCallBack); //실시간 코드 전송 구독 주소
    };
-   console.log(opCode.current);
    const ReceiveCallBack = (message) => {
       if (message.body) {
          const mes = JSON.parse(message.body);
@@ -149,6 +149,7 @@ const Battle = (props) => {
             case "READY":
                setQuestion(mes.question);
                setQuestionTitle(mes.title);
+               setTemplate(mes.template)
                dispatch(alreadyUser({ opp: true }));
                break;
             case "USERINFO":
@@ -164,7 +165,7 @@ const Battle = (props) => {
             case "LOSE":
                setShowFailModal(true);
                break;
-            case "OPFAIL":
+            case "FAIL":
                resAlert(mes.message);
                noItemEs.play();
                break;
@@ -223,7 +224,7 @@ const Battle = (props) => {
    //컴파일 3회 실패 시
    const compileFailedLose = () => {
       client.send(
-         `/game/process`,
+         `/app/game/process`,
          {},
          JSON.stringify({
             type: "COMPILE_FAIL_LOSE",
@@ -236,7 +237,7 @@ const Battle = (props) => {
    //타임아웃 패배
    const timeOutLose = () => {
       client.send(
-         `/game/process`,
+         `/app/game/process`,
          {},
          JSON.stringify({
             type: "TIMEOUT",
@@ -249,7 +250,7 @@ const Battle = (props) => {
    //탈주 패
    const exitLose = () => {
       client.send(
-         `/game/process`,
+         `/app/game/process`,
          {},
          JSON.stringify({
             type: "EXIT_LOSE",
@@ -262,7 +263,7 @@ const Battle = (props) => {
    //퇴장
    const exitMes = () => {
       client.send(
-         `/game/process`,
+         `/app/game/process`,
          {},
          JSON.stringify({
             type: "EXIT",
@@ -362,6 +363,10 @@ const Battle = (props) => {
             navigate(`/Main`);
          })
          .catch((error) => {
+            console.log(error)
+            if (error.response.data === "참여자가 아닙니다"){
+               navigate("/selection");
+            }
             if (error.response.data.reLogin === true) {
                sessionStorage.clear();
                localStorage.clear();
