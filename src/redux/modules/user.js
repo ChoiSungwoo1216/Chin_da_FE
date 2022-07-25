@@ -4,13 +4,12 @@
 
 const EDIT = "sound/EDIT";
 const UPDATE = "selected/UPDATE";
-const ALREADY = "already/ALREADY";
+// const ALREADY = "already/ALREADY";
 
 const initialState = {
   list: [{}],
   sound: { bgm: 0.1, es: 0.5 },
   selected: { language: "", level: "" },
-  already: { user: false, opp: false },
 };
 
 // Action Creators
@@ -27,9 +26,9 @@ export function updateselected(selected) {
   return { type: UPDATE, selected };
 }
 
-export function alreadyUser(user) {
-  return { type: ALREADY, user };
-}
+// export function alreadyUser(user) {
+//   return { type: ALREADY, user };
+// }
 
 // export function deleteuser(user_index) {
 //   return { type: DELETE, user_index };
@@ -60,13 +59,13 @@ export default function reducer(state = initialState, action = {}) {
       const update_selected_list = { ...state.selected, ...action.selected };
       return { ...state, selected: update_selected_list };
     }
-    case ALREADY: {
-      const Already_list = {
-        ...state.already,
-        ...action.user,
-      };
-      return { ...state, already: Already_list };
-    }
+    // case ALREADY: {
+    //   const Already_list = {
+    //     ...state.already,
+    //     ...action.user,
+    //   };
+    //   return { ...state, already: Already_list };
+    // }
     default:
       return state;
   }

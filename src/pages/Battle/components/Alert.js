@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Alert.css";
+import { useSelector, useDispatch } from "react-redux";
+import { setAlert } from "../../../redux/modules/battleFunction";
 
 const XBtn = ({ closeToast }) => {
   return (
@@ -11,15 +13,13 @@ const XBtn = ({ closeToast }) => {
   );
 };
 
-const Alert = (p) => {
-  // const runValue = p.value;
-  const runValue = p.runAlert;
-  const refresh = p.setRunAlert;
-  const mesAlert = p.mesAlert;
-  // console.log(runValue + "--alert");
+const Alert = () => {
+  const alertMsg = useSelector((state) => state.battleFunction.alertMsg);
+  const runAlert = useSelector((state) => state.battleFunction.alertRun);
+  const dispatch = useDispatch();
   const ToastDefault = () => {
-    toast.error(`${mesAlert}`, {
-      icon: "💫",
+    toast.error(`${alertMsg}`, {
+      icon: "🚀",
       progress: undefined,
       theme: "colored",
       delay: 0,
@@ -27,25 +27,20 @@ const Alert = (p) => {
     });
   };
 
-  // const RunToast = () => {
-  //   return runValue === true ? ToastDefault() : null;
-  // };
   const runAndRefresh = async () => {
     ToastDefault();
-    await refresh(false);
+    await dispatch(setAlert(false));
   };
   const onToast = () => {
-    return runValue === false ? null : runAndRefresh();
+    return runAlert === true && runAndRefresh();
   };
 
   useEffect(() => {
     onToast();
-    // console.log(runValue);
-  }, [runValue]);
+  }, [runAlert]);
 
   return (
     <>
-      {/* <button onClick={ToastDefault}></button> */}
       <ToastContainer
         //default 설정값은 선언안해도 됨
         position="top-right" //default top-right
