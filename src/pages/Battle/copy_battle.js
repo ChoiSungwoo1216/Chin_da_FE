@@ -43,14 +43,7 @@ import * as StompJS from "stompjs";
 import * as SockJS from "sockjs-client";
 import { addchatlist, deletechatlist } from "../../redux/modules/chatlist";
 
-import {
-  alreadyUser,
-  gameSwitch,
-  setLevel,
-  setMsg,
-  setAlert,
-  setPending,
-} from "../../redux/modules/battleFunction";
+import { alreadyUser } from "../../redux/modules/user";
 
 Modal.setAppElement("#root");
 
@@ -87,15 +80,37 @@ const Battle = (props) => {
   console.log(info);
 
   //Timer,ProgressBar
-  dispatch(setLevel(selected.level));
+  const [runTimer, setRunTimer] = useState("false");
+  const [timeSetting, setTimeSetting] = useState(300);
+  const timerValue = {
+    Time: timeSetting,
+    Active: runTimer,
+    setActive: setRunTimer,
+  };
+  const SetTime = () => {
+    if (selected.level === "0") {
+      setTimeSetting(300);
+    } else if (selected.level === "1") {
+      setTimeSetting(600);
+    } else if (selected.level === "2") {
+      setTimeSetting(900);
+    } else {
+      setTimeSetting(300);
+    }
+  };
+  useEffect(() => {
+    SetTime();
+  }, []);
 
-  //GameStart
-  const gameStart = useSelector((state) => state.battleFunction.gameStatus);
+  //ReadyUser
+  const [gameStart, setGameStart] = useState(false);
 
   //Toastify Alert
+  const [runAlert, setRunAlert] = useState(false);
+  const [mesAlert, setMesAlert] = useState("FAIL");
   const resAlert = (r) => {
-    dispatch(setMsg(r));
-    dispatch(setAlert(true));
+    setMesAlert(r);
+    setRunAlert(true);
   };
 
   //game server
@@ -195,7 +210,11 @@ const Battle = (props) => {
   };
 
   //코드전송
-  const sendT = useSelector((state) => state.battleFunction.sendRun);
+  const [sendT, setSendT] = useState(false);
+
+  const checkT = () => {
+    sendT ? setSendT(false) : setSendT(true);
+  };
 
   useEffect(() => {
     if (gameStart === true) {
@@ -307,9 +326,11 @@ const Battle = (props) => {
   const mode = langType[parseInt(selected.language)];
 
   //CountDown
-  // const [runCountdown, setRunCountdown] = useState(false);
+  const [runCountdown, setRunCountdown] = useState(false);
 
   //Submit
+  const [userPending, setUserPending] = useState(false);
+  const [oppPending, setOppPending] = useState(false);
   const [trySub, setTrySub] = useState(3);
 
   const axiosSubmit = () => {
@@ -349,7 +370,7 @@ const Battle = (props) => {
   };
 
   const onSubmit = () => {
-    dispatch(setPending({ user: true }));
+    setUserPending(true);
     setTimeout(() => axiosSubmit(), 1000);
   };
 
@@ -405,7 +426,6 @@ const Battle = (props) => {
   //나가기
   const BackToMain = () => {
     leaveRoomAxios();
-    dispatch(gameSwitch(false));
   };
 
   //Peer
@@ -470,11 +490,15 @@ const Battle = (props) => {
 
   return (
     <Container>
-      <Countdown />
-      <Alert />
+      {runCountdown === true ? <Countdown /> : null}
+      <Alert
+        runAlert={runAlert}
+        setRunAlert={setRunAlert}
+        mesAlert={mesAlert}
+      />
       <HeadPart>
         <TimerDiv>
-          <ProBar />
+          <ProBar value={timerValue} checkT={checkT} />
         </TimerDiv>
         <BtnDiv>
           <BtnOnOff onClick={openQue} change={queOpen}>
@@ -490,7 +514,7 @@ const Battle = (props) => {
       <BodyPart>
         <UserDiv>
           {gameStart === false ? <ReadyUser sendReady={sendReady} /> : null}
-          <UserSubmitPending />
+          <UserSubmitPending run={userPending} setRun={setUserPending} />
           <AceEditorPlayer mode={mode} codeRef={codeRef}></AceEditorPlayer>
           {/* <UserCamDiv>
             <CamBar>
@@ -543,7 +567,7 @@ const Battle = (props) => {
           )}
           <CodeDiv queOpen={queOpen} chatOpen={chatOpen}>
             {gameStart === false ? <ReadyOpp /> : null}
-            <OppSubmitPending />
+            <OppSubmitPending run={oppPending} setRun={setOppPending} />
             <AceEditorOpp mode={mode} opCode={opCode} />
           </CodeDiv>
           {/* <OpCamDiv>
@@ -587,7 +611,7 @@ const Battle = (props) => {
           setROpen={setROpen}
           setResult={setResult}
           setBbmute={setBbmute}
-          // setRunTimer={setRunTimer}
+          setRunTimer={setRunTimer}
         />
       )}
       {showFailModal && (
@@ -595,7 +619,7 @@ const Battle = (props) => {
           setROpen={setROpen}
           setResult={setResult}
           setBbmute={setBbmute}
-          // setRunTimer={setRunTimer}
+          setRunTimer={setRunTimer}
         />
       )}
       {showGameRuleModal && <GameRuleModal setClose={setGameRuleModal} />}
@@ -604,21 +628,29 @@ const Battle = (props) => {
           setROpen={setROpen}
           result={result}
           setMbmute={setMbmute}
+          setGameStart={setGameStart}
           setTrySub={setTrySub}
         />
       )}
 
       <Control
+        setRunTimer={setRunTimer}
+        setTimeSetting={setTimeSetting}
         setShowQuestionModal={setShowQuestionModal}
         setShowSuccessModal={setShowSuccessModal}
         setShowFailModal={setShowFailModal}
+        setRunAlert={setRunAlert}
         setROpen={setROpen}
+        setMesAlert={setMesAlert}
         // remotePeerIdValue={remotePeerIdValue}
         // setRemotePeerIdValue={setRemotePeerIdValue}
         // call={call}
         // peerId={peerId}
-        // setRunCountdown={setRunCountdown}
+        setRunCountdown={setRunCountdown}
+        setGameStart={setGameStart}
         setQueOpen={setQueOpen}
+        setUserPending={setUserPending}
+        setOppPending={setOppPending}
         setMbmute={setMbmute}
         setBbmute={setBbmute}
         sendReady={sendReady}

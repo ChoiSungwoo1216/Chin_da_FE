@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css, keyframes } from "styled-components";
-import { alreadyUser } from "../../../redux/modules/user";
+import { alreadyUser, setPending } from "../../../redux/modules/battleFunction";
 import effectSound from "../../../shared/effectSound";
 import readySound from "../../../audios/ready.mp3";
 
-export const ReadyUser = ({sendReady}) => {
-  const userReady = useSelector((state) => state.user.already.user);
+export const ReadyUser = ({ sendReady }) => {
+  const userReady = useSelector((state) => state.battleFunction.already.user);
   const dispatch = useDispatch();
   const userSound = useSelector((state) => state.user.sound);
   const readyEs = effectSound(readySound, userSound.es);
@@ -14,8 +14,7 @@ export const ReadyUser = ({sendReady}) => {
   const setReady = () => {
     readyEs.play();
     sendReady();
-    userReady === false
-      && dispatch(alreadyUser({ user: true }))
+    userReady === false && dispatch(alreadyUser({ user: true }));
   };
 
   return (
@@ -26,15 +25,14 @@ export const ReadyUser = ({sendReady}) => {
 };
 
 export const ReadyOpp = () => {
-  const oppReady = useSelector((state) => state.user.already.opp);
+  const oppReady = useSelector((state) => state.battleFunction.already.opp);
   const userSound = useSelector((state) => state.user.sound);
   const readyEs = effectSound(readySound, userSound.es);
   const dispatch = useDispatch();
 
   const setReady = () => {
     readyEs.play();
-    oppReady === false
-      && dispatch(alreadyUser({ opp: true }))
+    oppReady === false && dispatch(alreadyUser({ opp: true }));
   };
 
   return (
@@ -47,12 +45,13 @@ export const ReadyOpp = () => {
 };
 
 export const UserSubmitPending = (p) => {
-  const run = p.run;
-  const setRun = p.setRun;
+  const run = useSelector((state) => state.battleFunction.pendingRun.user);
+  const dispatch = useDispatch();
+  const setRun = (a) => dispatch(setPending(a));
   const onPending = () => {
     const count = setInterval(() => {
       if (run === true) {
-        setRun(false);
+        setRun({ user: false });
         clearInterval(count);
       }
     }, 1000);
@@ -63,24 +62,23 @@ export const UserSubmitPending = (p) => {
   }, [run]);
   return (
     <>
-      {p.run === true && (
-        <>
-          <UserContainer>
-            <Pending />
-          </UserContainer>
-        </>
+      {run === true && (
+        <UserContainer>
+          <Pending />
+        </UserContainer>
       )}
     </>
   );
 };
 
 export const OppSubmitPending = (p) => {
-  const run = p.run;
-  const setRun = p.setRun;
+  const run = useSelector((state) => state.battleFunction.pendingRun.opp);
+  const dispatch = useDispatch();
+  const setRun = (a) => dispatch(setPending(a));
   const onPending = () => {
     const count = setInterval(() => {
       if (run === true) {
-        setRun(false);
+        setRun({ opp: false });
         clearInterval(count);
       }
     }, 1000);
@@ -91,7 +89,7 @@ export const OppSubmitPending = (p) => {
   }, [run]);
   return (
     <>
-      {p.run === true && (
+      {run === true && (
         <>
           <OppContainer>
             <OppDiv>
