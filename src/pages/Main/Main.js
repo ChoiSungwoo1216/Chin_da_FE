@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import styled, { css, keyframes } from 'styled-components';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -43,14 +44,6 @@ export function Main() {
    // const [page, setPage] = useState(1);
    // const [loading, setLoading] = useState(false);
    // const [ref, inView] = useInView();
-
-   const img = [
-      '/img/Char2.svg',
-      '/img/Char3.svg',
-      '/img/Char4.svg',
-      '/img/Char5.svg',
-      '/img/Char6.svg',
-   ];
 
    //rArr
    // const imgArray = Object.keys(img);
@@ -261,54 +254,10 @@ export function Main() {
                                     className="scene"
                                     onClick={() => {
                                        setUser2Info(allUsers[idx]);
-                                       setRanImg(randomImg(idx, rArr));
+                                       setRanImg(randomImg(idx));
                                     }}
                                  >
-                                    <div className="card">
-                                       <div
-                                          className="face front"
-                                          style={{
-                                             backgroundImage:
-                                                'url(/img/mainCard_F.svg)',
-                                             backgroundRepeat: 'no-repeat',
-                                             backgroundPosition: 'center',
-                                             backgroundSize: 'contain',
-                                          }}
-                                       >
-                                          <img
-                                             className="characterImg"
-                                             src={randomImg(idx, rArr)}
-                                             alt=""
-                                          />
-                                       </div>
-                                       <div
-                                          className="face back"
-                                          style={{
-                                             backgroundImage:
-                                                'url(/img/mainCard_B.svg)',
-                                             backgroundRepeat: 'no-repeat',
-                                             backgroundPosition: 'center',
-                                             objectFit: 'contain',
-                                          }}
-                                          onClick={() => {
-                                             selEs.play();
-                                          }}
-                                       >
-                                          <img
-                                             src={
-                                                item.creatorGameInfo.profileUrl
-                                             }
-                                             alt=""
-                                          />
-                                          <p>
-                                             {item.creatorGameInfo.playerName}
-                                          </p>
-                                          <p>
-                                             {item.creatorGameInfo.winCnt}승
-                                             {item.creatorGameInfo.loseCnt}패
-                                          </p>
-                                       </div>
-                                    </div>
+                                <Cards />
                                  </div>
                               ) : ( */}
                               <div
@@ -318,48 +267,7 @@ export function Main() {
                                     setRanImg(randomImg(idx));
                                  }}
                               >
-                                 <div className="card">
-                                    <div
-                                       className="face front"
-                                       style={{
-                                          backgroundImage:
-                                             'url(/img/mainCard_F.svg)',
-                                          backgroundRepeat: 'no-repeat',
-                                          backgroundPosition: 'center',
-                                          objectFit: 'contain',
-                                       }}
-                                    >
-                                       <img
-                                          className="characterImg"
-                                          src={randomImg(idx)}
-                                          alt=""
-                                       />
-                                    </div>
-                                    <div
-                                       className="face back"
-                                       style={{
-                                          backgroundImage:
-                                             'url(/img/mainCard_B.svg)',
-                                          backgroundRepeat: 'no-repeat',
-                                          backgroundPosition: 'center',
-                                          objectFit: 'contain',
-                                       }}
-                                       onClick={() => {
-                                          selEs.play();
-                                       }}
-                                    >
-                                       <img
-                                          className="userProfile"
-                                          src={item.creatorGameInfo.profileUrl}
-                                          alt=""
-                                       />
-                                       <p>{item.creatorGameInfo.playerName}</p>
-                                       <p>
-                                          {item.creatorGameInfo.winCnt}승
-                                          {item.creatorGameInfo.loseCnt}패
-                                       </p>
-                                    </div>
-                                 </div>
+                                 <Card className="card" />
                               </div>
                               {/* )} */}
                            </React.Fragment>
@@ -404,3 +312,44 @@ export function Main() {
 }
 
 export default Main;
+
+export const Card = (props) => {
+   const { randomImg, selEs } = props;
+   return (
+      <div className="card">
+         <div
+            className="face front"
+            style={{
+               backgroundImage: 'url(/img/mainCard_F.svg)',
+               backgroundRepeat: 'no-repeat',
+               backgroundPosition: 'center',
+               objectFit: 'contain',
+            }}
+         >
+            <img className="characterImg" src={randomImg(props.idx)} alt="" />
+         </div>
+         <div
+            className="face back"
+            style={{
+               backgroundImage: 'url(/img/mainCard_B.svg)',
+               backgroundRepeat: 'no-repeat',
+               backgroundPosition: 'center',
+               objectFit: 'contain',
+            }}
+            onClick={() => {
+               selEs.play();
+            }}
+         >
+            <img
+               className="userProfile"
+               src={props.item.creatorGameInfo.profileUrl}
+               alt=""
+            />
+            <p>{props.item.creatorGameInfo.playerName}</p>
+            <p>
+               {props.item.creatorGameInfo.winCnt}승{props.item.creatorGameInfo.loseCnt}패
+            </p>
+         </div>
+      </div>
+   );
+}

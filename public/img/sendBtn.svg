@@ -1,9 +1,8 @@
-<svg width="82" height="29" viewBox="0 0 82 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M80 2H2V27H80V2Z" fill="#5777CE" stroke="black" stroke-width="3" stroke-miterlimit="10"/>
-<path d="M9 24L79 24" stroke="#7D98D8" stroke-width="3" stroke-miterlimit="10"/>
-<path d="M5 3.5V21.1063" stroke="#C0CFFF" stroke-width="3" stroke-miterlimit="10"/>
-<path d="M77 4V22.5" stroke="#A2B7ED" stroke-width="3" stroke-miterlimit="10"/>
-<path d="M9 21H6V22.875H9V21Z" fill="#C0CFFF"/>
-<path d="M6 5H78.5" stroke="#C0CFFF" stroke-width="3" stroke-miterlimit="10"/>
-<path d="M19 10.1436H21V13.1436H29V10.1436H31V16.1436H30V17.1436H20V16.1436H19V10.1436ZM21 14.1436V16.1436H29V14.1436H21ZM18 20.1436H24V17.1436H26V20.1436H32V21.1436H18V20.1436ZM34 10.1436H36V20.1436H40V19.1436H42V20.1436H41V21.1436H35V20.1436H34V10.1436ZM43 9.14355H45V15.1436H46V9.14355H48V22.1436H46V16.1436H45V22.1436H43V9.14355ZM50 10.1436H56V19.1436H55V20.1436H54V21.1436H51V20.1436H53V19.1436H54V11.1436H50V10.1436ZM61 9.14355H63V22.1436H61V9.14355Z" fill="white"/>
+<svg width="auto" height="auto" viewBox="0 0 64 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M64 0H0V25H64V0Z" fill="#5777CE"/>
+<path d="M5.74414 22L62.7698 22" stroke="#7D98D8" stroke-width="3" stroke-miterlimit="10"/>
+<path d="M2.46191 1.5V19.1063" stroke="#C0CFFF" stroke-width="3" stroke-miterlimit="10"/>
+<path d="M61.5381 2V20.5" stroke="#A2B7ED" stroke-width="3" stroke-miterlimit="10"/>
+<path d="M5.74377 19H3.28223V20.875H5.74377V19Z" fill="#C0CFFF"/>
+<path d="M3.28223 3H62.7694" stroke="#C0CFFF" stroke-width="3" stroke-miterlimit="10"/>
 </svg>
