@@ -12,7 +12,7 @@ import TutorialBtn from "./pages/Tutorial/TutorialBtn.js";
 import SoundSettingBtn from "./shared/SoundSettingBtn.js";
 
 import { MainB, MainA } from "./shared/MainBgm"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { editsound } from "./redux/modules/user.js";
 
 function App() {
@@ -27,13 +27,18 @@ function App() {
       return false;
     }
   }
+  //소리 로컬화
   useEffect(() => {
-    if (!localStorage.getItem("bgm") || !localStorage.getItem("es")) {
+    if (localStorage.getItem("bgm") && localStorage.getItem("es")) {
+      dispatch((editsound({ "bgm": Number(localStorage.getItem("bgm")), "es": Number(localStorage.getItem("es"))})))
+    } else {
       localStorage.setItem("bgm", 0.1)
       localStorage.setItem("es", 0.5)
-      dispatch((editsound({ bgm: parseInt(localStorage.getItem("bgm")), es: parseInt(localStorage.getItem("es"))})))
+      dispatch((editsound({ bgm: Number(localStorage.getItem("bgm"))})))
+      dispatch((editsound({ es: Number(localStorage.getItem("es"))})))
     }
   }, [])
+
   return (
     <div className="App">
       <div id="stars"></div>

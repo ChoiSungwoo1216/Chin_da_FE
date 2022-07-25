@@ -5,7 +5,6 @@ import "./SoundSetting.css";
 import { editsound } from "../redux/modules/user";
 
 
-
 const SoundSetting = (props) => {
   const { setSetting } = props;
   const dispatch = useDispatch();
@@ -36,6 +35,7 @@ const SoundSetting = (props) => {
   };
 
   const token = sessionStorage.getItem("Authorization");
+
   const logined = () => {
     if (token === null) {
       return true;
@@ -43,6 +43,7 @@ const SoundSetting = (props) => {
       return false;
     }
   }
+
   const logout = ()=>{
     sessionStorage.clear();
     localStorage.clear();

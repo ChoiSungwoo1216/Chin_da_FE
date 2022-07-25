@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-
+import { useSelector } from "react-redux";
 import effectSound from "../../../shared/effectSound";
 import enterSound from "../../../audios/SelectionRoomClickSE1.mp3"
 
@@ -8,7 +8,7 @@ const Login = () => {
   const client_id = process.env.REACT_APP_GIT_CLIENT_ID;
   const redirect_uri = process.env.REACT_APP_GIT_REDIRECT_URI;
   const locateGit = `https:/github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}`;
-  const esVol = sessionStorage.getItem("es");
+  const esVol = useSelector((state) => state.user.sound.es);
   const enterEs = effectSound(enterSound, esVol);
 
   return (

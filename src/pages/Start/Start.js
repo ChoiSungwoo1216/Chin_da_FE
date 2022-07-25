@@ -2,19 +2,17 @@ import React, { useState } from "react";
 import LoginModal from "./components/LoginModal";
 import styled, { keyframes, css } from "styled-components";
 import "./startAnimation.css";
-
+import { useSelector } from "react-redux";
 import effectSound from "../../shared/effectSound";
 import selectSound from "../../audios/btnselect.mp3"
-import hoverSound from "../../audios/BtnHoverSE1.mp3"
 
 const Start = ({ setMMute }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [HOVER, setHOVER] = useState(false);
   const [timing, setTiming] = useState(false);
 
-  const esVol = sessionStorage.getItem("es");
+  const esVol = useSelector((state) => state.user.sound.es);
   const selectEs = effectSound(selectSound, esVol);
-  const hoverEs = effectSound(hoverSound, esVol);
 
   const open = () => {
     setModalOpen(true);
@@ -48,7 +46,6 @@ const Start = ({ setMMute }) => {
           setHOVER(false);
         }}
         onClick={HOVER === true ? ()=>{open(); selectEs.play();} : undefined}
-        onMouseEnter={()=>hoverEs.play()}
       >
         {HOVER === false && (
           <>
