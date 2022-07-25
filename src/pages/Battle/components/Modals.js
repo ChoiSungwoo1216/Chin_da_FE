@@ -75,8 +75,8 @@ export const GameRuleModal = ({ ModalOpen, modal }) => {
   };
 
   const allClose = () => {
-    dispatch(ModalOpen({rule:false}))
-    console.log(modal.rule)
+    dispatch(ModalOpen({ rule: false }));
+    console.log(modal.rule);
   };
   return (
     <>
@@ -86,14 +86,10 @@ export const GameRuleModal = ({ ModalOpen, modal }) => {
         style={customModalStyles}
       >
         <div className="ModalBody">
-          <header>
-            <h3>G A M E R U L E</h3>
-          </header>
           <div className="ModalContent ruleContent">
-            <div className="qTitle">규 칙</div>
-            <hr />
+            <div className="qTitle Qrule">규 칙</div>
             <div className="q">
-              <ol>
+              <ol className="ruleList">
                 <li>
                   게임 중 뒤로가거나 새로고침 시,
                   <br />
@@ -115,7 +111,7 @@ export const GameRuleModal = ({ ModalOpen, modal }) => {
                   <br />
                   Python : print()
                   <br />
-                  java : System.out.println
+                  java : System.out.println()
                   <br />
                   javascript : console.log()
                 </li>
