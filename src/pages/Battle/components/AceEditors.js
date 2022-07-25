@@ -23,7 +23,7 @@ export const AceEditorPlayer = (props) => {
   const DefaultTemp =
     "//함수와 변수를 임의로 변경하지 마세요" +
     `\n` +
-    "//출력문을 입력하지 마세요"
+    "//출력문을 입력하지 마세요" +
     `\n` +
     template;
 
