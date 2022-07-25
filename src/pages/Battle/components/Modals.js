@@ -11,7 +11,7 @@ import winSound from "../../../audios/WinSE1.mp3";
 import loseSound from "../../../audios/LoseSE1.mp3";
 import win1Sound from "../../../audios/WinSE2.mp3";
 import lose1Sound from "../../../audios/FailSE1.mp3";
-import { gameSwitch } from "../../../redux/modules/battleFunction";
+import { gameSwitch, ModalOpen, NewQue } from "../../../redux/modules/battleFunction";
 
 /*QuestionModal*/
 export const QuestionModal = (p) => {
@@ -76,7 +76,6 @@ export const GameRuleModal = ({ ModalOpen, modal }) => {
 
   const allClose = () => {
     dispatch(ModalOpen({ rule: false }));
-    console.log(modal.rule);
   };
   return (
     <>
@@ -207,13 +206,9 @@ export const FailModal = ({ setROpen, setResult, setBbmute }) => {
   const confettiList = () => {
 
     confetti.addConfetti({
-      emojiSize: 30,
-      emojis: ["Lose"],
-    });
-    confetti.addConfetti({
       emojis: ["😭", "😥"],
-      emojiSize: 70,
-      confettiNumber: 50,
+      emojiSize: 60,
+      confettiNumber: 70,
     });
   };
 
@@ -279,6 +274,9 @@ export const Result = (props) => {
     } else {
       loseEs.play();
     }
+    dispatch(gameSwitch({gameStart: false}))
+    dispatch(ModalOpen({chat: true, que: false}))
+    dispatch(NewQue({question: "", questionTitle:"", template:""}))
   }, []);
   const navigate = useNavigate();
   const player = sessionStorage.getItem("username");

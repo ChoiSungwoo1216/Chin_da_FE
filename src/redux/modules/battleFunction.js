@@ -20,6 +20,7 @@ const SENDCODE = "sendcode/SENDCODE";
 
 const MODALOPEN = "modalopen/MODALOPEN"
 
+const QUE = "que/QUE"
 
 const initialState = {
   already: { user: false, opp: false },
@@ -30,7 +31,8 @@ const initialState = {
   runCountdown: false,
   pendingRun: { user: false, opp: false },
   sendRun: false,
-  modalOpen : { chat : true, que: false, rule: true}
+  modalOpen : { chat : true, que: false, rule: true},
+  queList : { question: "", questionTitle:"", template: ""}
 };
 
 // Action Creators
@@ -69,6 +71,10 @@ export function sendCodeTiming(bool) {
 
 export function ModalOpen(user) {
   return { type: MODALOPEN, user };
+}
+
+export function NewQue(user) {
+  return { type: QUE, user };
 }
 
 // Reducer
@@ -112,6 +118,13 @@ export default function reducer(state = initialState, action = {}) {
         ...action.user,
       };
       return { ...state, modalOpen: Modal_list };
+    }
+    case QUE: {
+      const que_list = {
+        ...state.queList,
+        ...action.user,
+      };
+      return { ...state, modalOpen: que_list };
     }
     default:
       return state;

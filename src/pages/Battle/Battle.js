@@ -51,6 +51,7 @@ import {
    setAlert,
    setPending,
    ModalOpen,
+   NewQue,
 } from "../../redux/modules/battleFunction";
 import HeaderBtn from "./components/HeaderBtn";
 
@@ -106,11 +107,12 @@ const Battle = (props) => {
    let sock = new SockJS(`${api}/ws-stomp?username=` + encodeURI(username));
    let client = StompJS.over(sock);
    const opCode = useRef();
+   const que = useSelector((state)=>state.battleFunction.queList)
    const [questionTitle, setQuestionTitle] = useState("");
    const [question, setQuestion] = useState("");
    const [template, setTemplate] = useState("");
    const codeRef = useRef("");
-   
+
    React.useEffect(() => {
       if (roomId !== undefined) {
          connect();
@@ -124,9 +126,11 @@ const Battle = (props) => {
                exitMes();
                setTimeout(() => { client.disconnect() }, 500)
             }
-            dispatch(deletechatlist());
             ExitSend();
-            setTimeout(()=>{clientChat.disconnect()}, 500)
+            setTimeout(() => {
+               clientChat.disconnect();
+               dispatch(deletechatlist());
+            }, 500)
          };
       }
    }, [roomId]);
@@ -148,9 +152,9 @@ const Battle = (props) => {
          // console.log(mes);
          switch (mes.type) {
             case "READY":
-               setQuestion(mes.question);
-               setQuestionTitle(mes.title);
-               setTemplate(mes.template)
+               dispatch(NewQue({question : mes.question}))
+               dispatch(NewQue({questionTitle : mes.title}))
+               dispatch(NewQue({template : mes.template}))
                dispatch(alreadyUser({ opp: true }));
                break;
             case "USERINFO":
@@ -167,7 +171,7 @@ const Battle = (props) => {
                setShowFailModal(true);
                break;
             case "FAIL":
-               resAlert(mes.message);
+               resAlert(mes.msg);
                noItemEs.play();
                break;
             case "WIN":
@@ -378,7 +382,7 @@ const Battle = (props) => {
          })
          .catch((error) => {
             console.log(error)
-            if (error.response.data === "참여자가 아닙니다"){
+            if (error.response.data === "참여자가 아닙니다") {
                navigate("/selection");
             }
             if (error.response.data.reLogin === true) {
@@ -426,7 +430,7 @@ const Battle = (props) => {
                setTrySub(trySub - 1);
                if (trySub === 1) {
                   compileFailedLose();
-                  setShowFailModal(true);
+                  setTimeout(() => setShowFailModal(true), 500);
                } else {
                   resAlert(res.data.msg);
                   failEs.play();
@@ -569,7 +573,7 @@ const Battle = (props) => {
             <UserDiv>
                {gameStart === false ? <ReadyUser sendReady={sendReady} /> : null}
                <UserSubmitPending />
-               <AceEditorPlayer mode={mode} codeRef={codeRef} template={template}></AceEditorPlayer>
+               <AceEditorPlayer mode={mode} codeRef={codeRef} que={que}></AceEditorPlayer>
                {/* <UserCamDiv>
             <CamBar>
               <span>Player1</span>
@@ -608,8 +612,8 @@ const Battle = (props) => {
                         <p>Question</p>
                      </QueHead>
                      <QueBox>
-                        <p>{questionTitle}</p>
-                        <div>{question}</div>
+                        <p>{que.questionTitle}</p>
+                        <div>{que.question}</div>
                      </QueBox>
                   </QueDiv>
                )}
@@ -624,7 +628,7 @@ const Battle = (props) => {
                <CodeDiv queOpen={modal.que} chatOpen={modal.chat}>
                   {gameStart === false ? <ReadyOpp /> : null}
                   <OppSubmitPending />
-                  <AceEditorOpp mode={mode} opCode={opCode} template={template}/>
+                  <AceEditorOpp mode={mode} opCode={opCode} template={template} />
                </CodeDiv>
                {/* <OpCamDiv>
             <CamBar>

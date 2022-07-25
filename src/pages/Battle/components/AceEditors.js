@@ -14,7 +14,7 @@ import "ace-builds/src-noconflict/theme-terminal";
 import "ace-builds/src-noconflict/ext-language_tools";
 
 export const AceEditorPlayer = (props) => {
-  const { mode, codeRef, template } = props;
+  const { mode, codeRef, que } = props;
 
   function onChangeOne(newValue) {
     codeRef.current = newValue;
@@ -25,7 +25,7 @@ export const AceEditorPlayer = (props) => {
     `\n` +
     "//출력문을 입력하지 마세요" +
     `\n` +
-    template;
+    que.template;
 
   return (
     <>
