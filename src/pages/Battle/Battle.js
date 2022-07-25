@@ -105,8 +105,6 @@ const Battle = (props) => {
    const headers = { Authorization: Authorization };
    let sock = new SockJS(`${api}/ws-stomp?username=` + encodeURI(username));
    let client = StompJS.over(sock);
-   client.heartbeat.outgoing = 20000;
-   client.heartbeat.ingoing = 20000;
    const opCode = useRef();
    const [questionTitle, setQuestionTitle] = useState("");
    const [question, setQuestion] = useState("");
@@ -134,6 +132,8 @@ const Battle = (props) => {
    //서버 연결
    const connect = () => {
       client.connect(headers, onConnected, onError);
+      client.heartbeat.outgoing = 20000;
+      client.heartbeat.ingoing = 0;
    };
    // 서버 연결 성공 시 콜백함수
    const onConnected = () => {
@@ -277,11 +277,11 @@ const Battle = (props) => {
 
    let socket = new SockJS(`${ChatApi}/ws-stomp?name=` + encodeURI(username));
    let clientChat = StompJS.over(socket);
-   clientChat.heartbeat.outgoing = 20000;
-   clientChat.heartbeat.ingoing = 20000;
 
    const Chatconnect = () => {
       clientChat.connect({}, onConnect, onError);
+      clientChat.heartbeat.outgoing = 20000;
+      clientChat.heartbeat.ingoing = 0;
    };
 
    const onConnect = () => {
