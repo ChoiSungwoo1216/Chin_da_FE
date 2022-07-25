@@ -568,7 +568,7 @@ const Battle = (props) => {
             <UserDiv>
                {gameStart === false ? <ReadyUser sendReady={sendReady} /> : null}
                <UserSubmitPending />
-               <AceEditorPlayer mode={mode} codeRef={codeRef}></AceEditorPlayer>
+               <AceEditorPlayer mode={mode} codeRef={codeRef} template={template}></AceEditorPlayer>
                {/* <UserCamDiv>
             <CamBar>
               <span>Player1</span>
@@ -623,7 +623,7 @@ const Battle = (props) => {
                <CodeDiv queOpen={modal.que} chatOpen={modal.chat}>
                   {gameStart === false ? <ReadyOpp /> : null}
                   <OppSubmitPending />
-                  <AceEditorOpp mode={mode} opCode={opCode} />
+                  <AceEditorOpp mode={mode} opCode={opCode} template={template}/>
                </CodeDiv>
                {/* <OpCamDiv>
             <CamBar>

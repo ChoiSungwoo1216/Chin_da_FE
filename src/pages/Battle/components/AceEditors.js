@@ -12,24 +12,9 @@ import "ace-builds/src-noconflict/theme-solarized_dark";
 import "ace-builds/src-noconflict/theme-solarized_light";
 import "ace-builds/src-noconflict/theme-terminal";
 import "ace-builds/src-noconflict/ext-language_tools";
-import { useSelector } from "react-redux";
-
-const JsDefault = `function solution(num) { 
-    var answer = '';
-        return answer;
-}`;
-const JavaDefault = `public String solution(int num) {
-    String answer = '';
-        return answer;
-}`;
-const PythonDefault = `def solution(num):
-        answer = ''
-        return answer`;
-const StartTemp = [JavaDefault, JsDefault, PythonDefault];
 
 export const AceEditorPlayer = (props) => {
-  const { mode, codeRef } = props;
-  const selected = useSelector((state) => state.user.selected);
+  const { mode, codeRef, template } = props;
 
   function onChangeOne(newValue) {
     codeRef.current = newValue;
@@ -38,7 +23,9 @@ export const AceEditorPlayer = (props) => {
   const DefaultTemp =
     "//함수와 변수를 임의로 변경하지 마세요" +
     `\n` +
-    StartTemp[parseInt(selected.language)];
+    "//출력문을 입력하지 마세요"
+    `\n` +
+    template;
 
   return (
     <>
@@ -61,14 +48,14 @@ export const AceEditorPlayer = (props) => {
           tabSize: 4,
         }}
         defaultValue={DefaultTemp}
-        placeholder="Placeholder Text"
+        placeholder="게임 시작 후 나옵니다."
       />
     </>
   );
 };
 
 export const AceEditorOpp = (props) => {
-  const { mode, opCode } = props;
+  const { mode, opCode, template } = props;
   function onChangeTwo(newValue) {
     console.log("2:", newValue);
   }
@@ -95,7 +82,8 @@ export const AceEditorOpp = (props) => {
           enableSnippets: true,
         }}
         value={opCode.current}
-        placeholder="Placeholder Text"
+        defaultValue={template}
+        placeholder="상대방 코드가 입력될 것입니다."
       />
     </>
   );
