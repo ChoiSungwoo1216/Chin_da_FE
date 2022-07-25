@@ -4,11 +4,21 @@ import useSound from "./useSound";
 import mainbgm from "../audios/mainTheme.mp3";
 import startbgm from "../audios/main_bgm.mp3"
 
+export const MainA = (props) => {
+    const volume = useSelector((state) => state.user.sound.bgm);
+    const mMute = props.mMute
+    useSound(startbgm, volume, mMute);
+
+    return (
+        <>
+        </>
+    )
+}
 
 export const MainB = (props) => {
-    const volume = useSelector((state) => state.user.sound);
+    const volume = useSelector((state)=>state.user.sound.bgm)
     const mbmute = props.mbmute
-    useSound(mainbgm, volume.bgm, mbmute);
+    useSound(mainbgm, volume, mbmute);
 
     return (
         <>
@@ -16,13 +26,4 @@ export const MainB = (props) => {
     )
 }
 
-export const MainA = (props) => {
-    const volume = useSelector((state) => state.user.sound);
-    const mMute = props.mMute
-    useSound(startbgm, volume.bgm, mMute);
 
-    return (
-        <>
-        </>
-    )
-}

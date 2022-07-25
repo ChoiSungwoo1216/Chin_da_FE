@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import "./SoundSetting.css";
@@ -14,19 +14,28 @@ const SoundSetting = (props) => {
     if (e.target.checked) {
       if (e.target.id === "switch") {
         dispatch(editsound({ bgm: 0.1 }));
+        localStorage.removeItem("bgm")
+        setTimeout(()=>{localStorage.setItem("bgm", 0.1)}, 100)
       } else if (e.target.id === "switch1") {
         dispatch(editsound({ es: 0.5 }));
+        localStorage.removeItem("es")
+        setTimeout(()=>{localStorage.setItem("es", 0.1)}, 100)
       }
     } else {
       if (e.target.id === "switch") {
         dispatch(editsound({ bgm: 0 }));
+        localStorage.removeItem("bgm")
+        setTimeout(()=>{localStorage.setItem("bgm", 0)}, 100)
       } else if (e.target.id === "switch1") {
         dispatch(editsound({ es: 0 }));
+        localStorage.removeItem("es")
+        setTimeout(()=>{localStorage.setItem("es", 0)}, 100)
       }
     }
   };
 
   const token = sessionStorage.getItem("Authorization");
+
   const logined = () => {
     if (token === null) {
       return true;
@@ -34,13 +43,10 @@ const SoundSetting = (props) => {
       return false;
     }
   }
+
   const logout = ()=>{
-    sessionStorage.removeItem("Authorization");
-    sessionStorage.removeItem("username");
-    sessionStorage.removeItem("profile");
-    sessionStorage.removeItem("winCnt");
-    sessionStorage.removeItem("loseCnt");
-    sessionStorage.removeItem("newUser");
+    sessionStorage.clear();
+    localStorage.clear();
     window.location.replace('/');
   }
 

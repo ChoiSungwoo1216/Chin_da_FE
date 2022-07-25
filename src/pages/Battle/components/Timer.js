@@ -12,6 +12,7 @@ function Timer(p) {
 
   const times = p.Time; // 난이도별 시간
   const active = p.setActive;
+  const {timeOutLose} = p
 
   const minute = Math.floor(times / 60); // 분
   const second = times - minute * 60; // 초
@@ -39,6 +40,7 @@ function Timer(p) {
           if (parseInt(minutes) === 0) {
             clearInterval(countdown);
             dispatch(gameSwitch(false));
+            timeOutLose();
           } else {
             setMinutes(parseInt(minutes) - 1);
             setSeconds(59);

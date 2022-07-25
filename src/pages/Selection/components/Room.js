@@ -48,7 +48,11 @@ const Room = (props) => {
         enterEs.play();
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.data.reLogin === true){
+          sessionStorage.clear();
+          localStorage.clear();
+          window.location.replace('/');
+       }
       });
   }
 

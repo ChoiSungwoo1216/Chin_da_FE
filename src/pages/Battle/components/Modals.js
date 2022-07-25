@@ -11,13 +11,12 @@ import winSound from "../../../audios/WinSE1.mp3";
 import loseSound from "../../../audios/LoseSE1.mp3";
 import win1Sound from "../../../audios/WinSE2.mp3";
 import lose1Sound from "../../../audios/FailSE1.mp3";
-import { gameSwitch } from "../../../redux/modules/battleFunction";
+import { gameSwitch, ModalOpen, NewQue } from "../../../redux/modules/battleFunction";
 
 /*QuestionModal*/
 export const QuestionModal = (p) => {
   const setClose = p.setValue;
-  const question = p.question;
-  const questionTitle = p.questionTitle;
+  const que = p.que;
   const [modalIsOpen, setIsOpen] = React.useState(true);
   const customModalStyles = {
     overlay: {
@@ -51,8 +50,8 @@ export const QuestionModal = (p) => {
             <h3>Question</h3>
           </header>
           <div className="ModalContent">
-            <div className="qTitle">{questionTitle}</div>
-            <div className="q">{question}</div>
+            <div className="qTitle">{que.questionTitle}</div>
+            <div className="q">{que.question}</div>
           </div>
         </div>
         <img
@@ -66,9 +65,8 @@ export const QuestionModal = (p) => {
   );
 };
 
-export const GameRuleModal = (p) => {
-  const setClose = p.setClose;
-  const [modalIsOpen, setIsOpen] = React.useState(true);
+export const GameRuleModal = ({ ModalOpen, modal }) => {
+  const dispatch = useDispatch();
   const customModalStyles = {
     overlay: {
       background: "#0000006a",
@@ -76,25 +74,20 @@ export const GameRuleModal = (p) => {
   };
 
   const allClose = () => {
-    setClose(false);
-    setIsOpen(false);
+    dispatch(ModalOpen({ rule: false }));
   };
   return (
     <>
       <Modal
         className="ModalBox ruleBox"
-        isOpen={modalIsOpen}
+        isOpen={modal.rule}
         style={customModalStyles}
       >
         <div className="ModalBody">
-          <header>
-            <h3>G A M E R U L E</h3>
-          </header>
           <div className="ModalContent ruleContent">
-            <div className="qTitle">규 칙</div>
-            <hr />
+            <div className="qTitle Qrule">규 칙</div>
             <div className="q">
-              <ol>
+              <ol className="ruleList">
                 <li>
                   게임 중 뒤로가거나 새로고침 시,
                   <br />
@@ -116,7 +109,7 @@ export const GameRuleModal = (p) => {
                   <br />
                   Python : print()
                   <br />
-                  java : System.out.println
+                  java : System.out.println()
                   <br />
                   javascript : console.log()
                 </li>
@@ -210,20 +203,11 @@ export const FailModal = ({ setROpen, setResult, setBbmute }) => {
   const [modalIsOpen, setIsOpen] = React.useState(true);
   const confetti = new JSConfetti();
   const confettiList = () => {
-    const customModalStyles = {
-      content: {
-        color: "#fff",
-      },
-    };
-    confetti.addConfetti({
-      emojiSize: 30,
-      emojis: ["Lose"],
-      // confettiColor: '#fff',
-    });
+
     confetti.addConfetti({
       emojis: ["😭", "😥"],
-      emojiSize: 50,
-      confettiNumber: 30,
+      emojiSize: 60,
+      confettiNumber: 70,
     });
   };
 
@@ -289,6 +273,9 @@ export const Result = (props) => {
     } else {
       loseEs.play();
     }
+    dispatch(gameSwitch({gameStart: false}))
+    dispatch(ModalOpen({chat: true, que: false}))
+    dispatch(NewQue({question: "", questionTitle:"", template:""}))
   }, []);
   const navigate = useNavigate();
   const player = sessionStorage.getItem("username");

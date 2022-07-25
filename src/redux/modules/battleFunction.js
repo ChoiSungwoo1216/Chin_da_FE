@@ -18,6 +18,10 @@ const PENDING = "pending/PENDING";
 
 const SENDCODE = "sendcode/SENDCODE";
 
+const MODALOPEN = "modalopen/MODALOPEN"
+
+const QUE = "que/QUE"
+
 const initialState = {
   already: { user: false, opp: false },
   gameStatus: false,
@@ -27,6 +31,8 @@ const initialState = {
   runCountdown: false,
   pendingRun: { user: false, opp: false },
   sendRun: false,
+  modalOpen : { chat : true, que: false, rule: true},
+  queList : { question: "", questionTitle:"", questionId:"", template: ""}
 };
 
 // Action Creators
@@ -62,6 +68,15 @@ export function setPending(user) {
 export function sendCodeTiming(bool) {
   return { type: SENDCODE, bool };
 }
+
+export function ModalOpen(user) {
+  return { type: MODALOPEN, user };
+}
+
+export function NewQue(user) {
+  return { type: QUE, user };
+}
+
 // Reducer
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
@@ -96,6 +111,20 @@ export default function reducer(state = initialState, action = {}) {
     }
     case SENDCODE: {
       return { ...state, sendRun: action.bool };
+    }
+    case MODALOPEN: {
+      const Modal_list = {
+        ...state.modalOpen,
+        ...action.user,
+      };
+      return { ...state, modalOpen: Modal_list };
+    }
+    case QUE: {
+      const que_list = {
+        ...state.queList,
+        ...action.user,
+      };
+      return { ...state, modalOpen: que_list };
     }
     default:
       return state;

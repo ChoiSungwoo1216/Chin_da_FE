@@ -4,7 +4,7 @@ import Timer from "./Timer";
 import { gameSwitch } from "../../../redux/modules/battleFunction";
 import { useDispatch, useSelector } from "react-redux";
 
-const ProgressBarTwo = () => {
+const ProBar = ({timeOutLose}) => {
   const level = useSelector((state) => state.battleFunction.level);
   const setActive = useSelector((state) => state.battleFunction.gameStatus);
   const dispatch = useDispatch();
@@ -70,13 +70,13 @@ const ProgressBarTwo = () => {
             return <CountBox key={idx} active={setActive} count={count} />;
           })}
         </Filler>
-        <Timer setActive={setActive} Time={timeToLevel} />
+        <Timer setActive={setActive} Time={timeToLevel} timeOutLose={timeOutLose}/>
       </Bar>
     </>
   );
 };
 
-export default ProgressBarTwo;
+export default ProBar;
 
 const Blink = keyframes`
   from{
