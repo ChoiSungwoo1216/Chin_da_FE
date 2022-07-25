@@ -299,6 +299,7 @@ const Battle = (props) => {
             type: "ENTER",
             roomId: roomId,
             sender: username,
+            id: ""
          })
       );
    };
