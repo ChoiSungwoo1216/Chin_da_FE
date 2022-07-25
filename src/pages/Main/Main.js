@@ -67,6 +67,12 @@ export function Main() {
    const language = selected.language;
    const level = selected.level;
 
+   function RandomNumber(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+
    // getItems:서버에서 아이템을 가지고 오는 함수
    const getItems = useCallback(async (language, level) => {
       const numLan = parseInt(language)
@@ -83,7 +89,10 @@ export function Main() {
             }
          })
          .then((response) => {
-            // console.log(response.data);
+            console.log(response.data);
+            for (let i = 0; i < response.data.length; i++) {
+               response.data[i].num = RandomNumber(0,5)
+             }
             setAllUsers(response.data);
             // setAllUsers((prevState) => [...prevState, ...response.data]);
          })
@@ -152,23 +161,14 @@ export function Main() {
    };
 
    //캐릭터 표출
-   const [ranImg, setRanImg] = React.useState('');
-   const randomImg = (index) => {
-      let img = [
+   const randomImg = [
          '/img/Char2.svg',
          '/img/Char3.svg',
          '/img/Char4.svg',
          '/img/Char5.svg',
          '/img/Char6.svg',
       ];
-      let rArr = Math.floor(Math.random() * img.length);
-      return img[(rArr + index) % 5];
-   };
-   // function randomImg(array) {
-   //    const random = Math.floor(Math.random() * array.length);
-   //    return array[random];
-   // }
-   // const randomImage = randomImg(img);
+      
    return (
       <>
          <div className="mainContainer">
@@ -218,7 +218,7 @@ export function Main() {
                {user2Info.creatorGameInfo.profileUrl !== '' && (
                   <img
                      id="player2"
-                     src={ranImg}
+                     src={randomImg[user2Info.num]}
                      alt=""
                      onError={(e) => (e.target.style.display = 'none')}
                   />
@@ -264,10 +264,9 @@ export function Main() {
                                  className="scene"
                                  onClick={() => {
                                     setUser2Info(allUsers[idx]);
-                                    setRanImg(randomImg(idx));
                                  }}
                               >
-                                 <Card className="card" />
+                                 <Card className="card" randomImg={randomImg} selEs={selEs} item={item} idx={idx}/>
                               </div>
                               {/* )} */}
                            </React.Fragment>
@@ -313,7 +312,7 @@ export function Main() {
 
 export default Main;
 
-export const Card = (props) => {
+const Card = (props) => {
    const { randomImg, selEs } = props;
    return (
       <div className="card">
@@ -326,7 +325,7 @@ export const Card = (props) => {
                objectFit: 'contain',
             }}
          >
-            <img className="characterImg" src={randomImg(props.idx)} alt="" />
+            <img className="characterImg" src={randomImg[props.item.num]} alt="" />
          </div>
          <div
             className="face back"

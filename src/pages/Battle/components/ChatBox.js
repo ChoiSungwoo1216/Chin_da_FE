@@ -138,7 +138,7 @@ border-radius: 2px;
 border : none;
 `;
 
-const ChatSend = styled.img`
+const ChatSend = styled.div`
    display: flex;
    flex-direction: column;
    justify-content: center;
@@ -150,14 +150,12 @@ const ChatSend = styled.img`
    background-position: center;
    padding-bottom: 1vh;
    margin: 0.5vh;
-   border: 5px solid #000;
    & p {
       padding-top: 1.1vh;
       font-size: calc((3vh + 3vw) / 4);
       color: white;
    }
    &:hover {
-      mix-blend-mode: lighten;
       cursor: pointer;
    }
 `;
