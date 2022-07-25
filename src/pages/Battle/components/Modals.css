@@ -3,16 +3,17 @@
   height: 70%;
   margin: auto;
   background: #0c1119;
-  border-radius: 5px;
   position: relative;
-  padding: 15px;
+  border-radius: 5px;
   margin-top: 100px;
-  display: block;
-  border: 1px solid #fff;
+  display: flex;
   animation: modalAnimation 0.5s linear forwards;
 }
 .ruleBox {
   background-color: white;
+  width: 60%;
+  height: 78%;
+  margin-top: 5%;
 }
 
 @keyframes modalAnimation {
@@ -26,9 +27,12 @@
 
 header {
   width: 100%;
-  height: 30px;
+  height: 8%;
+
   position: absolute;
-  top: 0;
+
+  border-top-left-radius: 5px;
+  top: 0px;
   left: 0;
   background-color: #5777ce;
   z-index: 2;
@@ -36,48 +40,84 @@ header {
 }
 
 header h3 {
-  margin: auto;
-  padding: 6px;
   color: #fff;
   font-family: Neo;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: inherit;
+  height: 100%;
+
+  margin-top: auto;
 }
 
 .ModalBody {
   display: flex;
+  position: absolute;
+  top: 0%;
+  width: 100%;
   height: 100%;
+  border-radius: 0px;
 }
 
 .ModalContent {
   position: relative;
-  height: 97%;
-  width: 100%;
-  top: 20px;
+  height: 92%;
+  width: inherit;
+  top: 4%;
   color: #fff;
-  margin: auto -13px;
-  overflow-y: scroll;
-  padding: 15px;
+  /* background-color: rgba(255, 255, 255, 0.3); */
+  margin: auto;
+  overflow-y: auto;
+  border-radius: 5px;
+
   float: left;
 }
 
 .ruleContent {
   position: relative;
   display: flex-box;
-
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  top: 0%;
+  border-radius: 0px;
 
   font-family: Neo;
-  font-size: 30px;
-
+  font-size: calc((2vw + 2vh) / 1.5);
+  height: 100%;
   color: black;
   text-align: center;
 }
 
+.ruleList {
+  padding-top: 20px;
+  padding-bottom: 0px;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  margin: auto;
+  height: 100%;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
 .qTitle {
-  margin-bottom: 10px;
+  margin-top: 3%;
   font-weight: 600;
   width: 100%;
+  /* border: 1px solid red; */
+}
+
+.Qrule {
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  background-color: black;
+  color: white;
 }
 
 .q {
@@ -87,6 +127,7 @@ header h3 {
 
 .ModalContent::-webkit-scrollbar {
   width: 10px;
+  border-radius: 5px;
 }
 
 .ModalContent::-webkit-scrollbar-thumb {
