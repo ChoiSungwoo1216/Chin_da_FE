@@ -32,7 +32,7 @@ const initialState = {
   pendingRun: { user: false, opp: false },
   sendRun: false,
   modalOpen : { chat : true, que: false, rule: true},
-  queList : { question: "", questionTitle:"", template: ""}
+  queList : { question: "", questionTitle:"", questionId:"", template: ""}
 };
 
 // Action Creators

@@ -84,7 +84,6 @@ const Battle = (props) => {
 
    //RoomInfo
    const roomId = params.id;
-   const questionId = location.state.questionId;
    const server = location.state.server;
    // console.log(info);
 
@@ -150,6 +149,7 @@ const Battle = (props) => {
             case "READY":
                dispatch(NewQue({question : mes.question}))
                dispatch(NewQue({questionTitle : mes.title}))
+               dispatch(NewQue({questionId : mes.questionId}))
                dispatch(NewQue({template : mes.template}))
                dispatch(alreadyUser({ opp: true }));
                break;
@@ -410,7 +410,7 @@ const Battle = (props) => {
          baseURL: api,
          data: {
             roomId: roomId,
-            questionId: questionId,
+            questionId: que.questionId,
             languageIdx: parseInt(selected.language),
             codeStr: codeRef.current,
          },
