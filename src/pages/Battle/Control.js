@@ -9,6 +9,7 @@ import {
   setAlert,
   setCountdown,
   setPending,
+  ModalOpen,
 } from "../../redux/modules/battleFunction";
 const Control = (props) => {
   const {
@@ -20,7 +21,6 @@ const Control = (props) => {
     // setRemotePeerIdValue,
     // call,
     // peerId,
-    setQueOpen,
     setMbmute,
     setBbmute,
   } = props;
@@ -37,7 +37,7 @@ const Control = (props) => {
       setShowQuestionModal(true);
       dispatch(alreadyUser({ user: false, opp: false }));
       clearInterval(countdown);
-      setQueOpen(true);
+      dispatch(ModalOpen({que : true}))
       setBbmute(false);
     }, 3150);
     return () => clearInterval(countdown);

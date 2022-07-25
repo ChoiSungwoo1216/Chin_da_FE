@@ -18,6 +18,9 @@ const PENDING = "pending/PENDING";
 
 const SENDCODE = "sendcode/SENDCODE";
 
+const MODALOPEN = "modalopen/MODALOPEN"
+
+
 const initialState = {
   already: { user: false, opp: false },
   gameStatus: false,
@@ -27,6 +30,7 @@ const initialState = {
   runCountdown: false,
   pendingRun: { user: false, opp: false },
   sendRun: false,
+  modalOpen : { chat : false, que: false, rule: true}
 };
 
 // Action Creators
@@ -62,6 +66,11 @@ export function setPending(user) {
 export function sendCodeTiming(bool) {
   return { type: SENDCODE, bool };
 }
+
+export function ModalOpen(user) {
+  return { type: MODALOPEN, user };
+}
+
 // Reducer
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
@@ -96,6 +105,13 @@ export default function reducer(state = initialState, action = {}) {
     }
     case SENDCODE: {
       return { ...state, sendRun: action.bool };
+    }
+    case MODALOPEN: {
+      const Modal_list = {
+        ...state.modalOpen,
+        ...action.user,
+      };
+      return { ...state, modalOpen: Modal_list };
     }
     default:
       return state;

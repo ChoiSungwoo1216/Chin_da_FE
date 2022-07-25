@@ -50,7 +50,9 @@ import {
    setMsg,
    setAlert,
    setPending,
+   ModalOpen
 } from '../../redux/modules/battleFunction';
+import HeaderBtn from './components/HeaderBtn';
 
 Modal.setAppElement('#root');
 
@@ -84,7 +86,7 @@ const Battle = (props) => {
    const roomId = params.id;
    const questionId = location.state.questionId;
    const server = location.state.server;
-   console.log(info);
+   // console.log(info);
 
    //Timer,ProgressBar
    dispatch(setLevel(selected.level));
@@ -104,6 +106,7 @@ const Battle = (props) => {
    let sock = new SockJS(`${api}/ws-stomp?username=` + encodeURI(username));
    let client = StompJS.over(sock);
    client.heartbeat.outgoing = 20000;
+   client.heartbeat.ingoing = 20000;
    const [opCode, setOpCode] = useState('');
    const [questionTitle, setQuestionTitle] = useState('');
    const [question, setQuestion] = useState('');
@@ -137,7 +140,7 @@ const Battle = (props) => {
    const ReceiveCallBack = (message) => {
       if (message.body) {
          const mes = JSON.parse(message.body);
-         console.log(mes);
+         // console.log(mes);
          switch (mes.type) {
             case 'READY':
                setQuestion(mes.question);
@@ -212,6 +215,7 @@ const Battle = (props) => {
    let socket = new SockJS(`${ChatApi}/ws-stomp?name=` + encodeURI(username));
    let clientChat = StompJS.over(socket);
    clientChat.heartbeat.outgoing = 20000;
+   clientChat.heartbeat.ingoing = 20000;
 
    const Chatconnect = () => {
       clientChat.connect({}, onConnect, onError);
@@ -311,7 +315,6 @@ const Battle = (props) => {
    const [showQuestionModal, setShowQuestionModal] = useState();
    const [showSuccessModal, setShowSuccessModal] = useState();
    const [showFailModal, setShowFailModal] = useState();
-   const [showGameRuleModal, setGameRuleModal] = useState();
 
    //AceEditor
    const langType = ['java', 'javascript', 'python'];
@@ -322,7 +325,7 @@ const Battle = (props) => {
 
    //Submit
    const [trySub, setTrySub] = useState(3);
-
+   console.log("확인용",codeRef)
    const axiosSubmit = () => {
       setTrySub(trySub - 1);
       axios({
@@ -333,7 +336,7 @@ const Battle = (props) => {
             roomId: roomId,
             questionId: questionId,
             languageIdx: parseInt(selected.language),
-            codeStr: codeRef,
+            codeStr: codeRef.current,
          },
          headers: {
             Authorization: Authorization,
@@ -386,28 +389,9 @@ const Battle = (props) => {
    //     call(remotePeerIdValue);
    //   }
    // };
-
-   //채팅 열고 닫기
-   const [chatOpen, setChatOpen] = useState(false);
-   const openChat = () => {
-      btnEs.play();
-      if (chatOpen) {
-         setChatOpen(false);
-      } else {
-         setChatOpen(true);
-      }
-   };
-
-   //문제 열고 닫기
-   const [queOpen, setQueOpen] = useState(false);
-   const openQue = () => {
-      btnEs.play();
-      if (queOpen) {
-         setQueOpen(false);
-      } else {
-         setQueOpen(true);
-      }
-   };
+   
+   // header Modal
+   const modal = useSelector((state) => state.battleFunction.modalOpen);
 
    //결과창 열기
    const [rOpen, setROpen] = useState(false);
@@ -488,14 +472,15 @@ const Battle = (props) => {
                <ProBar />
             </TimerDiv>
             <BtnDiv>
-               <BtnOnOff onClick={openQue} change={queOpen}>
+               <HeaderBtn BackToMain={BackToMain} dispatch={dispatch} ModalOpen={ModalOpen} />
+               {/* <BtnOnOff onClick={openQue} change={queOpen}>
                   문제
                </BtnOnOff>
                <BtnOnOff onClick={openChat} change={chatOpen}>
                   채팅
                </BtnOnOff>
                <BtnOnOff onClick={() => setGameRuleModal(true)}>규칙</BtnOnOff>
-               <ExitBtn onClick={BackToMain}>나가기</ExitBtn>
+               <ExitBtn onClick={BackToMain}>나가기</ExitBtn> */}
             </BtnDiv>
          </HeadPart>
          <BodyPart>
@@ -537,8 +522,8 @@ const Battle = (props) => {
                </SubmitBtn>
             </UserDiv>
             <OpponentDiv>
-               {queOpen && (
-                  <QueDiv queOpen={queOpen} chatOpen={chatOpen}>
+               {modal.que === true && (
+                  <QueDiv queOpen={modal.que} chatOpen={modal.chat}>
                      <QueHead>
                         <p>Question</p>
                      </QueHead>
@@ -548,7 +533,7 @@ const Battle = (props) => {
                      </QueBox>
                   </QueDiv>
                )}
-               {chatOpen && (
+               {modal.chat && (
                   <ChatingDiv>
                      <ChatHead>
                         <p>Chatting</p>
@@ -556,7 +541,7 @@ const Battle = (props) => {
                      <ChatBox roomId={roomId} username={username} />
                   </ChatingDiv>
                )}
-               <CodeDiv queOpen={queOpen} chatOpen={chatOpen}>
+               <CodeDiv queOpen={modal.que} chatOpen={modal.chat}>
                   {gameStart === false ? <ReadyOpp /> : null}
                   <OppSubmitPending />
                   <AceEditorOpp mode={mode} opCode={opCode} />
@@ -613,7 +598,7 @@ const Battle = (props) => {
                // setRunTimer={setRunTimer}
             />
          )}
-         {showGameRuleModal && <GameRuleModal setClose={setGameRuleModal} />}
+         {(modal.rule === true)&& <GameRuleModal ModalOpen={ModalOpen} modal={modal}/>}
          {rOpen && (
             <Result
                setROpen={setROpen}
@@ -633,7 +618,6 @@ const Battle = (props) => {
             // call={call}
             // peerId={peerId}
             // setRunCountdown={setRunCountdown}
-            setQueOpen={setQueOpen}
             setMbmute={setMbmute}
             setBbmute={setBbmute}
             sendReady={sendReady}

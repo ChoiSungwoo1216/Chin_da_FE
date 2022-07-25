@@ -66,9 +66,8 @@ export const QuestionModal = (p) => {
   );
 };
 
-export const GameRuleModal = (p) => {
-  const setClose = p.setClose;
-  const [modalIsOpen, setIsOpen] = React.useState(true);
+export const GameRuleModal = ({ ModalOpen, modal }) => {
+  const dispatch = useDispatch();
   const customModalStyles = {
     overlay: {
       background: "#0000006a",
@@ -76,14 +75,14 @@ export const GameRuleModal = (p) => {
   };
 
   const allClose = () => {
-    setClose(false);
-    setIsOpen(false);
+    dispatch(ModalOpen({rule:false}))
+    console.log(modal.rule)
   };
   return (
     <>
       <Modal
         className="ModalBox ruleBox"
-        isOpen={modalIsOpen}
+        isOpen={modal.rule}
         style={customModalStyles}
       >
         <div className="ModalBody">
