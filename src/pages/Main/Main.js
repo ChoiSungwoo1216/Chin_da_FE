@@ -98,6 +98,15 @@ export function Main() {
          })
          .catch((error) => {
             console.log(error);
+            if (error.response.data.reLogin === true){
+               sessionStorage.removeItem("Authorization");
+               sessionStorage.removeItem("username");
+               sessionStorage.removeItem("profile");
+               sessionStorage.removeItem("winCnt");
+               sessionStorage.removeItem("loseCnt");
+               sessionStorage.removeItem("newUser");
+               window.location.replace('/');
+            }
          });
       // setLoading(false);
    }, []
@@ -126,6 +135,15 @@ export function Main() {
          })
          .catch((error) => {
             console.log(error);
+            if (error.response.data.reLogin === true){
+               sessionStorage.removeItem("Authorization");
+               sessionStorage.removeItem("username");
+               sessionStorage.removeItem("profile");
+               sessionStorage.removeItem("winCnt");
+               sessionStorage.removeItem("loseCnt");
+               sessionStorage.removeItem("newUser");
+               window.location.replace('/');
+            }
          });
    }
 
@@ -168,7 +186,7 @@ export function Main() {
          '/img/Char5.svg',
          '/img/Char6.svg',
       ];
-      
+
    return (
       <>
          <div className="mainContainer">
