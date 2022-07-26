@@ -254,6 +254,7 @@ opacity: 0.85;
   opacity: 1;
   transform: scale(1.1);
   animation: none;
+  cursor: pointer;
 }
 `;
 
@@ -276,7 +277,8 @@ opacity: 0.85;
 &:hover{
   opacity: 1;
   transform: scale(1.1);
-  animation: none
+  animation: none;
+  cursor: pointer;
 }
 `;
 export default Room;
