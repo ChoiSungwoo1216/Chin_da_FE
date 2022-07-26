@@ -111,19 +111,22 @@ const Battle = (props) => {
    const opCode = useRef();
    const que = useSelector((state) => state.battleFunction.queList)
    const codeRef = useRef("");
-
+   console.log(gameStart)
    React.useEffect(() => {
       if (roomId !== undefined) {
          connect();
          Chatconnect();
+         dispatch(gameSwitch({gameStatus : false}))
+         dispatch(alreadyUser({user: false, opp: false}))
          return () => {
-            dispatch(NewQue({ question: "", questionTitle:"", questionId:"", template: ""}))
+            dispatch(NewQue({ question: "", questionTitle:"", questionId:""}))
             dispatch(ModalOpen({ chat : true, que: false, rule: true}))
             if (gameStart === true) {
+               console.log(gameStart)
                exitLose();
-               exitMes();
                setTimeout(() => { client.disconnect() }, 500)
             } else {
+               console.log(gameStart)
                exitMes();
                setTimeout(() => { client.disconnect() }, 500)
             }
@@ -139,6 +142,7 @@ const Battle = (props) => {
    //서버 연결
    const connect = () => {
       client.connect(headers, onConnected, onError);
+      client.reconnect_delay = 3000;
       client.heartbeat.outgoing = 20000;
       client.heartbeat.ingoing = 0;
    };
@@ -163,6 +167,7 @@ const Battle = (props) => {
                   `\n`+
                   mes.template;
                dispatch(alreadyUser({ opp: true }));
+               dispatch(gameSwitch({gameStatue: true}))
                break;
             case "USERINFO":
                if (mes.sender !== username) {
@@ -396,7 +401,8 @@ const Battle = (props) => {
          })
          .catch((error) => {
             console.log(error)
-            if (error.response.data === "참여자가 아닙니다") {
+            if (error.response.status === 400) {
+               window.alert(error.response.data)
                navigate("/selection");
             }
             if (error.response.data.reLogin === true) {
@@ -496,7 +502,6 @@ const Battle = (props) => {
    //나가기
    const BackToMain = () => {
       leaveRoomAxios();
-      dispatch(gameSwitch(false));
    };
 
    //Peer
@@ -704,6 +709,8 @@ const Battle = (props) => {
                result={result}
                setMbmute={setMbmute}
                setTrySub={setTrySub}
+               codeRef={codeRef}
+               opCode={opCode}
             />
          )}
 

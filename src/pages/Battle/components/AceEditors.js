@@ -54,8 +54,6 @@ export const AceEditorOpp = (props) => {
     console.log("2:", newValue);
   }
 
-  console.log("opCode.current: ", opCode.current);
-
   return (
     <>
       <AceEditor
