@@ -47,7 +47,7 @@ export const QuestionModal = (p) => {
       >
         <div className="ModalBody">
           <header>
-            <h3>Question</h3>
+            <h2>Q u e s t i o n</h2>
           </header>
           <div className="ModalContent">
             <div className="qTitle">{que.questionTitle}</div>

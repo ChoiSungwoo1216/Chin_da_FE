@@ -17,7 +17,7 @@ const SoundSettingBtn = () => {
     return (
         <div>
              {setting ? (<SoundSetting setSetting={setSetting} />) :
-               <SoundBtn onClick={openSetting} src={"/img/soundIconBlack.svg"} alt="" onMouseOver={() =>hoverEs.play()} />
+               <SoundBtn onClick={openSetting} src={"/img/setting_black.svg"} alt="" onMouseOver={() =>hoverEs.play()} />
             }
         </div>
     )
@@ -31,7 +31,7 @@ right: 0.5vw;
 width: calc(1vh + 1vw);
 height: calc(1vh + 1vw);
 &:hover{
-   content: url(/img/soundIconWhite.svg);
+   content: url(/img/setting_white.svg);
 }
 `;
 
