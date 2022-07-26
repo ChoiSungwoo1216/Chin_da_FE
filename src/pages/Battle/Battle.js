@@ -138,7 +138,7 @@ const Battle = (props) => {
       });
 
       peerInstance.current = peer;
-   }, []);
+   }, [roomId]);
 
    const call = (remotePeerId) => {
       var getUserMedia =
@@ -372,11 +372,11 @@ const Battle = (props) => {
 
    const onConnect = () => {
       clientChat.subscribe(`/sub/chat/room/${roomId}`, ReceiveFunc);
-      setTimeout(() => { EnterSend(); }, 200);
+      setTimeout(() => { EnterSend(); }, 1000);
    };
-
+   const peerRef = useRef("")
+   peerRef.current = peerId
    const EnterSend = () => {
-      console.log("내 PeerId : ",peerId);
       clientChat.send(
          `/pub/chat/message`,
          {},
@@ -384,7 +384,7 @@ const Battle = (props) => {
             type: "ENTER",
             roomId: roomId,
             sender: username,
-            id: peerId,
+            id: peerRef.current,
          })
       );
    };
@@ -405,7 +405,6 @@ const Battle = (props) => {
       if (message.body) {
          newMesEs.play();
          const mes = JSON.parse(message.body);
-         console.log(mes)
          switch (mes.type) {
             case "ENTER":
                dispatch(
@@ -440,6 +439,13 @@ const Battle = (props) => {
                      sender: mes.sender,
                   })
                );
+               if (mes.sender !== username) {
+                  dispatch(
+                     setPeerId({
+                        opId: "",
+                     })
+                  );
+               }
                break;
             default:
          }
