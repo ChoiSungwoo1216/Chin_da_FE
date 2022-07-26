@@ -35,7 +35,7 @@ const initialState = {
   sendRun: false,
   modalOpen : { chat : true, que: false, rule: true},
   queList : { question: "", questionTitle:"", questionId:""},
-  newOpp : ""
+  newOpp : undefined
 };
 
 // Action Creators

@@ -11,7 +11,6 @@ const ChatBox = (props) => {
 
   //메세지 보내기
   const messageRef = useRef("");
-  console.log(messageRef);
   //채팅 기록
   const chattinglist = useSelector((state) => state.chatlist.list);
   //Websocket

@@ -89,7 +89,12 @@ const Battle = (props) => {
    //RoomInfo
    const roomId = params.id;
    const server = location.state.server;
-   // console.log(info);
+   const roomuser = location.state.creatorGameInfo.playerName;
+   useEffect(() => {
+      if (roomuser !== username) {
+         dispatch(NewOp(roomuser))
+      }
+   }, [])
 
    //Timer,ProgressBar
    dispatch(setLevel(selected.level));
@@ -189,7 +194,7 @@ const Battle = (props) => {
                setShowSuccessModal(true);
                break;
             case "EXIT":
-               dispatch(alreadyUser({ user : false}))
+               dispatch(alreadyUser({ user: false }))
                dispatch(NewOp(undefined))
                resAlert(mes.msg);
                newMesEs.play();
@@ -685,7 +690,7 @@ const Battle = (props) => {
           </OpCamDiv> */}
             </OpponentDiv>
          </BodyPart>
-         {showQuestionModal ===true && (
+         {showQuestionModal === true && (
             <QuestionModal setValue={setShowQuestionModal} que={que} />
          )}
          {showSuccessModal === true && (
