@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import styled, { css, keyframes } from "styled-components";
+import styled from "styled-components";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -69,8 +69,8 @@ const Battle = (props) => {
 
    //Peer
    const peerId = useSelector((state) => state.user.peerId.userId);
-   const opPeerId = useSelector((state) => state.user.peerId.opId);
-
+   const remotePeerIdValue = useSelector((state) => state.user.peerId.opId);
+   console.log("내: ",peerId, "상대: ", remotePeerIdValue)
    //Bgm
    const { setMbmute } = props;
    const volume = useSelector((state) => state.user.sound);
@@ -108,6 +108,65 @@ const Battle = (props) => {
       dispatch(setAlert(true));
    };
 
+   //Peer
+   const remoteVideoRef = useRef(null);
+   const peerInstance = useRef(null);
+   const currentUserVideoRef = useRef(null);
+
+   useEffect(() => {
+      const peer = new Peer();
+      //제일 처음 peer가 만들어지면서 랜덤한 id가 만들어짐
+      peer.on("open", (id) => {
+         dispatch(setPeerId({ userId: id }))
+      });
+
+      peer.on("call", (call) => {
+         var getUserMedia =
+            navigator.getUserMedia ||
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia;
+
+         getUserMedia({ audio: false, video: true }, (mediaStream) => {
+            currentUserVideoRef.current.srcObject = mediaStream;
+            currentUserVideoRef.current.play();
+            call.answer(mediaStream);
+            call.on("stream", (remoteStream) => {
+               remoteVideoRef.current.srcObject = remoteStream;
+               remoteVideoRef.current.play();
+            });
+         });
+      });
+
+      peerInstance.current = peer;
+   }, []);
+
+   const call = (remotePeerId) => {
+      var getUserMedia =
+         navigator.getUserMedia ||
+         navigator.webkitGetUserMedia ||
+         navigator.mozGetUserMedia;
+
+      getUserMedia({ audio: false, video: true }, (mediaStream) => {
+         //현재 내 화면
+         currentUserVideoRef.current.srcObject = mediaStream;
+         currentUserVideoRef.current.play();
+
+         const call = peerInstance.current.call(remotePeerId, mediaStream);
+
+         call.on("stream", (remoteStream) => {
+            // Show stream in some video/canvas element.
+            // 상대방 영상 받아오는 부분
+            // 두개 같이 써줘야 작동함
+            remoteVideoRef.current.srcObject = remoteStream;
+            remoteVideoRef.current.play();
+         });
+      });
+   };
+   console.log("상대 PeerId : ",remotePeerIdValue);
+   useEffect(() => {
+      call(remotePeerIdValue)
+   }, [remotePeerIdValue])
+
    //game server
    const username = sessionStorage.getItem("username");
    const headers = { Authorization: Authorization };
@@ -125,6 +184,7 @@ const Battle = (props) => {
             dispatch(NewQue({ question: "", questionTitle: "", questionId: "" }));
             dispatch(ModalOpen({ chat: true, que: false, rule: true }));
             dispatch(gameSwitch(false));
+            dispatch(setPeerId({userId: "", opId: ""}));
             exitMes();
             setTimeout(() => {
                console.log("게임서버 연결종료")
@@ -312,10 +372,11 @@ const Battle = (props) => {
 
    const onConnect = () => {
       clientChat.subscribe(`/sub/chat/room/${roomId}`, ReceiveFunc);
-      setTimeout(()=>{EnterSend();},200);
+      setTimeout(() => { EnterSend(); }, 200);
    };
 
    const EnterSend = () => {
+      console.log("내 PeerId : ",peerId);
       clientChat.send(
          `/pub/chat/message`,
          {},
@@ -344,6 +405,7 @@ const Battle = (props) => {
       if (message.body) {
          newMesEs.play();
          const mes = JSON.parse(message.body);
+         console.log(mes)
          switch (mes.type) {
             case "ENTER":
                dispatch(
@@ -489,67 +551,6 @@ const Battle = (props) => {
       leaveRoomAxios();
    };
 
-   //Peer
-   const remoteVideoRef = useRef(null); 
-   const peerInstance = useRef(null);
-   const currentUserVideoRef = useRef(null);
-
-   const remotePeerIdValue = opPeerId;
-
-   useEffect(() => {
-     const peer = new Peer();
-     //제일 처음 peer가 만들어지면서 랜덤한 id가 만들어짐
-     peer.on("open", (id) => {
-       dispatch(setPeerId({userId: id}))
-     });
-
-     peer.on("call", (call) => {
-       var getUserMedia =
-         navigator.getUserMedia ||
-         navigator.webkitGetUserMedia ||
-         navigator.mozGetUserMedia;
-
-       getUserMedia({ audio: false, video: true }, (mediaStream) => {
-         currentUserVideoRef.current.srcObject = mediaStream;
-         currentUserVideoRef.current.play();
-         call.answer(mediaStream);
-         call.on("stream", (remoteStream) => {
-           remoteVideoRef.current.srcObject = remoteStream;
-           remoteVideoRef.current.play();
-         });
-       });
-     });
-
-     peerInstance.current = peer;
-   }, []);
-
-   const call = (remotePeerId) => {
-     var getUserMedia =
-       navigator.getUserMedia ||
-       navigator.webkitGetUserMedia ||
-       navigator.mozGetUserMedia;
-
-     getUserMedia({ audio: false, video: true }, (mediaStream) => {
-       //현재 내 화면
-       currentUserVideoRef.current.srcObject = mediaStream;
-       currentUserVideoRef.current.play();
-
-       const call = peerInstance.current.call(remotePeerId, mediaStream);
-
-       call.on("stream", (remoteStream) => {
-         // Show stream in some video/canvas element.
-         // 상대방 영상 받아오는 부분
-         // 두개 같이 써줘야 작동함
-         remoteVideoRef.current.srcObject = remoteStream;
-         remoteVideoRef.current.play();
-       });
-     });
-   };
-
-  useEffect(()=>{
-    call(remotePeerIdValue)
-  },[remotePeerIdValue])
-
    return (
       <Container>
          <Countdown />
@@ -569,11 +570,11 @@ const Battle = (props) => {
          <BodyPart>
             <UserDiv>
                <UserCompoDiv gameStart={gameStart} sendReady={sendReady} mode={mode} codeRef={codeRef} onSubmit={onSubmit} trySub={trySub} />
-               <UserCam camEs={camEs} call={call} currentUserVideoRef={currentUserVideoRef} remotePeerIdValue={remotePeerIdValue}/>
-             </UserDiv>
+               <UserCam camEs={camEs} call={call} currentUserVideoRef={currentUserVideoRef} remotePeerIdValue={remotePeerIdValue} />
+            </UserDiv>
             <OpponentDiv>
                <QueChatEditDiv que={que} roomId={roomId} username={username} gameStart={gameStart} mode={mode} opCode={opCode} />
-               <OpCam camEs={camEs} call={call} remoteVideoRef={remoteVideoRef} remotePeerIdValue={remotePeerIdValue}/>
+               <OpCam camEs={camEs} call={call} remoteVideoRef={remoteVideoRef} remotePeerIdValue={remotePeerIdValue} />
             </OpponentDiv>
          </BodyPart>
          {showQuestionModal === true && (
