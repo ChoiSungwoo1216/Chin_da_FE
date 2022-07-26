@@ -17,6 +17,7 @@ import { gameSwitch, ModalOpen, NewQue } from "../../../redux/modules/battleFunc
 export const QuestionModal = (p) => {
   const setClose = p.setValue;
   const que = p.que;
+  console.log("Modal", que)
   const [modalIsOpen, setIsOpen] = React.useState(true);
   const customModalStyles = {
     overlay: {

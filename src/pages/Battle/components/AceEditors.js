@@ -16,6 +16,8 @@ import "ace-builds/src-noconflict/ext-language_tools";
 export const AceEditorPlayer = (props) => {
   const { mode, codeRef, que } = props;
 
+  console.log(que)
+
   function onChangeOne(newValue) {
     codeRef.current = newValue;
   }
@@ -55,7 +57,7 @@ export const AceEditorPlayer = (props) => {
 };
 
 export const AceEditorOpp = (props) => {
-  const { mode, opCode, template } = props;
+  const { mode, opCode, que } = props;
   function onChangeTwo(newValue) {
     console.log("2:", newValue);
   }
@@ -82,7 +84,7 @@ export const AceEditorOpp = (props) => {
           enableSnippets: true,
         }}
         value={opCode.current}
-        defaultValue={template}
+        defaultValue={que.template}
         placeholder="상대방 코드가 입력될 것입니다."
       />
     </>

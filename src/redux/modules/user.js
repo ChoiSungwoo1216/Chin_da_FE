@@ -4,12 +4,15 @@
 
 const EDIT = "sound/EDIT";
 const UPDATE = "selected/UPDATE";
+
+const PEER = "peer/PEER"
 // const ALREADY = "already/ALREADY";
 
 const initialState = {
   list: [{}],
   sound: { bgm: 0.1, es: 0.5 },
   selected: { language: "", level: "" },
+  peerId: ""
 };
 
 // Action Creators
@@ -26,6 +29,9 @@ export function updateselected(selected) {
   return { type: UPDATE, selected };
 }
 
+export function setPeerId(id) {
+  return { type: PEER, id };
+}
 // export function alreadyUser(user) {
 //   return { type: ALREADY, user };
 // }
@@ -58,6 +64,10 @@ export default function reducer(state = initialState, action = {}) {
     case "selected/UPDATE": {
       const update_selected_list = { ...state.selected, ...action.selected };
       return { ...state, selected: update_selected_list };
+    }
+
+    case PEER: {
+      return { ...state, peerId: action.id };
     }
     // case ALREADY: {
     //   const Already_list = {

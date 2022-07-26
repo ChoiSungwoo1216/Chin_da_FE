@@ -67,6 +67,10 @@ const Battle = (props) => {
    const location = useLocation();
    const params = useParams();
 
+   //Selector
+   const getPeerId = useSelector((state) => state.user.peerId)
+
+
    //Bgm
    const { setMbmute } = props;
    const volume = useSelector((state) => state.user.sound);
@@ -105,7 +109,8 @@ const Battle = (props) => {
    let sock = new SockJS(`${api}/ws-stomp?username=` + encodeURI(username));
    let client = StompJS.over(sock);
    const opCode = useRef();
-   const que = useSelector((state)=>state.battleFunction.queList)
+   const que = useSelector((state) => state.battleFunction.queList)
+   console.log(que);
    const codeRef = useRef("");
 
    React.useEffect(() => {
@@ -125,7 +130,9 @@ const Battle = (props) => {
             setTimeout(() => {
                clientChat.disconnect();
                dispatch(deletechatlist());
+
             }, 500)
+               (sessionStorage.getItem("Authorization")) ? navigate("/selection") : navigate("/")
          };
       }
    }, [roomId]);
@@ -147,10 +154,10 @@ const Battle = (props) => {
          // console.log(mes);
          switch (mes.type) {
             case "READY":
-               dispatch(NewQue({question : mes.question}))
-               dispatch(NewQue({questionTitle : mes.title}))
-               dispatch(NewQue({questionId : mes.questionId}))
-               dispatch(NewQue({template : mes.template}))
+               dispatch(NewQue({ question: mes.question }))
+               dispatch(NewQue({ questionTitle: mes.title }))
+               dispatch(NewQue({ questionId: mes.questionId }))
+               dispatch(NewQue({ template: mes.template }))
                dispatch(alreadyUser({ opp: true }));
                break;
             case "USERINFO":
@@ -299,7 +306,8 @@ const Battle = (props) => {
             type: "ENTER",
             roomId: roomId,
             sender: username,
-            id: ""
+            id: "",
+            //peerId
          })
       );
    };
@@ -330,6 +338,9 @@ const Battle = (props) => {
                      sender: mes.sender,
                   })
                );
+               dispatch(setPending({
+                  peerId : mes.id
+               }))
                break;
             case "TALK":
                dispatch(
@@ -484,7 +495,7 @@ const Battle = (props) => {
    //Peer
    // const [peerId, setPeerId] = useState("");
    // const [remotePeerIdValue, setRemotePeerIdValue] = useState("");
-   // const remoteVideoRef = useRef(null);
+   // const remoteVideoRef = useRef(null); getPeerId
    // const peerInstance = useRef(null);
    // const currentUserVideoRef = useRef(null);
 
