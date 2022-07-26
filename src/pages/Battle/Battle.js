@@ -129,7 +129,7 @@ const Battle = (props) => {
           }, 500);
         }
         dispatch(deletechatlist());
-        EnterSend();
+        ExitSend();
         setTimeout(() => {
           clientChat.disconnect();
         }, 500);
@@ -172,7 +172,7 @@ const Battle = (props) => {
         case "LOSE":
           setShowFailModal(true);
           break;
-        case "FAIL":
+        case "FAIL"
           resAlert(mes.message);
           noItemEs.play();
           break;
@@ -180,7 +180,7 @@ const Battle = (props) => {
           setShowSuccessModal(true);
           break;
         case "EXIT":
-          resAlert(mes.message);
+          resAlert(mes.msg);
           newMesEs.play();
           break;
         default:
@@ -305,6 +305,7 @@ const Battle = (props) => {
         type: "ENTER",
         roomId: roomId,
         sender: username,
+        id: "",
       })
     );
   };
@@ -574,7 +575,11 @@ const Battle = (props) => {
         <UserDiv>
           {gameStart === false ? <ReadyUser sendReady={sendReady} /> : null}
           <UserSubmitPending />
-          <AceEditorPlayer mode={mode} codeRef={codeRef}></AceEditorPlayer>
+          <AceEditorPlayer
+            mode={mode}
+            codeRef={codeRef}
+            template={template}
+          ></AceEditorPlayer>
           {/* <UserCamDiv>
             <CamBar>
               <span>Player1</span>
@@ -629,7 +634,7 @@ const Battle = (props) => {
           <CodeDiv queOpen={modal.que} chatOpen={modal.chat}>
             {gameStart === false ? <ReadyOpp /> : null}
             <OppSubmitPending />
-            <AceEditorOpp mode={mode} opCode={opCode} />
+            <AceEditorOpp mode={mode} opCode={opCode} template={template} />
           </CodeDiv>
           {/* <OpCamDiv>
             <CamBar>
