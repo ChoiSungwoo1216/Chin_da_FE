@@ -8,7 +8,7 @@ import readySound from "../../../audios/ready.mp3";
 export const ReadyUser = ({ sendReady }) => {
   const userReady = useSelector((state) => state.battleFunction.already.user);
   const opp = useSelector((state) => state.battleFunction.newOpp);
-  console.log(opp)
+  console.log(opp);
   const dispatch = useDispatch();
   const userSound = useSelector((state) => state.user.sound);
   const readyEs = effectSound(readySound, userSound.es);
@@ -20,12 +20,12 @@ export const ReadyUser = ({ sendReady }) => {
   };
 
   const noClick = () => {
-    if (opp !== undefined && userReady ===false){
+    if (opp !== undefined && userReady === false) {
       return false;
     } else {
       return true;
     }
-  }
+  };
 
   return (
     <UserContainer wait={userReady}>
