@@ -106,11 +106,17 @@ header h2 {
   border-radius: 5px;
 }
 
-.qTitle {
+.qQTitle {
   margin-top: 3%;
   margin-left: 3%;
   font-weight: 600;
   width: 97%;
+  /* border: 1px solid red; */
+}
+
+.qTitle {
+  font-weight: 600;
+  width: 100%;
   /* border: 1px solid red; */
 }
 
@@ -121,10 +127,15 @@ header h2 {
   color: white;
 }
 
-.q {
+.qQue {
   margin-top: 20px;
   margin-left: 3%;
   width: 97%;
+}
+
+.q {
+  margin-top: 20px;
+  width: 100%;
 }
 
 .ModalContent::-webkit-scrollbar {

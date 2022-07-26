@@ -13,6 +13,7 @@ function Timer(p) {
   const times = p.Time; // 난이도별 시간
   const active = p.setActive;
   const {timeOutLose} = p
+  console.log(timeOutLose)
 
   const minute = Math.floor(times / 60); // 분
   const second = times - minute * 60; // 초
