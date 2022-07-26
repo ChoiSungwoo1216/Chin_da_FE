@@ -10,17 +10,17 @@ import Modal from "react-modal";
 import Control from "./Control";
 import { AceEditorPlayer, AceEditorOpp } from "./components/AceEditors";
 import {
-   QuestionModal,
-   SuccessModal,
-   FailModal,
-   Result,
-   GameRuleModal,
+  QuestionModal,
+  SuccessModal,
+  FailModal,
+  Result,
+  GameRuleModal,
 } from "./components/Modals";
 import {
-   ReadyUser,
-   ReadyOpp,
-   UserSubmitPending,
-   OppSubmitPending,
+  ReadyUser,
+  ReadyOpp,
+  UserSubmitPending,
+  OppSubmitPending,
 } from "./components/ReadyAndPending";
 import ChatBox from "./components/ChatBox";
 import ProBar from "./components/ProBar";
@@ -44,541 +44,546 @@ import * as SockJS from "sockjs-client";
 import { addchatlist, deletechatlist } from "../../redux/modules/chatlist";
 
 import {
-   alreadyUser,
-   gameSwitch,
-   setLevel,
-   setMsg,
-   setAlert,
-   setPending,
-   ModalOpen,
-   NewQue,
+  alreadyUser,
+  gameSwitch,
+  setLevel,
+  setMsg,
+  setAlert,
+  setPending,
+  ModalOpen,
+  NewQue,
 } from "../../redux/modules/battleFunction";
 import HeaderBtn from "./components/HeaderBtn";
 
 Modal.setAppElement("#root");
 
 const Battle = (props) => {
-   const api = process.env.REACT_APP_API;
-   const Authorization = sessionStorage.getItem("Authorization");
+  const api = process.env.REACT_APP_API;
+  const Authorization = sessionStorage.getItem("Authorization");
 
-   const selected = useSelector((state) => state.user.selected);
-   const navigate = useNavigate();
-   const dispatch = useDispatch();
-   const location = useLocation();
-   const params = useParams();
+  const selected = useSelector((state) => state.user.selected);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const params = useParams();
 
-   //Selector
-   const getPeerId = useSelector((state) => state.user.peerId)
+  //Selector
+  const getPeerId = useSelector((state) => state.user.peerId);
 
+  //Bgm
+  const { setMbmute } = props;
+  const volume = useSelector((state) => state.user.sound);
+  const [bbmute, setBbmute] = useState(true);
+  useSound(battleBgm, volume.bgm, bbmute);
 
-   //Bgm
-   const { setMbmute } = props;
-   const volume = useSelector((state) => state.user.sound);
-   const [bbmute, setBbmute] = useState(true);
-   useSound(battleBgm, volume.bgm, bbmute);
+  //Sound
+  const userSound = useSelector((state) => state.user.sound);
+  const btnEs = effectSound(btnSound, userSound.es);
+  const newOpEs = effectSound(newOp, userSound.es);
+  const failEs = effectSound(failSound, userSound.es);
+  const noItemEs = effectSound(noItem, userSound.es);
+  const newMesEs = effectSound(newMes, userSound.es);
+  // const camEs = effectSound(camSound, userSound.es);
 
-   //Sound
-   const userSound = useSelector((state) => state.user.sound);
-   const btnEs = effectSound(btnSound, userSound.es);
-   const newOpEs = effectSound(newOp, userSound.es);
-   const failEs = effectSound(failSound, userSound.es);
-   const noItemEs = effectSound(noItem, userSound.es);
-   const newMesEs = effectSound(newMes, userSound.es);
-   // const camEs = effectSound(camSound, userSound.es);
+  //RoomInfo
+  const roomId = params.id;
+  const server = location.state.server;
+  // console.log(info);
 
-   //RoomInfo
-   const roomId = params.id;
-   const server = location.state.server;
-   // console.log(info);
+  //Timer,ProgressBar
+  dispatch(setLevel(selected.level));
 
-   //Timer,ProgressBar
-   dispatch(setLevel(selected.level));
+  //GameStart
+  const gameStart = useSelector((state) => state.battleFunction.gameStatus);
 
-   //GameStart
-   const gameStart = useSelector((state) => state.battleFunction.gameStatus);
+  //Toastify Alert
+  const resAlert = (r) => {
+    dispatch(setMsg(r));
+    dispatch(setAlert(true));
+  };
 
-   //Toastify Alert
-   const resAlert = (r) => {
-      dispatch(setMsg(r));
-      dispatch(setAlert(true));
-   };
+  //game server
+  const username = sessionStorage.getItem("username");
+  const headers = { Authorization: Authorization };
+  let sock = new SockJS(`${api}/ws-stomp?username=` + encodeURI(username));
+  let client = StompJS.over(sock);
+  const opCode = useRef();
+  const que = useSelector((state) => state.battleFunction.queList);
+  const codeRef = useRef("");
+  console.log(gameStart);
+  React.useEffect(() => {
+    if (roomId !== undefined) {
+      connect();
+      Chatconnect();
+      dispatch(gameSwitch({ gameStatus: false }));
+      dispatch(alreadyUser({ user: false, opp: false }));
+      return () => {
+        dispatch(NewQue({ question: "", questionTitle: "", questionId: "" }));
+        dispatch(ModalOpen({ chat: true, que: false, rule: true }));
+        if (gameStart === true) {
+          console.log(gameStart);
+          exitLose();
+          setTimeout(() => {
+            client.disconnect();
+          }, 500);
+        } else {
+          console.log(gameStart);
+          exitMes();
+          setTimeout(() => {
+            client.disconnect();
+          }, 500);
+        }
+        ExitSend();
+        setTimeout(() => {
+          clientChat.disconnect();
+          dispatch(deletechatlist());
+        }, 500);
+      };
+    }
+  }, [roomId]);
 
-   //game server
-   const username = sessionStorage.getItem("username");
-   const headers = { Authorization: Authorization };
-   let sock = new SockJS(`${api}/ws-stomp?username=` + encodeURI(username));
-   let client = StompJS.over(sock);
-   const opCode = useRef();
-   const que = useSelector((state) => state.battleFunction.queList)
-   const codeRef = useRef("");
-   console.log(gameStart)
-   React.useEffect(() => {
-      if (roomId !== undefined) {
-         connect();
-         Chatconnect();
-         dispatch(gameSwitch({gameStatus : false}))
-         dispatch(alreadyUser({user: false, opp: false}))
-         return () => {
-            dispatch(NewQue({ question: "", questionTitle:"", questionId:""}))
-            dispatch(ModalOpen({ chat : true, que: false, rule: true}))
-            if (gameStart === true) {
-               console.log(gameStart)
-               exitLose();
-               setTimeout(() => { client.disconnect() }, 500)
-            } else {
-               console.log(gameStart)
-               exitMes();
-               setTimeout(() => { client.disconnect() }, 500)
-            }
-            ExitSend();
-            setTimeout(() => {
-               clientChat.disconnect();
-               dispatch(deletechatlist());
-            }, 500)
-         };
+  //서버 연결
+  const connect = () => {
+    client.connect(headers, onConnected, onError);
+    client.reconnect_delay = 3000;
+    client.heartbeat.outgoing = 20000;
+    client.heartbeat.ingoing = 0;
+  };
+  // 서버 연결 성공 시 콜백함수
+  const onConnected = () => {
+    client.subscribe(`/topic/game/room/${roomId}`, ReceiveCallBack); //입장자 정보 전송 구독, ready 구독 주소
+    client.subscribe(`/user/queue/game/codeMessage/${roomId}`, ReceiveCallBack); //실시간 코드 전송 구독 주소
+  };
+  const ReceiveCallBack = (message) => {
+    if (message.body) {
+      const mes = JSON.parse(message.body);
+      // console.log(mes);
+      switch (mes.type) {
+        case "READY":
+          dispatch(NewQue({ question: mes.question }));
+          dispatch(NewQue({ questionTitle: mes.title }));
+          dispatch(NewQue({ questionId: mes.questionId }));
+          codeRef.current =
+            "//함수와 변수를 임의로 변경하지 마세요" +
+            `\n` +
+            "//출력문을 입력하지 마세요" +
+            `\n` +
+            mes.template;
+          dispatch(alreadyUser({ opp: true }));
+          dispatch(gameSwitch({ gameStatue: true }));
+          break;
+        case "USERINFO":
+          if (mes.sender !== username) {
+            newOpEs.play();
+            resAlert("상대 입장");
+          }
+          break;
+        case "GAME":
+          opCode.current = mes.message;
+          console.log(mes.message + "----");
+          break;
+        case "LOSE":
+          setShowFailModal(true);
+          break;
+        case "FAIL":
+          resAlert(mes.msg);
+          noItemEs.play();
+          break;
+        case "WIN":
+          setShowSuccessModal(true);
+          break;
+        case "EXIT":
+          resAlert(mes.msg);
+          newMesEs.play();
+          break;
+        default:
       }
-   }, [roomId]);
+    } else {
+      alert("error");
+    }
+  };
 
-   //서버 연결
-   const connect = () => {
-      client.connect(headers, onConnected, onError);
-      client.reconnect_delay = 3000;
-      client.heartbeat.outgoing = 20000;
-      client.heartbeat.ingoing = 0;
-   };
-   // 서버 연결 성공 시 콜백함수
-   const onConnected = () => {
-      client.subscribe(`/topic/game/room/${roomId}`, ReceiveCallBack); //입장자 정보 전송 구독, ready 구독 주소
-      client.subscribe(`/user/queue/game/codeMessage/${roomId}`, ReceiveCallBack); //실시간 코드 전송 구독 주소
-   };
-   const ReceiveCallBack = (message) => {
-      if (message.body) {
-         const mes = JSON.parse(message.body);
-         // console.log(mes);
-         switch (mes.type) {
-            case "READY":
-               dispatch(NewQue({ question: mes.question }))
-               dispatch(NewQue({ questionTitle: mes.title }))
-               dispatch(NewQue({ questionId: mes.questionId }))
-               codeRef.current =
-                  "//함수와 변수를 임의로 변경하지 마세요" +
-                  `\n` +
-                  "//출력문을 입력하지 마세요" +
-                  `\n`+
-                  mes.template;
-               dispatch(alreadyUser({ opp: true }));
-               dispatch(gameSwitch({gameStatue: true}))
-               break;
-            case "USERINFO":
-               if (mes.sender !== username) {
-                  newOpEs.play();
-                  resAlert("상대 입장");
-               }
-               break;
-            case "GAME":
-               opCode.current = mes.message;
-               console.log(mes.message + "----");
-               break;
-            case "LOSE":
-               setShowFailModal(true);
-               break;
-            case "FAIL":
-               resAlert(mes.msg);
-               noItemEs.play();
-               break;
-            case "WIN":
-               setShowSuccessModal(true);
-               break;
-            case "EXIT":
-               resAlert(mes.msg)
-               newMesEs.play();
-               break;
-            default:
-         }
-      } else {
-         alert("error");
-      }
-   };
+  // 서버 연결 실패시
+  const onError = (err) => {
+    console.log(err);
+  };
 
-   // 서버 연결 실패시
-   const onError = (err) => {
-      console.log(err);
-   };
-
-   //준비 전송
-   const sendReady = () => {
-      client.send(
-         `/app/game/ready`,
-         {},
-         JSON.stringify({
-            roomId: roomId,
-            server: server,
-         })
-      );
-   };
-
-   //실시간 코드 전송
-   const sendT = useSelector((state) => state.battleFunction.sendRun);
-
-   const sendCode = async () => {
-      await client.send(
-         `/app/game/codeMessage`,
-         {},
-         JSON.stringify({
-            roomId: roomId,
-            sender: username,
-            message: codeRef.current,
-         })
-      );
-   };
-
-   useEffect(() => {
-      if (gameStart === true) {
-         setTimeout(() => sendCode(), 500);
-      }
-   }, [sendT]);
-
-   //컴파일 3회 실패 시
-   const compileFailedLose = () => {
-      client.send(
-         `/app/game/process`,
-         {},
-         JSON.stringify({
-            type: "COMPILE_FAIL_LOSE",
-            username: username,
-            roomId: roomId,
-         })
-      );
-   };
-
-   //타임아웃 패배
-   const timeOutLose = () => {
-      client.send(
-         `/app/game/process`,
-         {},
-         JSON.stringify({
-            type: "TIMEOUT",
-            username: username,
-            roomId: roomId,
-         })
-      );
-      setTimeout(()=>{
-         setShowFailModal(true);
-      }, 500)
-   };
-
-   //탈주 패
-   const exitLose = () => {
-      client.send(
-         `/app/game/process`,
-         {},
-         JSON.stringify({
-            type: "EXIT_LOSE",
-            username: username,
-            roomId: roomId,
-         })
-      );
-   };
-
-   //퇴장
-   const exitMes = () => {
-      client.send(
-         `/app/game/process`,
-         {},
-         JSON.stringify({
-            type: "EXIT",
-            username: username,
-            roomId: roomId,
-         })
-      );
-   };
-
-   //채팅 서버
-   const ChatApi = process.env.REACT_APP_API_CHAT;
-
-   let socket = new SockJS(`${ChatApi}/ws-stomp?name=` + encodeURI(username));
-   let clientChat = StompJS.over(socket);
-
-   const Chatconnect = () => {
-      clientChat.connect({}, onConnect, onError);
-      clientChat.heartbeat.outgoing = 20000;
-      clientChat.heartbeat.ingoing = 0;
-   };
-
-   const onConnect = () => {
-      clientChat.subscribe(`/sub/chat/room/${roomId}`, ReceiveFunc);
-      EnterSend();
-   };
-
-   const EnterSend = () => {
-      clientChat.send(
-         `/pub/chat/message`,
-         {},
-         JSON.stringify({
-            type: "ENTER",
-            roomId: roomId,
-            sender: username,
-            id: "",
-            //peerId
-         })
-      );
-   };
-
-   const ExitSend = () => {
-      clientChat.send(
-         `/pub/chat/message`,
-         {},
-         JSON.stringify({
-            type: "EXIT",
-            roomId: roomId,
-            sender: username,
-         })
-      );
-   };
-
-   const ReceiveFunc = (message) => {
-      if (message.body) {
-         newMesEs.play();
-         const mes = JSON.parse(message.body);
-         console.log(mes);
-         switch (mes.type) {
-            case "ENTER":
-               dispatch(
-                  addchatlist({
-                     type: mes.type,
-                     message: mes.message,
-                     sender: mes.sender,
-                  })
-               );
-               dispatch(setPending({
-                  peerId: mes.id
-               }))
-               break;
-            case "TALK":
-               dispatch(
-                  addchatlist({
-                     type: mes.type,
-                     message: mes.message,
-                     sender: mes.sender,
-                  })
-               );
-               break;
-            case "EXIT":
-               dispatch(
-                  addchatlist({
-                     type: mes.type,
-                     message: mes.message,
-                     sender: mes.sender,
-                  })
-               );
-               break;
-            default:
-         }
-      } else {
-         alert("error");
-      }
-   };
-
-   //방나가기 요청
-   const leaveRoomAxios = async () => {
-      await axios({
-         url: "/game/room/exit",
-         method: "PUT",
-         baseURL: api,
-         data: {
-            roomId: roomId,
-            server: server,
-         },
-         headers: {
-            Authorization: Authorization,
-         },
+  //준비 전송
+  const sendReady = () => {
+    client.send(
+      `/app/game/ready`,
+      {},
+      JSON.stringify({
+        roomId: roomId,
+        server: server,
       })
-         .then((response) => {
-            setBbmute(true);
-            setMbmute(false);
-            btnEs.play();
-            navigate(`/Main`);
-         })
-         .catch((error) => {
-            console.log(error)
-            if (error.response.status === 400) {
-               window.alert(error.response.data)
-               navigate("/selection");
-            }
-            if (error.response.data.reLogin === true) {
-               sessionStorage.clear();
-               localStorage.clear();
-               window.location.replace("/");
-            }
-         });
-   };
+    );
+  };
 
-   //Modals
-   const [showQuestionModal, setShowQuestionModal] = useState();
-   const [showSuccessModal, setShowSuccessModal] = useState();
-   const [showFailModal, setShowFailModal] = useState();
+  //실시간 코드 전송
+  const sendT = useSelector((state) => state.battleFunction.sendRun);
 
-   //AceEditor
-   const langType = ["java", "javascript", "python"];
-   const mode = langType[parseInt(selected.language)];
-
-   //CountDown
-   // const [runCountdown, setRunCountdown] = useState(false);
-
-   //Submit
-   const [trySub, setTrySub] = useState(3);
-   const axiosSubmit = () => {
-      axios({
-         url: "/api/compile",
-         method: "POST",
-         baseURL: api,
-         data: {
-            roomId: roomId,
-            questionId: que.questionId,
-            languageIdx: parseInt(selected.language),
-            codeStr: codeRef.current,
-         },
-         headers: {
-            Authorization: Authorization,
-         },
+  const sendCode = async () => {
+    await client.send(
+      `/app/game/codeMessage`,
+      {},
+      JSON.stringify({
+        roomId: roomId,
+        sender: username,
+        message: codeRef.current,
       })
-         .then((res) => {
-            console.log(res);
-            if (res.data.result === true) {
-               setShowSuccessModal(true);
-            } else {
-               setTrySub(trySub - 1);
-               if (trySub === 1) {
-                  compileFailedLose();
-                  setTimeout(() => setShowFailModal(true), 500);
-               } else {
-                  resAlert(res.data.msg);
-                  failEs.play();
-               }
-            }
-         })
-         .catch((err) => {
-            console.log(err);
-            resAlert("Fail to connect to server!");
+    );
+  };
+
+  useEffect(() => {
+    if (gameStart === true) {
+      setTimeout(() => sendCode(), 500);
+    }
+  }, [sendT]);
+
+  //컴파일 3회 실패 시
+  const compileFailedLose = () => {
+    client.send(
+      `/app/game/process`,
+      {},
+      JSON.stringify({
+        type: "COMPILE_FAIL_LOSE",
+        username: username,
+        roomId: roomId,
+      })
+    );
+  };
+
+  //타임아웃 패배
+  const timeOutLose = () => {
+    client.send(
+      `/app/game/process`,
+      {},
+      JSON.stringify({
+        type: "TIMEOUT",
+        username: username,
+        roomId: roomId,
+      })
+    );
+    setTimeout(() => {
+      setShowFailModal(true);
+    }, 500);
+  };
+
+  //탈주 패
+  const exitLose = () => {
+    client.send(
+      `/app/game/process`,
+      {},
+      JSON.stringify({
+        type: "EXIT_LOSE",
+        username: username,
+        roomId: roomId,
+      })
+    );
+  };
+
+  //퇴장
+  const exitMes = () => {
+    client.send(
+      `/app/game/process`,
+      {},
+      JSON.stringify({
+        type: "EXIT",
+        username: username,
+        roomId: roomId,
+      })
+    );
+  };
+
+  //채팅 서버
+  const ChatApi = process.env.REACT_APP_API_CHAT;
+
+  let socket = new SockJS(`${ChatApi}/ws-stomp?name=` + encodeURI(username));
+  let clientChat = StompJS.over(socket);
+
+  const Chatconnect = () => {
+    clientChat.connect({}, onConnect, onError);
+    clientChat.heartbeat.outgoing = 20000;
+    clientChat.heartbeat.ingoing = 0;
+  };
+
+  const onConnect = () => {
+    clientChat.subscribe(`/sub/chat/room/${roomId}`, ReceiveFunc);
+    EnterSend();
+  };
+
+  const EnterSend = () => {
+    clientChat.send(
+      `/pub/chat/message`,
+      {},
+      JSON.stringify({
+        type: "ENTER",
+        roomId: roomId,
+        sender: username,
+        id: "",
+        //peerId
+      })
+    );
+  };
+
+  const ExitSend = () => {
+    clientChat.send(
+      `/pub/chat/message`,
+      {},
+      JSON.stringify({
+        type: "EXIT",
+        roomId: roomId,
+        sender: username,
+      })
+    );
+  };
+
+  const ReceiveFunc = (message) => {
+    if (message.body) {
+      newMesEs.play();
+      const mes = JSON.parse(message.body);
+      console.log(mes);
+      switch (mes.type) {
+        case "ENTER":
+          dispatch(
+            addchatlist({
+              type: mes.type,
+              message: mes.message,
+              sender: mes.sender,
+            })
+          );
+          dispatch(
+            setPending({
+              peerId: mes.id,
+            })
+          );
+          break;
+        case "TALK":
+          dispatch(
+            addchatlist({
+              type: mes.type,
+              message: mes.message,
+              sender: mes.sender,
+            })
+          );
+          break;
+        case "EXIT":
+          dispatch(
+            addchatlist({
+              type: mes.type,
+              message: mes.message,
+              sender: mes.sender,
+            })
+          );
+          break;
+        default:
+      }
+    } else {
+      alert("error");
+    }
+  };
+
+  //방나가기 요청
+  const leaveRoomAxios = async () => {
+    await axios({
+      url: "/game/room/exit",
+      method: "PUT",
+      baseURL: api,
+      data: {
+        roomId: roomId,
+        server: server,
+      },
+      headers: {
+        Authorization: Authorization,
+      },
+    })
+      .then((response) => {
+        setBbmute(true);
+        setMbmute(false);
+        btnEs.play();
+        navigate(`/Main`);
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 400) {
+          window.alert(error.response.data);
+          navigate("/selection");
+        }
+        if (error.response.data.reLogin === true) {
+          sessionStorage.clear();
+          localStorage.clear();
+          window.location.replace("/");
+        }
+      });
+  };
+
+  //Modals
+  const [showQuestionModal, setShowQuestionModal] = useState();
+  const [showSuccessModal, setShowSuccessModal] = useState();
+  const [showFailModal, setShowFailModal] = useState();
+
+  //AceEditor
+  const langType = ["java", "javascript", "python"];
+  const mode = langType[parseInt(selected.language)];
+
+  //CountDown
+  // const [runCountdown, setRunCountdown] = useState(false);
+
+  //Submit
+  const [trySub, setTrySub] = useState(3);
+  const axiosSubmit = () => {
+    axios({
+      url: "/api/compile",
+      method: "POST",
+      baseURL: api,
+      data: {
+        roomId: roomId,
+        questionId: que.questionId,
+        languageIdx: parseInt(selected.language),
+        codeStr: codeRef.current,
+      },
+      headers: {
+        Authorization: Authorization,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        if (res.data.result === true) {
+          setShowSuccessModal(true);
+        } else {
+          setTrySub(trySub - 1);
+          if (trySub === 1) {
+            compileFailedLose();
+            setTimeout(() => setShowFailModal(true), 500);
+          } else {
+            resAlert(res.data.msg);
             failEs.play();
-         });
-   };
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        resAlert("Fail to connect to server!");
+        failEs.play();
+      });
+  };
 
-   const onSubmit = () => {
-      dispatch(setPending({ user: true }));
-      setTimeout(() => axiosSubmit(), 1000);
-   };
+  const onSubmit = () => {
+    dispatch(setPending({ user: true }));
+    setTimeout(() => axiosSubmit(), 1000);
+  };
 
-   //카메라창 열고 닫기
-   // const [userCamSlide, setUserCamSlide] = useState(true);
-   // const [opCamSlide, setOpCamSlide] = useState(true);
+  //카메라창 열고 닫기
+  // const [userCamSlide, setUserCamSlide] = useState(true);
+  // const [opCamSlide, setOpCamSlide] = useState(true);
 
-   // const openUserCam = () => {
-   //   camEs.play();
-   //   if (userCamSlide) {
-   //     setUserCamSlide(false);
-   //   } else {
-   //     setUserCamSlide(true);
-   //     call(remotePeerIdValue);
-   //   }
-   // };
-   // const openOpCam = () => {
-   //   camEs.play();
-   //   if (opCamSlide) {
-   //     setOpCamSlide(false);
-   //   } else {
-   //     setOpCamSlide(true);
-   //     call(remotePeerIdValue);
-   //   }
-   // };
+  // const openUserCam = () => {
+  //   camEs.play();
+  //   if (userCamSlide) {
+  //     setUserCamSlide(false);
+  //   } else {
+  //     setUserCamSlide(true);
+  //     call(remotePeerIdValue);
+  //   }
+  // };
+  // const openOpCam = () => {
+  //   camEs.play();
+  //   if (opCamSlide) {
+  //     setOpCamSlide(false);
+  //   } else {
+  //     setOpCamSlide(true);
+  //     call(remotePeerIdValue);
+  //   }
+  // };
 
-   // header Modal
-   const modal = useSelector((state) => state.battleFunction.modalOpen);
+  // header Modal
+  const modal = useSelector((state) => state.battleFunction.modalOpen);
 
-   //결과창 열기
-   const [rOpen, setROpen] = useState(false);
-   const [result, setResult] = useState("WIN");
+  //결과창 열기
+  const [rOpen, setROpen] = useState(false);
+  const [result, setResult] = useState("WIN");
 
-   //나가기
-   const BackToMain = () => {
-      leaveRoomAxios();
-   };
+  //나가기
+  const BackToMain = () => {
+    leaveRoomAxios();
+  };
 
-   //Peer
-   // const [peerId, setPeerId] = useState("");
-   // const [remotePeerIdValue, setRemotePeerIdValue] = useState("");
-   // const remoteVideoRef = useRef(null); getPeerId
-   // const peerInstance = useRef(null);
-   // const currentUserVideoRef = useRef(null);
+  //Peer
+  // const [peerId, setPeerId] = useState("");
+  // const [remotePeerIdValue, setRemotePeerIdValue] = useState("");
+  // const remoteVideoRef = useRef(null); getPeerId
+  // const peerInstance = useRef(null);
+  // const currentUserVideoRef = useRef(null);
 
-   // useEffect(() => {
-   //   const peer = new Peer();
-   //   //제일 처음 peer가 만들어지면서 랜덤한 id가 만들어짐
-   //   peer.on("open", (id) => {
-   //     setPeerId(id);
-   //   });
+  // useEffect(() => {
+  //   const peer = new Peer();
+  //   //제일 처음 peer가 만들어지면서 랜덤한 id가 만들어짐
+  //   peer.on("open", (id) => {
+  //     setPeerId(id);
+  //   });
 
-   //   peer.on("call", (call) => {
-   //     var getUserMedia =
-   //       navigator.getUserMedia ||
-   //       navigator.webkitGetUserMedia ||
-   //       navigator.mozGetUserMedia;
+  //   peer.on("call", (call) => {
+  //     var getUserMedia =
+  //       navigator.getUserMedia ||
+  //       navigator.webkitGetUserMedia ||
+  //       navigator.mozGetUserMedia;
 
-   //     getUserMedia({ /*audio: true,*/ video: true }, (mediaStream) => {
-   //       currentUserVideoRef.current.srcObject = mediaStream;
-   //       currentUserVideoRef.current.play();
-   //       call.answer(mediaStream);
-   //       call.on("stream", (remoteStream) => {
-   //         remoteVideoRef.current.srcObject = remoteStream;
-   //         remoteVideoRef.current.play();
-   //       });
-   //     });
-   //   });
+  //     getUserMedia({ /*audio: true,*/ video: true }, (mediaStream) => {
+  //       currentUserVideoRef.current.srcObject = mediaStream;
+  //       currentUserVideoRef.current.play();
+  //       call.answer(mediaStream);
+  //       call.on("stream", (remoteStream) => {
+  //         remoteVideoRef.current.srcObject = remoteStream;
+  //         remoteVideoRef.current.play();
+  //       });
+  //     });
+  //   });
 
-   //   peerInstance.current = peer;
-   //   //외부로 peer 선언해주려고
-   // }, []);
+  //   peerInstance.current = peer;
+  //   //외부로 peer 선언해주려고
+  // }, []);
 
-   // const call = (remotePeerId) => {
-   //   var getUserMedia =
-   //     navigator.getUserMedia ||
-   //     navigator.webkitGetUserMedia ||
-   //     navigator.mozGetUserMedia;
+  // const call = (remotePeerId) => {
+  //   var getUserMedia =
+  //     navigator.getUserMedia ||
+  //     navigator.webkitGetUserMedia ||
+  //     navigator.mozGetUserMedia;
 
-   //   getUserMedia({ /*audio: true,*/ video: true }, (mediaStream) => {
-   //     //현재 내 화면
-   //     currentUserVideoRef.current.srcObject = mediaStream;
-   //     currentUserVideoRef.current.play();
+  //   getUserMedia({ /*audio: true,*/ video: true }, (mediaStream) => {
+  //     //현재 내 화면
+  //     currentUserVideoRef.current.srcObject = mediaStream;
+  //     currentUserVideoRef.current.play();
 
-   //     const call = peerInstance.current.call(remotePeerId, mediaStream);
+  //     const call = peerInstance.current.call(remotePeerId, mediaStream);
 
-   //     call.on("stream", (remoteStream) => {
-   //       // Show stream in some video/canvas element.
-   //       // 상대방 영상 받아오는 부분
-   //       // 두개 같이 써줘야 작동함
-   //       remoteVideoRef.current.srcObject = remoteStream;
-   //       remoteVideoRef.current.play();
-   //     });
-   //   });
-   // };
+  //     call.on("stream", (remoteStream) => {
+  //       // Show stream in some video/canvas element.
+  //       // 상대방 영상 받아오는 부분
+  //       // 두개 같이 써줘야 작동함
+  //       remoteVideoRef.current.srcObject = remoteStream;
+  //       remoteVideoRef.current.play();
+  //     });
+  //   });
+  // };
 
-   // console.log(peerId);
+  // console.log(peerId);
 
-   return (
-      <Container>
-         <Countdown />
-         <Alert />
-         <HeadPart>
-            <TimerDiv>
-               <ProBar timeOutLose={timeOutLose} />
-            </TimerDiv>
-            <BtnDiv>
-               <HeaderBtn
-                  BackToMain={BackToMain}
-                  dispatch={dispatch}
-                  ModalOpen={ModalOpen}
-               />
-               {/* <BtnOnOff onClick={openQue} change={queOpen}>
+  return (
+    <Container>
+      <Countdown />
+      <Alert />
+      <HeadPart>
+        <TimerDiv>
+          <ProBar timeOutLose={timeOutLose} />
+        </TimerDiv>
+        <BtnDiv>
+          <HeaderBtn
+            BackToMain={BackToMain}
+            dispatch={dispatch}
+            ModalOpen={ModalOpen}
+          />
+          {/* <BtnOnOff onClick={openQue} change={queOpen}>
                   문제
                </BtnOnOff>
                <BtnOnOff onClick={openChat} change={chatOpen}>
@@ -586,14 +591,14 @@ const Battle = (props) => {
                </BtnOnOff>
                <BtnOnOff onClick={() => setGameRuleModal(true)}>규칙</BtnOnOff>
                <ExitBtn onClick={BackToMain}>나가기</ExitBtn> */}
-            </BtnDiv>
-         </HeadPart>
-         <BodyPart>
-            <UserDiv>
-               {gameStart === false ? <ReadyUser sendReady={sendReady} /> : null}
-               <UserSubmitPending />
-               <AceEditorPlayer mode={mode} codeRef={codeRef}></AceEditorPlayer>
-               {/* <UserCamDiv>
+        </BtnDiv>
+      </HeadPart>
+      <BodyPart>
+        <UserDiv>
+          {gameStart === false ? <ReadyUser sendReady={sendReady} /> : null}
+          <UserSubmitPending />
+          <AceEditorPlayer mode={mode} codeRef={codeRef}></AceEditorPlayer>
+          {/* <UserCamDiv>
             <CamBar>
               <span>Player1</span>
               <CamIcon
@@ -620,36 +625,36 @@ const Battle = (props) => {
               </Cam>
             )}
           </UserCamDiv> */}
-               <SubmitBtn onClick={() => onSubmit()}>
-                  제&nbsp;&nbsp;&nbsp;&nbsp;출&nbsp;&nbsp;{trySub}&nbsp;/&nbsp;3
-               </SubmitBtn>
-            </UserDiv>
-            <OpponentDiv>
-               {modal.que === true && (
-                  <QueDiv queOpen={modal.que} chatOpen={modal.chat}>
-                     <QueHead>
-                        <p>Question</p>
-                     </QueHead>
-                     <QueBox>
-                        <p>{que.questionTitle}</p>
-                        <div>{que.question}</div>
-                     </QueBox>
-                  </QueDiv>
-               )}
-               {modal.chat && (
-                  <ChatingDiv>
-                     <ChatHead>
-                        <p>Chatting</p>
-                     </ChatHead>
-                     <ChatBox roomId={roomId} username={username} />
-                  </ChatingDiv>
-               )}
-               <CodeDiv queOpen={modal.que} chatOpen={modal.chat}>
-                  {gameStart === false ? <ReadyOpp /> : null}
-                  <OppSubmitPending />
-                  <AceEditorOpp mode={mode} opCode={opCode} />
-               </CodeDiv>
-               {/* <OpCamDiv>
+          <SubmitBtn onClick={() => onSubmit()}>
+            제&nbsp;&nbsp;&nbsp;&nbsp;출&nbsp;&nbsp;{trySub}&nbsp;/&nbsp;3
+          </SubmitBtn>
+        </UserDiv>
+        <OpponentDiv>
+          {modal.que === true && (
+            <QueDiv queOpen={modal.que} chatOpen={modal.chat}>
+              <QueHead>
+                <p>Question</p>
+              </QueHead>
+              <QueBox>
+                <p>{que.questionTitle}</p>
+                <div>{que.question}</div>
+              </QueBox>
+            </QueDiv>
+          )}
+          {modal.chat && (
+            <ChatingDiv>
+              <ChatHead>
+                <p>Chatting</p>
+              </ChatHead>
+              <ChatBox roomId={roomId} username={username} />
+            </ChatingDiv>
+          )}
+          <CodeDiv queOpen={modal.que} chatOpen={modal.chat}>
+            {gameStart === false ? <ReadyOpp /> : null}
+            <OppSubmitPending />
+            <AceEditorOpp mode={mode} opCode={opCode} />
+          </CodeDiv>
+          {/* <OpCamDiv>
             <CamBar>
               <span>Player2</span>
               <CamIcon
@@ -676,60 +681,57 @@ const Battle = (props) => {
               </Cam>
             )}
           </OpCamDiv> */}
-            </OpponentDiv>
-         </BodyPart>
-         {showQuestionModal && (
-            <QuestionModal
-               setValue={setShowQuestionModal}
-               que={que}
-            />
-         )}
-         {showSuccessModal && (
-            <SuccessModal
-               setROpen={setROpen}
-               setResult={setResult}
-               setBbmute={setBbmute}
-            // setRunTimer={setRunTimer}
-            />
-         )}
-         {showFailModal && (
-            <FailModal
-               setROpen={setROpen}
-               setResult={setResult}
-               setBbmute={setBbmute}
-            // setRunTimer={setRunTimer}
-            />
-         )}
-         {modal.rule === true && (
-            <GameRuleModal ModalOpen={ModalOpen} modal={modal} />
-         )}
-         {rOpen && (
-            <Result
-               setROpen={setROpen}
-               result={result}
-               setMbmute={setMbmute}
-               setTrySub={setTrySub}
-               codeRef={codeRef}
-               opCode={opCode}
-            />
-         )}
+        </OpponentDiv>
+      </BodyPart>
+      {showQuestionModal && (
+        <QuestionModal setValue={setShowQuestionModal} que={que} />
+      )}
+      {showSuccessModal && (
+        <SuccessModal
+          setROpen={setROpen}
+          setResult={setResult}
+          setBbmute={setBbmute}
+          // setRunTimer={setRunTimer}
+        />
+      )}
+      {showFailModal && (
+        <FailModal
+          setROpen={setROpen}
+          setResult={setResult}
+          setBbmute={setBbmute}
+          // setRunTimer={setRunTimer}
+        />
+      )}
+      {modal.rule === true && (
+        <GameRuleModal ModalOpen={ModalOpen} modal={modal} />
+      )}
+      {rOpen && (
+        <Result
+          setROpen={setROpen}
+          result={result}
+          setMbmute={setMbmute}
+          setTrySub={setTrySub}
+          codeRef={codeRef}
+          opCode={opCode}
+        />
+      )}
 
-         <Control
-            setShowQuestionModal={setShowQuestionModal}
-            setShowSuccessModal={setShowSuccessModal}
-            setShowFailModal={setShowFailModal}
-            setROpen={setROpen}
-            // remotePeerIdValue={remotePeerIdValue}
-            // setRemotePeerIdValue={setRemotePeerIdValue}
-            // call={call}
-            // peerId={peerId}
-            // setRunCountdown={setRunCountdown}
-            setMbmute={setMbmute}
-            setBbmute={setBbmute}
-            sendReady={sendReady}
-         />
-      </Container>
-   );
+      <Control
+        setShowQuestionModal={setShowQuestionModal}
+        setShowSuccessModal={setShowSuccessModal}
+        setShowFailModal={setShowFailModal}
+        setROpen={setROpen}
+        // remotePeerIdValue={remotePeerIdValue}
+        // setRemotePeerIdValue={setRemotePeerIdValue}
+        // call={call}
+        // peerId={peerId}
+        // setRunCountdown={setRunCountdown}
+        setMbmute={setMbmute}
+        setBbmute={setBbmute}
+        sendReady={sendReady}
+      />
+    </Container>
+  );
 };
 
 const Container = styled.div`
@@ -949,16 +951,16 @@ const QueDiv = styled.div`
   align-items: center;
   width: 100%;
   ${(props) => {
-      if (props.queOpen && !props.chatOpen) {
-         return css`
+    if (props.queOpen && !props.chatOpen) {
+      return css`
         height: 60%;
       `;
-      } else if (props.queOpen && props.chatOpen) {
-         return css`
+    } else if (props.queOpen && props.chatOpen) {
+      return css`
         height: 36%;
       `;
-      }
-   }}
+    }
+  }}
   margin-bottom: 2vh;
   border-radius: 5px;
   border-right: 6px solid #a0935c;
@@ -1026,24 +1028,24 @@ const CodeDiv = styled.div`
   width: 99.6%;
 
   ${(props) => {
-      if (props.queOpen && !props.chatOpen) {
-         return css`
+    if (props.queOpen && !props.chatOpen) {
+      return css`
         height: 35.5%;
       `;
-      } else if (props.queOpen && props.chatOpen) {
-         return css`
+    } else if (props.queOpen && props.chatOpen) {
+      return css`
         height: 19.5%;
       `;
-      } else if (!props.queOpen && props.chatOpen) {
-         return css`
+    } else if (!props.queOpen && props.chatOpen) {
+      return css`
         height: 60%;
       `;
-      } else {
-         return css`
+    } else {
+      return css`
         height: 100%;
       `;
-      }
-   }}
+    }
+  }}
   display: flex;
   justify-content: center;
   align-items: center;

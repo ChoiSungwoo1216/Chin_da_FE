@@ -12,15 +12,13 @@ import "ace-builds/src-noconflict/theme-solarized_dark";
 import "ace-builds/src-noconflict/theme-solarized_light";
 import "ace-builds/src-noconflict/theme-terminal";
 import "ace-builds/src-noconflict/ext-language_tools";
-import React, {useEffect, useState} from "react"
 
 export const AceEditorPlayer = (props) => {
-  const { mode, codeRef} = props;
+  const { mode, codeRef } = props;
 
   function onChangeOne(newValue) {
     codeRef.current = newValue;
   }
-
   return (
     <>
       <AceEditor
@@ -49,7 +47,7 @@ export const AceEditorPlayer = (props) => {
 };
 
 export const AceEditorOpp = (props) => {
-  const { mode, opCode} = props;
+  const { mode, opCode } = props;
   function onChangeTwo(newValue) {
     console.log("2:", newValue);
   }
