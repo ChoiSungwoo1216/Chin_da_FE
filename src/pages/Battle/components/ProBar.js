@@ -37,7 +37,6 @@ const ProBar = ({ timeOutLose }) => {
     const countdown = setInterval(() => {
       const refesh = () => {
         setCount(10);
-        dispatch(gameSwitch(false));
         clearInterval(countdown);
       };
       if (setActive === true) {

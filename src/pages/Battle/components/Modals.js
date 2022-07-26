@@ -131,7 +131,7 @@ export const GameRuleModal = ({ ModalOpen, modal }) => {
 };
 
 /*SuccessModal*/
-export const SuccessModal = ({ setROpen, setResult, setBbmute }) => {
+export const SuccessModal = ({ setROpen, setResult, setBbmute, setShowSuccessModal }) => {
   const userSound = useSelector((state) => state.user.sound);
   const winEs = effectSound(winSound, userSound.es);
   const dispatch = useDispatch();
@@ -163,6 +163,7 @@ export const SuccessModal = ({ setROpen, setResult, setBbmute }) => {
           setIsOpen(false);
           setROpen(true);
           setResult("WIN");
+          setShowSuccessModal(false)
         }}
         style={customModalStyles}
       >
@@ -171,6 +172,7 @@ export const SuccessModal = ({ setROpen, setResult, setBbmute }) => {
           src="/img/X_btn_black_30.svg"
           onClick={() => {
             setIsOpen(false);
+            setShowSuccessModal(false)
             setROpen(true);
             setResult("WIN");
           }}
@@ -189,7 +191,7 @@ export const SuccessModal = ({ setROpen, setResult, setBbmute }) => {
 };
 
 /*FailModal*/
-export const FailModal = ({ setROpen, setResult, setBbmute }) => {
+export const FailModal = ({ setROpen, setResult, setBbmute, setShowFailModal }) => {
   const userSound = useSelector((state) => state.user.sound);
   const loseEs = effectSound(loseSound, userSound.es);
   const dispatch = useDispatch();
@@ -236,6 +238,7 @@ export const FailModal = ({ setROpen, setResult, setBbmute }) => {
         onRequestClose={() => {
           setIsOpen(false);
           setROpen(true);
+          setShowFailModal(false)
         }}
         style={customModalStyles}
       >
@@ -246,6 +249,7 @@ export const FailModal = ({ setROpen, setResult, setBbmute }) => {
             setIsOpen(false);
             setROpen(true);
             setResult("LOSE");
+          setShowFailModal(false)
           }}
           alt=""
         />
@@ -274,11 +278,11 @@ export const Result = (props) => {
     } else {
       loseEs.play();
     }
-    dispatch(gameSwitch({gameStart: false}))
-    dispatch(ModalOpen({chat: true, que: false}))
-    dispatch(NewQue({question: "", questionTitle:"", template:""}))
-    codeRef.current="";
-    opCode.current="";
+    dispatch(gameSwitch({ gameStart: false }))
+    dispatch(ModalOpen({ chat: true, que: false }))
+    dispatch(NewQue({ question: "", questionTitle: "", template: "" }))
+    codeRef.current = "";
+    opCode.current = "";
   }, []);
   const navigate = useNavigate();
   const player = sessionStorage.getItem("username");
