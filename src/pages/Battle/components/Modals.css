@@ -102,15 +102,15 @@ header h2 {
   width: 80%;
   margin: auto;
   height: 100%;
-  border: 1px solid black;
   border-radius: 5px;
 }
 
 .qQTitle {
   margin-top: 3%;
   margin-left: 3%;
+  margin-right: 3%;
   font-weight: 600;
-  width: 97%;
+  width: 94%;
   /* border: 1px solid red; */
 }
 
@@ -130,7 +130,8 @@ header h2 {
 .qQue {
   margin-top: 20px;
   margin-left: 3%;
-  width: 97%;
+  margin-right: 3%;
+  width: 94%;
 }
 
 .q {
