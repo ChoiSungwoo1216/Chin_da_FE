@@ -27,7 +27,6 @@ const Control = (props) => {
 
   const already = useSelector((state) => state.battleFunction.already);
   const gameStatus = useSelector((state) => state.battleFunction.gameStatus);
-  const modal = useSelector((state) => state.battleFunction.modalOpen);
   const dispatch = useDispatch();
 
   const onCountdown = () => {

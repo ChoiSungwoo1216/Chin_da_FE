@@ -51,6 +51,7 @@ import {
   setAlert,
   setPending,
   ModalOpen,
+  NewQue,
 } from "../../redux/modules/battleFunction";
 import HeaderBtn from "./components/HeaderBtn";
 
@@ -82,9 +83,7 @@ const Battle = (props) => {
   // const camEs = effectSound(camSound, userSound.es);
 
   //RoomInfo
-  const info = location.state;
   const roomId = params.id;
-  const questionId = location.state.questionId;
   const server = location.state.server;
   // console.log(info);
 
@@ -106,9 +105,7 @@ const Battle = (props) => {
   let sock = new SockJS(`${api}/ws-stomp?username=` + encodeURI(username));
   let client = StompJS.over(sock);
   const opCode = useRef();
-  const [questionTitle, setQuestionTitle] = useState("");
-  const [question, setQuestion] = useState("");
-  const [template, setTemplate] = useState("");
+  const que = useSelector((state) => state.battleFunction.queList);
   const codeRef = useRef("");
 
   React.useEffect(() => {
@@ -128,10 +125,10 @@ const Battle = (props) => {
             client.disconnect();
           }, 500);
         }
-        dispatch(deletechatlist());
         ExitSend();
         setTimeout(() => {
           clientChat.disconnect();
+          dispatch(deletechatlist());
         }, 500);
       };
     }
@@ -154,9 +151,10 @@ const Battle = (props) => {
       // console.log(mes);
       switch (mes.type) {
         case "READY":
-          setQuestion(mes.question);
-          setQuestionTitle(mes.title);
-          setTemplate(mes.template);
+          dispatch(NewQue({ question: mes.question }));
+          dispatch(NewQue({ questionTitle: mes.title }));
+          dispatch(NewQue({ questionId: mes.questionId }));
+          dispatch(NewQue({ template: mes.template }));
           dispatch(alreadyUser({ opp: true }));
           break;
         case "USERINFO":
@@ -172,8 +170,8 @@ const Battle = (props) => {
         case "LOSE":
           setShowFailModal(true);
           break;
-        case "FAIL"
-          resAlert(mes.message);
+        case "FAIL":
+          resAlert(mes.msg);
           noItemEs.play();
           break;
         case "WIN":
@@ -416,7 +414,7 @@ const Battle = (props) => {
       baseURL: api,
       data: {
         roomId: roomId,
-        questionId: questionId,
+        questionId: que.questionId,
         languageIdx: parseInt(selected.language),
         codeStr: codeRef.current,
       },
@@ -432,7 +430,7 @@ const Battle = (props) => {
           setTrySub(trySub - 1);
           if (trySub === 1) {
             compileFailedLose();
-            setShowFailModal(true);
+            setTimeout(() => setShowFailModal(true), 500);
           } else {
             resAlert(res.data.msg);
             failEs.play();
@@ -578,7 +576,7 @@ const Battle = (props) => {
           <AceEditorPlayer
             mode={mode}
             codeRef={codeRef}
-            template={template}
+            que={que}
           ></AceEditorPlayer>
           {/* <UserCamDiv>
             <CamBar>
@@ -618,8 +616,8 @@ const Battle = (props) => {
                 <p>Question</p>
               </QueHead>
               <QueBox>
-                <p>{questionTitle}</p>
-                <div>{question}</div>
+                <p>{que.questionTitle}</p>
+                <div>{que.question}</div>
               </QueBox>
             </QueDiv>
           )}
@@ -634,7 +632,7 @@ const Battle = (props) => {
           <CodeDiv queOpen={modal.que} chatOpen={modal.chat}>
             {gameStart === false ? <ReadyOpp /> : null}
             <OppSubmitPending />
-            <AceEditorOpp mode={mode} opCode={opCode} template={template} />
+            <AceEditorOpp mode={mode} opCode={opCode} que={que} />
           </CodeDiv>
           {/* <OpCamDiv>
             <CamBar>
@@ -666,11 +664,7 @@ const Battle = (props) => {
         </OpponentDiv>
       </BodyPart>
       {showQuestionModal && (
-        <QuestionModal
-          setValue={setShowQuestionModal}
-          questionTitle={questionTitle}
-          question={question}
-        />
+        <QuestionModal setValue={setShowQuestionModal} que={que} />
       )}
       {showSuccessModal && (
         <SuccessModal
@@ -750,68 +744,68 @@ const BtnDiv = styled.div`
   width: 45.125vw;
 `;
 
-const BattleBtnAni = keyframes`
-0% {
-  transform: translateY(0);
-}
-25%{
-  transform: translateY(-5px);
-}
-50%{
-  transform: translateY(0);
-}
-75%{
-  transform: translateY(5px);
-}
-100% {
-  transform: translateY(0px);
-}
-`;
+// const BattleBtnAni = keyframes`
+// 0% {
+//   transform: translateY(0);
+// }
+// 25%{
+//   transform: translateY(-5px);
+// }
+// 50%{
+//   transform: translateY(0);
+// }
+// 75%{
+//   transform: translateY(5px);
+// }
+// 100% {
+//   transform: translateY(0px);
+// }
+// `;
 
-const BtnOnOff = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: calc((3vh + 3vw) / 4);
-  color: white;
-  width: 13.5%;
-  height: 100%;
-  ${(props) => {
-    if (props.change) {
-      return css`
-        background-image: url(/img/questionBtnBlack.svg);
-        border: 2px inset #c1b78e;
-        border-radius: 10px;
-      `;
-    }
-    return css`
-      background-image: url(/img/questionBtnBlue.svg);
-      border: 2px inset #5777ce;
-      border-radius: 10px;
-    `;
-  }}
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  animation: ${BattleBtnAni} 3s 0.5s linear infinite;
-`;
+// const BtnOnOff = styled.div`
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   font-size: calc((3vh + 3vw) / 4);
+//   color: white;
+//   width: 13.5%;
+//   height: 100%;
+//   ${(props) => {
+//       if (props.change) {
+//          return css`
+//         background-image: url(/img/questionBtnBlack.svg);
+//         border: 2px inset #c1b78e;
+//         border-radius: 10px;
+//       `;
+//       }
+//       return css`
+//       background-image: url(/img/questionBtnBlue.svg);
+//       border: 2px inset #5777ce;
+//       border-radius: 10px;
+//     `;
+//    }}
+//   background-position: center;
+//   background-repeat: no-repeat;
+//   background-size: contain;
+//   animation: ${BattleBtnAni} 3s 0.5s linear infinite;
+// `;
 
-const ExitBtn = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: calc((3vh + 3vw) / 4);
-  color: white;
-  width: 30%;
-  height: 100%;
-  background-image: url(/img/ExitBattleBtn.svg);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  animation: ${BattleBtnAni} 3s linear infinite;
-  border: 2px inset #5777ce;
-  border-radius: 10px;
-`;
+// const ExitBtn = styled.div`
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   font-size: calc((3vh + 3vw) / 4);
+//   color: white;
+//   width: 30%;
+//   height: 100%;
+//   background-image: url(/img/ExitBattleBtn.svg);
+//   background-position: center;
+//   background-repeat: no-repeat;
+//   background-size: contain;
+//   animation: ${BattleBtnAni} 3s linear infinite;
+//   border: 2px inset #5777ce;
+//   border-radius: 10px;
+// `;
 
 const BodyPart = styled.div`
   display: flex;
