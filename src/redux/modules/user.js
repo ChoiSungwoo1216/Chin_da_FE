@@ -12,7 +12,7 @@ const initialState = {
   list: [{}],
   sound: { bgm: 0.1, es: 0.5 },
   selected: { language: "", level: "" },
-  peerId: ""
+  peerId: {userId : "", opId : ""}
 };
 
 // Action Creators
@@ -67,7 +67,11 @@ export default function reducer(state = initialState, action = {}) {
     }
 
     case PEER: {
-      return { ...state, peerId: action.id };
+      const peer_list = {
+        ...state.peerId,
+        ...action.id,
+      };
+      return { ...state, peerId: peer_list };
     }
     // case ALREADY: {
     //   const Already_list = {
