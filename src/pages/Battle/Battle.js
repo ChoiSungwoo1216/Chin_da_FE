@@ -52,6 +52,7 @@ import {
    setPending,
    ModalOpen,
    NewQue,
+   NewOp,
 } from "../../redux/modules/battleFunction";
 import HeaderBtn from "./components/HeaderBtn";
 
@@ -170,6 +171,7 @@ const Battle = (props) => {
                if (mes.sender !== username) {
                   newOpEs.play();
                   resAlert("상대 입장");
+                  dispatch(NewOp(mes.playerName))
                }
                break;
             case "GAME":
@@ -187,6 +189,8 @@ const Battle = (props) => {
                setShowSuccessModal(true);
                break;
             case "EXIT":
+               dispatch(alreadyUser({ user : false}))
+               dispatch(NewOp(undefined))
                resAlert(mes.msg);
                newMesEs.play();
                break;
@@ -414,7 +418,7 @@ const Battle = (props) => {
    };
 
    //Modals
-   const [showQuestionModal, setShowQuestionModal] = useState();
+   const [showQuestionModal, setShowQuestionModal] = useState(false);
    const [showSuccessModal, setShowSuccessModal] = useState(false);
    const [showFailModal, setShowFailModal] = useState(false);
 
@@ -681,7 +685,7 @@ const Battle = (props) => {
           </OpCamDiv> */}
             </OpponentDiv>
          </BodyPart>
-         {showQuestionModal && (
+         {showQuestionModal ===true && (
             <QuestionModal setValue={setShowQuestionModal} que={que} />
          )}
          {showSuccessModal === true && (
