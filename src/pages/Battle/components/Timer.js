@@ -34,7 +34,7 @@ function Timer(p) {
       if (active === true) {
         if (parseInt(seconds) > 0) {
           setSeconds(parseInt(seconds) - 1);
-          seconds % 10 === 0 && checkT();
+          seconds % 40 === 0 && checkT();
         }
         if (parseInt(seconds) === 0) {
           if (parseInt(minutes) === 0) {

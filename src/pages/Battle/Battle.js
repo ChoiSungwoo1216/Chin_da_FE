@@ -157,7 +157,7 @@ const Battle = (props) => {
    const ReceiveCallBack = (message) => {
       if (message.body) {
          const mes = JSON.parse(message.body);
-         // console.log(mes);
+         console.log(mes)
          switch (mes.type) {
             case "READY":
                dispatch(NewQue({ question: mes.question }));
@@ -181,7 +181,6 @@ const Battle = (props) => {
                break;
             case "GAME":
                opCode.current = mes.message;
-               console.log(mes.message + "----");
                break;
             case "LOSE":
                setShowFailModal(true);
@@ -226,8 +225,8 @@ const Battle = (props) => {
    //실시간 코드 전송
    const sendT = useSelector((state) => state.battleFunction.sendRun);
 
-   const sendCode = async () => {
-      await client.send(
+   const sendCode = () => {
+      client.send(
          `/app/game/codeMessage`,
          {},
          JSON.stringify({
@@ -240,7 +239,7 @@ const Battle = (props) => {
 
    useEffect(() => {
       if (gameStart === true) {
-         setTimeout(() => sendCode(), 500);
+         setTimeout(()=>sendCode(),300);
       }
    }, [sendT]);
 
@@ -346,7 +345,6 @@ const Battle = (props) => {
       if (message.body) {
          newMesEs.play();
          const mes = JSON.parse(message.body);
-         console.log(mes);
          switch (mes.type) {
             case "ENTER":
                dispatch(
@@ -590,14 +588,6 @@ const Battle = (props) => {
                   dispatch={dispatch}
                   ModalOpen={ModalOpen}
                />
-               {/* <BtnOnOff onClick={openQue} change={queOpen}>
-                  문제
-               </BtnOnOff>
-               <BtnOnOff onClick={openChat} change={chatOpen}>
-                  채팅
-               </BtnOnOff>
-               <BtnOnOff onClick={() => setGameRuleModal(true)}>규칙</BtnOnOff>
-               <ExitBtn onClick={BackToMain}>나가기</ExitBtn> */}
             </BtnDiv>
          </HeadPart>
          <BodyPart>
@@ -699,7 +689,6 @@ const Battle = (props) => {
                setROpen={setROpen}
                setResult={setResult}
                setBbmute={setBbmute}
-            // setRunTimer={setRunTimer}
             />
          )}
          {showFailModal === true && (
@@ -709,7 +698,6 @@ const Battle = (props) => {
                setROpen={setROpen}
                setResult={setResult}
                setBbmute={setBbmute}
-            // setRunTimer={setRunTimer}
             />
          )}
          {modal.rule === true && (
@@ -776,7 +764,7 @@ const BtnDiv = styled.div`
   width: 45.125vw;
 `;
 
-// const BattleBtnAni = keyframes`
+// const BattleBtnAni = keyframe`
 // 0% {
 //   transform: translateY(0);
 // }

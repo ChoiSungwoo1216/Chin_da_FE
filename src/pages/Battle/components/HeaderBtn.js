@@ -1,14 +1,10 @@
-import React, { useState } from "react"
+import React from "react"
 import styled, { css, keyframes } from "styled-components"
-import {useSelector, 
-    // useDispatch
-} from "react-redux";
+import {useSelector} from "react-redux";
 import effectSound from '../../../shared/effectSound';
 import btnSound from '../../../audios/btnselect.mp3';
-// import ModalOpen from "../../../redux/modules/battleFunction"
 
 const HeaderBtn = ({ BackToMain, dispatch, ModalOpen }) => {
-    // const dispatch = useDispatch();
 
     const modal = useSelector((state) => state.battleFunction.modalOpen);
 
