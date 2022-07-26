@@ -124,7 +124,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state.queList,
         ...action.user,
       };
-      return { ...state, modalOpen: que_list };
+      return { ...state, queList: que_list };
     }
     default:
       return state;

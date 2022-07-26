@@ -67,6 +67,9 @@ const Battle = (props) => {
   const location = useLocation();
   const params = useParams();
 
+  //Selector
+  const getPeerId = useSelector((state) => state.user.peerId);
+
   //Bgm
   const { setMbmute } = props;
   const volume = useSelector((state) => state.user.sound);
@@ -106,6 +109,7 @@ const Battle = (props) => {
   let client = StompJS.over(sock);
   const opCode = useRef();
   const que = useSelector((state) => state.battleFunction.queList);
+  console.log(que);
   const codeRef = useRef("");
 
   React.useEffect(() => {
@@ -130,6 +134,9 @@ const Battle = (props) => {
           clientChat.disconnect();
           dispatch(deletechatlist());
         }, 500);
+        // (sessionStorage.getItem("Authorization"))
+        //   ? navigate("/selection")
+        //   : navigate("/");
       };
     }
   }, [roomId]);
@@ -304,6 +311,7 @@ const Battle = (props) => {
         roomId: roomId,
         sender: username,
         id: "",
+        //peerId
       })
     );
   };
@@ -332,6 +340,11 @@ const Battle = (props) => {
               type: mes.type,
               message: mes.message,
               sender: mes.sender,
+            })
+          );
+          dispatch(
+            setPending({
+              peerId: mes.id,
             })
           );
           break;
@@ -488,7 +501,7 @@ const Battle = (props) => {
   //Peer
   // const [peerId, setPeerId] = useState("");
   // const [remotePeerIdValue, setRemotePeerIdValue] = useState("");
-  // const remoteVideoRef = useRef(null);
+  // const remoteVideoRef = useRef(null); getPeerId
   // const peerInstance = useRef(null);
   // const currentUserVideoRef = useRef(null);
 
