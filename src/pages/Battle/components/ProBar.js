@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
 import styled, { keyframes, css } from "styled-components";
 import Timer from "./Timer";
-import { gameSwitch } from "../../../redux/modules/battleFunction";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const ProBar = ({ timeOutLose }) => {
   const level = useSelector((state) => state.battleFunction.level);
   const setActive = useSelector((state) => state.battleFunction.gameStatus);
-  const dispatch = useDispatch();
   const [timeToLevel, setTimeToLevel] = React.useState(0);
   const levelTime = () => {
     if (level === "0") {
