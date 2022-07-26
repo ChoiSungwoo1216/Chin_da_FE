@@ -14,7 +14,6 @@ const ChatBox = (props) => {
   console.log(messageRef);
   //채팅 기록
   const chattinglist = useSelector((state) => state.chatlist.list);
-  console.log(chattinglist);
   //Websocket
   const ChatApi = process.env.REACT_APP_API_CHAT;
   let socket = new SockJS(`${ChatApi}/ws-stomp?name=` + encodeURI(username));

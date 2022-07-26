@@ -109,7 +109,6 @@ const Battle = (props) => {
   let client = StompJS.over(sock);
   const opCode = useRef();
   const que = useSelector((state) => state.battleFunction.queList);
-  console.log(que);
   const codeRef = useRef("");
 
   React.useEffect(() => {
@@ -117,9 +116,18 @@ const Battle = (props) => {
       connect();
       Chatconnect();
       return () => {
+        dispatch(
+          NewQue({
+            question: "",
+            questionTitle: "",
+            questionId: "",
+            template: "",
+          })
+        );
+        dispatch(ModalOpen({ chat: true, que: false, rule: true }));
         if (gameStart === true) {
           exitLose();
-          exitMes();
+          // exitMes();
           setTimeout(() => {
             client.disconnect();
           }, 500);
@@ -134,9 +142,6 @@ const Battle = (props) => {
           clientChat.disconnect();
           dispatch(deletechatlist());
         }, 500);
-        // (sessionStorage.getItem("Authorization"))
-        //   ? navigate("/selection")
-        //   : navigate("/");
       };
     }
   }, [roomId]);
@@ -161,7 +166,12 @@ const Battle = (props) => {
           dispatch(NewQue({ question: mes.question }));
           dispatch(NewQue({ questionTitle: mes.title }));
           dispatch(NewQue({ questionId: mes.questionId }));
-          dispatch(NewQue({ template: mes.template }));
+          codeRef.current =
+            "//함수와 변수를 임의로 변경하지 마세요" +
+            `\n` +
+            "//출력문을 입력하지 마세요" +
+            `\n` +
+            mes.template;
           dispatch(alreadyUser({ opp: true }));
           break;
         case "USERINFO":
@@ -257,6 +267,9 @@ const Battle = (props) => {
         roomId: roomId,
       })
     );
+    setTimeout(() => {
+      setShowFailModal(true);
+    }, 500);
   };
 
   //탈주 패
@@ -586,11 +599,7 @@ const Battle = (props) => {
         <UserDiv>
           {gameStart === false ? <ReadyUser sendReady={sendReady} /> : null}
           <UserSubmitPending />
-          <AceEditorPlayer
-            mode={mode}
-            codeRef={codeRef}
-            que={que}
-          ></AceEditorPlayer>
+          <AceEditorPlayer mode={mode} codeRef={codeRef}></AceEditorPlayer>
           {/* <UserCamDiv>
             <CamBar>
               <span>Player1</span>
@@ -645,7 +654,7 @@ const Battle = (props) => {
           <CodeDiv queOpen={modal.que} chatOpen={modal.chat}>
             {gameStart === false ? <ReadyOpp /> : null}
             <OppSubmitPending />
-            <AceEditorOpp mode={mode} opCode={opCode} que={que} />
+            <AceEditorOpp mode={mode} opCode={opCode} />
           </CodeDiv>
           {/* <OpCamDiv>
             <CamBar>

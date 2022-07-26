@@ -190,10 +190,11 @@ const LogOutBtn = styled.div`
    align-items: center;
    background-image: url('/img/login_btn_white.svg');
    background-position: center;
-   background-size: 100%, 100%, cover;
+   background-size: 100%, 100%, contain;
    background-repeat: no-repeat;
+   margin-top: 6vh;
    width: calc((27vh + 40vw) / 4);
-   height: calc((27vh + 40vw) / 4);
+   height: calc((20vh + 20vw) / 8);
    font-size: 1.6vw;
    cursor: pointer;
    @keyframes push {
@@ -221,7 +222,7 @@ const SetLine = styled.div`
    justify-content: center;
    text-align: center;
    padding: .3vh 0;
-   margin-top: 1.7vh;
+   margin-top: 3vh;
 `;
 
 const SetName = styled.div`
