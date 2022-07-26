@@ -134,7 +134,7 @@ const Cam = styled.div`
   display: flex;
   width: 11.89vw;
   height: 11.9vw;
-  background-color: white;
+  background-color: #202540;
   border-left: 3px solid black;
   border-right: 3px solid black;
   border-bottom: 3px solid black;

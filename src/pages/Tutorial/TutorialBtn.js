@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styled from "styled-components"
 import Tutorial from "./Tutorial"
 import effectSound from "../../shared/effectSound"
@@ -7,11 +7,16 @@ import { useSelector } from "react-redux"
 
 const TutorialBtn = () => {
    const userSound = useSelector((state) => state.user.sound);
-
+    const newuser = sessionStorage.getItem("newUser")
     const [tutoOpen, setTutoOpen] = React.useState(false);
     const open = () => {
         setTutoOpen(true);
     }
+    useEffect(()=>{
+        if (newuser === true){
+            open();
+        }
+    },[newuser])
    const hoverEs = effectSound(hoverSound, userSound.es)
 
     return (
