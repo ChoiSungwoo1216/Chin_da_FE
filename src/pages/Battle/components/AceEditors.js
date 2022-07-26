@@ -12,7 +12,6 @@ import "ace-builds/src-noconflict/theme-solarized_dark";
 import "ace-builds/src-noconflict/theme-solarized_light";
 import "ace-builds/src-noconflict/theme-terminal";
 import "ace-builds/src-noconflict/ext-language_tools";
-import React, { useEffect, useState } from "react";
 
 export const AceEditorPlayer = (props) => {
   const { mode, codeRef } = props;
@@ -52,8 +51,6 @@ export const AceEditorOpp = (props) => {
   function onChangeTwo(newValue) {
     console.log("2:", newValue);
   }
-
-  console.log("opCode.current: ", opCode.current);
 
   return (
     <>

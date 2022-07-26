@@ -265,7 +265,7 @@ export const Result = (props) => {
   const userSound = useSelector((state) => state.user.sound);
   const winEs = effectSound(win1Sound, userSound.es);
   const loseEs = effectSound(lose1Sound, userSound.es);
-  const { setROpen, setMbmute, setTrySub } = props;
+  const { setROpen, setMbmute, setTrySub, codeRef, opCode } = props;
   const result = props.result;
   const dispatch = useDispatch();
   React.useEffect(() => {
@@ -277,6 +277,8 @@ export const Result = (props) => {
     dispatch(gameSwitch({gameStart: false}))
     dispatch(ModalOpen({chat: true, que: false}))
     dispatch(NewQue({question: "", questionTitle:"", template:""}))
+    codeRef.current="";
+    opCode.current="";
   }, []);
   const navigate = useNavigate();
   const player = sessionStorage.getItem("username");
