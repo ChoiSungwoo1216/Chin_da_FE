@@ -39,7 +39,7 @@ header {
   text-align: center;
 }
 
-header h3 {
+header h2 {
   color: #fff;
   font-family: Neo;
 
@@ -106,8 +106,15 @@ header h3 {
   border-radius: 5px;
 }
 
-.qTitle {
+.qQTitle {
   margin-top: 3%;
+  margin-left: 3%;
+  font-weight: 600;
+  width: 97%;
+  /* border: 1px solid red; */
+}
+
+.qTitle {
   font-weight: 600;
   width: 100%;
   /* border: 1px solid red; */
@@ -118,6 +125,12 @@ header h3 {
   border-top: 1px solid black;
   background-color: black;
   color: white;
+}
+
+.qQue {
+  margin-top: 20px;
+  margin-left: 3%;
+  width: 97%;
 }
 
 .q {
@@ -176,20 +189,9 @@ header h3 {
   display: flex;
   flex-direction: row;
   gap: 1vw;
-  letter-spacing: 20px;
-  font-size: 6em;
-  font-weight: 900;
-  color: #fff;
-  text-transform: uppercase;
-  /* text-shadow: 0 0 10px #fff,
-                0 0 20px #fff,
-                0 0 40px #fff,
-                0 0 80px #fff,
-                0 0 120px #fff; */
 }
 
 .ConfettiTxt img {
-  position: relative;
   animation: confettiAnimation 0.7s;
   animation-iteration-count: 1;
 }

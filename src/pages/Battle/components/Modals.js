@@ -17,6 +17,7 @@ import { gameSwitch, ModalOpen, NewQue } from "../../../redux/modules/battleFunc
 export const QuestionModal = (p) => {
   const setClose = p.setValue;
   const que = p.que;
+  console.log("Modal", que)
   const [modalIsOpen, setIsOpen] = React.useState(true);
   const customModalStyles = {
     overlay: {
@@ -47,11 +48,11 @@ export const QuestionModal = (p) => {
       >
         <div className="ModalBody">
           <header>
-            <h3>Question</h3>
+            <h2>Q u e s t i o n</h2>
           </header>
           <div className="ModalContent">
-            <div className="qTitle">{que.questionTitle}</div>
-            <div className="q">{que.question}</div>
+            <div className="qQTitle">{que.questionTitle}</div>
+            <div className="qQue">{que.question}</div>
           </div>
         </div>
         <img
@@ -130,7 +131,7 @@ export const GameRuleModal = ({ ModalOpen, modal }) => {
 };
 
 /*SuccessModal*/
-export const SuccessModal = ({ setROpen, setResult, setBbmute }) => {
+export const SuccessModal = ({ setROpen, setResult, setBbmute, setShowSuccessModal }) => {
   const userSound = useSelector((state) => state.user.sound);
   const winEs = effectSound(winSound, userSound.es);
   const dispatch = useDispatch();
@@ -162,6 +163,7 @@ export const SuccessModal = ({ setROpen, setResult, setBbmute }) => {
           setIsOpen(false);
           setROpen(true);
           setResult("WIN");
+          setShowSuccessModal(false)
         }}
         style={customModalStyles}
       >
@@ -170,6 +172,7 @@ export const SuccessModal = ({ setROpen, setResult, setBbmute }) => {
           src="/img/X_btn_black_30.svg"
           onClick={() => {
             setIsOpen(false);
+            setShowSuccessModal(false)
             setROpen(true);
             setResult("WIN");
           }}
@@ -188,7 +191,7 @@ export const SuccessModal = ({ setROpen, setResult, setBbmute }) => {
 };
 
 /*FailModal*/
-export const FailModal = ({ setROpen, setResult, setBbmute }) => {
+export const FailModal = ({ setROpen, setResult, setBbmute, setShowFailModal }) => {
   const userSound = useSelector((state) => state.user.sound);
   const loseEs = effectSound(loseSound, userSound.es);
   const dispatch = useDispatch();
@@ -235,6 +238,7 @@ export const FailModal = ({ setROpen, setResult, setBbmute }) => {
         onRequestClose={() => {
           setIsOpen(false);
           setROpen(true);
+          setShowFailModal(false)
         }}
         style={customModalStyles}
       >
@@ -245,6 +249,7 @@ export const FailModal = ({ setROpen, setResult, setBbmute }) => {
             setIsOpen(false);
             setROpen(true);
             setResult("LOSE");
+          setShowFailModal(false)
           }}
           alt=""
         />
@@ -264,7 +269,7 @@ export const Result = (props) => {
   const userSound = useSelector((state) => state.user.sound);
   const winEs = effectSound(win1Sound, userSound.es);
   const loseEs = effectSound(lose1Sound, userSound.es);
-  const { setROpen, setMbmute, setTrySub } = props;
+  const { setROpen, setMbmute, setTrySub, codeRef, opCode } = props;
   const result = props.result;
   const dispatch = useDispatch();
   React.useEffect(() => {
@@ -273,9 +278,11 @@ export const Result = (props) => {
     } else {
       loseEs.play();
     }
-    dispatch(gameSwitch({gameStart: false}))
-    dispatch(ModalOpen({chat: true, que: false}))
-    dispatch(NewQue({question: "", questionTitle:"", template:""}))
+    dispatch(gameSwitch({ gameStart: false }))
+    dispatch(ModalOpen({ chat: true, que: false }))
+    dispatch(NewQue({ question: "", questionTitle: "", template: "" }))
+    codeRef.current = "";
+    opCode.current = "";
   }, []);
   const navigate = useNavigate();
   const player = sessionStorage.getItem("username");

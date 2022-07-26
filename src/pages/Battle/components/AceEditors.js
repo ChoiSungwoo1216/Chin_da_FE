@@ -14,19 +14,11 @@ import "ace-builds/src-noconflict/theme-terminal";
 import "ace-builds/src-noconflict/ext-language_tools";
 
 export const AceEditorPlayer = (props) => {
-  const { mode, codeRef, que } = props;
+  const { mode, codeRef } = props;
 
   function onChangeOne(newValue) {
     codeRef.current = newValue;
   }
-
-  const DefaultTemp =
-    "//함수와 변수를 임의로 변경하지 마세요" +
-    `\n` +
-    "//출력문을 입력하지 마세요" +
-    `\n` +
-    que.template;
-
   return (
     <>
       <AceEditor
@@ -47,7 +39,7 @@ export const AceEditorPlayer = (props) => {
           enableSnippets: true,
           tabSize: 4,
         }}
-        defaultValue={DefaultTemp}
+        value={codeRef.current}
         placeholder="게임 시작 후 나옵니다."
       />
     </>
@@ -55,12 +47,10 @@ export const AceEditorPlayer = (props) => {
 };
 
 export const AceEditorOpp = (props) => {
-  const { mode, opCode, template } = props;
+  const { mode, opCode } = props;
   function onChangeTwo(newValue) {
     console.log("2:", newValue);
   }
-
-  console.log("opCode.current: ", opCode.current);
 
   return (
     <>
@@ -82,7 +72,6 @@ export const AceEditorOpp = (props) => {
           enableSnippets: true,
         }}
         value={opCode.current}
-        defaultValue={template}
         placeholder="상대방 코드가 입력될 것입니다."
       />
     </>

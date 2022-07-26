@@ -22,6 +22,8 @@ const MODALOPEN = "modalopen/MODALOPEN"
 
 const QUE = "que/QUE"
 
+const OPP = "opp/OPP"
+
 const initialState = {
   already: { user: false, opp: false },
   gameStatus: false,
@@ -32,7 +34,8 @@ const initialState = {
   pendingRun: { user: false, opp: false },
   sendRun: false,
   modalOpen : { chat : true, que: false, rule: true},
-  queList : { question: "", questionTitle:"", questionId:"", template: ""}
+  queList : { question: "", questionTitle:"", questionId:""},
+  newOpp : ""
 };
 
 // Action Creators
@@ -75,6 +78,10 @@ export function ModalOpen(user) {
 
 export function NewQue(user) {
   return { type: QUE, user };
+}
+
+export function NewOp(str) {
+  return { type: OPP, str };
 }
 
 // Reducer
@@ -124,7 +131,11 @@ export default function reducer(state = initialState, action = {}) {
         ...state.queList,
         ...action.user,
       };
-      return { ...state, modalOpen: que_list };
+      return { ...state, queList: que_list };
+    }
+
+    case OPP: {
+      return { ...state, newOpp: action.str };
     }
     default:
       return state;

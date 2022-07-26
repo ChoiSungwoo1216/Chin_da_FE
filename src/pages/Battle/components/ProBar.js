@@ -8,7 +8,6 @@ const ProBar = ({timeOutLose}) => {
   const level = useSelector((state) => state.battleFunction.level);
   const setActive = useSelector((state) => state.battleFunction.gameStatus);
   const dispatch = useDispatch();
-
   const [timeToLevel, setTimeToLevel] = React.useState(0);
   const levelTime = () => {
     if (level === "0") {
@@ -38,7 +37,6 @@ const ProBar = ({timeOutLose}) => {
     const countdown = setInterval(() => {
       const refesh = () => {
         setCount(10);
-        dispatch(gameSwitch(false));
         clearInterval(countdown);
       };
       if (setActive === true) {

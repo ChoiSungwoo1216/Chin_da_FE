@@ -52,6 +52,7 @@ import {
    setPending,
    ModalOpen,
    NewQue,
+   NewOp,
 } from "../../redux/modules/battleFunction";
 import HeaderBtn from "./components/HeaderBtn";
 
@@ -66,6 +67,9 @@ const Battle = (props) => {
    const dispatch = useDispatch();
    const location = useLocation();
    const params = useParams();
+
+   //Selector
+   const getPeerId = useSelector((state) => state.user.peerId);
 
    //Bgm
    const { setMbmute } = props;
@@ -105,27 +109,30 @@ const Battle = (props) => {
    let sock = new SockJS(`${api}/ws-stomp?username=` + encodeURI(username));
    let client = StompJS.over(sock);
    const opCode = useRef();
-   const que = useSelector((state)=>state.battleFunction.queList)
+   const que = useSelector((state) => state.battleFunction.queList);
    const codeRef = useRef("");
-
    React.useEffect(() => {
       if (roomId !== undefined) {
          connect();
          Chatconnect();
+         dispatch(alreadyUser({ user: false, opp: false }));
          return () => {
-            if (gameStart === true) {
-               exitLose();
-               exitMes();
-               setTimeout(() => { client.disconnect() }, 500)
-            } else {
-               exitMes();
-               setTimeout(() => { client.disconnect() }, 500)
-            }
+            dispatch(NewQue({ question: "", questionTitle: "", questionId: "" }));
+            dispatch(ModalOpen({ chat: true, que: false, rule: true }));
+            dispatch(gameSwitch(false));
+            exitMes();
+            setTimeout(() => {
+               console.log("게임서버 연결종료")
+               client.disconnect();
+               dispatch(gameSwitch(false));
+            }, 500);
+
             ExitSend();
             setTimeout(() => {
+               console.log("채팅 연결종료")
                clientChat.disconnect();
                dispatch(deletechatlist());
-            }, 500)
+            }, 500);
          };
       }
    }, [roomId]);
@@ -133,6 +140,7 @@ const Battle = (props) => {
    //서버 연결
    const connect = () => {
       client.connect(headers, onConnected, onError);
+      client.reconnect_delay = 3000;
       client.heartbeat.outgoing = 20000;
       client.heartbeat.ingoing = 0;
    };
@@ -147,16 +155,23 @@ const Battle = (props) => {
          // console.log(mes);
          switch (mes.type) {
             case "READY":
-               dispatch(NewQue({question : mes.question}))
-               dispatch(NewQue({questionTitle : mes.title}))
-               dispatch(NewQue({questionId : mes.questionId}))
-               dispatch(NewQue({template : mes.template}))
+               dispatch(NewQue({ question: mes.question }));
+               dispatch(NewQue({ questionTitle: mes.title }));
+               dispatch(NewQue({ questionId: mes.questionId }));
+               codeRef.current =
+                  "//함수와 변수를 임의로 변경하지 마세요" +
+                  `\n` +
+                  "//출력문을 입력하지 마세요" +
+                  `\n` +
+                  mes.template;
                dispatch(alreadyUser({ opp: true }));
+               dispatch(gameSwitch(true));
                break;
             case "USERINFO":
                if (mes.sender !== username) {
                   newOpEs.play();
                   resAlert("상대 입장");
+                  dispatch(NewOp(mes.playerName))
                }
                break;
             case "GAME":
@@ -174,7 +189,9 @@ const Battle = (props) => {
                setShowSuccessModal(true);
                break;
             case "EXIT":
-               resAlert(mes.msg)
+               dispatch(alreadyUser({ user : false}))
+               dispatch(NewOp(undefined))
+               resAlert(mes.msg);
                newMesEs.play();
                break;
             default:
@@ -246,6 +263,9 @@ const Battle = (props) => {
             roomId: roomId,
          })
       );
+      setTimeout(() => {
+         setShowFailModal(true);
+      }, 500);
    };
 
    //탈주 패
@@ -299,7 +319,8 @@ const Battle = (props) => {
             type: "ENTER",
             roomId: roomId,
             sender: username,
-            id: ""
+            id: "",
+            //peerId
          })
       );
    };
@@ -328,6 +349,11 @@ const Battle = (props) => {
                      type: mes.type,
                      message: mes.message,
                      sender: mes.sender,
+                  })
+               );
+               dispatch(
+                  setPending({
+                     peerId: mes.id,
                   })
                );
                break;
@@ -371,14 +397,16 @@ const Battle = (props) => {
          },
       })
          .then((response) => {
+            console.log(response)
             setBbmute(true);
             setMbmute(false);
             btnEs.play();
             navigate(`/Main`);
          })
          .catch((error) => {
-            console.log(error)
-            if (error.response.data === "참여자가 아닙니다") {
+            console.log(error);
+            if (error.response.status === 400) {
+               window.alert(error.response.data);
                navigate("/selection");
             }
             if (error.response.data.reLogin === true) {
@@ -390,9 +418,9 @@ const Battle = (props) => {
    };
 
    //Modals
-   const [showQuestionModal, setShowQuestionModal] = useState();
-   const [showSuccessModal, setShowSuccessModal] = useState();
-   const [showFailModal, setShowFailModal] = useState();
+   const [showQuestionModal, setShowQuestionModal] = useState(false);
+   const [showSuccessModal, setShowSuccessModal] = useState(false);
+   const [showFailModal, setShowFailModal] = useState(false);
 
    //AceEditor
    const langType = ["java", "javascript", "python"];
@@ -477,14 +505,16 @@ const Battle = (props) => {
 
    //나가기
    const BackToMain = () => {
+      if (gameStart === true) {
+         exitLose();
+      }
       leaveRoomAxios();
-      dispatch(gameSwitch(false));
    };
 
    //Peer
    // const [peerId, setPeerId] = useState("");
    // const [remotePeerIdValue, setRemotePeerIdValue] = useState("");
-   // const remoteVideoRef = useRef(null);
+   // const remoteVideoRef = useRef(null); getPeerId
    // const peerInstance = useRef(null);
    // const currentUserVideoRef = useRef(null);
 
@@ -569,7 +599,7 @@ const Battle = (props) => {
             <UserDiv>
                {gameStart === false ? <ReadyUser sendReady={sendReady} /> : null}
                <UserSubmitPending />
-               <AceEditorPlayer mode={mode} codeRef={codeRef} que={que}></AceEditorPlayer>
+               <AceEditorPlayer mode={mode} codeRef={codeRef}></AceEditorPlayer>
                {/* <UserCamDiv>
             <CamBar>
               <span>Player1</span>
@@ -624,7 +654,7 @@ const Battle = (props) => {
                <CodeDiv queOpen={modal.que} chatOpen={modal.chat}>
                   {gameStart === false ? <ReadyOpp /> : null}
                   <OppSubmitPending />
-                  <AceEditorOpp mode={mode} opCode={opCode} que={que} />
+                  <AceEditorOpp mode={mode} opCode={opCode} />
                </CodeDiv>
                {/* <OpCamDiv>
             <CamBar>
@@ -655,22 +685,22 @@ const Battle = (props) => {
           </OpCamDiv> */}
             </OpponentDiv>
          </BodyPart>
-         {showQuestionModal && (
-            <QuestionModal
-               setValue={setShowQuestionModal}
-               que={que}
-            />
+         {showQuestionModal ===true && (
+            <QuestionModal setValue={setShowQuestionModal} que={que} />
          )}
-         {showSuccessModal && (
+         {showSuccessModal === true && (
             <SuccessModal
+               setShowSuccessModal={setShowSuccessModal}
                setROpen={setROpen}
                setResult={setResult}
                setBbmute={setBbmute}
             // setRunTimer={setRunTimer}
             />
          )}
-         {showFailModal && (
+         {showFailModal === true && (
             <FailModal
+               setShowFailModal={setShowFailModal}
+
                setROpen={setROpen}
                setResult={setResult}
                setBbmute={setBbmute}
@@ -686,6 +716,8 @@ const Battle = (props) => {
                result={result}
                setMbmute={setMbmute}
                setTrySub={setTrySub}
+               codeRef={codeRef}
+               opCode={opCode}
             />
          )}
 
