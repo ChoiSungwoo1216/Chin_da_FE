@@ -131,6 +131,7 @@ export function Main() {
          })
          .catch((error) => {
             console.log(error);
+            window.alert(error.response.data, " Refresh를 누르세요")
             if (error.response.data.reLogin === true){
                sessionStorage.clear();
                localStorage.clear();

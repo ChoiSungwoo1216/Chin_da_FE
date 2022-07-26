@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
 import styled, { keyframes, css } from "styled-components";
 import Timer from "./Timer";
-import { gameSwitch } from "../../../redux/modules/battleFunction";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-const ProBar = ({timeOutLose}) => {
+const ProBar = ({ timeOutLose }) => {
   const level = useSelector((state) => state.battleFunction.level);
   const setActive = useSelector((state) => state.battleFunction.gameStatus);
-  const dispatch = useDispatch();
   const [timeToLevel, setTimeToLevel] = React.useState(0);
   const levelTime = () => {
     if (level === "0") {
@@ -68,7 +66,11 @@ const ProBar = ({timeOutLose}) => {
             return <CountBox key={idx} active={setActive} count={count} />;
           })}
         </Filler>
-        <Timer setActive={setActive} Time={timeToLevel} timeOutLose={timeOutLose}/>
+        <Timer
+          setActive={setActive}
+          Time={timeToLevel}
+          timeOutLose={timeOutLose}
+        />
       </Bar>
     </>
   );
@@ -88,7 +90,7 @@ const Blink = keyframes`
 const Bar = styled.div`
   display: flex;
   position: relative;
-  width: 48.5vw;
+  width: calc(50vw - 5px);
   height: 5.94vh; //3.91vw 6.94vh 50px
   /* border: 1px solid white; */
   flex-direction: row;
@@ -96,10 +98,10 @@ const Bar = styled.div`
   /* background: url("/img/pro_new_new.svg") no-repeat center fixed; */
   background-size: cover;
   background-color: rgba(211, 211, 211, 0.1);
-  border-top: 10px solid #ffffff;
-  border-left: 0.86vw solid #c4c1b5;
-  border-right: 0.86vw solid #c1b78e;
-  border-bottom: 10px solid #a0935c;
+  border-top: 5px solid #ffffff;
+  border-left: 5px solid #c4c1b5;
+  border-right: 5px solid #c1b78e;
+  border-bottom: 5px solid #a0935c;
   border-radius: 10px;
   bottom: 0.7vh;
   /* background-attachment: fixed; */

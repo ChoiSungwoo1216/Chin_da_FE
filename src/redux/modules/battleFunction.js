@@ -18,11 +18,11 @@ const PENDING = "pending/PENDING";
 
 const SENDCODE = "sendcode/SENDCODE";
 
-const MODALOPEN = "modalopen/MODALOPEN"
+const MODALOPEN = "modalopen/MODALOPEN";
 
-const QUE = "que/QUE"
+const QUE = "que/QUE";
 
-const OPP = "opp/OPP"
+const OPP = "opp/OPP";
 
 const initialState = {
   already: { user: false, opp: false },
@@ -33,9 +33,9 @@ const initialState = {
   runCountdown: false,
   pendingRun: { user: false, opp: false },
   sendRun: false,
-  modalOpen : { chat : true, que: false, rule: true},
-  queList : { question: "", questionTitle:"", questionId:""},
-  newOpp : ""
+  modalOpen: { chat: true, que: false, rule: true },
+  queList: { question: "", questionTitle: "", questionId: "" },
+  newOpp: undefined,
 };
 
 // Action Creators

@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { QuestionModal, SuccessModal, FailModal } from "./components/Modals";
 import { useDispatch, useSelector } from "react-redux";
 import {
   alreadyUser,
@@ -17,10 +16,6 @@ const Control = (props) => {
     setShowSuccessModal,
     setShowFailModal,
     setROpen,
-    // remotePeerIdValue,
-    // setRemotePeerIdValue,
-    // call,
-    // peerId,
     setMbmute,
     setBbmute,
   } = props;
@@ -110,16 +105,6 @@ const Control = (props) => {
         <button onClick={() => userPending()}>user제출</button>
         <button onClick={() => oppPending()}>opp제출</button>
       </div>
-      {/* <div>
-        Peer 관련
-        <div>peerId : {props.peerId}</div>
-        <input
-          type="text"
-          value={props.remotePeerIdValue}
-          onChange={(e) => setRemotePeerIdValue(e.target.value)}
-        />
-        <button onClick={() => call(props.remotePeerIdValue)}>Call</button>
-      </div> */}
     </ControlDiv>
   );
 };
