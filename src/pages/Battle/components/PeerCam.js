@@ -1,16 +1,17 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 
 export const UserCam = ({ camEs, call, currentUserVideoRef, remotePeerIdValue }) => {
     const [userCamSlide, setUserCamSlide] = useState(true);
+    // const [reConOn, setReConOn] = useState(true)
 
     const openUserCam = () => {
         camEs.play();
-        if (userCamSlide) {
+        if (userCamSlide === true) {
             setUserCamSlide(false);
         } else {
             setUserCamSlide(true);
-            call(remotePeerIdValue);
+            call(currentUserVideoRef);
         }
     };
 
@@ -49,6 +50,20 @@ export const UserCam = ({ camEs, call, currentUserVideoRef, remotePeerIdValue })
 export const OpCam = ({ camEs, call, remoteVideoRef, remotePeerIdValue }) => {
 
     const [opCamSlide, setOpCamSlide] = useState(true);
+
+    useEffect(() => {
+        CheckOp();
+        call(remoteVideoRef);
+    }, [remotePeerIdValue])
+
+    const CheckOp = () => {
+        if (remotePeerIdValue === "" || remotePeerIdValue === undefined || remotePeerIdValue === null) {
+            setOpCamSlide(false);
+        } else {
+            setOpCamSlide(true);
+        }
+    }
+
     const openOpCam = () => {
         camEs.play();
         if (opCamSlide) {
@@ -104,6 +119,7 @@ const OpCamDiv = styled.div`
   position: absolute;
   right: -2.6%;
   top: 8.9vh;
+  z-index: 5;
   height: 22.6vh;
   width: 14vw;
 `;

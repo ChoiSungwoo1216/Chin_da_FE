@@ -3,9 +3,8 @@ import styled from "styled-components"
 import Language from "./components/Language";
 import Level from "./components/Level";
 import Room from "./components/Room"
-// import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import effectSound from "../../shared/effectSound";
+import effectSound from "../../shared/effectSound.js";
 import selectSound from "../../audios/btnselect.mp3"
 import hoverSound from "../../audios/BtnHoverSE1.mp3"
 import enterSound from "../../audios/SelectionRoomClickSE1.mp3"

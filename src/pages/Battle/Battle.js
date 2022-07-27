@@ -6,20 +6,20 @@ import axios from "axios";
 import Modal from "react-modal";
 
 /*COMPONENTS*/
-import Control from "./Control";
+import Control from "./Control.js";
 import {
   QuestionModal,
   SuccessModal,
   FailModal,
   Result,
   GameRuleModal,
-} from "./components/Modals";
-import ProBar from "./components/ProBar";
-import Alert from "./components/Alert";
-import Countdown from "./components/CountDown";
-import HeaderBtn from "./components/HeaderBtn";
-import QueChatEditDiv from "./components/QueChatEditDiv";
-import UserCompoDiv from "./components/UserCompoDiv";
+} from "./components/Modals.js";
+import ProBar from "./components/ProBar.js";
+import Alert from "./components/Alert.js";
+import Countdown from "./components/CountDown.js";
+import HeaderBtn from "./components/HeaderBtn.js";
+import QueChatEditDiv from "./components/QueChatEditDiv.js";
+import UserCompoDiv from "./components/UserCompoDiv.js";
 
 /*AUDIO*/
 import useSound from "../../shared/useSound";
@@ -35,7 +35,7 @@ import newMes from "../../audios/newMessage.mp3";
 //websocket
 import * as StompJS from "stompjs";
 import * as SockJS from "sockjs-client";
-import { addchatlist, deletechatlist } from "../../redux/modules/chatlist";
+import { addchatlist, deletechatlist } from "../../redux/modules/chatlist.js";
 
 import {
   alreadyUser,
@@ -47,29 +47,25 @@ import {
   ModalOpen,
   NewQue,
   NewOp,
-} from "../../redux/modules/battleFunction";
+} from "../../redux/modules/battleFunction.js";
 
 //webRtc
 import Peer from "peerjs";
-import { setPeerId } from "../../redux/modules/user";
-import { OpCam, UserCam } from "./components/PeerCam";
+import { setPeerId } from "../../redux/modules/user.js";
+import { OpCam, UserCam } from "./components/PeerCam.js";
 
 Modal.setAppElement("#root");
 
 const Battle = (props) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const api = process.env.REACT_APP_API;
   const Authorization = sessionStorage.getItem("Authorization");
 
   const selected = useSelector((state) => state.user.selected);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const location = useLocation();
   const params = useParams();
 
-  //Peer
-  const peerId = useSelector((state) => state.user.peerId.userId);
-  const remotePeerIdValue = useSelector((state) => state.user.peerId.opId);
-  console.log("내: ", peerId, "상대: ", remotePeerIdValue);
   //Bgm
   const { setMbmute } = props;
   const volume = useSelector((state) => state.user.sound);
@@ -108,78 +104,101 @@ const Battle = (props) => {
   };
 
   //Peer
+  const peerId = useSelector((state) => state.user.peerId.userId);
+  const remotePeerIdValue = useSelector((state) => state.user.peerId.opId);
+
   const remoteVideoRef = useRef(null);
   const peerInstance = useRef(null);
   const currentUserVideoRef = useRef(null);
+  const peerRef = useRef("");
+  peerRef.current = peerId;
 
+  //get peerId
   useEffect(() => {
     const peer = new Peer();
-    //제일 처음 peer가 만들어지면서 랜덤한 id가 만들어짐
     peer.on("open", (id) => {
       dispatch(setPeerId({ userId: id }));
     });
 
     peer.on("call", (call) => {
-      var getUserMedia =
-        navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia;
+      let getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-      getUserMedia({ audio: false, video: true }, (mediaStream) => {
+      getUserMedia({/*audio: true,*/ video: true }, (mediaStream) => {
         currentUserVideoRef.current.srcObject = mediaStream;
         currentUserVideoRef.current.play();
-        call.answer(mediaStream);
-        call.on("stream", (remoteStream) => {
+        call.answer(mediaStream)
+        call.on('stream', (remoteStream) => {
           remoteVideoRef.current.srcObject = remoteStream;
-          remoteVideoRef.current.play();
+          let playRemotePromise = remoteVideoRef.current.play();
+          if (playRemotePromise !== undefined) {
+            playRemotePromise
+              .then(_ => { })
+              .catch((error) => {
+                console.log(error);
+              })
+          }
         });
-      });
-    });
+      })
+    })
 
     peerInstance.current = peer;
   }, [roomId]);
 
+  //Peer call function
   const call = (remotePeerId) => {
-    var getUserMedia =
+    let getUserMedia =
       navigator.getUserMedia ||
       navigator.webkitGetUserMedia ||
       navigator.mozGetUserMedia;
 
     getUserMedia({ audio: false, video: true }, (mediaStream) => {
-      //현재 내 화면
       currentUserVideoRef.current.srcObject = mediaStream;
-      currentUserVideoRef.current.play();
-
+      let playPromise = currentUserVideoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(_ => { })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
       const call = peerInstance.current.call(remotePeerId, mediaStream);
-
       call.on("stream", (remoteStream) => {
-        // Show stream in some video/canvas element.
-        // 상대방 영상 받아오는 부분
-        // 두개 같이 써줘야 작동함
         remoteVideoRef.current.srcObject = remoteStream;
         remoteVideoRef.current.play();
       });
     });
   };
-  console.log("상대 PeerId : ", remotePeerIdValue);
+
   useEffect(() => {
+    console.log("연결", remotePeerIdValue)
     call(remotePeerIdValue);
   }, [remotePeerIdValue]);
 
-  //game server
+  //For game server
   const username = sessionStorage.getItem("username");
   const headers = { Authorization: Authorization };
+
   let sock = new SockJS(`${api}/ws-stomp?username=` + encodeURI(username));
   let client = StompJS.over(sock);
-  const opCode = useRef();
+
   const que = useSelector((state) => state.battleFunction.queList);
+  const opCode = useRef();
   const codeRef = useRef("");
+  const [checkCon, setCheckCon] = useState(false);
+  const connectOk = () => {
+    setCheckCon(true);
+  }
+  // WebSocket Server connect UseEffect
   React.useEffect(() => {
     if (roomId !== undefined) {
-      connect();
-      Chatconnect();
+      if (checkCon === false) {
+        connect();
+        Chatconnect();
+        connectOk();
+      }
       dispatch(alreadyUser({ user: false, opp: false }));
       return () => {
+        // when disconnecting to game and chatting server
         dispatch(NewQue({ question: "", questionTitle: "", questionId: "" }));
         dispatch(ModalOpen({ chat: true, que: false, rule: true }));
         dispatch(gameSwitch(false));
@@ -201,18 +220,21 @@ const Battle = (props) => {
     }
   }, [roomId]);
 
-  //서버 연결
+  //Game server connect
   const connect = () => {
     client.connect(headers, onConnected, onError);
     client.reconnect_delay = 3000;
     client.heartbeat.outgoing = 20000;
     client.heartbeat.ingoing = 0;
   };
-  // 서버 연결 성공 시 콜백함수
+
+  // Callback Function for connection on Game server
   const onConnected = () => {
-    client.subscribe(`/topic/game/room/${roomId}`, ReceiveCallBack); //입장자 정보 전송 구독, ready 구독 주소
-    client.subscribe(`/user/queue/game/codeMessage/${roomId}`, ReceiveCallBack); //실시간 코드 전송 구독 주소
+    client.subscribe(`/topic/game/room/${roomId}`, ReceiveCallBack); // For game flow
+    client.subscribe(`/user/queue/game/codeMessage/${roomId}`, ReceiveCallBack); // For sending code to Opponent
   };
+
+  // Callback Function for Gameserver
   const ReceiveCallBack = (message) => {
     if (message.body) {
       const mes = JSON.parse(message.body);
@@ -264,12 +286,12 @@ const Battle = (props) => {
     }
   };
 
-  // 서버 연결 실패시
+  // Callback function when failing connecting server
   const onError = (err) => {
     console.log(err);
   };
 
-  //준비 전송
+  //Ready for game message
   const sendReady = () => {
     client.send(
       `/app/game/ready`,
@@ -281,7 +303,7 @@ const Battle = (props) => {
     );
   };
 
-  //실시간 코드 전송
+  //Live Code sending to opp
   const sendT = useSelector((state) => state.battleFunction.sendRun);
 
   const sendCode = () => {
@@ -302,7 +324,7 @@ const Battle = (props) => {
     }
   }, [sendT]);
 
-  //컴파일 3회 실패 시
+  //Compile Failed 3 times Lose message
   const compileFailedLose = () => {
     client.send(
       `/app/game/process`,
@@ -315,7 +337,7 @@ const Battle = (props) => {
     );
   };
 
-  //타임아웃 패배
+  //Timeout lose message
   const timeOutLose = () => {
     client.send(
       `/app/game/process`,
@@ -331,7 +353,7 @@ const Battle = (props) => {
     }, 500);
   };
 
-  //탈주 패
+  //Lose Message when leaving during gaming
   const exitLose = () => {
     client.send(
       `/app/game/process`,
@@ -344,7 +366,7 @@ const Battle = (props) => {
     );
   };
 
-  //퇴장
+  //Game server Exit
   const exitMes = () => {
     client.send(
       `/app/game/process`,
@@ -357,26 +379,29 @@ const Battle = (props) => {
     );
   };
 
-  //채팅 서버
+  //About Chatting server
   const ChatApi = process.env.REACT_APP_API_CHAT;
 
   let socket = new SockJS(`${ChatApi}/ws-stomp?name=` + encodeURI(username));
   let clientChat = StompJS.over(socket);
 
+  // Chat server connect
   const Chatconnect = () => {
     clientChat.connect({}, onConnect, onError);
+    clientChat.reconnect_delay = 3000;
     clientChat.heartbeat.outgoing = 20000;
     clientChat.heartbeat.ingoing = 0;
   };
 
+  // Chat server connect Callback Function
   const onConnect = () => {
     clientChat.subscribe(`/sub/chat/room/${roomId}`, ReceiveFunc);
     setTimeout(() => {
       EnterSend();
-    }, 1000);
+    }, 2000);
   };
-  const peerRef = useRef("");
-  peerRef.current = peerId;
+
+  //Chatting Message Send
   const EnterSend = () => {
     clientChat.send(
       `/pub/chat/message`,
@@ -391,6 +416,7 @@ const Battle = (props) => {
   };
 
   const ExitSend = () => {
+    forPeer.current = 0;
     clientChat.send(
       `/pub/chat/message`,
       {},
@@ -401,26 +427,36 @@ const Battle = (props) => {
       })
     );
   };
-
+  const forPeer = useRef(0);
+  //Receive CallBack Function
   const ReceiveFunc = (message) => {
     if (message.body) {
       newMesEs.play();
       const mes = JSON.parse(message.body);
       switch (mes.type) {
         case "ENTER":
-          dispatch(
-            addchatlist({
-              type: mes.type,
-              message: mes.message,
-              sender: mes.sender,
-            })
-          );
-          if (mes.sender !== username) {
+          if ((mes.sender !== username) && (forPeer.current === 0)) {
             dispatch(
-              setPeerId({
-                opId: mes.id,
+              addchatlist({
+                type: mes.type,
+                message: mes.message,
+                sender: mes.sender,
               })
             );
+          }
+          if (mes.sender !== username) {
+            if (remotePeerIdValue !== mes.id) {
+              dispatch(
+                setPeerId({
+                  opId: mes.id,
+                })
+              );
+            }
+            if (forPeer.current < 1) {
+              forPeer.current++;
+              EnterSend();
+            }
+
           }
           break;
         case "TALK":
@@ -447,6 +483,7 @@ const Battle = (props) => {
               })
             );
           }
+          forPeer.current = 0;
           break;
         default:
       }
@@ -454,50 +491,6 @@ const Battle = (props) => {
       alert("error");
     }
   };
-
-  //방나가기 요청
-  const leaveRoomAxios = async () => {
-    await axios({
-      url: "/game/room/exit",
-      method: "PUT",
-      baseURL: api,
-      data: {
-        roomId: roomId,
-        server: server,
-      },
-      headers: {
-        Authorization: Authorization,
-      },
-    })
-      .then((response) => {
-        console.log(response);
-        setBbmute(true);
-        setMbmute(false);
-        btnEs.play();
-        navigate(`/Main`);
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response.status === 400) {
-          window.alert(error.response.data);
-          navigate("/selection");
-        }
-        if (error.response.data.reLogin === true) {
-          sessionStorage.clear();
-          localStorage.clear();
-          window.location.replace("/");
-        }
-      });
-  };
-
-  //Modals
-  const [showQuestionModal, setShowQuestionModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showFailModal, setShowFailModal] = useState(false);
-
-  //AceEditor
-  const langType = ["java", "javascript", "python"];
-  const mode = langType[parseInt(selected.language)];
 
   //Submit
   const [trySub, setTrySub] = useState(3);
@@ -543,14 +536,56 @@ const Battle = (props) => {
     setTimeout(() => axiosSubmit(), 1000);
   };
 
-  // header Modal
+  //Modals
   const modal = useSelector((state) => state.battleFunction.modalOpen);
+  const [showQuestionModal, setShowQuestionModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showFailModal, setShowFailModal] = useState(false);
 
-  //결과창 열기
+  //AceEditor
+  const langType = ["java", "javascript", "python"];
+  const mode = langType[parseInt(selected.language)];
+
+  //Open Resutl Modal
   const [rOpen, setROpen] = useState(false);
   const [result, setResult] = useState("WIN");
 
-  //나가기
+  //ROOM EXIT AXIOS
+  const leaveRoomAxios = async () => {
+    await axios({
+      url: "/game/room/exit",
+      method: "PUT",
+      baseURL: api,
+      data: {
+        roomId: roomId,
+        server: server,
+      },
+      headers: {
+        Authorization: Authorization,
+      },
+    })
+      .then((response) => {
+        console.log(response);
+        setBbmute(true);
+        setMbmute(false);
+        btnEs.play();
+        navigate(`/Main`);
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 400) {
+          window.alert(error.response.data);
+          navigate("/selection");
+        }
+        if (error.response.data.reLogin === true) {
+          sessionStorage.clear();
+          localStorage.clear();
+          window.location.replace("/");
+        }
+      });
+  };
+
+  //Exit Function
   const BackToMain = () => {
     if (gameStart === true) {
       exitLose();
@@ -567,11 +602,7 @@ const Battle = (props) => {
           <ProBar timeOutLose={timeOutLose} />
         </TimerDiv>
         <BtnDiv>
-          <HeaderBtn
-            BackToMain={BackToMain}
-            dispatch={dispatch}
-            ModalOpen={ModalOpen}
-          />
+          <HeaderBtn BackToMain={BackToMain} />
         </BtnDiv>
       </HeadPart>
       <BodyPart>

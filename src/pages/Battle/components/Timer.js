@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   gameSwitch,
   sendCodeTiming,
-} from "../../../redux/modules/battleFunction";
+} from "../../../redux/modules/battleFunction.js";
 
 function Timer(p) {
   const sendT = useSelector((state) => state.battleFunction.sendRun);

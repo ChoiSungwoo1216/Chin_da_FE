@@ -1,8 +1,8 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import chatlist from "./modules/chatlist";
-import user from "./modules/user";
-import battleFunction from "./modules/battleFunction";
+import chatlist from "./modules/chatlist.js";
+import user from "./modules/user.js";
+import battleFunction from "./modules/battleFunction.js";
 
 const middlewares = [thunk];
 

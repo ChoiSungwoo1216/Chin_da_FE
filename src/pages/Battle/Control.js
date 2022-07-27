@@ -9,7 +9,7 @@ import {
   setCountdown,
   setPending,
   ModalOpen,
-} from "../../redux/modules/battleFunction";
+} from "../../redux/modules/battleFunction.js";
 const Control = (props) => {
   const {
     setShowQuestionModal,
@@ -112,6 +112,7 @@ const Control = (props) => {
 export default Control;
 
 const ControlDiv = styled.div`
+display: none;
   width: 300px;
   height: 300px;
   background-color: white;

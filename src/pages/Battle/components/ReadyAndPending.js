@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css, keyframes } from "styled-components";
-import { alreadyUser, setPending } from "../../../redux/modules/battleFunction";
-import effectSound from "../../../shared/effectSound";
+import { alreadyUser, setPending } from "../../../redux/modules/battleFunction.js";
+import effectSound from "../../../shared/effectSound.js";
 import readySound from "../../../audios/ready.mp3";
 
 export const ReadyUser = ({ sendReady }) => {
   const userReady = useSelector((state) => state.battleFunction.already.user);
   const opp = useSelector((state) => state.battleFunction.newOpp);
-  console.log(opp);
   const dispatch = useDispatch();
   const userSound = useSelector((state) => state.user.sound);
   const readyEs = effectSound(readySound, userSound.es);

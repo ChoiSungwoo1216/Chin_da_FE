@@ -2,15 +2,8 @@ import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-java";
-import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/theme-monokai";
-import "ace-builds/src-noconflict/theme-tomorrow";
-import "ace-builds/src-noconflict/theme-kuroir";
-import "ace-builds/src-noconflict/theme-twilight";
-import "ace-builds/src-noconflict/theme-textmate";
-import "ace-builds/src-noconflict/theme-solarized_dark";
-import "ace-builds/src-noconflict/theme-solarized_light";
-import "ace-builds/src-noconflict/theme-terminal";
+
 import "ace-builds/src-noconflict/ext-language_tools";
 
 export const AceEditorPlayer = (props) => {
@@ -34,6 +27,7 @@ export const AceEditorPlayer = (props) => {
         highlightActiveLine={true}
         cursorStart={2}
         setOptions={{
+          useWorker: false,
           enableBasicAutocompletion: true,
           enableLiveAutocompletion: true,
           enableSnippets: true,
@@ -67,6 +61,7 @@ export const AceEditorOpp = (props) => {
         readOnly={true}
         highlightActiveLine={true}
         setOptions={{
+          useWorker: false,
           enableBasicAutocompletion: true,
           enableLiveAutocompletion: true,
           enableSnippets: true,

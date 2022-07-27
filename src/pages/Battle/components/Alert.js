@@ -3,7 +3,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Alert.css";
 import { useSelector, useDispatch } from "react-redux";
-import { setAlert } from "../../../redux/modules/battleFunction";
+import { setAlert } from "../../../redux/modules/battleFunction.js";
 
 const XBtn = ({ closeToast }) => {
   return (

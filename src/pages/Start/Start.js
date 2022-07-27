@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import LoginModal from "./components/LoginModal";
+import LoginModal from "./components/LoginModal.js";
 import styled, { keyframes, css } from "styled-components";
 import "./startAnimation.css";
 import { useSelector } from "react-redux";
-import effectSound from "../../shared/effectSound";
+import effectSound from "../../shared/effectSound.js";
 import selectSound from "../../audios/btnselect.mp3"
 
 const Start = ({ setMMute }) => {
