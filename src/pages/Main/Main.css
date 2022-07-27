@@ -133,6 +133,7 @@ article {
   height: 27vh;
   position: relative;
   bottom: -.1vh;
+  /* bottom: calc((4vw + 4vh) / 6); */
   transition: transform 0.8s;
   transform-style: preserve-3d;
   margin: auto;
@@ -285,4 +286,255 @@ filter: drop-shadow(0px 0px 5px #fff);
   margin: 10px;
   border-radius: 50%;
   border: 1px solid gray
+}
+
+
+.player1 {
+  margin: auto;
+  right: 32vw;
+  position: absolute;
+}
+
+.player1 .CharBody {
+  display: block;
+  top: 15vh;
+  right: -20vw;
+  margin: auto;
+  width: calc((50vh + 50vw) / 4);
+  animation: MovingChar 2s infinite alternate;
+  animation-delay: .4s;
+}
+
+.player1 .CharAni {
+  display: block;
+  position: fixed;
+  top: calc((100vh + 58vw) / 4);
+  left: calc((-74vh + -86vw) / 4);
+  max-width: calc((19vh + 23vw) / 4);
+  animation: MovingAni 0.1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
+  animation-delay: .4s;
+}
+
+.player1 .bullet1 {
+  display: block;
+  position: fixed;
+  top: calc((120vh + 120vw) / 8);
+  right: calc((160vh + 155vw) / 4);
+  width: calc((2vh + 2vw) / 4);
+  height: calc((2vh + 2vw) / 4);
+  background-color: #fff;
+  animation: MovingBullet .5s infinite;
+  animation-delay: .4s;
+}
+
+.player1 .bullet1:nth-child(1) {
+  animation-delay: .2s;
+}
+
+.player1 .bullet1:nth-child(2) {
+  animation-delay: .4s;
+}
+
+.player1 .bullet1:nth-child(3) {
+  animation-delay: .6s;
+}
+
+.player2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  position: fixed;
+}
+
+.player2 .bullet2 {
+  display: block;
+  position: fixed;
+  top: calc((117vh + 117vw) / 8);
+  left: calc((145vh + 144vw) / 4);
+  width: calc((2vh + 2vw) / 4);
+  height: calc((2vh + 2vw) / 4);
+  background-color: #fff;
+  animation: MovingBullet2 .3s infinite;
+  animation-delay: .4s;
+}
+
+.player2 .bullet2:nth-child(1) {
+  animation-delay: .2s;
+}
+
+.player2 .bullet2:nth-child(2) {
+  animation-delay: .4s;
+}
+
+.player2 .bullet2:nth-child(3) {
+  animation-delay: .6s;
+}
+
+.player2 .CharBody0, .CharBody1, .CharBody2, .CharBody3, .CharBody4 {
+  position: absolute;
+  top: 15vh;
+  left: 60vw;
+  width: calc((65vh + 65vw) / 4);
+  height: calc((65vh + 65vw) / 4);
+  animation: MovingChar 2s infinite alternate;
+  animation-delay: .4s;
+}
+
+.player2 .CharAni0 {
+  display: block;
+  position: fixed;
+  top: calc((85vh + 65vw) / 4);
+  left: calc((218vh + 228vw) / 4);
+  max-width: calc((15vh + 15vw) / 4);
+  animation: MovingAni 0.1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
+  animation-delay: .4s;
+}
+
+.player2 .CharAni1 {
+  display: block;
+  position: fixed;
+  top: calc((90vh + 58vw) / 4);
+  left: calc((210vh + 220vw) / 4);
+  max-width: calc((15vh + 15vw) / 4);
+  animation: MovingAni 0.1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
+  animation-delay: .4s;
+}
+
+.player2 .CharAni2 {
+  display: block;
+  position: fixed;
+  top: calc((80vh + 65vw) / 4);
+  left: calc((210vh + 225vw) / 4);
+  max-width: calc((15vh + 15vw) / 4);
+  animation: MovingAni .1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
+  animation-delay: .4s;
+}
+
+.player2 .CharAni3 {
+  display: block;
+  position: fixed;
+  top: calc((68vh + 72vw) / 4);
+  left: calc((216vh + 225vw) / 4);
+  max-width: calc((13vh + 13vw) / 4);
+  filter: drop-shadow(0, 0, 5px, #fff), drop-shadow(0, 0, 7px, #fff), drop-shadow(0, 0, 10px, #fff);
+  animation: MovingAni 0.1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite,
+              MovingChar 2s infinite alternate;
+  animation-delay: .4s;
+}
+
+.player2 .CharAni4 {
+  display: block;
+  position: fixed;
+  top: calc((90vh + 60vw) / 4);
+  left: calc((200vh + 225vw) / 4);
+  max-width: calc((20vh + 20vw) / 4);
+  animation: MovingAni4 .8s ease-in-out infinite;
+  animation-delay: .4s;
+}
+.player2 .light {
+    display: block;
+    position: fixed;
+    top: calc((135vh + 145vw) / 8);
+    left: calc((165vh + 144vw) / 4);
+    width: calc((2vh + 2vw) / 4);
+    height: calc((2vh + 2vw) / 4);
+    background-color: #FFEA2C;
+    filter: drop-shadow(0,0,5px #fff), drop-shadow(0, 0, 10px #fff);
+    animation: MovingLight 1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
+    animation-delay: .4s;
+}
+.player2 .light:nth-child(1) {
+    animation-delay: 2s;
+  }
+.player2 .light:nth-child(2) {
+  animation-delay: .4s;
+  }
+.player2 .light:nth-child(3) {
+  animation-delay: .8s;
+}
+.player2 .light:nth-child(4) {
+  animation-delay: .12s;
+}
+.player2 .light:nth-child(5) {
+  animation-delay: .16s;
+}
+
+
+/* ANIMATIONS _______________ */
+@keyframes MovingChar {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(0, 10px);
+  }
+}
+
+@keyframes MovingAni {
+  0% {
+    transform: translate(0, 5px) scale(1, .8);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translate(0, 0px) scale(1, 1.3);
+    opacity: .8;
+  }
+}
+
+@keyframes MovingAni4 {
+  0% {
+  transform: translate(3px, 0) scale(1.05);
+  opacity: .3;
+  }
+
+  30% {
+  transform: translate(5px, 0) scale(.8, .9);
+  }
+
+  60% {
+  transform: translate(0px, 0) scale(1.05);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(.8, .9);
+    opacity: .4;
+  }
+}
+
+@keyframes MovingBullet {
+  0% {
+    transform: translate(-50px, 0) scale(1, 0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(180px, 0) scale(1, 1);
+    opacity: .5;
+  }
+}
+
+@keyframes MovingBullet2 {
+  0% {
+    transform: translate(250px, 0) scale(1, 0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-50px, 0) scale(1, 1);
+    opacity: .5;
+  }
+}
+
+@keyframes MovingLight {
+  0% {
+    transform: translate(250px, 0) scale(.5, 0);
+    opacity: .8;
+  }
+
+  100% {
+    transform: translate(-50px, 0) scale(.8, 4);
+    opacity: 0;
+  }
 }
