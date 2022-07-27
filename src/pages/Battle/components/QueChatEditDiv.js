@@ -1,9 +1,9 @@
 import React from "react"
 import styled, { css } from "styled-components"
 import {useSelector} from "react-redux";
-import ChatBox from "./ChatBox";
-import { ReadyOpp, OppSubmitPending } from "./ReadyAndPending";
-import { AceEditorOpp } from "./AceEditors";
+import ChatBox from "./ChatBox.js";
+import { ReadyOpp, OppSubmitPending } from "./ReadyAndPending.js";
+import { AceEditorOpp } from "./AceEditors.js";
 
 const QueChatEditDiv = ({ que, roomId, username, gameStart, mode, opCode}) => {
 

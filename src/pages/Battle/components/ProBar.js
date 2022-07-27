@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled, { keyframes, css } from "styled-components";
-import Timer from "./Timer";
+import Timer from "./Timer.js";
 import { useSelector } from "react-redux";
 
 const ProBar = ({ timeOutLose }) => {

@@ -6,12 +6,12 @@ import ConfettiCanvas from "react-confetti-canvas";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./Modals.css";
-import effectSound from "../../../shared/effectSound";
+import effectSound from "../../../shared/effectSound.js";
 import winSound from "../../../audios/WinSE1.mp3";
 import loseSound from "../../../audios/LoseSE1.mp3";
 import win1Sound from "../../../audios/WinSE2.mp3";
 import lose1Sound from "../../../audios/FailSE1.mp3";
-import { gameSwitch, ModalOpen, NewQue } from "../../../redux/modules/battleFunction";
+import { gameSwitch, ModalOpen, NewQue } from "../../../redux/modules/battleFunction.js";
 
 /*QuestionModal*/
 export const QuestionModal = (p) => {

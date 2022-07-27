@@ -6,20 +6,20 @@ import axios from "axios";
 import Modal from "react-modal";
 
 /*COMPONENTS*/
-import Control from "./Control";
+import Control from "./Control.js";
 import {
    QuestionModal,
    SuccessModal,
    FailModal,
    Result,
    GameRuleModal,
-} from "./components/Modals";
-import ProBar from "./components/ProBar";
-import Alert from "./components/Alert";
-import Countdown from "./components/CountDown";
-import HeaderBtn from "./components/HeaderBtn";
-import QueChatEditDiv from "./components/QueChatEditDiv";
-import UserCompoDiv from "./components/UserCompoDiv";
+} from "./components/Modals.js";
+import ProBar from "./components/ProBar.js";
+import Alert from "./components/Alert.js";
+import Countdown from "./components/CountDown.js";
+import HeaderBtn from "./components/HeaderBtn.js";
+import QueChatEditDiv from "./components/QueChatEditDiv.js";
+import UserCompoDiv from "./components/UserCompoDiv.js";
 
 /*AUDIO*/
 import useSound from "../../shared/useSound";
@@ -35,7 +35,7 @@ import newMes from "../../audios/newMessage.mp3";
 //websocket
 import * as StompJS from "stompjs";
 import * as SockJS from "sockjs-client";
-import { addchatlist, deletechatlist } from "../../redux/modules/chatlist";
+import { addchatlist, deletechatlist } from "../../redux/modules/chatlist.js";
 
 import {
    alreadyUser,
@@ -47,12 +47,12 @@ import {
    ModalOpen,
    NewQue,
    NewOp,
-} from "../../redux/modules/battleFunction";
+} from "../../redux/modules/battleFunction.js";
 
 //webRtc
 import Peer from "peerjs";
-import { setPeerId } from "../../redux/modules/user";
-import { OpCam, UserCam } from "./components/PeerCam";
+import { setPeerId } from "../../redux/modules/user.js";
+import { OpCam, UserCam } from "./components/PeerCam.js";
 
 
 Modal.setAppElement("#root");

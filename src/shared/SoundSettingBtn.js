@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
-import SoundSetting from "./SoundSetting"
-import effectSound from "./effectSound"
+import SoundSetting from "./SoundSetting.js"
+import effectSound from "./effectSound.js"
 import hoverSound from "../audios/BtnHoverSE1.mp3"
 import { useSelector } from "react-redux"
 

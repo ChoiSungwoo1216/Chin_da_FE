@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
-import { ReadyUser, UserSubmitPending } from "./ReadyAndPending";
-import { AceEditorPlayer} from "./AceEditors";
+import { ReadyUser, UserSubmitPending } from "./ReadyAndPending.js";
+import { AceEditorPlayer} from "./AceEditors.js";
 
 const UserCompoDiv = ({ gameStart, sendReady, mode, codeRef, onSubmit, trySub}) => {
     return (

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import styled from "styled-components"
-import Tutorial from "./Tutorial"
-import effectSound from "../../shared/effectSound"
+import Tutorial from "./Tutorial.js"
+import effectSound from "../../shared/effectSound.js"
 import hoverSound from "../../audios/BtnHoverSE1.mp3"
 import { useSelector } from "react-redux"
 

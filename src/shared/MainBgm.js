@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import useSound from "./useSound";
+import useSound from "./useSound.js";
 import mainbgm from "../audios/mainTheme.mp3";
 import startbgm from "../audios/main_bgm.mp3"
 

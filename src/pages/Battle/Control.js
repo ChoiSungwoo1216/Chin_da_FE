@@ -9,7 +9,7 @@ import {
   setCountdown,
   setPending,
   ModalOpen,
-} from "../../redux/modules/battleFunction";
+} from "../../redux/modules/battleFunction.js";
 const Control = (props) => {
   const {
     setShowQuestionModal,

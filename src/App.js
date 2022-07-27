@@ -11,7 +11,7 @@ import GitLogin from "./pages/Start/components/GitLogin.js";
 import TutorialBtn from "./pages/Tutorial/TutorialBtn.js";
 import SoundSettingBtn from "./shared/SoundSettingBtn.js";
 
-import { MainB, MainA } from "./shared/MainBgm"
+import { MainB, MainA } from "./shared/MainBgm.js"
 import { useDispatch } from "react-redux";
 import { editsound } from "./redux/modules/user.js";
 

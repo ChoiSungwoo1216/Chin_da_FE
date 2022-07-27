@@ -1,9 +1,9 @@
 import React from "react"
 import styled, { css, keyframes } from "styled-components"
 import {useDispatch, useSelector} from "react-redux";
-import effectSound from '../../../shared/effectSound';
+import effectSound from '../../../shared/effectSound.js';
 import btnSound from '../../../audios/btnselect.mp3';
-import { ModalOpen } from "../../../redux/modules/battleFunction";
+import { ModalOpen } from "../../../redux/modules/battleFunction.js";
 
 const HeaderBtn = ({ BackToMain }) => {
 
