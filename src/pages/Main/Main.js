@@ -57,7 +57,7 @@ export function Main() {
    // console.log('randomImage?', randomImage);
 
    const [refresh, setRefresh] = useState(false);
-
+   const [showBullet, setBullet] = useState(true);
    const userSound = useSelector((state) => state.user.sound);
    const selEs = effectSound(selSound, userSound.es);
    const hoverEs = effectSound(hoverSound, userSound.es);
@@ -180,6 +180,22 @@ export function Main() {
          '/img/Char6.svg',
       ];
 
+   const CharBody = [
+      '/img/Char2Body.svg',
+      '/img/Char3Body.svg',
+      '/img/Char4Body.svg',
+      '/img/Char5Body.svg',
+      '/img/Char6Body.svg',
+   ];
+
+   const CharAni = [
+      '/img/Char2Ani.svg',
+      '/img/Char3Ani.svg',
+      '/img/Char4Ani.svg',
+      '/img/Char5Ani.svg',
+      '/img/Char6Ani.svg',
+   ];
+
    return (
       <>
          <div className="mainContainer">
@@ -223,16 +239,54 @@ export function Main() {
                   </div>
                )}
                <article className="article">
-                  <img id="player1" src="/img/Char1.svg" alt="" />
+                  <div className="player1">
+                     <img
+                        className="player1 CharAni"
+                        src="/img/Char1Ani.svg"
+                        alt=""
+                     />
+                     <div className="player1 bullet1"></div>
+                     <div className="player1 bullet1"></div>
+                     <div className="player1 bullet1"></div>
+                     <img
+                        className="player1 CharBody"
+                        src="/img/Char1Body.svg"
+                        alt=""
+                     />
+                  </div>
                </article>
 
                {user2Info.creatorGameInfo.profileUrl !== '' && (
-                  <img
-                     id="player2"
-                     src={randomImg[user2Info.num]}
-                     alt=""
-                     onError={(e) => (e.target.style.display = 'none')}
-                  />
+               
+                  <div className="player2">
+                     {user2Info.num < 2 && (
+                        <>
+                           <div className="player2 bullet2"></div>
+                           <div className="player2 bullet2"></div>
+                           <div className="player2 bullet2"></div>
+                        </>
+                     )}
+                     {user2Info.num === 4 && (
+                        <>
+                           <div className="player2 light" />
+                           <div className="player2 light" />
+                           <div className="player2 light" />
+                           <div className="player2 light" />
+                           <div className="player2 light" />
+                        </>
+                     )}
+                  
+                     <img
+                        className={`CharAni${user2Info.num}`}
+                        src={CharAni[user2Info.num]}
+                        alt=""
+                     />
+                     <img
+                        className={`CharBody${user2Info.num}`}
+                        src={CharBody[user2Info.num]}
+                        alt=""
+                     />
+                  </div>
                )}
             </main>
 
@@ -277,7 +331,13 @@ export function Main() {
                                     setUser2Info(allUsers[idx]);
                                  }}
                               >
-                                 <Card className="card" randomImg={randomImg} selEs={selEs} item={item} idx={idx}/>
+                                 <Card
+                                    className="card"
+                                    randomImg={randomImg}
+                                    selEs={selEs}
+                                    item={item}
+                                    idx={idx}
+                                 />
                               </div>
                               {/* )} */}
                            </React.Fragment>
