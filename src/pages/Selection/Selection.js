@@ -3,7 +3,6 @@ import styled from "styled-components"
 import Language from "./components/Language";
 import Level from "./components/Level";
 import Room from "./components/Room"
-// import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import effectSound from "../../shared/effectSound";
 import selectSound from "../../audios/btnselect.mp3"

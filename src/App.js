@@ -12,7 +12,7 @@ import TutorialBtn from "./pages/Tutorial/TutorialBtn.js";
 import SoundSettingBtn from "./shared/SoundSettingBtn.js";
 
 import { MainB, MainA } from "./shared/MainBgm"
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { editsound } from "./redux/modules/user.js";
 
 function App() {

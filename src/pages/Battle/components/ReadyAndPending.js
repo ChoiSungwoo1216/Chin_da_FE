@@ -8,7 +8,6 @@ import readySound from "../../../audios/ready.mp3";
 export const ReadyUser = ({ sendReady }) => {
   const userReady = useSelector((state) => state.battleFunction.already.user);
   const opp = useSelector((state) => state.battleFunction.newOpp);
-  console.log(opp);
   const dispatch = useDispatch();
   const userSound = useSelector((state) => state.user.sound);
   const readyEs = effectSound(readySound, userSound.es);

@@ -249,7 +249,7 @@ export const FailModal = ({ setROpen, setResult, setBbmute, setShowFailModal }) 
             setIsOpen(false);
             setROpen(true);
             setResult("LOSE");
-          setShowFailModal(false)
+            setShowFailModal(false)
           }}
           alt=""
         />
@@ -311,7 +311,11 @@ export const Result = (props) => {
               <LetterSlopeAni src={"/img/E.svg"} alt="" />
             </ResultLetterDiv>
           )}
-          <ResultElement>한판 더 하시겠습니까?</ResultElement>
+          <div style={{display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", margin:"0"}}>
+            <ResultElement>한판 더 하시겠습니까?</ResultElement>
+            <h4>게임의 성장을 위해 설문 부탁드립니다!</h4>
+            <Link href="https://youtube.com">설문조사하러가기</Link>
+          </div>
           <ReDiv>
             <ResultBtn
               onClick={() => {
@@ -330,6 +334,20 @@ export const Result = (props) => {
     </>
   );
 };
+
+const Link = styled.a`
+  color : darkred;
+
+&:visited {
+  color : darkgoldenrod;
+}
+&:hover {
+  color : red;
+}
+&:active {
+  color : darkcyan;
+}
+`;
 
 const ResultBackground = styled.div`
   width: 100%;
