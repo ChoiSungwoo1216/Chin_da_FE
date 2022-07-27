@@ -120,14 +120,6 @@ const Battle = (props) => {
       dispatch(setPeerId({ userId: id }));
     });
 
-    peer.on("connection", (conn) => {
-      conn.on('data', function (data) {
-        console.log('Received', data)
-      });
-
-      conn.send(peerId)
-    })
-
     peer.on("call", (call) => {
       let getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
@@ -136,17 +128,15 @@ const Battle = (props) => {
         currentUserVideoRef.current.play();
         call.answer(mediaStream)
         call.on('stream', (remoteStream) => {
-            remoteVideoRef.current.srcObject = remoteStream;
-            let playRemotePromise = remoteVideoRef.current.play();
-            if (playRemotePromise !== undefined) {
-              playRemotePromise
-                .then(_ => { })
-                .catch((error) => {
-                  console.log(error);
-                })
-            }
-          console.log(remoteVideoRef.current)
-          // dispatch(setPeerId({ opId: remoteVideoRef.current }))
+          remoteVideoRef.current.srcObject = remoteStream;
+          let playRemotePromise = remoteVideoRef.current.play();
+          if (playRemotePromise !== undefined) {
+            playRemotePromise
+              .then(_ => { })
+              .catch((error) => {
+                console.log(error);
+              })
+          }
         });
       })
     })
@@ -175,8 +165,6 @@ const Battle = (props) => {
       call.on("stream", (remoteStream) => {
         remoteVideoRef.current.srcObject = remoteStream;
         remoteVideoRef.current.play();
-        console.log(remoteVideoRef.current)
-        // dispatch(setPeerId({ opId: remoteVideoRef.current }))
       });
     });
   };
@@ -438,7 +426,7 @@ const Battle = (props) => {
       })
     );
   };
-
+  const forPeer = useRef(0);
   //Receive CallBack Function
   const ReceiveFunc = (message) => {
     if (message.body) {
@@ -459,8 +447,11 @@ const Battle = (props) => {
                 opId: mes.id,
               })
             );
+            if(forPeer.current <1){
+              forPeer.current++;
+              EnterSend();
+            }
           }
-          call(mes.id);
           break;
         case "TALK":
           dispatch(
@@ -486,6 +477,7 @@ const Battle = (props) => {
               })
             );
           }
+          forPeer.current = 0;
           break;
         default:
       }
