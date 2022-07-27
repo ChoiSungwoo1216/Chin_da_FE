@@ -416,6 +416,7 @@ const Battle = (props) => {
   };
 
   const ExitSend = () => {
+    forPeer.current = 0;
     clientChat.send(
       `/pub/chat/message`,
       {},
@@ -434,23 +435,28 @@ const Battle = (props) => {
       const mes = JSON.parse(message.body);
       switch (mes.type) {
         case "ENTER":
-          dispatch(
-            addchatlist({
-              type: mes.type,
-              message: mes.message,
-              sender: mes.sender,
-            })
-          );
-          if (mes.sender !== username) {
+          if ((mes.sender !== username) && (forPeer.current === 0)) {
             dispatch(
-              setPeerId({
-                opId: mes.id,
+              addchatlist({
+                type: mes.type,
+                message: mes.message,
+                sender: mes.sender,
               })
             );
-            if(forPeer.current <1){
+          }
+          if (mes.sender !== username) {
+            if (remotePeerIdValue !== mes.id) {
+              dispatch(
+                setPeerId({
+                  opId: mes.id,
+                })
+              );
+            }
+            if (forPeer.current < 1) {
               forPeer.current++;
               EnterSend();
             }
+
           }
           break;
         case "TALK":
