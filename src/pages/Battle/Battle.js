@@ -364,7 +364,7 @@ const Battle = (props) => {
    // Chat server connect Callback Function
    const onConnect = () => {
       clientChat.subscribe(`/sub/chat/room/${roomId}`, ReceiveFunc);
-      setTimeout(() => { EnterSend(); }, 1000);
+      setTimeout(() => { EnterSend(); }, 1500);
    };
 
    //Chatting Message Send

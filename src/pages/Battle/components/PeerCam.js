@@ -69,9 +69,9 @@ export const OpCam = ({ camEs, call, remoteVideoRef, remotePeerIdValue }) => {
 
     const [opCamSlide, setOpCamSlide] = useState(true);
     // const [reConOn, setReConOn] = useState(true)
-    useEffect(() => {
-        call(remotePeerIdValue);
-    }, [remotePeerIdValue])
+    // useEffect(() => {
+    //     call(remotePeerIdValue);
+    // }, [remotePeerIdValue])
     // const connectPeer = () => {
     //     camEs.play();
     //     if (reConOn === true) {
