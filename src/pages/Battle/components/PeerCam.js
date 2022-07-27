@@ -4,48 +4,30 @@ import styled from "styled-components"
 export const UserCam = ({ camEs, call, currentUserVideoRef, remotePeerIdValue }) => {
     const [userCamSlide, setUserCamSlide] = useState(true);
     // const [reConOn, setReConOn] = useState(true)
-    useEffect(() => {
-        call(currentUserVideoRef);
-    }, [])
+
     const openUserCam = () => {
         camEs.play();
         if (userCamSlide === true) {
             setUserCamSlide(false);
         } else {
-            call(currentUserVideoRef);
             setUserCamSlide(true);
+            call(currentUserVideoRef);
         }
     };
-
-    // const connectPeer = () => {
-    //     camEs.play();
-    //     if (reConOn === true) {
-    //         setReConOn(false);
-    //         peer.disconnect();
-    //     } else {
-    //         setReConOn(true);
-    //         peer.reconnect();
-    //     }
-    // }
 
     return (
         <UserCamDiv>
             <CamBar>
                 <span>Player1</span>
-                {/* <CamIcon
+                <CamIcon
                     src={
-                        reConOn === true
-                        // userCamSlide === true
+                        userCamSlide === true
                             ? "/img/cam_icon.svg"
                             : "/img/cam_double_cross.svg"
                     }
                     alt=""
-                    onClick={connectPeer}
-                    // onClick={openUserCam}
-                /> */}
-                {userCamSlide === true ? <span
-                    onClick={openUserCam}>▼</span> : <span
-                        onClick={openUserCam}>▬</span>}
+                    onClick={openUserCam}
+                />
             </CamBar>
             {userCamSlide && (
                 <Cam>
@@ -68,27 +50,14 @@ export const UserCam = ({ camEs, call, currentUserVideoRef, remotePeerIdValue })
 export const OpCam = ({ camEs, call, remoteVideoRef, remotePeerIdValue }) => {
 
     const [opCamSlide, setOpCamSlide] = useState(true);
-    // const [reConOn, setReConOn] = useState(true)
-    // useEffect(() => {
-    //     call(remotePeerIdValue);
-    // }, [remotePeerIdValue])
-    // const connectPeer = () => {
-    //     camEs.play();
-    //     if (reConOn === true) {
-    //         setReConOn(false);
-    //         peer.disconnect();
-    //     } else {
-    //         setReConOn(true);
-    //         peer.reconnect();
-    //     }
-    // }
 
-    useEffect(()=>{
+    useEffect(() => {
         CheckOp();
-    },[remotePeerIdValue])
+        call(remoteVideoRef);
+    }, [remotePeerIdValue])
 
-    const CheckOp = () =>{
-        if (remotePeerIdValue === "" || remotePeerIdValue === undefined || remotePeerIdValue === null){
+    const CheckOp = () => {
+        if (remotePeerIdValue === "" || remotePeerIdValue === undefined || remotePeerIdValue === null) {
             setOpCamSlide(false);
         } else {
             setOpCamSlide(true);
@@ -108,18 +77,15 @@ export const OpCam = ({ camEs, call, remoteVideoRef, remotePeerIdValue }) => {
         <OpCamDiv>
             <CamBar>
                 <span>Player2</span>
-                {/* <CamIcon
+                <CamIcon
                     src={
-                        // reConOn === true
                         opCamSlide === true
                             ? "/img/cam_icon.svg"
                             : "/img/cam_double_cross.svg"
                     }
                     alt=""
-                    // onClick={connectPeer}
                     onClick={openOpCam}
-                /> */}
-                {opCamSlide === true ? <span onClick={openOpCam}>▼</span> : <span onClick={openOpCam}>▬</span>}
+                />
             </CamBar>
             {opCamSlide && (
                 <Cam>
@@ -162,7 +128,7 @@ const CamBar = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 14%;
+  gap: 30%;
   width: 85%;
   height: 18%;
   background-color: #5777ce;
@@ -172,13 +138,13 @@ const CamBar = styled.div`
   border: 3px solid black;
 `;
 
-// const CamIcon = styled.img`
-//   width: calc((2vh + 2vw) / 2);
-//   height: calc((2vh + 2vw) / 2);
-//   &:hover {
-//     content: url("/img/cam_cross.svg");
-//   }
-// `;
+const CamIcon = styled.img`
+  width: calc((2vh + 2vw) / 2);
+  height: calc((2vh + 2vw) / 2);
+  &:hover {
+    content: url("/img/cam_cross.svg");
+  }
+`;
 
 const Cam = styled.div`
   display: flex;

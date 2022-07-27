@@ -120,24 +120,33 @@ const Battle = (props) => {
       dispatch(setPeerId({ userId: id }));
     });
 
+    peer.on("connection", (conn) => {
+      conn.on('data', function (data) {
+        console.log('Received', data)
+      });
+
+      conn.send(peerId)
+    })
+
     peer.on("call", (call) => {
-      var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+      let getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
       getUserMedia({/*audio: true,*/ video: true }, (mediaStream) => {
         currentUserVideoRef.current.srcObject = mediaStream;
         currentUserVideoRef.current.play();
         call.answer(mediaStream)
         call.on('stream', (remoteStream) => {
-          remoteVideoRef.current.srcObject = remoteStream;
-          let playRemotePromise = remoteVideoRef.current.play();
-          if (playRemotePromise !== undefined) {
-            playRemotePromise
-              .then(_ => { })
-              .catch((error) => {
-                console.log(error);
-              })
-          }
-          dispatch(setPeerId({ opId: remoteVideoRef.current }))
+            remoteVideoRef.current.srcObject = remoteStream;
+            let playRemotePromise = remoteVideoRef.current.play();
+            if (playRemotePromise !== undefined) {
+              playRemotePromise
+                .then(_ => { })
+                .catch((error) => {
+                  console.log(error);
+                })
+            }
+          console.log(remoteVideoRef.current)
+          // dispatch(setPeerId({ opId: remoteVideoRef.current }))
         });
       })
     })
@@ -147,7 +156,7 @@ const Battle = (props) => {
 
   //Peer call function
   const call = (remotePeerId) => {
-    var getUserMedia =
+    let getUserMedia =
       navigator.getUserMedia ||
       navigator.webkitGetUserMedia ||
       navigator.mozGetUserMedia;
@@ -166,6 +175,8 @@ const Battle = (props) => {
       call.on("stream", (remoteStream) => {
         remoteVideoRef.current.srcObject = remoteStream;
         remoteVideoRef.current.play();
+        console.log(remoteVideoRef.current)
+        // dispatch(setPeerId({ opId: remoteVideoRef.current }))
       });
     });
   };
@@ -185,12 +196,18 @@ const Battle = (props) => {
   const que = useSelector((state) => state.battleFunction.queList);
   const opCode = useRef();
   const codeRef = useRef("");
-
+  const [checkCon, setCheckCon] = useState(false);
+  const connectOk = () => {
+    setCheckCon(true);
+  }
   // WebSocket Server connect UseEffect
   React.useEffect(() => {
     if (roomId !== undefined) {
-      connect();
-      Chatconnect();
+      if (checkCon === false) {
+        connect();
+        Chatconnect();
+        connectOk();
+      }
       dispatch(alreadyUser({ user: false, opp: false }));
       return () => {
         // when disconnecting to game and chatting server
@@ -443,6 +460,7 @@ const Battle = (props) => {
               })
             );
           }
+          call(mes.id);
           break;
         case "TALK":
           dispatch(
