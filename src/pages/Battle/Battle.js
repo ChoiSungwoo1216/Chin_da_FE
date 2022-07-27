@@ -129,7 +129,15 @@ const Battle = (props) => {
         call.answer(mediaStream)
         call.on('stream', (remoteStream) => {
           remoteVideoRef.current.srcObject = remoteStream;
-          remoteVideoRef.current.play();
+          let playRemotePromise = remoteVideoRef.current.play();
+          if (playRemotePromise !== undefined) {
+            playRemotePromise
+              .then(_ => { })
+              .catch((error) => {
+                console.log(error);
+              })
+          }
+          dispatch(setPeerId({ opId: remoteVideoRef.current }))
         });
       })
     })
