@@ -1,22 +1,24 @@
-import React from "react"
-import styled from "styled-components"
+import React from "react";
+import styled from "styled-components";
 import { ReadyUser, UserSubmitPending } from "./ReadyAndPending.js";
-import { AceEditorPlayer} from "./AceEditors.js";
+import { AceEditorPlayer } from "./AceEditors.js";
+import { useSelector } from "react-redux";
 
-const UserCompoDiv = ({ gameStart, sendReady, mode, codeRef, onSubmit, trySub}) => {
-    return (
-        <>
-            {gameStart === false ? <ReadyUser sendReady={sendReady} /> : null}
-            <UserSubmitPending />
-            <AceEditorPlayer mode={mode} codeRef={codeRef}></AceEditorPlayer>
-            <SubmitBtn onClick={() => onSubmit()}>
-                제&nbsp;&nbsp;&nbsp;&nbsp;출&nbsp;&nbsp;{trySub}&nbsp;/&nbsp;3
-            </SubmitBtn>
-        </>
-    )
-}
+const UserCompoDiv = ({ gameStart, sendReady, mode, codeRef, onSubmit }) => {
+  const trySub = useSelector((state) => state.battleFunction.trySub);
+  return (
+    <>
+      {gameStart === false ? <ReadyUser sendReady={sendReady} /> : null}
+      <UserSubmitPending />
+      <AceEditorPlayer mode={mode} codeRef={codeRef}></AceEditorPlayer>
+      <SubmitBtn onClick={() => onSubmit()}>
+        제&nbsp;&nbsp;&nbsp;&nbsp;출&nbsp;&nbsp;{trySub}&nbsp;/&nbsp;3
+      </SubmitBtn>
+    </>
+  );
+};
 
-export default UserCompoDiv
+export default UserCompoDiv;
 
 const SubmitBtn = styled.button`
   width: 100%;

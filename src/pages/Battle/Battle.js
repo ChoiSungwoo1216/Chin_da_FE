@@ -47,6 +47,7 @@ import {
   ModalOpen,
   NewQue,
   NewOp,
+  setTrySub,
 } from "../../redux/modules/battleFunction.js";
 
 //webRtc
@@ -121,25 +122,28 @@ const Battle = (props) => {
     });
 
     peer.on("call", (call) => {
-      let getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+      let getUserMedia =
+        navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia;
 
-      getUserMedia({/*audio: true,*/ video: true }, (mediaStream) => {
+      getUserMedia({ /*audio: true,*/ video: true }, (mediaStream) => {
         currentUserVideoRef.current.srcObject = mediaStream;
         currentUserVideoRef.current.play();
-        call.answer(mediaStream)
-        call.on('stream', (remoteStream) => {
+        call.answer(mediaStream);
+        call.on("stream", (remoteStream) => {
           remoteVideoRef.current.srcObject = remoteStream;
           let playRemotePromise = remoteVideoRef.current.play();
           if (playRemotePromise !== undefined) {
             playRemotePromise
-              .then(_ => { })
+              .then((_) => {})
               .catch((error) => {
                 console.log(error);
-              })
+              });
           }
         });
-      })
-    })
+      });
+    });
 
     peerInstance.current = peer;
   }, [roomId]);
@@ -156,7 +160,7 @@ const Battle = (props) => {
       let playPromise = currentUserVideoRef.current.play();
       if (playPromise !== undefined) {
         playPromise
-          .then(_ => { })
+          .then((_) => {})
           .catch((error) => {
             console.log(error);
           });
@@ -170,7 +174,7 @@ const Battle = (props) => {
   };
 
   useEffect(() => {
-    console.log("연결", remotePeerIdValue)
+    console.log("연결", remotePeerIdValue);
     call(remotePeerIdValue);
   }, [remotePeerIdValue]);
 
@@ -187,7 +191,7 @@ const Battle = (props) => {
   const [checkCon, setCheckCon] = useState(false);
   const connectOk = () => {
     setCheckCon(true);
-  }
+  };
   // WebSocket Server connect UseEffect
   React.useEffect(() => {
     if (roomId !== undefined) {
@@ -435,7 +439,7 @@ const Battle = (props) => {
       const mes = JSON.parse(message.body);
       switch (mes.type) {
         case "ENTER":
-          if ((mes.sender !== username) && (forPeer.current === 0)) {
+          if (mes.sender !== username && forPeer.current === 0) {
             dispatch(
               addchatlist({
                 type: mes.type,
@@ -456,7 +460,6 @@ const Battle = (props) => {
               forPeer.current++;
               EnterSend();
             }
-
           }
           break;
         case "TALK":
@@ -493,7 +496,7 @@ const Battle = (props) => {
   };
 
   //Submit
-  const [trySub, setTrySub] = useState(3);
+  const trySub = useSelector((state) => state.battleFunction.trySub);
   const axiosSubmit = () => {
     axios({
       url: "/api/compile",
@@ -514,11 +517,12 @@ const Battle = (props) => {
         if (res.data.result === true) {
           setShowSuccessModal(true);
         } else {
-          setTrySub(trySub - 1);
           if (trySub === 1) {
+            dispatch(setTrySub(-1));
             compileFailedLose();
             setTimeout(() => setShowFailModal(true), 500);
           } else {
+            dispatch(setTrySub(-1));
             resAlert(res.data.msg);
             failEs.play();
           }
@@ -613,7 +617,6 @@ const Battle = (props) => {
             mode={mode}
             codeRef={codeRef}
             onSubmit={onSubmit}
-            trySub={trySub}
           />
           <UserCam
             camEs={camEs}
@@ -666,7 +669,6 @@ const Battle = (props) => {
           setROpen={setROpen}
           result={result}
           setMbmute={setMbmute}
-          setTrySub={setTrySub}
           codeRef={codeRef}
           opCode={opCode}
         />

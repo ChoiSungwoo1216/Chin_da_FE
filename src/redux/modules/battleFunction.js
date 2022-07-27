@@ -24,6 +24,8 @@ const QUE = "que/QUE";
 
 const OPP = "opp/OPP";
 
+const TRY = "try/TRY";
+
 const initialState = {
   already: { user: false, opp: false },
   gameStatus: false,
@@ -36,6 +38,7 @@ const initialState = {
   modalOpen: { chat: true, que: false, rule: true },
   queList: { question: "", questionTitle: "", questionId: "" },
   newOpp: undefined,
+  trySub: 3,
 };
 
 // Action Creators
@@ -82,6 +85,10 @@ export function NewQue(user) {
 
 export function NewOp(str) {
   return { type: OPP, str };
+}
+
+export function setTrySub(int) {
+  return { type: TRY, int };
 }
 
 // Reducer
@@ -136,6 +143,9 @@ export default function reducer(state = initialState, action = {}) {
 
     case OPP: {
       return { ...state, newOpp: action.str };
+    }
+    case TRY: {
+      return { ...state, trySub: state.trySub + action.int };
     }
     default:
       return state;
