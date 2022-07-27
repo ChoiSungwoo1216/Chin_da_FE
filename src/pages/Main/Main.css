@@ -442,10 +442,9 @@ filter: drop-shadow(0px 0px 5px #fff);
     background-color: #FFEA2C;
     filter: drop-shadow(0,0,5px #fff), drop-shadow(0, 0, 10px #fff);
     animation: MovingLight 1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
-    animation-delay: .4s;
 }
 .player2 .light:nth-child(1) {
-    animation-delay: 2s;
+    animation-delay: .2s;
   }
 .player2 .light:nth-child(2) {
   animation-delay: .4s;
