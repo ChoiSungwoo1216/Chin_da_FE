@@ -120,6 +120,20 @@ const Battle = (props) => {
       dispatch(setPeerId({ userId: id }));
     });
 
+    peer.on("call", (call) => {
+      var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+      getUserMedia({/*audio: true,*/ video: true }, (mediaStream) => {
+        currentUserVideoRef.current.srcObject = mediaStream;
+        currentUserVideoRef.current.play();
+        call.answer(mediaStream)
+        call.on('stream', (remoteStream) => {
+          remoteVideoRef.current.srcObject = remoteStream;
+          remoteVideoRef.current.play();
+        });
+      })
+    })
+    
     peerInstance.current = peer;
   }, [roomId]);
 
@@ -370,7 +384,7 @@ const Battle = (props) => {
     clientChat.subscribe(`/sub/chat/room/${roomId}`, ReceiveFunc);
     setTimeout(() => {
       EnterSend();
-    }, 1000);
+    }, 2000);
   };
 
   //Chatting Message Send
