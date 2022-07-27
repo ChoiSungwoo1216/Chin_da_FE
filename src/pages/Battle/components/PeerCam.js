@@ -82,6 +82,19 @@ export const OpCam = ({ camEs, call, remoteVideoRef, remotePeerIdValue }) => {
     //         peer.reconnect();
     //     }
     // }
+
+    useEffect(()=>{
+        CheckOp();
+    },[remotePeerIdValue])
+
+    const CheckOp = () =>{
+        if (remotePeerIdValue === "" || remotePeerIdValue === undefined || remotePeerIdValue === null){
+            setOpCamSlide(false);
+        } else {
+            setOpCamSlide(true);
+        }
+    }
+
     const openOpCam = () => {
         camEs.play();
         if (opCamSlide) {
@@ -140,6 +153,7 @@ const OpCamDiv = styled.div`
   position: absolute;
   right: -2.6%;
   top: 8.9vh;
+  z-index: 5;
   height: 22.6vh;
   width: 14vw;
 `;

@@ -133,7 +133,7 @@ const Battle = (props) => {
         });
       })
     })
-    
+
     peerInstance.current = peer;
   }, [roomId]);
 
@@ -149,7 +149,7 @@ const Battle = (props) => {
       let playPromise = currentUserVideoRef.current.play();
       if (playPromise !== undefined) {
         playPromise
-          .then((_) => {})
+          .then(_ => { })
           .catch((error) => {
             console.log(error);
           });
@@ -163,6 +163,7 @@ const Battle = (props) => {
   };
 
   useEffect(() => {
+    console.log("연결", remotePeerIdValue)
     call(remotePeerIdValue);
   }, [remotePeerIdValue]);
 
