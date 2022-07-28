@@ -57,7 +57,8 @@ const QueDiv = styled.div`
       `;
     }
   }}
-  margin-bottom: 2vh;
+  margin-top: 0.5vh;
+  margin-bottom: 1vh;
   border-radius: 5px;
   border-right: 6px solid #a0935c;
   border-left: 6px solid #fffae3;
@@ -167,7 +168,7 @@ const CodeDiv = styled.div`
       `;
     } else {
       return css`
-        height: 100%;
+        height: 99%;
       `;
     }
   }}

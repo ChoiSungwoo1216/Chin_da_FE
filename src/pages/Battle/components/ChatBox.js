@@ -122,19 +122,15 @@ const ChatInputDiv = styled.div`
   display: flex;
   position: relative;
   align-items: center;
-  width: 100.5%;
+  width: calc(100% - 8px);
   height: 20%;
-  margin-right: 0;
-  margin-top: 0;
+  margin: 0;
   padding: 0;
   background-color: #5777ce;
   border-bottom: 4px solid #c0cfff;
   border-left: 4px solid #c0cfff;
   border-right: 4px solid #c0cfff;
   border-top: 4px solid black;
-  border-radius: 5px;
-  /* outline: 1px solid red; */
-margin-left: -0.5vw;
 `;
 const ChatInput = styled.input`
   width: 85%;
