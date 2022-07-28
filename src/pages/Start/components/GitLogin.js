@@ -79,7 +79,7 @@ const Gitimage = styled.div`
   left: 40%;
   border-radius: 100%;
   position: absolute;
-  background: url("/img/githubLogo.png") center no-repeat;
+  background: url("/img/github_logo.svg") center no-repeat;
   background-size: cover;
   animation: none;
 `;

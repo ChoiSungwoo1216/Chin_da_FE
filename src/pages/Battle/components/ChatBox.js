@@ -77,8 +77,9 @@ const ChatBox = (props) => {
   );
 };
 const ChatBoxDiv = styled.div`
-  width: 100%;
+  width: calc(100% - 6px);
   height: 80%;
+  max-height:25vh;
   margin-bottom: 2vh;
   border-radius: 5px;
   border-right: 6px solid #a0935c;
@@ -94,15 +95,17 @@ const ChattingDiv = styled.div`
   width: 100%;
   height: 76%;
   margin: 0;
+  
 `;
 
 const SingleMes = styled.div`
   display: flex;
   flex-direction: row;
-  width: 97%;
+  width: 100%;
   border-radius: 5px;
   align-items: center;
   margin: 0.2vh 0.4vw;
+  
   padding: 5px;
   &:hover {
     background-color: grey;
@@ -117,11 +120,12 @@ const SingleMesInfo = styled.div`
 
 const ChatInputDiv = styled.div`
   display: flex;
+  position: relative;
   align-items: center;
   width: 100.5%;
   height: 20%;
-  margin-left: -0.3vw;
-  margin-top: 0.4vh;
+  margin-right: 0;
+  margin-top: 0;
   padding: 0;
   background-color: #5777ce;
   border-bottom: 4px solid #c0cfff;
@@ -129,6 +133,8 @@ const ChatInputDiv = styled.div`
   border-right: 4px solid #c0cfff;
   border-top: 4px solid black;
   border-radius: 5px;
+  /* outline: 1px solid red; */
+margin-left: -0.5vw;
 `;
 const ChatInput = styled.input`
   width: 85%;

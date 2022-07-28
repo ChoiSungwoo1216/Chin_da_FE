@@ -336,7 +336,9 @@ export const Result = (props) => {
           >
             <ResultElement>한판 더 하시겠습니까?</ResultElement>
             <h4>게임의 성장을 위해 설문 부탁드립니다!</h4>
-            <Link href="https://youtube.com">설문조사하러가기</Link>
+            <Link href="https://forms.gle/T3b1j35AW4bcsMJT7" target="_blank">
+              설문조사하러가기
+            </Link>
           </div>
           <ReDiv>
             <ResultBtn

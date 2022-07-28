@@ -9,7 +9,7 @@ import {
   setCountdown,
   setPending,
   ModalOpen,
-  setTrySub
+  setTrySub,
 } from "../../redux/modules/battleFunction.js";
 const Control = (props) => {
   const {
@@ -33,7 +33,7 @@ const Control = (props) => {
       setShowQuestionModal(true);
       dispatch(alreadyUser({ user: false, opp: false }));
       clearInterval(countdown);
-      dispatch(ModalOpen({chat: false, que : true}))
+      dispatch(ModalOpen({ chat: false, que: true }));
       setBbmute(false);
     }, 3150);
     return () => clearInterval(countdown);
@@ -53,8 +53,8 @@ const Control = (props) => {
   };
 
   const trySubReset = () => {
-   gameStatus === false && dispatch(setTrySub(3))
-  }
+    gameStatus === false && dispatch(setTrySub(3));
+  };
 
   useEffect(() => {
     alreadyToStart();
@@ -118,7 +118,7 @@ const Control = (props) => {
 export default Control;
 
 const ControlDiv = styled.div`
-display: none;
+  display: block;
   width: 300px;
   height: 300px;
   background-color: white;
