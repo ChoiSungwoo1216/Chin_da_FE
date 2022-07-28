@@ -63,19 +63,19 @@ export default HeaderBtn
 
 const BattleBtnAni = keyframes`
 0% {
-  transform: translateY(0);
+  transform: translateY(-10px);
 }
 25%{
-  transform: translateY(-5px);
+  transform: translateY(-15px);
 }
 50%{
-  transform: translateY(0);
+  transform: translateY(-10px);
 }
 75%{
-  transform: translateY(5px);
+  transform: translateY(-5px);
 }
 100% {
-  transform: translateY(0px);
+  transform: translateY(-10px);
 }
 `;
 
