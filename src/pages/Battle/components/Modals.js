@@ -11,13 +11,18 @@ import winSound from "../../../audios/WinSE1.mp3";
 import loseSound from "../../../audios/LoseSE1.mp3";
 import win1Sound from "../../../audios/WinSE2.mp3";
 import lose1Sound from "../../../audios/FailSE1.mp3";
-import { gameSwitch, ModalOpen, NewQue } from "../../../redux/modules/battleFunction.js";
+import {
+  gameSwitch,
+  ModalOpen,
+  NewQue,
+  setTrySub,
+} from "../../../redux/modules/battleFunction.js";
 
 /*QuestionModal*/
 export const QuestionModal = (p) => {
   const setClose = p.setValue;
   const que = p.que;
-  console.log("Modal", que)
+  console.log("Modal", que);
   const [modalIsOpen, setIsOpen] = React.useState(true);
   const customModalStyles = {
     overlay: {
@@ -131,7 +136,12 @@ export const GameRuleModal = ({ ModalOpen, modal }) => {
 };
 
 /*SuccessModal*/
-export const SuccessModal = ({ setROpen, setResult, setBbmute, setShowSuccessModal }) => {
+export const SuccessModal = ({
+  setROpen,
+  setResult,
+  setBbmute,
+  setShowSuccessModal,
+}) => {
   const userSound = useSelector((state) => state.user.sound);
   const winEs = effectSound(winSound, userSound.es);
   const dispatch = useDispatch();
@@ -163,7 +173,7 @@ export const SuccessModal = ({ setROpen, setResult, setBbmute, setShowSuccessMod
           setIsOpen(false);
           setROpen(true);
           setResult("WIN");
-          setShowSuccessModal(false)
+          setShowSuccessModal(false);
         }}
         style={customModalStyles}
       >
@@ -172,7 +182,7 @@ export const SuccessModal = ({ setROpen, setResult, setBbmute, setShowSuccessMod
           src="/img/X_btn_black_30.svg"
           onClick={() => {
             setIsOpen(false);
-            setShowSuccessModal(false)
+            setShowSuccessModal(false);
             setROpen(true);
             setResult("WIN");
           }}
@@ -191,7 +201,12 @@ export const SuccessModal = ({ setROpen, setResult, setBbmute, setShowSuccessMod
 };
 
 /*FailModal*/
-export const FailModal = ({ setROpen, setResult, setBbmute, setShowFailModal }) => {
+export const FailModal = ({
+  setROpen,
+  setResult,
+  setBbmute,
+  setShowFailModal,
+}) => {
   const userSound = useSelector((state) => state.user.sound);
   const loseEs = effectSound(loseSound, userSound.es);
   const dispatch = useDispatch();
@@ -206,7 +221,6 @@ export const FailModal = ({ setROpen, setResult, setBbmute, setShowFailModal }) 
   const [modalIsOpen, setIsOpen] = React.useState(true);
   const confetti = new JSConfetti();
   const confettiList = () => {
-
     confetti.addConfetti({
       emojis: ["😭", "😥"],
       emojiSize: 60,
@@ -238,7 +252,7 @@ export const FailModal = ({ setROpen, setResult, setBbmute, setShowFailModal }) 
         onRequestClose={() => {
           setIsOpen(false);
           setROpen(true);
-          setShowFailModal(false)
+          setShowFailModal(false);
         }}
         style={customModalStyles}
       >
@@ -249,7 +263,7 @@ export const FailModal = ({ setROpen, setResult, setBbmute, setShowFailModal }) 
             setIsOpen(false);
             setROpen(true);
             setResult("LOSE");
-            setShowFailModal(false)
+            setShowFailModal(false);
           }}
           alt=""
         />
@@ -269,7 +283,7 @@ export const Result = (props) => {
   const userSound = useSelector((state) => state.user.sound);
   const winEs = effectSound(win1Sound, userSound.es);
   const loseEs = effectSound(lose1Sound, userSound.es);
-  const { setROpen, setMbmute, setTrySub, codeRef, opCode } = props;
+  const { setROpen, setMbmute, codeRef, opCode } = props;
   const result = props.result;
   const dispatch = useDispatch();
   React.useEffect(() => {
@@ -278,9 +292,9 @@ export const Result = (props) => {
     } else {
       loseEs.play();
     }
-    dispatch(gameSwitch({ gameStart: false }))
-    dispatch(ModalOpen({ chat: true, que: false }))
-    dispatch(NewQue({ question: "", questionTitle: "", template: "" }))
+    dispatch(gameSwitch({ gameStart: false }));
+    dispatch(ModalOpen({ chat: true, que: false }));
+    dispatch(NewQue({ question: "", questionTitle: "", template: "" }));
     codeRef.current = "";
     opCode.current = "";
   }, []);
@@ -311,7 +325,15 @@ export const Result = (props) => {
               <LetterSlopeAni src={"/img/E.svg"} alt="" />
             </ResultLetterDiv>
           )}
-          <div style={{display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", margin:"0"}}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              margin: "0",
+            }}
+          >
             <ResultElement>한판 더 하시겠습니까?</ResultElement>
             <h4>게임의 성장을 위해 설문 부탁드립니다!</h4>
             <Link href="https://youtube.com">설문조사하러가기</Link>
@@ -322,7 +344,7 @@ export const Result = (props) => {
                 setROpen(false);
                 setMbmute(false);
                 dispatch(gameSwitch(false));
-                setTrySub(3);
+                dispatch(setTrySub(3));
               }}
             >
               Yes
@@ -336,17 +358,17 @@ export const Result = (props) => {
 };
 
 const Link = styled.a`
-  color : darkred;
+  color: darkred;
 
-&:visited {
-  color : darkgoldenrod;
-}
-&:hover {
-  color : red;
-}
-&:active {
-  color : darkcyan;
-}
+  &:visited {
+    color: darkgoldenrod;
+  }
+  &:hover {
+    color: red;
+  }
+  &:active {
+    color: darkcyan;
+  }
 `;
 
 const ResultBackground = styled.div`
