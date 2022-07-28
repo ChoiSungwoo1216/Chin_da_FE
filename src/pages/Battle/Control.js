@@ -9,6 +9,7 @@ import {
   setCountdown,
   setPending,
   ModalOpen,
+  setTrySub
 } from "../../redux/modules/battleFunction.js";
 const Control = (props) => {
   const {
@@ -47,16 +48,21 @@ const Control = (props) => {
     already.user && already.opp === true && dispatch(gameSwitch(true));
   };
 
-  const gameStart = () => {
+  const gameStartTrue = () => {
     gameStatus === true && onCountdown();
   };
+
+  const trySubReset = () => {
+   gameStatus === false && dispatch(setTrySub(3))
+  }
 
   useEffect(() => {
     alreadyToStart();
   }, [already]);
 
   useEffect(() => {
-    gameStart();
+    gameStartTrue();
+    trySubReset();
   }, [gameStatus]);
 
   const ReReady = () => {
