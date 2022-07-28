@@ -743,7 +743,7 @@ const BtnDiv = styled.div`
   justify-content: space-evenly;
   height: 100%;
   width: 45.125vw;
-  border: 1px solid red;
+  /* border: 1px solid red; */
 `;
 
 const BodyPart = styled.div`
@@ -769,7 +769,7 @@ const OpponentDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 105%;
+  height: 102.5%;
   width: 45.125vw;
   margin: 0;
   padding: 0;
