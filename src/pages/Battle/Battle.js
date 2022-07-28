@@ -137,32 +137,16 @@ const Battle = (props) => {
       dispatch(setPeerId({ userId: id }));
     });
 
-    // peer.on("call", (call) => {
-    //   let getUserMedia =
-    //     navigator.getUserMedia ||
-    //     navigator.webkitGetUserMedia ||
-    //     navigator.mozGetUserMedia;
+    peer.on("call", (call) => {
+      let getUserMedia =
+        navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia;
 
-    //   getUserMedia({ /*audio: true,*/ video: true }, (mediaStream) => {
-    //     currentUserVideoRef.current.srcObject = mediaStream;
-    //     currentUserVideoRef.current.play();
-    //     if (!remoteVideoRef){
-    //       return;
-    //     }
-    //     call.answer(mediaStream);
-    //     call.on("stream", (remoteStream) => {
-    //       remoteVideoRef.current.srcObject = remoteStream;
-    //       let playRemotePromise = remoteVideoRef.current.play();
-    //       if (playRemotePromise !== undefined) {
-    //         playRemotePromise
-    //           .then((_) => {})
-    //           .catch((error) => {
-    //             console.log(error);
-    //           });
-    //       }
-    //     });
-    //   });
-    // });
+      getUserMedia({ /*audio: true,*/ video: true }, (mediaStream) => {
+        call.answer(mediaStream);
+      });
+    });
 
     peerInstance.current = peer;
   }, []);
