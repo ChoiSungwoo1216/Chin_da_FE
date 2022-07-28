@@ -43,6 +43,7 @@ const SoundSetting = (props) => {
   };
 
   const token = sessionStorage.getItem("Authorization");
+  const api = process.env.REACT_APP_API;
 
   const logined = () => {
     if (token === null) {
@@ -53,12 +54,10 @@ const SoundSetting = (props) => {
   };
 
   const logout = () => {
-    const Authorization = sessionStorage.getItem("Authorization");
     axios({
-      baseURL: process.env.REACT_APP_API,
-      url:"/logout",
+      url:`${api}/chinda/logout`,
       method: "GET",
-      headers: { Authorization: Authorization },
+      headers: { Authorization: token },
     })
       .then((res) => {
         console.log(res);
