@@ -10,10 +10,27 @@ import selSound from '../../audios/MainCardSelectSE1.mp3';
 import entSound from '../..//audios/MainStartSE1.mp3';
 import hoverSound from '../../audios/BtnHoverSE1.mp3';
 
+import { usePrompt } from '../../shared/Blocker';
+
+const api = process.env.REACT_APP_API;
+const Authorization = sessionStorage.getItem("Authorization")
+
 export function Main() {
    const navigate = useNavigate();
-   const api = process.env.REACT_APP_API;
-   const Authorization = sessionStorage.getItem("Authorization")
+
+   const logout=()=>{
+      window.alert("페이지가 이동됩니다.")
+      sessionStorage.clear();
+      localStorage.clear();
+    }
+  
+    usePrompt("이동하시겠습니까?", true);
+
+    window.onbeforeunload = (e) => {
+      e.preventDefault();
+      e.returnValue="";
+      return logout();
+    }
 
    const [user2Info, setUser2Info] = useState({
       creatorGameInfo: {
@@ -40,21 +57,14 @@ export function Main() {
       '/img/miniStar3.svg',
    ];
    const [allUsers, setAllUsers] = useState([]);
+
+
+
    //무한스크롤
    // const [page, setPage] = useState(1);
    // const [loading, setLoading] = useState(false);
    // const [ref, inView] = useInView();
 
-   //rArr
-   // const imgArray = Object.keys(img);
-   // const randomIndex = () => {
-   //    return imgArray.sort(() => Math.random() - 0.5);
-   // };
-   // const randomImages = randomIndex(imgArray);
-   // console.log('randomImages?', randomImages);
-
-
-   // console.log('randomImage?', randomImage);
 
    const [refresh, setRefresh] = useState(false);
    const userSound = useSelector((state) => state.user.sound);
@@ -124,7 +134,7 @@ export function Main() {
             },
          })
          .then((response) => {
-            navigate(`/battle/${user2Info.roomId}`, {
+            navigate(`/battle`, {
                state: user2Info,
             });
          })

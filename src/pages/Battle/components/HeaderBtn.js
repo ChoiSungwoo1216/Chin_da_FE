@@ -1,6 +1,6 @@
 import React from "react"
 import styled, { css, keyframes } from "styled-components"
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import effectSound from '../../../shared/effectSound.js';
 import btnSound from '../../../audios/btnselect.mp3';
 import { ModalOpen } from "../../../redux/modules/battleFunction.js";
@@ -80,6 +80,7 @@ const BattleBtnAni = keyframes`
 `;
 
 const BtnOnOff = styled.div`
+    cursor: pointer;
    display: flex;
    align-items: center;
    justify-content: center;
@@ -108,6 +109,7 @@ const BtnOnOff = styled.div`
 `;
 
 const ExitBtn = styled.div`
+    cursor: pointer;
    display: flex;
    align-items: center;
    justify-content: center;

@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
-export const UserCam = ({ camEs, call, currentUserVideoRef, remotePeerIdValue }) => {
+export const UserCam = ({ camEs, currentUserVideoRef }) => {
     const [userCamSlide, setUserCamSlide] = useState(true);
-    // const [reConOn, setReConOn] = useState(true)
 
     const openUserCam = () => {
         camEs.play();
         if (userCamSlide === true) {
+            currentUserVideoRef.current.srcObject.getVideoTracks().forEach((track) => (track.enabled = false));
             setUserCamSlide(false);
         } else {
+            currentUserVideoRef.current.srcObject.getVideoTracks().forEach((track) => (track.enabled = true));
             setUserCamSlide(true);
-            call(currentUserVideoRef);
         }
     };
-
     return (
         <UserCamDiv>
             <CamBar>
@@ -29,31 +28,29 @@ export const UserCam = ({ camEs, call, currentUserVideoRef, remotePeerIdValue })
                     onClick={openUserCam}
                 />
             </CamBar>
-            {userCamSlide && (
-                <Cam>
-                    <video
-                        style={{
-                            width: "auto",
-                            maxWidth: "100%",
-                            height: "auto",
-                            objectFit: "cover",
-                        }}
-                        ref={currentUserVideoRef}
-                    />
-                    <img src="/img/camdouble_cross.svg" alt="" />
-                </Cam>
-            )}
+            <Cam open={userCamSlide}>
+                <video
+                    style={{
+                        width: "auto",
+                        maxWidth: "100%",
+                        height: "auto",
+                        objectFit: "cover",
+                    }}
+                    ref={currentUserVideoRef}
+                />
+                <img src="/img/camdouble_cross.svg" alt="" />
+            </Cam>
+
         </UserCamDiv>
     )
 }
 
-export const OpCam = ({ camEs, call, remoteVideoRef, remotePeerIdValue }) => {
+export const OpCam = ({ camEs, remoteVideoRef, remotePeerIdValue }) => {
 
     const [opCamSlide, setOpCamSlide] = useState(true);
 
     useEffect(() => {
         CheckOp();
-        call(remoteVideoRef);
     }, [remotePeerIdValue])
 
     const CheckOp = () => {
@@ -67,10 +64,15 @@ export const OpCam = ({ camEs, call, remoteVideoRef, remotePeerIdValue }) => {
     const openOpCam = () => {
         camEs.play();
         if (opCamSlide) {
+            if (remoteVideoRef.current.srcObject !== null) {
+                remoteVideoRef.current.srcObject.getVideoTracks().forEach((track) => (track.enabled = false));
+            }
             setOpCamSlide(false);
         } else {
+            if (remoteVideoRef.current.srcObject!== null) {
+                remoteVideoRef.current.srcObject.getVideoTracks().forEach((track) => (track.enabled = true));
+            }
             setOpCamSlide(true);
-            call(remotePeerIdValue);
         }
     };
     return (
@@ -87,20 +89,18 @@ export const OpCam = ({ camEs, call, remoteVideoRef, remotePeerIdValue }) => {
                     onClick={openOpCam}
                 />
             </CamBar>
-            {opCamSlide && (
-                <Cam>
-                    <video
-                        style={{
-                            width: "auto",
-                            maxWidth: "100%",
-                            height: "auto",
-                            objectFit: "cover",
-                        }}
-                        ref={remoteVideoRef}
-                    />
-                    <img src="/img/camdouble_cross.svg" alt="" />
-                </Cam>
-            )}
+            <Cam open={opCamSlide}>
+                <video
+                    style={{
+                        width: "auto",
+                        maxWidth: "100%",
+                        height: "auto",
+                        objectFit: "cover",
+                    }}
+                    ref={remoteVideoRef}
+                />
+                <img src="/img/camdouble_cross.svg" alt="" />
+            </Cam>
         </OpCamDiv>
     )
 }
@@ -128,7 +128,7 @@ const CamBar = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 30%;
+  gap: 3vw;
   width: 85%;
   height: 18%;
   background-color: #5777ce;
@@ -147,7 +147,14 @@ const CamIcon = styled.img`
 `;
 
 const Cam = styled.div`
-  display: flex;
+    ${(props) => {
+        if (props.open !== true) {
+            return css`
+            display : none;
+            `
+        } else {
+            return css`
+              display: flex;
   width: 11.89vw;
   height: 11.9vw;
   background-color: #202540;
@@ -158,4 +165,7 @@ const Cam = styled.div`
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
+            `
+        }
+    }}
 `;

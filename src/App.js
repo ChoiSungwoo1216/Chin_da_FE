@@ -62,11 +62,7 @@ function App() {
             <Route path="/selection" element={<Selection />}></Route>
             <Route path="/main" element={<Main />}></Route>
             <Route
-              path="/battle/"
-              element={<Battle setMbmute={setMbmute} />}
-            ></Route>
-            <Route
-              path="/battle/:id"
+              path="/battle"
               element={<Battle setMbmute={setMbmute} />}
             ></Route>
             <Route path="/*" element={<Navigate to="/selection" replace />} />
