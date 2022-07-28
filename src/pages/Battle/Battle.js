@@ -66,6 +66,9 @@ const Battle = (props) => {
   const selected = useSelector((state) => state.user.selected);
   const location = useLocation();
 
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showFailModal, setShowFailModal] = useState(false);
+
   const logout = () => {
     axios({
       url: `${api}/chinda/logout`,
@@ -575,12 +578,6 @@ const Battle = (props) => {
     setTimeout(() => axiosSubmit(), 1000);
   };
 
-  //Modals
-  const modal = useSelector((state) => state.battleFunction.modalOpen);
-  const [showQuestionModal, setShowQuestionModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showFailModal, setShowFailModal] = useState(false);
-
   //AceEditor
   const langType = ["java", "javascript", "python"];
   const mode = langType[parseInt(selected.language)];
@@ -626,6 +623,7 @@ const Battle = (props) => {
   //Exit Function
   const BackToMain = () => {
     leaveRoomAxios();
+    //dispatch(func(""))
   };
 
   return (
@@ -667,9 +665,9 @@ const Battle = (props) => {
           />
         </OpponentDiv>
       </BodyPart>
-      {showQuestionModal === true && (
-        <QuestionModal setValue={setShowQuestionModal} que={que} />
-      )}
+
+      <QuestionModal que={que} />
+
       {showSuccessModal === true && (
         <SuccessModal
           setShowSuccessModal={setShowSuccessModal}
@@ -686,9 +684,9 @@ const Battle = (props) => {
           setBbmute={setBbmute}
         />
       )}
-      {modal.rule === true && (
-        <GameRuleModal ModalOpen={ModalOpen} modal={modal} />
-      )}
+
+      <GameRuleModal />
+
       {rOpen && (
         <Result
           setROpen={setROpen}
@@ -700,7 +698,7 @@ const Battle = (props) => {
       )}
 
       <Control
-        setShowQuestionModal={setShowQuestionModal}
+        // setShowQuestionModal={setShowQuestionModal}
         setShowSuccessModal={setShowSuccessModal}
         setShowFailModal={setShowFailModal}
         setROpen={setROpen}

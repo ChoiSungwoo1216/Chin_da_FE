@@ -26,6 +26,8 @@ const OPP = "opp/OPP";
 
 const TRY = "try/TRY";
 
+const RES = "res/RES";
+
 const initialState = {
   already: { user: false, opp: false },
   gameStatus: false,
@@ -39,6 +41,7 @@ const initialState = {
   queList: { question: "", questionTitle: "", questionId: "" },
   newOpp: undefined,
   trySub: 3,
+  resModal: { quest: false, success: false, fail: false },
 };
 
 // Action Creators
@@ -77,6 +80,10 @@ export function sendCodeTiming(bool) {
 
 export function ModalOpen(user) {
   return { type: MODALOPEN, user };
+}
+
+export function resModalOpen(bool) {
+  return { type: RES, bool };
 }
 
 export function NewQue(user) {
@@ -146,6 +153,13 @@ export default function reducer(state = initialState, action = {}) {
     }
     case TRY: {
       return { ...state, trySub: action.int };
+    }
+    case RES: {
+      const Res_list = {
+        ...state.resModal,
+        ...action.bool,
+      };
+      return { ...state, resMdoal: Res_list };
     }
     default:
       return state;

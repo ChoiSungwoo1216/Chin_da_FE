@@ -10,10 +10,11 @@ import {
   setPending,
   ModalOpen,
   setTrySub,
+  resModalOpen,
 } from "../../redux/modules/battleFunction.js";
 const Control = (props) => {
   const {
-    setShowQuestionModal,
+    // setShowQuestionModal,
     setShowSuccessModal,
     setShowFailModal,
     setROpen,
@@ -30,11 +31,12 @@ const Control = (props) => {
     setMbmute(true);
     const countdown = setInterval(() => {
       dispatch(setCountdown(false));
-      setShowQuestionModal(true);
+      dispatch(resModalOpen({ quest: true }));
+      // setShowQuestionModal(true);
       dispatch(alreadyUser({ user: false, opp: false }));
-      clearInterval(countdown);
       dispatch(ModalOpen({ chat: false, que: true }));
       setBbmute(false);
+      clearInterval(countdown);
     }, 3150);
     return () => clearInterval(countdown);
   };
@@ -80,13 +82,14 @@ const Control = (props) => {
   return (
     <ControlDiv>
       <div>
-        게임 초기화
+        게임
         <button onClick={ReReady}>초기화</button>
+        <button onClick={() => dispatch(gameSwitch(true))}>시작</button>
       </div>
       <div>
         문제 모달창 오픈
-        <button onClick={() => setShowQuestionModal(true)}>열기</button>
-        {/* <button onClick={() => setShowQuestionModal(false)}>닫기</button> */}
+        <button onClick={() => dispatch(resModalOpen(true))}>열기</button>
+        <button onClick={() => dispatch(resModalOpen(false))}>닫기</button>
       </div>
       <div>
         성공 모달창 on/off
