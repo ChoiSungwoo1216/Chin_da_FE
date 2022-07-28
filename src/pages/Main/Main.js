@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import styled, { css, keyframes } from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 // import { useInView } from 'react-intersection-observer';
@@ -11,13 +11,14 @@ import entSound from '../..//audios/MainStartSE1.mp3';
 import hoverSound from '../../audios/BtnHoverSE1.mp3';
 
 import { usePrompt } from '../../shared/Blocker';
+import { setRoomId } from '../../redux/modules/user';
 
 const api = process.env.REACT_APP_API;
 const Authorization = sessionStorage.getItem("Authorization")
 
 export function Main() {
    const navigate = useNavigate();
-
+   const dispatch = useDispatch();
    const logout=()=>{
       window.alert("페이지가 이동됩니다.")
       sessionStorage.clear();
@@ -32,6 +33,14 @@ export function Main() {
       return logout();
     }
 
+    const [user1Info, setUser1Info] = useState({
+      loseCnt: 0,
+      playerName: "",
+      profileUrl:"",
+      winCnt: 0
+    })
+    console.log(user1Info)
+
    const [user2Info, setUser2Info] = useState({
       creatorGameInfo: {
          playerName: '',
@@ -40,12 +49,7 @@ export function Main() {
          loseCnt: '',
       },
    });
-   const user = {
-      userName: sessionStorage.getItem("username"),
-      userCharacter: sessionStorage.getItem("profile"),
-      userWin: sessionStorage.getItem("winCnt"),
-      userLose: sessionStorage.getItem("loseCnt"),
-   };
+
    const languageImg = [
       '/img/miniJava.svg',
       '/img/miniJs.svg',
@@ -99,10 +103,11 @@ export function Main() {
          })
          .then((response) => {
             console.log(response.data);
-            for (let i = 0; i < response.data.length; i++) {
-               response.data[i].num = RandomNumber(0,5)
+            for (let i = 0; i < response.data.gameRooms.length; i++) {
+               response.data.gameRooms[i].num = RandomNumber(0,5)
              }
-            setAllUsers(response.data);
+            setAllUsers(response.data.gameRooms);
+            setUser1Info(response.data.userGameInfo);
             // setAllUsers((prevState) => [...prevState, ...response.data]);
          })
          .catch((error) => {
@@ -134,6 +139,7 @@ export function Main() {
             },
          })
          .then((response) => {
+            dispatch(setRoomId(user2Info.roomId))
             navigate(`/battle`, {
                state: user2Info,
             });
@@ -217,11 +223,11 @@ export function Main() {
                      backgroundSize: 'contain',
                   }}
                >
-                  <img className="thumbnail" src={user.userCharacter} alt="" />
+                  <img className="thumbnail" src={user1Info.profileUrl} alt="" />
                   <div className="description">
-                     <p>{user.userName}</p>
-                     <p>WIN: {user.userWin}</p>
-                     <p>LOSE: {user.userLose}</p>
+                     <p>{user1Info.playerName}</p>
+                     <p>WIN: {user1Info.winCnt}</p>
+                     <p>LOSE: {user1Info.loseCnt}</p>
                   </div>
                </div>
                {user2Info.creatorGameInfo.profileUrl !== '' && (

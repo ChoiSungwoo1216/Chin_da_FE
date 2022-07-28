@@ -4,12 +4,12 @@
 
 const EDIT = "sound/EDIT";
 const UPDATE = "selected/UPDATE";
-
+const ROOM = "room/ROOM"
 const PEER = "peer/PEER"
 // const ALREADY = "already/ALREADY";
 
 const initialState = {
-  list: [{}],
+  roomId: "",
   sound: { bgm: 0.1, es: 0.5 },
   selected: { language: "", level: "" },
   peerId: {userId : "", opId : ""}
@@ -31,6 +31,10 @@ export function updateselected(selected) {
 
 export function setPeerId(id) {
   return { type: PEER, id };
+}
+
+export function setRoomId(str) {
+  return { type: ROOM, str };
 }
 // export function alreadyUser(user) {
 //   return { type: ALREADY, user };
@@ -72,6 +76,10 @@ export default function reducer(state = initialState, action = {}) {
         ...action.id,
       };
       return { ...state, peerId: peer_list };
+    }
+
+    case ROOM: {
+      return { ...state, roomId: action.str };
     }
     // case ALREADY: {
     //   const Already_list = {

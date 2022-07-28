@@ -52,7 +52,7 @@ import {
 
 //webRtc
 import Peer from "peerjs";
-import { setPeerId } from "../../redux/modules/user.js";
+import { setPeerId, setRoomId } from "../../redux/modules/user.js";
 import { OpCam, UserCam } from "./components/PeerCam.js";
 import { usePrompt } from "../../shared/Blocker.js";
 
@@ -67,7 +67,7 @@ const Battle = (props) => {
   const selected = useSelector((state) => state.user.selected);
   const location = useLocation();
 
-  const logout=()=>{
+  const logout = () => {
     window.alert("페이지가 이동됩니다.")
     sessionStorage.clear();
     localStorage.clear();
@@ -78,7 +78,7 @@ const Battle = (props) => {
 
   window.onbeforeunload = (e) => {
     e.preventDefault();
-    e.returnValue="";
+    e.returnValue = "";
     return logout();
   }
 
@@ -101,6 +101,7 @@ const Battle = (props) => {
   const roomId = location.state.roomId;
   const server = location.state.server;
   const roomuser = location.state.creatorGameInfo.playerName;
+
   useEffect(() => {
     if (roomuser !== username) {
       dispatch(NewOp(roomuser));
@@ -178,6 +179,20 @@ const Battle = (props) => {
     });
   };
 
+  const closeCall = (remotePeerId) => {
+    let getUserMedia =
+      navigator.getUserMedia ||
+      navigator.webkitGetUserMedia ||
+      navigator.mozGetUserMedia;
+
+    getUserMedia({ audio: false, video: true }, (mediaStream) => {
+      const call = peerInstance.current.call(remotePeerId, mediaStream);
+      call.on("close", (response) => {
+        console.log(response)
+      });
+    });
+  };
+
   useEffect(() => {
     console.log("연결", remotePeerIdValue);
     call(remotePeerIdValue);
@@ -193,19 +208,14 @@ const Battle = (props) => {
   const que = useSelector((state) => state.battleFunction.queList);
   const opCode = useRef();
   const codeRef = useRef("");
-  const [checkCon, setCheckCon] = useState(false);
-  const connectOk = () => {
-    setCheckCon(true);
-  };
   // WebSocket Server connect UseEffect
   React.useEffect(() => {
-    if (checkCon === false) {
-      connect();
-      Chatconnect();
-      connectOk();
-    }
+    connect();
+    Chatconnect();
     dispatch(alreadyUser({ user: false, opp: false }));
     return () => {
+      peerInstance.current.destroy();
+      dispatch(setRoomId(""));
       // when disconnecting to game and chatting server
       dispatch(NewQue({ question: "", questionTitle: "", questionId: "" }));
       dispatch(ModalOpen({ chat: true, que: false, rule: true }));
@@ -623,6 +633,9 @@ const Battle = (props) => {
           <UserCam
             camEs={camEs}
             currentUserVideoRef={currentUserVideoRef}
+            remotePeerIdValue={remotePeerIdValue}
+            call={call}
+            closeCall={closeCall}
           />
         </UserDiv>
         <OpponentDiv>
@@ -638,6 +651,8 @@ const Battle = (props) => {
             camEs={camEs}
             remoteVideoRef={remoteVideoRef}
             remotePeerIdValue={remotePeerIdValue}
+            call={call}
+            closeCall={closeCall}
           />
         </OpponentDiv>
       </BodyPart>

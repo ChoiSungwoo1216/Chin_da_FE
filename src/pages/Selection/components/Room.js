@@ -2,7 +2,7 @@ import React from "react";
 import styled, { css, keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { updateselected } from "../../../redux/modules/user.js";
+import { setRoomId, updateselected } from "../../../redux/modules/user.js";
 import axios from "axios";
 
 const Room = (props) => {
@@ -43,6 +43,7 @@ const Room = (props) => {
       })
       .then((response) => {
         console.log(response.data);
+        dispatch(setRoomId(response.data.roomId))
         navigate(`/battle`, { state: response.data } );
         dispatch(updateselected({ language: language, level: level }));
         enterEs.play();

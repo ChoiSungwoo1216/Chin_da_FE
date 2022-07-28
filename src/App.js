@@ -12,7 +12,7 @@ import TutorialBtn from "./pages/Tutorial/TutorialBtn.js";
 import SoundSettingBtn from "./shared/SoundSettingBtn.js";
 
 import { MainB, MainA } from "./shared/MainBgm.js"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { editsound } from "./redux/modules/user.js";
 
 function App() {
@@ -20,6 +20,10 @@ function App() {
   const [mMute, setMMute] = React.useState(false);
   const [mbmute, setMbmute] = React.useState(false);
   const token = sessionStorage.getItem("Authorization");
+  const roomId = useSelector((state)=>state.user.roomId)
+  const language = useSelector((state)=>state.user.selected.language)
+  const level = useSelector((state)=>state.user.selected.level)
+
   const logined = () => {
     if (token === null) {
       return true;
@@ -60,11 +64,12 @@ function App() {
           <MainB mbmute={mbmute} />
           <Routes>
             <Route path="/selection" element={<Selection />}></Route>
+            {(language !== "" && level !=="") &&
             <Route path="/main" element={<Main />}></Route>
-            <Route
-              path="/battle"
-              element={<Battle setMbmute={setMbmute} />}
-            ></Route>
+            }
+            {(roomId !== '') &&
+            <Route path="/battle" element={<Battle setMbmute={setMbmute} />}/>
+            }
             <Route path="/*" element={<Navigate to="/selection" replace />} />
           </Routes>
         </>
