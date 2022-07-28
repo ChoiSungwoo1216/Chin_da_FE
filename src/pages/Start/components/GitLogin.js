@@ -28,9 +28,9 @@ const GitLogin = ({setMMute}) => {
         console.log(res);
         sessionStorage.setItem("Authorization", res.data.token);
         sessionStorage.setItem("username", res.data.username);
-        sessionStorage.setItem("profile", res.data.profile);
-        sessionStorage.setItem("winCnt", res.data.winCnt);
-        sessionStorage.setItem("loseCnt", res.data.loseCnt);
+        // sessionStorage.setItem("profile", res.data.profile);
+        // sessionStorage.setItem("winCnt", res.data.winCnt);
+        // sessionStorage.setItem("loseCnt", res.data.loseCnt);
         sessionStorage.setItem("newUser", res.data.newUser);
         loading("/selection");
       })

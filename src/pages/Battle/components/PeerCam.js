@@ -1,17 +1,18 @@
+
 import React, { useEffect, useState } from "react"
 import styled, { css } from "styled-components"
 
-export const UserCam = ({ camEs, currentUserVideoRef }) => {
+export const UserCam = ({ camEs, currentUserVideoRef, closeCall, remotePeerIdValue, call}) => {
     const [userCamSlide, setUserCamSlide] = useState(true);
 
     const openUserCam = () => {
         camEs.play();
         if (userCamSlide === true) {
-            currentUserVideoRef.current.srcObject.getVideoTracks().forEach((track) => (track.enabled = false));
+            closeCall(remotePeerIdValue);
             setUserCamSlide(false);
         } else {
-            currentUserVideoRef.current.srcObject.getVideoTracks().forEach((track) => (track.enabled = true));
             setUserCamSlide(true);
+            call(remotePeerIdValue)
         }
     };
     return (
@@ -45,7 +46,7 @@ export const UserCam = ({ camEs, currentUserVideoRef }) => {
     )
 }
 
-export const OpCam = ({ camEs, remoteVideoRef, remotePeerIdValue }) => {
+export const OpCam = ({ camEs, remoteVideoRef, remotePeerIdValue, closeCall, call }) => {
 
     const [opCamSlide, setOpCamSlide] = useState(true);
 
@@ -64,15 +65,11 @@ export const OpCam = ({ camEs, remoteVideoRef, remotePeerIdValue }) => {
     const openOpCam = () => {
         camEs.play();
         if (opCamSlide) {
-            if (remoteVideoRef.current.srcObject !== null) {
-                remoteVideoRef.current.srcObject.getVideoTracks().forEach((track) => (track.enabled = false));
-            }
+            closeCall(remotePeerIdValue)
             setOpCamSlide(false);
         } else {
-            if (remoteVideoRef.current.srcObject!== null) {
-                remoteVideoRef.current.srcObject.getVideoTracks().forEach((track) => (track.enabled = true));
-            }
             setOpCamSlide(true);
+            call(remotePeerIdValue)
         }
     };
     return (
