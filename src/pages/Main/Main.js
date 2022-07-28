@@ -57,7 +57,6 @@ export function Main() {
    // console.log('randomImage?', randomImage);
 
    const [refresh, setRefresh] = useState(false);
-   const [showBullet, setBullet] = useState(true);
    const userSound = useSelector((state) => state.user.sound);
    const selEs = effectSound(selSound, userSound.es);
    const hoverEs = effectSound(hoverSound, userSound.es);
@@ -246,8 +245,6 @@ export function Main() {
                         alt=""
                      />
                      <div className="player1 bullet1"></div>
-                     <div className="player1 bullet1"></div>
-                     <div className="player1 bullet1"></div>
                      <img
                         className="player1 CharBody"
                         src="/img/Char1Body.svg"
@@ -257,30 +254,22 @@ export function Main() {
                </article>
 
                {user2Info.creatorGameInfo.profileUrl !== '' && (
-               
                   <div className="player2">
                      {user2Info.num < 2 && (
                         <>
                            <div className="player2 bullet2"></div>
-                           <div className="player2 bullet2"></div>
-                           <div className="player2 bullet2"></div>
                         </>
                      )}
-                     {user2Info.num === 4 && (
-                        <>
-                           <div className="player2 light" />
-                           <div className="player2 light" />
-                           <div className="player2 light" />
-                           <div className="player2 light" />
-                           <div className="player2 light" />
-                        </>
-                     )}
-                  
                      <img
                         className={`CharAni${user2Info.num}`}
                         src={CharAni[user2Info.num]}
                         alt=""
                      />
+                     {user2Info.num === 4 && (
+                        <>
+                           <div className="player2 light"></div>
+                        </>
+                     )}
                      <img
                         className={`CharBody${user2Info.num}`}
                         src={CharBody[user2Info.num]}
