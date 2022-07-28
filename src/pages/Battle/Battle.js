@@ -54,8 +54,7 @@ import {
 import Peer from "peerjs";
 import { setPeerId, setRoomId } from "../../redux/modules/user.js";
 import { OpCam, UserCam } from "./components/PeerCam.js";
-import { usePrompt } from "../../shared/Blocker.js";
-
+import { history } from "../../shared/History.js"
 Modal.setAppElement("#root");
 const api = process.env.REACT_APP_API;
 const Authorization = sessionStorage.getItem("Authorization");
@@ -68,18 +67,47 @@ const Battle = (props) => {
   const location = useLocation();
 
   const logout = () => {
-    window.alert("페이지가 이동됩니다.")
-    sessionStorage.clear();
-    localStorage.clear();
-  }
+    axios({
+      url: `${api}/chinda/logout`,
+      method: "GET",
+      headers: { Authorization: Authorization },
+    })
+      .then((res) => {
+        console.log(res);
+        sessionStorage.clear();
+        localStorage.clear();
+        window.location.replace("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-  usePrompt("이동하시겠습니까?", true);
+  //GameStart
+  const gameStart = useSelector((state) => state.battleFunction.gameStatus);
+  const gameStartRef = useRef(null)
+  gameStartRef.current = gameStart
+  const que = useSelector((state) => state.battleFunction.queList);
 
+  useEffect(() => {
+    const listenBackEvent = () => {
+      BackToMain();
+      window.alert("방을 나갑니다.")
+    };
+
+    const unlistenHistoryEvent = history.listen(({ action }) => {
+      if (action === "POP") {
+        listenBackEvent();
+      }
+    });
+
+    return unlistenHistoryEvent;
+  }, []);
 
   window.onbeforeunload = (e) => {
     e.preventDefault();
     e.returnValue = "";
-    return logout();
+    return BackToMain();
   }
 
   //Bgm
@@ -111,8 +139,6 @@ const Battle = (props) => {
   //Timer,ProgressBar
   dispatch(setLevel(selected.level));
 
-  //GameStart
-  const gameStart = useSelector((state) => state.battleFunction.gameStatus);
 
   //Toastify Alert
   const resAlert = (r) => {
@@ -179,20 +205,6 @@ const Battle = (props) => {
     });
   };
 
-  const closeCall = (remotePeerId) => {
-    let getUserMedia =
-      navigator.getUserMedia ||
-      navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia;
-
-    getUserMedia({ audio: false, video: true }, (mediaStream) => {
-      const call = peerInstance.current.call(remotePeerId, mediaStream);
-      call.on("close", (response) => {
-        console.log(response)
-      });
-    });
-  };
-
   useEffect(() => {
     console.log("연결", remotePeerIdValue);
     call(remotePeerIdValue);
@@ -205,10 +217,10 @@ const Battle = (props) => {
   let sock = new SockJS(`${api}/ws-stomp?username=` + encodeURI(username));
   let client = StompJS.over(sock);
 
-  const que = useSelector((state) => state.battleFunction.queList);
   const opCode = useRef();
   const codeRef = useRef("");
   // WebSocket Server connect UseEffect
+
   React.useEffect(() => {
     connect();
     Chatconnect();
@@ -217,20 +229,17 @@ const Battle = (props) => {
       peerInstance.current.destroy();
       dispatch(setRoomId(""));
       // when disconnecting to game and chatting server
-      dispatch(NewQue({ question: "", questionTitle: "", questionId: "" }));
+      // dispatch(NewQue({ question: "", questionTitle: "", questionId: "" }));
       dispatch(ModalOpen({ chat: true, que: false, rule: true }));
       dispatch(setPeerId({ userId: "", opId: "" }));
       dispatch(NewOp(""));
-      if (gameStart === true) {
-        exitLose()
-        setTimeout(() => {
-          dispatch(gameSwitch(false));
-          exitMes()
-        }, 300)
-      } else {
-        dispatch(gameSwitch(false));
+      // dispatch(gameSwitch(false));
+      if (gameStartRef.current === true) {
+        exitLose();
         exitMes();
-      };
+      } else {
+        exitMes();
+      }
       setTimeout(() => {
         console.log("게임서버 연결종료");
         client.disconnect();
@@ -453,6 +462,7 @@ const Battle = (props) => {
       })
     );
   };
+
   //Receive CallBack Function
   const ReceiveFunc = (message) => {
     if (message.body) {
