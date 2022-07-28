@@ -183,38 +183,6 @@ article {
   transform: rotateY(180deg);
 }
 
-#player1 {
-  position: absolute;
-  top: 12%;
-  right: 5vw;
-  width: calc((90vh + 90vw) / 4);
-  height: calc((90vh + 90vw) / 4);
-  object-position: center;
-  animation: Moving 2s infinite alternate;
-}
-
-#player2 {
-  position: absolute;
-  top: 12%;
-  right: 5vw;
-  width: calc((90vh + 90vw) / 4);
-  height: calc((90vh + 90vw) / 4);
-  object-position: center center;
-  /* border: none; */
-  animation: Moving 2s infinite alternate;
-  animation-delay: 1s;
-}
-
-@keyframes Moving {
-  0% {
-    transform: translate(0, 0);
-  }
-
-  100% {
-    transform: translate(0, 10px);
-  }
-}
-
 .cardContainer::-webkit-scrollbar {
   width: .3vw;
 }
@@ -251,7 +219,6 @@ filter: drop-shadow(0px 0px 5px #fff);
   color: #fff;
   z-index: 5;
   margin: 0;
-  /* transform: scale(1.4); */
 }
 
 .btnCard h3 {
@@ -288,55 +255,39 @@ filter: drop-shadow(0px 0px 5px #fff);
   border: 1px solid gray
 }
 
-
 .player1 {
   margin: auto;
-  right: 32vw;
   position: absolute;
 }
 
 .player1 .CharBody {
   display: block;
   top: 15vh;
-  right: -20vw;
+  left: calc((50vh + 50vw) / 4);
   margin: auto;
   width: calc((50vh + 50vw) / 4);
   animation: MovingChar 2s infinite alternate;
-  animation-delay: .4s;
 }
 
 .player1 .CharAni {
   display: block;
   position: fixed;
   top: calc((100vh + 58vw) / 4);
-  left: calc((-74vh + -86vw) / 4);
+  left: calc((50vh + 33vw) / 4);
   max-width: calc((19vh + 23vw) / 4);
   animation: MovingAni 0.1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
-  animation-delay: .4s;
 }
 
 .player1 .bullet1 {
   display: block;
   position: fixed;
   top: calc((120vh + 120vw) / 8);
-  right: calc((160vh + 155vw) / 4);
+  left: calc((70vh + 120vw) / 4);
   width: calc((2vh + 2vw) / 4);
-  height: calc((2vh + 2vw) / 4);
+  height: calc((1.5vh + 1.5vw) / 4);
+  border-radius: 0 15px 15px 0; 
   background-color: #fff;
   animation: MovingBullet .5s infinite;
-  animation-delay: .4s;
-}
-
-.player1 .bullet1:nth-child(1) {
-  animation-delay: .2s;
-}
-
-.player1 .bullet1:nth-child(2) {
-  animation-delay: .4s;
-}
-
-.player1 .bullet1:nth-child(3) {
-  animation-delay: .6s;
 }
 
 .player2 {
@@ -350,25 +301,13 @@ filter: drop-shadow(0px 0px 5px #fff);
 .player2 .bullet2 {
   display: block;
   position: fixed;
-  top: calc((117vh + 117vw) / 8);
-  left: calc((145vh + 144vw) / 4);
+  top: calc((110vh + 125vw) / 8);
+  left: calc((150vh + 140vw) / 4);
   width: calc((2vh + 2vw) / 4);
-  height: calc((2vh + 2vw) / 4);
+  height: calc((1.5vh + 1.5vw) / 4);
+  border-radius: 15px 0 0 15px;
   background-color: #fff;
-  animation: MovingBullet2 .3s infinite;
-  animation-delay: .4s;
-}
-
-.player2 .bullet2:nth-child(1) {
-  animation-delay: .2s;
-}
-
-.player2 .bullet2:nth-child(2) {
-  animation-delay: .4s;
-}
-
-.player2 .bullet2:nth-child(3) {
-  animation-delay: .6s;
+  animation: MovingBullet2 .5s infinite;
 }
 
 .player2 .CharBody0, .CharBody1, .CharBody2, .CharBody3, .CharBody4 {
@@ -378,7 +317,6 @@ filter: drop-shadow(0px 0px 5px #fff);
   width: calc((65vh + 65vw) / 4);
   height: calc((65vh + 65vw) / 4);
   animation: MovingChar 2s infinite alternate;
-  animation-delay: .4s;
 }
 
 .player2 .CharAni0 {
@@ -388,7 +326,6 @@ filter: drop-shadow(0px 0px 5px #fff);
   left: calc((218vh + 228vw) / 4);
   max-width: calc((15vh + 15vw) / 4);
   animation: MovingAni 0.1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
-  animation-delay: .4s;
 }
 
 .player2 .CharAni1 {
@@ -398,8 +335,7 @@ filter: drop-shadow(0px 0px 5px #fff);
   left: calc((210vh + 220vw) / 4);
   max-width: calc((15vh + 15vw) / 4);
   animation: MovingAni 0.1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
-  animation-delay: .4s;
-}
+} 
 
 .player2 .CharAni2 {
   display: block;
@@ -408,7 +344,6 @@ filter: drop-shadow(0px 0px 5px #fff);
   left: calc((210vh + 225vw) / 4);
   max-width: calc((15vh + 15vw) / 4);
   animation: MovingAni .1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
-  animation-delay: .4s;
 }
 
 .player2 .CharAni3 {
@@ -417,46 +352,29 @@ filter: drop-shadow(0px 0px 5px #fff);
   top: calc((68vh + 72vw) / 4);
   left: calc((216vh + 225vw) / 4);
   max-width: calc((13vh + 13vw) / 4);
-  filter: drop-shadow(0, 0, 5px, #fff), drop-shadow(0, 0, 7px, #fff), drop-shadow(0, 0, 10px, #fff);
   animation: MovingAni 0.1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite,
               MovingChar 2s infinite alternate;
-  animation-delay: .4s;
 }
 
 .player2 .CharAni4 {
   display: block;
   position: fixed;
   top: calc((90vh + 60vw) / 4);
-  left: calc((200vh + 225vw) / 4);
+  left: calc((200vh + 215vw) / 4);
   max-width: calc((20vh + 20vw) / 4);
   animation: MovingAni4 .8s ease-in-out infinite;
-  animation-delay: .4s;
 }
+
 .player2 .light {
-    display: block;
-    position: fixed;
-    top: calc((135vh + 145vw) / 8);
-    left: calc((165vh + 144vw) / 4);
-    width: calc((2vh + 2vw) / 4);
-    height: calc((2vh + 2vw) / 4);
-    background-color: #FFEA2C;
-    filter: drop-shadow(0,0,5px #fff), drop-shadow(0, 0, 10px #fff);
-    animation: MovingLight 1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
-}
-.player2 .light:nth-child(1) {
-    animation-delay: .2s;
-  }
-.player2 .light:nth-child(2) {
-  animation-delay: .4s;
-  }
-.player2 .light:nth-child(3) {
-  animation-delay: .8s;
-}
-.player2 .light:nth-child(4) {
-  animation-delay: .12s;
-}
-.player2 .light:nth-child(5) {
-  animation-delay: .16s;
+  display: block;
+  position: fixed;
+  top: calc((135vh + 145vw) / 8);
+  left: calc((150vh + 144vw) / 4);
+  width: calc((20vh + 20vw) / 4);
+  height: calc((4vh + 4vw) / 4);
+  clip-path: polygon(100% 50%, 0 30%, 0 70%);
+  background: linear-gradient(to left, yellow, #ffffff1a);
+  animation: MovingLight 2s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
 }
 
 
@@ -509,7 +427,7 @@ filter: drop-shadow(0px 0px 5px #fff);
   }
 
   100% {
-    transform: translate(180px, 0) scale(1, 1);
+    transform: translate(200px, 0) scale(1, 1);
     opacity: .5;
   }
 }
