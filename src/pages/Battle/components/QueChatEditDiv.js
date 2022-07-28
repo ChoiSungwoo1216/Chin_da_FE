@@ -1,12 +1,11 @@
-import React from "react"
-import styled, { css } from "styled-components"
+import React from "react";
+import styled, { css } from "styled-components";
 import { useSelector } from "react-redux";
 import ChatBox from "./ChatBox.js";
 import { ReadyOpp, OppSubmitPending } from "./ReadyAndPending.js";
 import { AceEditorOpp } from "./AceEditors.js";
 
 const QueChatEditDiv = ({ que, roomId, username, gameStart, mode, opCode }) => {
-
   const modal = useSelector((state) => state.battleFunction.modalOpen);
 
   return (
@@ -32,10 +31,10 @@ const QueChatEditDiv = ({ que, roomId, username, gameStart, mode, opCode }) => {
         <AceEditorOpp mode={mode} opCode={opCode} />
       </CodeDiv>
     </>
-  )
-}
+  );
+};
 
-export default QueChatEditDiv
+export default QueChatEditDiv;
 
 const QueDiv = styled.div`
   display: flex;
@@ -55,7 +54,7 @@ const QueDiv = styled.div`
     } else {
       return css`
         display: none;
-        `
+      `;
     }
   }}
   margin-bottom: 2vh;
@@ -126,7 +125,7 @@ const ChatingDiv = styled.div`
   ${(props) => {
     if (props.chatOpen === false) {
       return css`
-        display : none;
+        display: none;
       `;
     }
   }}

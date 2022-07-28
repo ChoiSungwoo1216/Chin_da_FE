@@ -54,7 +54,7 @@ import {
 import Peer from "peerjs";
 import { setPeerId, setRoomId } from "../../redux/modules/user.js";
 import { OpCam, UserCam } from "./components/PeerCam.js";
-import { history } from "../../shared/History.js"
+import { history } from "../../shared/History.js";
 Modal.setAppElement("#root");
 const api = process.env.REACT_APP_API;
 const Authorization = sessionStorage.getItem("Authorization");
@@ -85,14 +85,14 @@ const Battle = (props) => {
 
   //GameStart
   const gameStart = useSelector((state) => state.battleFunction.gameStatus);
-  const gameStartRef = useRef(null)
-  gameStartRef.current = gameStart
+  const gameStartRef = useRef(null);
+  gameStartRef.current = gameStart;
   const que = useSelector((state) => state.battleFunction.queList);
 
   useEffect(() => {
     const listenBackEvent = () => {
       BackToMain();
-      window.alert("방을 나갑니다.")
+      window.alert("방을 나갑니다.");
     };
 
     const unlistenHistoryEvent = history.listen(({ action }) => {
@@ -108,7 +108,7 @@ const Battle = (props) => {
     e.preventDefault();
     e.returnValue = "";
     return BackToMain();
-  }
+  };
 
   //Bgm
   const { setMbmute } = props;
@@ -138,7 +138,6 @@ const Battle = (props) => {
 
   //Timer,ProgressBar
   dispatch(setLevel(selected.level));
-
 
   //Toastify Alert
   const resAlert = (r) => {
@@ -190,12 +189,16 @@ const Battle = (props) => {
       let playPromise = currentUserVideoRef.current.play();
       if (playPromise !== undefined) {
         playPromise
-          .then((_) => { })
+          .then((_) => {})
           .catch((error) => {
             console.log(error);
           });
       }
-      if (remotePeerIdValue !== "" && remotePeerIdValue !== undefined && remotePeerIdValue !== null) {
+      if (
+        remotePeerIdValue !== "" &&
+        remotePeerIdValue !== undefined &&
+        remotePeerIdValue !== null
+      ) {
         const call = peerInstance.current.call(remotePeerId, mediaStream);
         call.on("stream", (remoteStream) => {
           remoteVideoRef.current.srcObject = remoteStream;
@@ -487,7 +490,7 @@ const Battle = (props) => {
                 })
               );
             }
-            console.log(remotePeerIdValue)
+            console.log(remotePeerIdValue);
             if (forPeer.current < 1) {
               forPeer.current++;
               EnterSend();
@@ -646,10 +649,7 @@ const Battle = (props) => {
             codeRef={codeRef}
             onSubmit={onSubmit}
           />
-          <UserCam
-            camEs={camEs}
-            currentUserVideoRef={currentUserVideoRef}
-          />
+          <UserCam camEs={camEs} currentUserVideoRef={currentUserVideoRef} />
         </UserDiv>
         <OpponentDiv>
           <QueChatEditDiv
@@ -739,9 +739,11 @@ const TimerDiv = styled.div`
 const BtnDiv = styled.div`
   display: flex;
   flex-direction: row;
+  margin-top: 3px;
   justify-content: space-evenly;
   height: 100%;
   width: 45.125vw;
+  /* border: 1px solid red; */
 `;
 
 const BodyPart = styled.div`
@@ -767,7 +769,7 @@ const OpponentDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 102.1%;
+  height: 102.5%;
   width: 45.125vw;
   margin: 0;
   padding: 0;
