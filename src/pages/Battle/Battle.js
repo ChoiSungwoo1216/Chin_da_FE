@@ -221,7 +221,14 @@ const Battle = (props) => {
       dispatch(ModalOpen({ chat: true, que: false, rule: true }));
       dispatch(gameSwitch(false));
       dispatch(setPeerId({ userId: "", opId: "" }));
-      exitMes();
+
+      if (gameStart === true){ 
+        
+        exitLose()
+      } else {
+        exitMes();
+      };
+      
       setTimeout(() => {
         console.log("게임서버 연결종료");
         client.disconnect();
@@ -531,11 +538,11 @@ const Battle = (props) => {
           setShowSuccessModal(true);
         } else {
           if (trySub === 1) {
-            dispatch(setTrySub(-1));
+            dispatch(setTrySub(trySub - 1));
             compileFailedLose();
             setTimeout(() => setShowFailModal(true), 500);
           } else {
-            dispatch(setTrySub(-1));
+            dispatch(setTrySub(trySub - 1));
             resAlert(res.data.msg);
             failEs.play();
           }
@@ -603,9 +610,6 @@ const Battle = (props) => {
 
   //Exit Function
   const BackToMain = () => {
-    if (gameStart === true) {
-      exitLose();
-    }
     leaveRoomAxios();
   };
 

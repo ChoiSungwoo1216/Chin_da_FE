@@ -4,25 +4,25 @@ import React from "react";
 import styled from "styled-components";
 import { keyframes } from "styled-components";
 
-const GitLogin = ({setMMute}) => {
+const GitLogin = ({ setMMute }) => {
   let API = process.env.REACT_APP_API;
   function loading(a) {
     setTimeout(() => {
-    window.location.replace(a);
+      window.location.replace(a);
     }, 3000);
   }
-  const bgmOff=()=>{
+  const bgmOff = () => {
     setMMute(true);
-  }
+  };
   const gitAxios = async () => {
     let params = new URL(document.location.toString()).searchParams;
     let code = params.get("code"); // 인가코드 받는 부분
     await axios({
       method: "get",
       url: `${API}/login/oauth2/code/github`,
-      params:{
-        code : code
-      }
+      params: {
+        code: code,
+      },
     })
       .then((res) => {
         console.log(res);

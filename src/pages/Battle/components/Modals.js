@@ -344,7 +344,6 @@ export const Result = (props) => {
                 setROpen(false);
                 setMbmute(false);
                 dispatch(gameSwitch(false));
-                dispatch(setTrySub(3));
               }}
             >
               Yes
