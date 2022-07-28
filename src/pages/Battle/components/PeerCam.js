@@ -2,32 +2,23 @@
 import React, { useEffect, useState } from "react"
 import styled, { css } from "styled-components"
 
-export const UserCam = ({ camEs, currentUserVideoRef, closeCall, remotePeerIdValue, call}) => {
+export const UserCam = ({ camEs, currentUserVideoRef}) => {
     const [userCamSlide, setUserCamSlide] = useState(true);
 
     const openUserCam = () => {
         camEs.play();
         if (userCamSlide === true) {
-            closeCall(remotePeerIdValue);
             setUserCamSlide(false);
         } else {
             setUserCamSlide(true);
-            call(remotePeerIdValue)
         }
     };
     return (
         <UserCamDiv>
             <CamBar>
                 <span>Player1</span>
-                <CamIcon
-                    src={
-                        userCamSlide === true
-                            ? "/img/cam_icon.svg"
-                            : "/img/cam_double_cross.svg"
-                    }
-                    alt=""
-                    onClick={openUserCam}
-                />
+                <h4 onClick={openUserCam} style={{cursor:"pointer"}}>
+                    {userCamSlide === true ? "▼" : "▬"}</h4>
             </CamBar>
             <Cam open={userCamSlide}>
                 <video
@@ -46,7 +37,7 @@ export const UserCam = ({ camEs, currentUserVideoRef, closeCall, remotePeerIdVal
     )
 }
 
-export const OpCam = ({ camEs, remoteVideoRef, remotePeerIdValue, closeCall, call }) => {
+export const OpCam = ({ camEs, remoteVideoRef, remotePeerIdValue}) => {
 
     const [opCamSlide, setOpCamSlide] = useState(true);
 
@@ -65,26 +56,17 @@ export const OpCam = ({ camEs, remoteVideoRef, remotePeerIdValue, closeCall, cal
     const openOpCam = () => {
         camEs.play();
         if (opCamSlide) {
-            closeCall(remotePeerIdValue)
             setOpCamSlide(false);
         } else {
             setOpCamSlide(true);
-            call(remotePeerIdValue)
         }
     };
     return (
         <OpCamDiv>
             <CamBar>
                 <span>Player2</span>
-                <CamIcon
-                    src={
-                        opCamSlide === true
-                            ? "/img/cam_icon.svg"
-                            : "/img/cam_double_cross.svg"
-                    }
-                    alt=""
-                    onClick={openOpCam}
-                />
+                <h4 onClick={openOpCam} style={{cursor:"pointer"}}>
+                    {opCamSlide === true ? "▼" : "▬"}</h4>
             </CamBar>
             <Cam open={opCamSlide}>
                 <video
@@ -133,14 +115,6 @@ const CamBar = styled.div`
   font-size: calc((2vh + 2vw) / 2);
   opacity: 0.8;
   border: 3px solid black;
-`;
-
-const CamIcon = styled.img`
-  width: calc((2vh + 2vw) / 2);
-  height: calc((2vh + 2vw) / 2);
-  &:hover {
-    content: url("/img/cam_cross.svg");
-  }
 `;
 
 const Cam = styled.div`

@@ -145,7 +145,7 @@ export default function reducer(state = initialState, action = {}) {
       return { ...state, newOpp: action.str };
     }
     case TRY: {
-      return { ...state, trySub: state.trySub + action.int };
+      return { ...state, trySub: action.int };
     }
     default:
       return state;

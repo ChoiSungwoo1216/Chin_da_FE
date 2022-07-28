@@ -219,9 +219,18 @@ const Battle = (props) => {
       // when disconnecting to game and chatting server
       dispatch(NewQue({ question: "", questionTitle: "", questionId: "" }));
       dispatch(ModalOpen({ chat: true, que: false, rule: true }));
-      dispatch(gameSwitch(false));
       dispatch(setPeerId({ userId: "", opId: "" }));
-      exitMes();
+      dispatch(NewOp(""));
+      if (gameStart === true) {
+        exitLose()
+        setTimeout(() => {
+          dispatch(gameSwitch(false));
+          exitMes()
+        }, 300)
+      } else {
+        dispatch(gameSwitch(false));
+        exitMes();
+      };
       setTimeout(() => {
         console.log("게임서버 연결종료");
         client.disconnect();
@@ -531,11 +540,11 @@ const Battle = (props) => {
           setShowSuccessModal(true);
         } else {
           if (trySub === 1) {
-            dispatch(setTrySub(-1));
+            dispatch(setTrySub(trySub - 1));
             compileFailedLose();
             setTimeout(() => setShowFailModal(true), 500);
           } else {
-            dispatch(setTrySub(-1));
+            dispatch(setTrySub(trySub - 1));
             resAlert(res.data.msg);
             failEs.play();
           }
@@ -603,9 +612,6 @@ const Battle = (props) => {
 
   //Exit Function
   const BackToMain = () => {
-    if (gameStart === true) {
-      exitLose();
-    }
     leaveRoomAxios();
   };
 
@@ -633,9 +639,6 @@ const Battle = (props) => {
           <UserCam
             camEs={camEs}
             currentUserVideoRef={currentUserVideoRef}
-            remotePeerIdValue={remotePeerIdValue}
-            call={call}
-            closeCall={closeCall}
           />
         </UserDiv>
         <OpponentDiv>
@@ -651,8 +654,6 @@ const Battle = (props) => {
             camEs={camEs}
             remoteVideoRef={remoteVideoRef}
             remotePeerIdValue={remotePeerIdValue}
-            call={call}
-            closeCall={closeCall}
           />
         </OpponentDiv>
       </BodyPart>
