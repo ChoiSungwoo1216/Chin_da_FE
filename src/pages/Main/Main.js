@@ -349,26 +349,46 @@ export function Main() {
                      backgroundImage: 'url(/img/mainBtnCard1.svg)',
                      backgroundRepeat: 'no-repeat',
                      backgroundPosition: 'center',
-                     objectFit: 'cover',
                   }}
                >
-                  <h3>Refresh</h3>
-
-                  <img
-                     id="btnClick"
-                     src="/img/btnClick.svg"
-                     alt="none"
+                  <div
+                     className="btnClick"
                      onClick={refreshBtn}
-                  />
+                     style={{
+                        backgroundImage: 'url(/img/mainBtn.svg)',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',   
+         
+                     }}
+                  >
+                     <p>Refresh</p>
+                  </div>
 
-                  <h3>Game Start</h3>
-
-                  <img
-                     id="btnEnter"
+                  <div
+                     className="btnClick"
                      onClick={EnterBattle}
-                     src="/img/btnEnter.svg"
-                     alt="none"
-                  />
+                     style={{
+                        backgroundImage: 'url(/img/mainBtn.svg)',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+        
+                     }}
+                  >
+                     <p>Game Start</p>
+                  </div>
+
+                  <div
+                     className="btnClick"
+                     onClick={EnterBattle}
+                     style={{
+                        backgroundImage: 'url(/img/mainBtn.svg)',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+            
+                     }}
+                  >
+                     <p>Game Start</p>
+                  </div>
                </div>
             </section>
          </div>
