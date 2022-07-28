@@ -209,36 +209,18 @@ export function Main() {
                      backgroundSize: 'contain',
                   }}
                >
-                  <img className="thumbnail" src={user1Info.profileUrl} alt="" />
+                  <img
+                     className="thumbnail"
+                     src={user1Info.profileUrl}
+                     alt=""
+                  />
                   <div className="description">
                      <p>{user1Info.playerName}</p>
                      <p>WIN: {user1Info.winCnt}</p>
                      <p>LOSE: {user1Info.loseCnt}</p>
                   </div>
                </div>
-               {user2Info.creatorGameInfo.profileUrl !== '' && (
-                  <div
-                     className="profile"
-                     style={{
-                        backgroundImage: 'url(/img/mainCardPlayer.svg)',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundSize: 'contain',
-                     }}
-                  >
-                     <img
-                        className="thumbnail"
-                        src={user2Info.creatorGameInfo.profileUrl}
-                        alt=""
-                        onError={(e) => (e.target.style.display = 'none')}
-                     />
 
-                     <div className="description">
-                        <p>{user2Info.creatorGameInfo.playerName}</p>
-                        <p>WIN: {user2Info.creatorGameInfo.winCnt}</p>
-                        <p>LOSE: {user2Info.creatorGameInfo.loseCnt}</p>
-                     </div>
-                  </div>
-               )}
                <article className="article">
                   <div className="player1">
                      <img
@@ -277,6 +259,29 @@ export function Main() {
                         src={CharBody[user2Info.num]}
                         alt=""
                      />
+                  </div>
+               )}
+               {user2Info.creatorGameInfo.profileUrl !== '' && (
+                  <div
+                     className="profile2"
+                     style={{
+                        backgroundImage: 'url(/img/mainCardPlayer.svg)',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'contain',
+                     }}
+                  >
+                     <img
+                        className="thumbnail"
+                        src={user2Info.creatorGameInfo.profileUrl}
+                        alt=""
+                        onError={(e) => (e.target.style.display = 'none')}
+                     />
+
+                     <div className="description">
+                        <p>{user2Info.creatorGameInfo.playerName}</p>
+                        <p>WIN: {user2Info.creatorGameInfo.winCnt}</p>
+                        <p>LOSE: {user2Info.creatorGameInfo.loseCnt}</p>
+                     </div>
                   </div>
                )}
             </main>
