@@ -10,7 +10,6 @@ import selSound from '../../audios/MainCardSelectSE1.mp3';
 import entSound from '../..//audios/MainStartSE1.mp3';
 import hoverSound from '../../audios/BtnHoverSE1.mp3';
 
-import { usePrompt } from '../../shared/Blocker';
 import { setRoomId } from '../../redux/modules/user';
 
 const api = process.env.REACT_APP_API;
@@ -19,19 +18,6 @@ const Authorization = sessionStorage.getItem("Authorization")
 export function Main() {
    const navigate = useNavigate();
    const dispatch = useDispatch();
-   const logout=()=>{
-      window.alert("페이지가 이동됩니다.")
-      sessionStorage.clear();
-      localStorage.clear();
-    }
-  
-    usePrompt("이동하시겠습니까?", true);
-
-    window.onbeforeunload = (e) => {
-      e.preventDefault();
-      e.returnValue="";
-      return logout();
-    }
 
     const [user1Info, setUser1Info] = useState({
       loseCnt: 0,

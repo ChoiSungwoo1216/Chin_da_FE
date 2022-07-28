@@ -292,7 +292,7 @@ export const Result = (props) => {
     } else {
       loseEs.play();
     }
-    dispatch(gameSwitch({ gameStart: false }));
+    dispatch(gameSwitch(false));
     dispatch(ModalOpen({ chat: true, que: false }));
     dispatch(NewQue({ question: "", questionTitle: "", template: "" }));
     codeRef.current = "";
@@ -343,7 +343,6 @@ export const Result = (props) => {
               onClick={() => {
                 setROpen(false);
                 setMbmute(false);
-                dispatch(gameSwitch(false));
               }}
             >
               Yes
