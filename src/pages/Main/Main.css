@@ -33,6 +33,7 @@ article {
   position: relative;
   z-index: 8;
 }
+
 .profile2 {
   display: flex;
   position: absolute;
@@ -76,7 +77,7 @@ article {
   top: -2vh;
   justify-content: left;
   align-items: left;
-  width:90vw;
+  width: 90vw;
   height: 100vh;
   z-index: 7;
 }
@@ -185,7 +186,7 @@ article {
 .characterImg {
   width: calc((20vh + 20vw) / 4);
   height: calc((20vh + 20vw) / 4);
-  border:none;
+  border: none;
   border-radius: 1%;
   margin: 0;
 }
@@ -210,17 +211,17 @@ article {
 }
 
 .txtVS {
-display: flex;
-justify-content: center;
-margin: auto;
-align-items: center;
-top: 41.5vh;
-left: 43.5vw;
-position: absolute;
-width: 12%;
-max-height: 13%;
-z-index: 2;
-filter: drop-shadow(0px 0px 5px #fff);
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  align-items: center;
+  top: 41.5vh;
+  left: 43.5vw;
+  position: absolute;
+  width: 12%;
+  max-height: 13%;
+  z-index: 2;
+  filter: drop-shadow(0px 0px 5px #fff);
 }
 
 .btnCard {
@@ -238,7 +239,7 @@ filter: drop-shadow(0px 0px 5px #fff);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top:  3vh;
+  padding-top: 3vh;
   margin: .5vh auto;
   font-size: calc((4vh + 4vw) / 4);
 }
@@ -298,15 +299,15 @@ filter: drop-shadow(0px 0px 5px #fff);
   left: calc((70vh + 120vw) / 4);
   width: calc((2vh + 2vw) / 4);
   height: calc((1.5vh + 1.5vw) / 4);
-  border-radius: 0 15px 15px 0; 
+  border-radius: 0 15px 15px 0;
   background-color: #fff;
   animation: MovingBullet .5s infinite;
 }
 
 .player2 {
   display: flex;
-    justify-content: center;
-    align-items: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .player2 .bullet2 {
@@ -325,7 +326,11 @@ filter: drop-shadow(0px 0px 5px #fff);
   animation: MovingBullet2 .5s infinite;
 }
 
-.player2 .CharBody0, .CharBody1, .CharBody2, .CharBody3, .CharBody4 {
+.player2 .CharBody0,
+.CharBody1,
+.CharBody2,
+.CharBody3,
+.CharBody4 {
   /* position: absolute;
   top: 15vh;
   left: 60vw; */
@@ -346,7 +351,7 @@ filter: drop-shadow(0px 0px 5px #fff);
   display: flex;
   position: absolute;
   margin-top: calc((30vh + 30vw) / 4);
-margin-left: calc((90vh + 90vw) / 4);
+  margin-left: calc((90vh + 90vw) / 4);
   max-width: calc((15vh + 15vw) / 4);
   animation: MovingAni 0.1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
 }
@@ -362,7 +367,7 @@ margin-left: calc((90vh + 90vw) / 4);
   margin-left: calc((80vh + 80vw) / 4);
   max-width: calc((15vh + 15vw) / 4);
   animation: MovingAni 0.1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
-} 
+}
 
 .player2 .CharAni2 {
   /* display: block;
@@ -370,9 +375,9 @@ margin-left: calc((90vh + 90vw) / 4);
   top: calc((80vh + 65vw) / 4);
     left: calc((210vh + 225vw) / 4);*/
   display: flex;
-    position: absolute;
-    margin-top: calc((32vh + 32vw) / 4);
-  margin-left: calc((15vh + 15vw) / 4);
+  position: absolute;
+  margin-top: calc((32vh + 32vw) / 4);
+  margin-left: calc((85vh + 85vw) / 4);
   max-width: calc((15vh + 15vw) / 4);
   animation: MovingAni .1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
 }
@@ -380,13 +385,13 @@ margin-left: calc((90vh + 90vw) / 4);
 .player2 .CharAni3 {
   /* display: block;
   position: fixed; */
-display: flex;
+  display: flex;
   position: absolute;
   margin-top: calc((32vh + 32vw) / 4);
-  margin-left: calc((17vh + 17vw) / 4);
+  margin-left: calc((85vh + 85vw) / 4);
   max-width: calc((13vh + 13vw) / 4);
   animation: MovingAni 0.1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite,
-              MovingChar 2s infinite alternate;
+    MovingChar 2s infinite alternate;
 }
 
 .player2 .CharAni4 {
@@ -407,10 +412,10 @@ display: flex;
   position: fixed;
   top: calc((135vh + 145vw) / 8);
   left: calc((150vh + 144vw) / 4); */
-    display: flex;
-      position: absolute;
-      margin-top: calc((60vh + 60vw) / 4);
-        margin-right: calc((-15vh + -15vw) / 4);
+  display: flex;
+  position: absolute;
+  margin-top: calc((60vh + 60vw) / 4);
+  margin-right: calc((-15vh + -15vw) / 4);
   width: calc((20vh + 20vw) / 4);
   height: calc((4vh + 4vw) / 4);
   clip-path: polygon(100% 50%, 0 30%, 0 70%);
@@ -424,6 +429,7 @@ display: flex;
   0% {
     transform: translate(0, 0);
   }
+
   100% {
     transform: translate(0, 10px);
   }
@@ -443,16 +449,16 @@ display: flex;
 
 @keyframes MovingAni4 {
   0% {
-  transform: translate(3px, 0) scale(1.05);
-  opacity: .3;
+    transform: translate(3px, 0) scale(1.05);
+    opacity: .3;
   }
 
   30% {
-  transform: translate(5px, 0) scale(.8, .9);
+    transform: translate(5px, 0) scale(.8, .9);
   }
 
   60% {
-  transform: translate(0px, 0) scale(1.05);
+    transform: translate(0px, 0) scale(1.05);
   }
 
   100% {
