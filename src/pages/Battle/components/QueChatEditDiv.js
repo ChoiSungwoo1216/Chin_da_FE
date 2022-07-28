@@ -1,42 +1,38 @@
 import React from "react"
 import styled, { css } from "styled-components"
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import ChatBox from "./ChatBox.js";
 import { ReadyOpp, OppSubmitPending } from "./ReadyAndPending.js";
 import { AceEditorOpp } from "./AceEditors.js";
 
-const QueChatEditDiv = ({ que, roomId, username, gameStart, mode, opCode}) => {
+const QueChatEditDiv = ({ que, roomId, username, gameStart, mode, opCode }) => {
 
-    const modal = useSelector((state) => state.battleFunction.modalOpen);
+  const modal = useSelector((state) => state.battleFunction.modalOpen);
 
-    return (
-        <>
-               {modal.que === true && (
-                  <QueDiv queOpen={modal.que} chatOpen={modal.chat}>
-                     <QueHead>
-                        <p>Question</p>
-                     </QueHead>
-                     <QueBox>
-                        <p>{que.questionTitle}</p>
-                        <div>{que.question}</div>
-                     </QueBox>
-                  </QueDiv>
-               )}
-               {modal.chat && (
-                  <ChatingDiv>
-                     <ChatHead>
-                        <p>Chatting</p>
-                     </ChatHead>
-                     <ChatBox roomId={roomId} username={username} />
-                  </ChatingDiv>
-               )}
-               <CodeDiv queOpen={modal.que} chatOpen={modal.chat}>
-                  {gameStart === false ? <ReadyOpp /> : null}
-                  <OppSubmitPending />
-                  <AceEditorOpp mode={mode} opCode={opCode} />
-               </CodeDiv>
-        </>
-    )
+  return (
+    <>
+      <QueDiv queOpen={modal.que} chatOpen={modal.chat}>
+        <QueHead>
+          <p>Question</p>
+        </QueHead>
+        <QueBox>
+          <p>{que.questionTitle}</p>
+          <div>{que.question}</div>
+        </QueBox>
+      </QueDiv>
+      <ChatingDiv chatOpen={modal.chat}>
+        <ChatHead>
+          <p>Chatting</p>
+        </ChatHead>
+        <ChatBox roomId={roomId} username={username} />
+      </ChatingDiv>
+      <CodeDiv queOpen={modal.que} chatOpen={modal.chat}>
+        {gameStart === false ? <ReadyOpp /> : null}
+        <OppSubmitPending />
+        <AceEditorOpp mode={mode} opCode={opCode} />
+      </CodeDiv>
+    </>
+  )
 }
 
 export default QueChatEditDiv
@@ -48,16 +44,20 @@ const QueDiv = styled.div`
   align-items: center;
   width: 100%;
   ${(props) => {
-      if (props.queOpen && !props.chatOpen) {
-         return css`
+    if (props.queOpen && !props.chatOpen) {
+      return css`
         height: 60%;
       `;
-      } else if (props.queOpen && props.chatOpen) {
-         return css`
+    } else if (props.queOpen && props.chatOpen) {
+      return css`
         height: 36%;
       `;
-      }
-   }}
+    } else {
+      return css`
+        display: none;
+        `
+    }
+  }}
   margin-bottom: 2vh;
   border-radius: 5px;
   border-right: 6px solid #a0935c;
@@ -123,6 +123,13 @@ const QueBox = styled.div`
 const ChatingDiv = styled.div`
   width: 100%;
   height: 36%;
+  ${(props) => {
+    if (props.chatOpen === false) {
+      return css`
+        display : none;
+      `;
+    }
+  }}
 `;
 
 const ChatHead = styled.div`
@@ -147,24 +154,24 @@ const CodeDiv = styled.div`
   width: 99.6%;
 
   ${(props) => {
-      if (props.queOpen && !props.chatOpen) {
-         return css`
+    if (props.queOpen && !props.chatOpen) {
+      return css`
         height: 35.5%;
       `;
-      } else if (props.queOpen && props.chatOpen) {
-         return css`
+    } else if (props.queOpen && props.chatOpen) {
+      return css`
         height: 19.5%;
       `;
-      } else if (!props.queOpen && props.chatOpen) {
-         return css`
+    } else if (!props.queOpen && props.chatOpen) {
+      return css`
         height: 60%;
       `;
-      } else {
-         return css`
+    } else {
+      return css`
         height: 100%;
       `;
-      }
-   }}
+    }
+  }}
   display: flex;
   justify-content: center;
   align-items: center;

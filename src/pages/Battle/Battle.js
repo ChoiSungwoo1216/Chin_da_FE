@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Modal from "react-modal";
@@ -54,18 +54,33 @@ import {
 import Peer from "peerjs";
 import { setPeerId } from "../../redux/modules/user.js";
 import { OpCam, UserCam } from "./components/PeerCam.js";
+import { usePrompt } from "../../shared/Blocker.js";
 
 Modal.setAppElement("#root");
+const api = process.env.REACT_APP_API;
+const Authorization = sessionStorage.getItem("Authorization");
 
 const Battle = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const api = process.env.REACT_APP_API;
-  const Authorization = sessionStorage.getItem("Authorization");
 
   const selected = useSelector((state) => state.user.selected);
   const location = useLocation();
-  const params = useParams();
+
+  const logout=()=>{
+    window.alert("페이지가 이동됩니다.")
+    sessionStorage.clear();
+    localStorage.clear();
+  }
+
+  usePrompt("이동하시겠습니까?", true);
+
+
+  window.onbeforeunload = (e) => {
+    e.preventDefault();
+    e.returnValue="";
+    return logout();
+  }
 
   //Bgm
   const { setMbmute } = props;
@@ -83,7 +98,7 @@ const Battle = (props) => {
   const camEs = effectSound(camSound, userSound.es);
 
   //RoomInfo
-  const roomId = params.id;
+  const roomId = location.state.roomId;
   const server = location.state.server;
   const roomuser = location.state.creatorGameInfo.playerName;
   useEffect(() => {
@@ -113,6 +128,7 @@ const Battle = (props) => {
   const currentUserVideoRef = useRef(null);
   const peerRef = useRef("");
   peerRef.current = peerId;
+  const forPeer = useRef(0);
 
   //get peerId
   useEffect(() => {
@@ -121,32 +137,35 @@ const Battle = (props) => {
       dispatch(setPeerId({ userId: id }));
     });
 
-    peer.on("call", (call) => {
-      let getUserMedia =
-        navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia;
+    // peer.on("call", (call) => {
+    //   let getUserMedia =
+    //     navigator.getUserMedia ||
+    //     navigator.webkitGetUserMedia ||
+    //     navigator.mozGetUserMedia;
 
-      getUserMedia({ /*audio: true,*/ video: true }, (mediaStream) => {
-        currentUserVideoRef.current.srcObject = mediaStream;
-        currentUserVideoRef.current.play();
-        call.answer(mediaStream);
-        call.on("stream", (remoteStream) => {
-          remoteVideoRef.current.srcObject = remoteStream;
-          let playRemotePromise = remoteVideoRef.current.play();
-          if (playRemotePromise !== undefined) {
-            playRemotePromise
-              .then((_) => {})
-              .catch((error) => {
-                console.log(error);
-              });
-          }
-        });
-      });
-    });
+    //   getUserMedia({ /*audio: true,*/ video: true }, (mediaStream) => {
+    //     currentUserVideoRef.current.srcObject = mediaStream;
+    //     currentUserVideoRef.current.play();
+    //     if (!remoteVideoRef){
+    //       return;
+    //     }
+    //     call.answer(mediaStream);
+    //     call.on("stream", (remoteStream) => {
+    //       remoteVideoRef.current.srcObject = remoteStream;
+    //       let playRemotePromise = remoteVideoRef.current.play();
+    //       if (playRemotePromise !== undefined) {
+    //         playRemotePromise
+    //           .then((_) => {})
+    //           .catch((error) => {
+    //             console.log(error);
+    //           });
+    //       }
+    //     });
+    //   });
+    // });
 
     peerInstance.current = peer;
-  }, [roomId]);
+  }, []);
 
   //Peer call function
   const call = (remotePeerId) => {
@@ -160,16 +179,18 @@ const Battle = (props) => {
       let playPromise = currentUserVideoRef.current.play();
       if (playPromise !== undefined) {
         playPromise
-          .then((_) => {})
+          .then((_) => { })
           .catch((error) => {
             console.log(error);
           });
       }
-      const call = peerInstance.current.call(remotePeerId, mediaStream);
-      call.on("stream", (remoteStream) => {
-        remoteVideoRef.current.srcObject = remoteStream;
-        remoteVideoRef.current.play();
-      });
+      if (remotePeerIdValue !== "" && remotePeerIdValue !== undefined && remotePeerIdValue !== null) {
+        const call = peerInstance.current.call(remotePeerId, mediaStream);
+        call.on("stream", (remoteStream) => {
+          remoteVideoRef.current.srcObject = remoteStream;
+          remoteVideoRef.current.play();
+        });
+      }
     });
   };
 
@@ -194,35 +215,33 @@ const Battle = (props) => {
   };
   // WebSocket Server connect UseEffect
   React.useEffect(() => {
-    if (roomId !== undefined) {
-      if (checkCon === false) {
-        connect();
-        Chatconnect();
-        connectOk();
-      }
-      dispatch(alreadyUser({ user: false, opp: false }));
-      return () => {
-        // when disconnecting to game and chatting server
-        dispatch(NewQue({ question: "", questionTitle: "", questionId: "" }));
-        dispatch(ModalOpen({ chat: true, que: false, rule: true }));
-        dispatch(gameSwitch(false));
-        dispatch(setPeerId({ userId: "", opId: "" }));
-        exitMes();
-        setTimeout(() => {
-          console.log("게임서버 연결종료");
-          client.disconnect();
-          dispatch(gameSwitch(false));
-        }, 500);
-
-        ExitSend();
-        setTimeout(() => {
-          console.log("채팅 연결종료");
-          clientChat.disconnect();
-          dispatch(deletechatlist());
-        }, 500);
-      };
+    if (checkCon === false) {
+      connect();
+      Chatconnect();
+      connectOk();
     }
-  }, [roomId]);
+    dispatch(alreadyUser({ user: false, opp: false }));
+    return () => {
+      // when disconnecting to game and chatting server
+      dispatch(NewQue({ question: "", questionTitle: "", questionId: "" }));
+      dispatch(ModalOpen({ chat: true, que: false, rule: true }));
+      dispatch(gameSwitch(false));
+      dispatch(setPeerId({ userId: "", opId: "" }));
+      exitMes();
+      setTimeout(() => {
+        console.log("게임서버 연결종료");
+        client.disconnect();
+        dispatch(gameSwitch(false));
+      }, 500);
+
+      ExitSend();
+      setTimeout(() => {
+        console.log("채팅 연결종료");
+        clientChat.disconnect();
+        dispatch(deletechatlist());
+      }, 500);
+    };
+  }, []);
 
   //Game server connect
   const connect = () => {
@@ -431,7 +450,6 @@ const Battle = (props) => {
       })
     );
   };
-  const forPeer = useRef(0);
   //Receive CallBack Function
   const ReceiveFunc = (message) => {
     if (message.body) {
@@ -456,6 +474,7 @@ const Battle = (props) => {
                 })
               );
             }
+            console.log(remotePeerIdValue)
             if (forPeer.current < 1) {
               forPeer.current++;
               EnterSend();
@@ -582,8 +601,7 @@ const Battle = (props) => {
           navigate("/selection");
         }
         if (error.response.data.reLogin === true) {
-          sessionStorage.clear();
-          localStorage.clear();
+          logout();
           window.location.replace("/");
         }
       });
@@ -620,9 +638,7 @@ const Battle = (props) => {
           />
           <UserCam
             camEs={camEs}
-            call={call}
             currentUserVideoRef={currentUserVideoRef}
-            remotePeerIdValue={remotePeerIdValue}
           />
         </UserDiv>
         <OpponentDiv>
@@ -636,7 +652,6 @@ const Battle = (props) => {
           />
           <OpCam
             camEs={camEs}
-            call={call}
             remoteVideoRef={remoteVideoRef}
             remotePeerIdValue={remotePeerIdValue}
           />
