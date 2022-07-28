@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import Modal from "react-modal";
 import JSConfetti from "js-confetti";
@@ -15,15 +15,20 @@ import {
   gameSwitch,
   ModalOpen,
   NewQue,
-  setTrySub,
+  resModalOpen,
 } from "../../../redux/modules/battleFunction.js";
 
 /*QuestionModal*/
-export const QuestionModal = (p) => {
-  const setClose = p.setValue;
-  const que = p.que;
-  console.log("Modal", que);
-  const [modalIsOpen, setIsOpen] = React.useState(true);
+export const QuestionModal = () => {
+  const resQuest = useSelector((state) => state.battleFunction.resModal.quest);
+  const dispatch = useDispatch();
+  const queList = useSelector((state) => state.battleFunction.queList);
+  console.log(resQuest + "----");
+
+  // const [modalIsOpen, setIsOpen] = React.useState(false);
+  useEffect(() => {
+    console.log(resQuest + "----");
+  }, [resQuest]);
   const customModalStyles = {
     overlay: {
       background: "#0000006a",
@@ -41,37 +46,36 @@ export const QuestionModal = (p) => {
   };
 
   const allClose = () => {
-    setClose(false);
-    setIsOpen(false);
+    dispatch(resModalOpen({ quest: false }));
+    // setIsOpen(false);
   };
   return (
     <>
-      <Modal
-        className="ModalBox"
-        isOpen={modalIsOpen}
-        style={customModalStyles}
-      >
-        <div className="ModalBody">
-          <header>
-            <h2>Q u e s t i o n</h2>
-          </header>
-          <div className="ModalContent">
-            <div className="qQTitle">{que.questionTitle}</div>
-            <div className="qQue">{que.question}</div>
+      {resQuest === true && (
+        <Modal className="ModalBox" isOpen={resQuest} style={customModalStyles}>
+          <div className="ModalBody">
+            <header>
+              <h2>Q u e s t i o n</h2>
+            </header>
+            <div className="ModalContent">
+              <div className="qQTitle">{queList.questionTitle}</div>
+              <div className="qQue">{queList.question}</div>
+            </div>
           </div>
-        </div>
-        <img
-          className="ExitBtn quest"
-          src="/img/X_btn_black_30.svg"
-          onClick={() => allClose()}
-          alt=""
-        />
-      </Modal>
+          <img
+            className="ExitBtn quest"
+            src="/img/X_btn_black_30.svg"
+            onClick={() => allClose()}
+            alt=""
+          />
+        </Modal>
+      )}
     </>
   );
 };
 
-export const GameRuleModal = ({ ModalOpen, modal }) => {
+export const GameRuleModal = () => {
+  const modalRule = useSelector((state) => state.battleFunction.modalOpen.rule);
   const dispatch = useDispatch();
   const customModalStyles = {
     overlay: {
@@ -82,55 +86,61 @@ export const GameRuleModal = ({ ModalOpen, modal }) => {
   const allClose = () => {
     dispatch(ModalOpen({ rule: false }));
   };
+
+  useEffect(() => {}, [modalRule]);
   return (
     <>
-      <Modal
-        className="ModalBox ruleBox"
-        isOpen={modal.rule}
-        style={customModalStyles}
-      >
-        <div className="ModalBody">
-          <div className="ModalContent ruleContent">
-            <div className="qTitle Qrule">규 칙</div>
-            <div className="q">
-              <ol className="ruleList">
-                <li>
-                  게임 중 뒤로가거나 새로고침 시,
+      {modalRule === true && (
+        <Modal
+          className="ModalBox ruleBox"
+          isOpen={modalRule}
+          style={customModalStyles}
+        >
+          <div className="ModalBody">
+            <div className="ModalContent ruleContent">
+              <div className="qTitle Qrule">규 칙</div>
+              <div className="q">
+                <ol className="ruleList">
+                  <li>
+                    게임 중 뒤로가거나 새로고침 시,
+                    <br />
+                    방에서 나가지며, 패배처리가 됩니다.
+                  </li>
                   <br />
-                  방에서 나가지며, 패배처리가 됩니다.
-                </li>
-                <hr />
-                <li>제출이 가능한 횟수는 총 3번입니다.</li>
-                <hr />
-                <li>시간이 끝나면 플레이어 모두 패배처리가 됩니다.</li>
-                <hr />
-                <li>
-                  코드 작성 시, 기존에 제시한 함수와 변수명을 변경하지
-                  말아주세요. (오답처리가 될 수 있습니다.)
-                </li>
-                <hr />
-                <li>
-                  출력문을 입력하지 말아주세요
+                  <li>제출이 가능한 횟수는 총 3번입니다.</li>
                   <br />
+                  <li>시간이 끝나면 플레이어 모두 패배처리가 됩니다.</li>
                   <br />
-                  Python : print()
+                  <li>
+                    코드 작성 시, 기존에 제시한 함수와 변수명을 변경하지
+                    말아주세요. (오답처리가 될 수 있습니다.)
+                  </li>
                   <br />
-                  java : System.out.println()
+                  <li>
+                    출력문을 입력하지 말아주세요
+                    <br />
+                    <br />
+                    Python : print()
+                    <br />
+                    java : System.out.println()
+                    <br />
+                    javascript : console.log()
+                  </li>
                   <br />
-                  javascript : console.log()
-                </li>
-                <hr />
-              </ol>
+                  <p>즐겁게 플레이 해 주세요!</p>
+                  <br />
+                </ol>
+              </div>
             </div>
           </div>
-        </div>
-        <img
-          className="ExitBtn quest"
-          src="/img/X_btn_black_30.svg"
-          onClick={() => allClose()}
-          alt=""
-        />
-      </Modal>
+          <img
+            className="ExitBtn quest"
+            src="/img/X_btn_black_30.svg"
+            onClick={() => allClose()}
+            alt=""
+          />
+        </Modal>
+      )}
     </>
   );
 };
