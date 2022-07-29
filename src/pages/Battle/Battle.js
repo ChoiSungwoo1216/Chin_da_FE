@@ -60,6 +60,9 @@ Modal.setAppElement("#root");
 const api = process.env.REACT_APP_API;
 const Authorization = sessionStorage.getItem("Authorization");
 
+let client = null;
+let clientChat = null;
+
 const Battle = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -219,7 +222,7 @@ const Battle = (props) => {
   const headers = { Authorization: Authorization };
 
   let sock = new SockJS(`${api}/ws-stomp?username=` + encodeURI(username));
-  let client = StompJS.over(sock);
+  client = StompJS.over(sock);
 
   const opCode = useRef();
   const codeRef = useRef("");
@@ -422,7 +425,7 @@ const Battle = (props) => {
   const ChatApi = process.env.REACT_APP_API_CHAT;
 
   let socket = new SockJS(`${ChatApi}/ws-stomp?name=` + encodeURI(username));
-  let clientChat = StompJS.over(socket);
+  clientChat = StompJS.over(socket);
 
   // Chat server connect
   const Chatconnect = () => {
