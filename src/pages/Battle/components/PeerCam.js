@@ -30,7 +30,7 @@ export const UserCam = ({ camEs, currentUserVideoRef}) => {
                     }}
                     ref={currentUserVideoRef}
                 />
-                <img src="/img/camdouble_cross.svg" alt="" />
+                {/* <img src="/img/camdouble_cross.svg" alt="" /> */}
             </Cam>
 
         </UserCamDiv>
@@ -78,7 +78,7 @@ export const OpCam = ({ camEs, remoteVideoRef, remotePeerIdValue}) => {
                     }}
                     ref={remoteVideoRef}
                 />
-                <img src="/img/camdouble_cross.svg" alt="" />
+                {/* <img src="/img/camdouble_cross.svg" alt="" /> */}
             </Cam>
         </OpCamDiv>
     )
@@ -128,7 +128,7 @@ const Cam = styled.div`
               display: flex;
   width: 11.89vw;
   height: 11.9vw;
-  background-color: #202540;
+  background: transparent;
   border-left: 3px solid black;
   border-right: 3px solid black;
   border-bottom: 3px solid black;

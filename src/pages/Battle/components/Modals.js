@@ -23,12 +23,7 @@ export const QuestionModal = () => {
   const resQuest = useSelector((state) => state.battleFunction.resModal.quest);
   const dispatch = useDispatch();
   const queList = useSelector((state) => state.battleFunction.queList);
-  console.log(resQuest + "----");
 
-  // const [modalIsOpen, setIsOpen] = React.useState(false);
-  useEffect(() => {
-    console.log(resQuest + "----");
-  }, [resQuest]);
   const customModalStyles = {
     overlay: {
       background: "#0000006a",
@@ -47,29 +42,26 @@ export const QuestionModal = () => {
 
   const allClose = () => {
     dispatch(resModalOpen({ quest: false }));
-    // setIsOpen(false);
   };
   return (
     <>
-      {resQuest === true && (
-        <Modal className="ModalBox" isOpen={resQuest} style={customModalStyles}>
-          <div className="ModalBody">
-            <header>
-              <h2>Q u e s t i o n</h2>
-            </header>
-            <div className="ModalContent">
-              <div className="qQTitle">{queList.questionTitle}</div>
-              <div className="qQue">{queList.question}</div>
-            </div>
+      <Modal className="ModalBox" isOpen={resQuest} style={customModalStyles}>
+        <div className="ModalBody">
+          <header>
+            <h2>Q u e s t i o n</h2>
+          </header>
+          <div className="ModalContent">
+            <div className="qQTitle">{queList.questionTitle}</div>
+            <div className="qQue">{queList.question}</div>
           </div>
-          <img
-            className="ExitBtn quest"
-            src="/img/X_btn_black_30.svg"
-            onClick={() => allClose()}
-            alt=""
-          />
-        </Modal>
-      )}
+        </div>
+        <img
+          className="ExitBtn quest"
+          src="/img/X_btn_black_30.svg"
+          onClick={() => allClose()}
+          alt=""
+        />
+      </Modal>
     </>
   );
 };
@@ -87,7 +79,7 @@ export const GameRuleModal = () => {
     dispatch(ModalOpen({ rule: false }));
   };
 
-  useEffect(() => {}, [modalRule]);
+  useEffect(() => { }, [modalRule]);
   return (
     <>
       {modalRule === true && (
