@@ -13,14 +13,7 @@ import {
   resModalOpen,
 } from "../../redux/modules/battleFunction.js";
 const Control = (props) => {
-  const {
-    // setShowQuestionModal,
-    setShowSuccessModal,
-    setShowFailModal,
-    setROpen,
-    setMbmute,
-    setBbmute,
-  } = props;
+  const { setROpen, setMbmute, setBbmute } = props;
 
   const already = useSelector((state) => state.battleFunction.already);
   const gameStatus = useSelector((state) => state.battleFunction.gameStatus);
@@ -75,9 +68,6 @@ const Control = (props) => {
   const userPending = () => dispatch(setPending({ user: true }));
   const oppPending = () => dispatch(setPending({ opp: true }));
 
-  const questOpen = () => {
-    dispatch(resModalOpen({ quest: true }));
-  };
   return (
     <ControlDiv>
       <div>
@@ -87,27 +77,25 @@ const Control = (props) => {
       </div>
       <div>
         문제 모달창 오픈
-        <button onClick={questOpen}>열기</button>
-        <button onClick={() => dispatch(resModalOpen({ quest: false }))}>
-          닫기
+        <button onClick={() => dispatch(resModalOpen({ quest: true }))}>
+          열기
         </button>
       </div>
       <div>
         성공 모달창 on/off
         <button
           onClick={() => {
-            setShowSuccessModal(true);
             dispatch(resModalOpen({ success: true }));
           }}
         >
           열기
         </button>
-        <button onClick={() => setShowSuccessModal(false)}>닫기</button>
       </div>
       <div>
         실패 모달창 on/off
-        <button onClick={() => setShowFailModal(true)}>열기</button>
-        <button onClick={() => setShowFailModal(false)}>닫기</button>
+        <button onClick={() => dispatch(resModalOpen({ fail: true }))}>
+          열기
+        </button>
       </div>
       <div>
         알림 on
@@ -129,7 +117,7 @@ const Control = (props) => {
 export default Control;
 
 const ControlDiv = styled.div`
-  display: none;
+  display: block;
   width: 300px;
   height: 300px;
   background-color: white;

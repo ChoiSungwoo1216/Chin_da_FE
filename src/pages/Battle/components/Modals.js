@@ -141,24 +141,24 @@ export const GameRuleModal = () => {
 };
 
 /*SuccessModal*/
-export const SuccessModal = ({
-  setROpen,
-  setResult,
-  setBbmute,
-  setShowSuccessModal,
-}) => {
+export const SuccessModal = ({ setROpen, setResult, setBbmute }) => {
+  const resSuc = useSelector((state) => state.battleFunction.resModal.success);
   const userSound = useSelector((state) => state.user.sound);
   const winEs = effectSound(winSound, userSound.es);
   const dispatch = useDispatch();
   const muteBb = () => {
     setBbmute(true);
+    winEs.play();
     dispatch(gameSwitch(false));
   };
+  const allClose = () => {
+    dispatch(resModalOpen({ success: false }));
+    setROpen(true);
+    setResult("WIN");
+  };
   React.useEffect(() => {
-    winEs.play();
-    muteBb();
-  }, []);
-  const [modalIsOpen, setIsOpen] = React.useState(true);
+    resSuc === true && muteBb();
+  }, [resSuc]);
   const customModalStyles = {
     overlay: {
       background: "#0000009a",
@@ -173,23 +173,19 @@ export const SuccessModal = ({
   return (
     <>
       <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={() => {
-          setIsOpen(false);
-          setROpen(true);
-          setResult("WIN");
-          setShowSuccessModal(false);
-        }}
+        isOpen={resSuc}
+        // onRequestClose={() => {
+        //   dispatch(resModalOpen({ success: false }));
+        //   setROpen(true);
+        //   setResult("WIN");
+        // }}
         style={customModalStyles}
       >
         <img
           className="ExitBtn"
           src="/img/X_btn_black_30.svg"
           onClick={() => {
-            setIsOpen(false);
-            setShowSuccessModal(false);
-            setROpen(true);
-            setResult("WIN");
+            allClose();
           }}
           alt=""
         />
@@ -206,24 +202,18 @@ export const SuccessModal = ({
 };
 
 /*FailModal*/
-export const FailModal = ({
-  setROpen,
-  setResult,
-  setBbmute,
-  setShowFailModal,
-}) => {
+export const FailModal = ({ setROpen, setResult, setBbmute }) => {
   const userSound = useSelector((state) => state.user.sound);
   const loseEs = effectSound(loseSound, userSound.es);
+  const resFail = useSelector((state) => state.battleFunction.resModal.fail);
   const dispatch = useDispatch();
-  const muteBb = () => {
-    setBbmute(true);
-    dispatch(gameSwitch(false));
+
+  const allClose = () => {
+    dispatch(resModalOpen({ fail: false }));
+    setROpen(true);
+    setResult("LOSE");
   };
-  React.useEffect(() => {
-    loseEs.play();
-    muteBb();
-  }, []);
-  const [modalIsOpen, setIsOpen] = React.useState(true);
+
   const confetti = new JSConfetti();
   const confettiList = () => {
     confetti.addConfetti({
@@ -232,10 +222,15 @@ export const FailModal = ({
       confettiNumber: 70,
     });
   };
-
-  React.useEffect(() => {
+  const muteBb = () => {
+    loseEs.play();
+    setBbmute(true);
+    dispatch(gameSwitch(false));
     confettiList();
-  }, []);
+  };
+  React.useEffect(() => {
+    resFail === true && muteBb();
+  }, [resFail]);
 
   const customModalStyles = {
     overlay: {
@@ -252,23 +247,12 @@ export const FailModal = ({
 
   return (
     <>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={() => {
-          setIsOpen(false);
-          setROpen(true);
-          setShowFailModal(false);
-        }}
-        style={customModalStyles}
-      >
+      <Modal isOpen={resFail} style={customModalStyles}>
         <img
           className="ExitBtn"
           src="/img/X_btn_black_30.svg"
           onClick={() => {
-            setIsOpen(false);
-            setROpen(true);
-            setResult("LOSE");
-            setShowFailModal(false);
+            allClose();
           }}
           alt=""
         />
