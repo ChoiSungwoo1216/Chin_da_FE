@@ -8,7 +8,7 @@ import effectSound from "../../shared/effectSound.js";
 import selectSound from "../../audios/btnselect.mp3"
 import hoverSound from "../../audios/BtnHoverSE1.mp3"
 import enterSound from "../../audios/SelectionRoomClickSE1.mp3"
-const Selection = ({logout}) => {
+const Selection = ({ logout }) => {
    const userSound = useSelector((state) => state.user.sound);
 
    const [language, setLanguage] = React.useState("");
@@ -22,11 +22,17 @@ const Selection = ({logout}) => {
    const hoverEs = effectSound(hoverSound, userSound.es);
    const enterEs = effectSound(enterSound, userSound.es);
 
-     window.onbeforeunload = (e) => {
+   window.onbeforeunload = (e) => {
       e.preventDefault();
       e.returnValue = "";
       return logout();
-    };
+   };
+
+   window.onunload = (e) => {
+      e.preventDefault();
+      e.returnValue = "";
+      return logout();
+   }
 
    return (
       <>
