@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css, keyframes } from "styled-components";
-import { alreadyUser, setPending } from "../../../redux/modules/battleFunction.js";
+import {
+  alreadyUser,
+  setPending,
+} from "../../../redux/modules/battleFunction.js";
 import effectSound from "../../../shared/effectSound.js";
 import readySound from "../../../audios/ready.mp3";
 
@@ -37,23 +40,25 @@ export const ReadyOpp = () => {
   const oppReady = useSelector((state) => state.battleFunction.already.opp);
   const userSound = useSelector((state) => state.user.sound);
   const readyEs = effectSound(readySound, userSound.es);
+  const oppName = useSelector((state) => state.battleFunction.newOpp);
   const dispatch = useDispatch();
 
-  const setReady = () => {
-    readyEs.play();
-    oppReady === false && dispatch(alreadyUser({ opp: true }));
-  };
+  useEffect(() => {}, [oppName]);
 
   return (
     <OppContainer>
       <OppDiv wait={oppReady}>
-        <ReadyBtn disabled={oppReady} onClick={setReady} />
+        {oppName && (
+          <OppLogo disabled="false">
+            <p>{oppName}대기 중</p>
+          </OppLogo>
+        )}
       </OppDiv>
     </OppContainer>
   );
 };
 
-export const UserSubmitPending = (p) => {
+export const UserSubmitPending = () => {
   const run = useSelector((state) => state.battleFunction.pendingRun.user);
   const dispatch = useDispatch();
   const setRun = (a) => dispatch(setPending(a));
@@ -80,7 +85,7 @@ export const UserSubmitPending = (p) => {
   );
 };
 
-export const OppSubmitPending = (p) => {
+export const OppSubmitPending = () => {
   const run = useSelector((state) => state.battleFunction.pendingRun.opp);
   const dispatch = useDispatch();
   const setRun = (a) => dispatch(setPending(a));
@@ -168,6 +173,24 @@ const ReadyBtn = styled.button`
   cursor: pointer;
   z-index: 1;
   border: none;
+`;
+
+const OppLogo = styled(ReadyBtn)`
+  background-image: url("/img/oppLogo.svg");
+  width: 20vw;
+  border: 1px solid red;
+
+  & p {
+    margin: auto;
+
+    padding-top: 0.5vh;
+    /* top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
+    color: black;
+    font-size: calc (1vw+1vh);
+    font-family: Neo;
+  }
 `;
 
 const FillCircle = keyframes`
