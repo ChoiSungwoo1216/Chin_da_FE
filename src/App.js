@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import axios from "axios";
 
 import Start from "./pages/Start/Start.js";
 import Main from "./pages/Main/Main.js";
@@ -31,6 +32,25 @@ function App() {
       return false;
     }
   }
+  const api = process.env.REACT_APP_API;
+
+  const logout = () => {
+    axios({
+      url:`${api}/chinda/logout`,
+      method: "GET",
+      headers: { Authorization: token },
+    })
+      .then((res) => {
+        console.log(res);
+        sessionStorage.clear();
+        localStorage.clear();
+        window.location.replace("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   //소리 로컬화
   useEffect(() => {
     if (localStorage.getItem("bgm") && localStorage.getItem("es")) {
@@ -63,9 +83,9 @@ function App() {
         <>
           <MainB mbmute={mbmute} />
           <Routes>
-            <Route path="/selection" element={<Selection />}></Route>
+            <Route path="/selection" element={<Selection logout={logout} />}></Route>
             {(language !== "" && level !=="") &&
-            <Route path="/main" element={<Main />}></Route>
+            <Route path="/main" element={<Main logout={logout}/>}></Route>
             }
             {(roomId !== '') &&
             <Route path="/battle" element={<Battle setMbmute={setMbmute} />}/>
