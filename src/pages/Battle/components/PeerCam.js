@@ -126,13 +126,13 @@ const Cam = styled.div`
         } else {
             return css`
               display: flex;
-  width: 11.89vw;
+  width: calc(85% + 3px);
   height: 11.9vw;
   background: transparent;
-  border-left: 3px solid black;
+  /* border-left: 3px solid black;
   border-right: 3px solid black;
   border-bottom: 3px solid black;
-  background-image: url(/img/cam_double_cross.svg);
+  background-image: url(/img/cam_double_cross.svg); */
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
