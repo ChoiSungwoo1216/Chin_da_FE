@@ -15,9 +15,15 @@ import { setRoomId } from '../../redux/modules/user';
 const api = process.env.REACT_APP_API;
 const Authorization = sessionStorage.getItem("Authorization")
 
-export function Main() {
+export function Main( {logout}) {
    const navigate = useNavigate();
    const dispatch = useDispatch();
+
+   window.onbeforeunload = (e) => {
+      e.preventDefault();
+      e.returnValue = "";
+      return logout();
+    };
 
    const [user1Info, setUser1Info] = useState({
       loseCnt: 0,
