@@ -6,48 +6,61 @@
 
 main {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
-  width: 100%;
-  margin: auto;
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
 }
 
-article {
+ article {
   width: 50%;
-  height: 100vh;
+  height: 100vh;  
   box-sizing: border-box;
   background-color: #ffffff1a;
   border-radius: 5px 0 0 5px;
   position: absolute;
   z-index: 5;
   clip-path: polygon(0% 0%, 100% 0, 100% 45%, 95% 55%, 95% 100%, 0% 100%);
-}
+} 
 
+aside {
+  width: 50%;
+  height: 100vh;
+  left: 50%;
+  box-sizing: border-box;
+  position: absolute;
+  z-index: 5;
+}
 
 .profile {
   display: flex;
+  position: absolute;
   align-items: center;
   justify-content: center;
   width: calc((32vh + 46vw) / 4);
   height: calc((32vh + 44vw) / 7);
   margin: 1%;
-  position: relative;
-  z-index: 8;
+  z-index: 4;
 }
 
 .profile2 {
   display: flex;
   position: absolute;
+  right: 0;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   width: calc((32vh + 46vw) / 4);
   height: calc((32vh + 44vw) / 7);
   margin: 1%;
-  position: relative;
-  z-index: 8;
+  z-index: 4;
 }
 
 .thumbnail {
-  margin: 2.2vh;
+  display: flex;
+  position: absolute;
+  margin: auto;
+  left: calc((8vh + 8vw) / 8);
   width: calc((10vh + 10vw) / 4);
   height: calc((10vh + 10vw) / 4);
   border: none;
@@ -56,15 +69,15 @@ article {
 .description {
   display: flex;
   flex-direction: column;
-  /* position: absolute;
-  right: 2.2vw;
-  top: 2.2vh; */
-  margin-right: 1vw;
-  word-break: break-all;
+  position: absolute;
+  width: calc((8vh + 30vw) / 4);
+  height: calc((8vh + 20vw) / 4);
+  right: calc((2vh + 2vw) / 8);
+  margin: auto;
 }
 
 .description p {
-  margin: .5vh auto;
+  margin: auto;
   font-size: calc((3vh + 3vw) / 4);
   color: #fff;
   word-break: break-all;
@@ -225,40 +238,41 @@ article {
 }
 
 .btnCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: absolute;
-  bottom: 6%;
-  right: -5%;
-  width: 22vw;
-  height: 28vh;
+  bottom: calc((4.2vh + 4.2vw) / 4);
+  right: calc((-4vh + -4vw) / 4);
+  width: calc((35vh + 35vw) / 4);
   color: #fff;
   z-index: 5;
-  margin: 0;
+  margin: auto;
+  padding: 1vh;
 }
 
-.btnCard h3 {
+.btnCard div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: calc((20vh + 25vw) / 4);
+  margin: calc((2.2vh + 2.2vw) / 4);
+  padding: .2vh;
+}
+
+.btnCard div:hover {
+  mix-blend-mode: hard-light;
+  cursor: pointer;
+}
+
+.btnCard p {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 3vh;
-  margin: .5vh auto;
-  font-size: calc((4vh + 4vw) / 4);
-}
-
-.btnCard img {
-  display: block;
-  left: 50%;
-  max-width: calc((26vh + 23vw) / 4);
+  padding: 1.4vh;
   margin: auto;
-}
-
-#btnClick:hover {
-  mix-blend-mode: hard-light;
-  cursor: pointer;
-}
-
-#btnEnter:hover {
-  mix-blend-mode: hard-light;
-  cursor: pointer;
+  font-size: calc((3.5vh + 3.5vw) / 4);
 }
 
 .userProfile {
@@ -270,33 +284,36 @@ article {
 }
 
 .player1 {
-  margin: auto;
-  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .player1 .CharBody {
-  display: block;
-  top: 15vh;
-  left: calc((50vh + 50vw) / 4);
-  margin: auto;
+  display: flex;
+  justify-content: center;
+  margin-top: calc((20vh + 20vw) / 4);
+  margin-left: calc((5vh + 5vw) / 4);
   width: calc((50vh + 50vw) / 4);
   animation: MovingChar 2s infinite alternate;
 }
 
 .player1 .CharAni {
-  display: block;
-  position: fixed;
-  top: calc((100vh + 58vw) / 4);
-  left: calc((50vh + 33vw) / 4);
-  max-width: calc((19vh + 23vw) / 4);
-  animation: MovingAni 0.1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
+  display: flex;
+  position: absolute;
+  margin-top: calc((65vh + 65vw) / 4);
+  margin-left: calc((-50vh + -50vw) / 4);
+  max-width: calc((20vh + 27vw) / 4);
+  animation: MovingAni 0.1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite,
+             MovingChar 2.01s infinite alternate;
 }
 
 .player1 .bullet1 {
-  display: block;
-  position: fixed;
-  top: calc((120vh + 120vw) / 8);
-  left: calc((70vh + 120vw) / 4);
+  display: flex;
+  position: absolute;
+  justify-content: flex-start;
+  margin-top: calc((32vh + 30vw) / 4);
+  margin-left: calc((65vh + 65vw) / 4);
   width: calc((2vh + 2vw) / 4);
   height: calc((1.5vh + 1.5vw) / 4);
   border-radius: 0 15px 15px 0;
@@ -310,15 +327,84 @@ article {
   align-items: center;
 }
 
-.player2 .bullet2 {
-  /* display: block;
-  position: fixed;
-  top: calc((110vh + 125vw) / 8);
-  left: calc((150vh + 140vw) / 4); */
+.player2 .CharBody0,
+.CharBody1,
+.CharBody2,
+.CharBody3
+ {
   display: flex;
   position: absolute;
-  margin-top: calc((38vh + 38vw) / 4);
-  margin-right: calc((-20vh + -20vw) / 4);
+  top: calc((20vh + 20vw) / 4);
+  width: calc((55vh + 55vw) / 4);
+  animation: MovingChar 2s infinite alternate;
+}
+
+.CharBody1 {
+  display: flex;
+  position: absolute;
+  top: calc((20vh + 20vw) / 4);
+  width: calc((50vh + 50vw) / 4);
+  animation: MovingChar 2s infinite alternate;
+}
+
+.CharBody3 {
+  display: flex;
+  position: absolute;
+  top: calc((20vh + 20vw) / 4);
+  width: calc((70vh + 70vw) / 4);
+  animation: MovingChar 2s infinite alternate;
+}
+
+.CharBody4 {
+  display: flex;
+  position: absolute;
+  top: calc((20vh + 20vw) / 4);
+  width: calc((40vh + 40vw) / 4);
+  animation: MovingChar 2s infinite alternate;
+}
+.player2 .CharAni0,
+.CharAni1,
+.CharAni2,
+.CharAni3,
+.CharAni4 {
+  display: flex;
+  position: absolute;
+}
+
+.player2 .CharAni0 {
+  margin-top: calc((140vh + 140vw) / 4);
+  margin-left: calc((70vh + 70vw) / 4);
+  max-width: calc((15vh + 15vw) / 4);
+  animation: MovingAni 0.1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
+}
+
+.player2 .CharAni1, .CharAni2 {
+  top: calc((67vh + 67vw) / 4);
+  margin-left: calc((60vh + 65vw) / 4);
+  max-width: calc((15vh + 15vw) / 4);
+  animation: MovingAni 0.1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
+}
+
+.player2 .CharAni3 {
+  top: calc((68vh + 68vw) / 4);
+  margin-left: calc((74vh + 74vw) / 4);
+  max-width: calc((13vh + 13vw) / 4);
+  animation: MovingAni 0.1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
+             /* MovingChar 2.02s infinite alternate; */
+}
+
+.player2 .CharAni4 {
+  top: calc((70vh + 70vw) / 4);
+  margin-left: calc((55vh + 55vw) / 4);
+  max-width: calc((20vh + 20vw) / 4);
+  animation: MovingAni4 .8s ease-in-out infinite;
+}
+
+.player2 .bullet2 {
+  display: flex;
+  position: absolute;
+  margin-top: calc((125vh + 122vw) / 4);
+  right: calc((120vh + 120vw) / 4);
   width: calc((2vh + 2vw) / 4);
   height: calc((1.5vh + 1.5vw) / 4);
   border-radius: 15px 0 0 15px;
@@ -326,97 +412,12 @@ article {
   animation: MovingBullet2 .5s infinite;
 }
 
-.player2 .CharBody0,
-.CharBody1,
-.CharBody2,
-.CharBody3,
-.CharBody4 {
-  /* position: absolute;
-  top: 15vh;
-  left: 60vw; */
-  display: flex;
-  justify-content: center;
-  margin-top: calc((20vh + 20vw) / 4);
-  margin-left: calc((100vh + 100vw) / 4);
-  width: calc((65vh + 65vw) / 4);
-  height: calc((65vh + 65vw) / 4);
-  animation: MovingChar 2s infinite alternate;
-}
-
-.player2 .CharAni0 {
-  /* display: block;
-  position: fixed; 
-  top: calc((85vh + 65vw) / 4);
-  left: calc((218vh + 228vw) / 4);*/
-  display: flex;
-  position: absolute;
-  margin-top: calc((30vh + 30vw) / 4);
-  margin-left: calc((90vh + 90vw) / 4);
-  max-width: calc((15vh + 15vw) / 4);
-  animation: MovingAni 0.1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
-}
-
-.player2 .CharAni1 {
-  /* display: block;
-  position: fixed;
-    top: calc((90vh + 58vw) / 4);
-      left: calc((210vh + 220vw) / 4); */
-  display: flex;
-  position: absolute;
-  margin-top: calc((32vh + 32vw) / 4);
-  margin-left: calc((80vh + 80vw) / 4);
-  max-width: calc((15vh + 15vw) / 4);
-  animation: MovingAni 0.1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
-}
-
-.player2 .CharAni2 {
-  /* display: block;
-  position: fixed; 
-  top: calc((80vh + 65vw) / 4);
-    left: calc((210vh + 225vw) / 4);*/
-  display: flex;
-  position: absolute;
-  margin-top: calc((32vh + 32vw) / 4);
-  margin-left: calc((85vh + 85vw) / 4);
-  max-width: calc((15vh + 15vw) / 4);
-  animation: MovingAni .1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite;
-}
-
-.player2 .CharAni3 {
-  /* display: block;
-  position: fixed; */
-  display: flex;
-  position: absolute;
-  margin-top: calc((32vh + 32vw) / 4);
-  margin-left: calc((85vh + 85vw) / 4);
-  max-width: calc((13vh + 13vw) / 4);
-  animation: MovingAni 0.1s cubic-bezier(0.175, 0.885, 0.420, 1.410) infinite,
-    MovingChar 2s infinite alternate;
-}
-
-.player2 .CharAni4 {
-  /* display: block;
-  position: fixed; 
-  top: calc((90vh + 60vw) / 4);
-  left: calc((200vh + 215vw) / 4);*/
-  display: flex;
-  position: absolute;
-  margin-top: calc((32vh + 32vw) / 4);
-  margin-left: calc((80vh + 80vw) / 4);
-  max-width: calc((20vh + 20vw) / 4);
-  animation: MovingAni4 .8s ease-in-out infinite;
-}
-
 .player2 .light {
-  /* display: block;
-  position: fixed;
-  top: calc((135vh + 145vw) / 8);
-  left: calc((150vh + 144vw) / 4); */
   display: flex;
   position: absolute;
-  margin-top: calc((60vh + 60vw) / 4);
-  margin-right: calc((-15vh + -15vw) / 4);
-  width: calc((20vh + 20vw) / 4);
+  margin-top: calc((145vh + 140vw) / 4);
+  right: calc((100vh + 100vw) / 4);
+  width: calc((25vh + 25vw) / 4);
   height: calc((4vh + 4vw) / 4);
   clip-path: polygon(100% 50%, 0 30%, 0 70%);
   background: linear-gradient(to left, yellow, #ffffff1a);
@@ -474,19 +475,19 @@ article {
   }
 
   100% {
-    transform: translate(200px, 0) scale(1, 1);
+    transform: translate(150px, 0) scale(1, 1);
     opacity: .5;
   }
 }
 
 @keyframes MovingBullet2 {
   0% {
-    transform: translate(250px, 0) scale(1, 0);
+    transform: translate(200px, 0) scale(1, 0);
     opacity: 1;
   }
 
   100% {
-    transform: translate(-50px, 0) scale(1, 1);
+    transform: translate(-10px, 0) scale(1, 1);
     opacity: .5;
   }
 }

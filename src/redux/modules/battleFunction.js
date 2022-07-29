@@ -82,10 +82,6 @@ export function ModalOpen(user) {
   return { type: MODALOPEN, user };
 }
 
-export function resModalOpen(bool) {
-  return { type: RES, bool };
-}
-
 export function NewQue(user) {
   return { type: QUE, user };
 }
@@ -96,6 +92,10 @@ export function NewOp(str) {
 
 export function setTrySub(int) {
   return { type: TRY, int };
+}
+
+export function resModalOpen(user) {
+  return { type: RES, user };
 }
 
 // Reducer
@@ -155,11 +155,11 @@ export default function reducer(state = initialState, action = {}) {
       return { ...state, trySub: action.int };
     }
     case RES: {
-      const Res_list = {
+      const res_list = {
         ...state.resModal,
-        ...action.bool,
+        ...action.user,
       };
-      return { ...state, resMdoal: Res_list };
+      return { ...state, resModal: res_list };
     }
     default:
       return state;

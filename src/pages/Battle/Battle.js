@@ -231,15 +231,15 @@ const Battle = (props) => {
     connect();
     Chatconnect();
     dispatch(alreadyUser({ user: false, opp: false }));
+    dispatch(gameSwitch(false));
     return () => {
       peerInstance.current.destroy();
       dispatch(setRoomId(""));
       // when disconnecting to game and chatting server
-      // dispatch(NewQue({ question: "", questionTitle: "", questionId: "" }));
+      dispatch(NewQue({ question: "", questionTitle: "", questionId: "" }));
       dispatch(ModalOpen({ chat: true, que: false, rule: true }));
       dispatch(setPeerId({ userId: "", opId: "" }));
       dispatch(NewOp(""));
-      // dispatch(gameSwitch(false));
       if (gameStartRef.current === true) {
         exitLose();
         exitMes();
@@ -666,7 +666,7 @@ const Battle = (props) => {
         </OpponentDiv>
       </BodyPart>
 
-      <QuestionModal que={que} />
+      <QuestionModal />
 
       {showSuccessModal === true && (
         <SuccessModal

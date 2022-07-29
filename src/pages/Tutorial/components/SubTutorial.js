@@ -33,22 +33,25 @@ export default function SubTutorial(props) {
                </div>
 
                <SwiperSlide>
-                  <img src="/img/selection.jpg" alt="" />
+                  <img src="/img/Tutorial1.svg" alt="" />
                </SwiperSlide>
                <SwiperSlide>
-                  <img src="/img/selection.jpg" alt="" />
+                  <img src="/img/Tutorial2.svg" alt="" />
                </SwiperSlide>
                <SwiperSlide>
-                  <img src="/img/selection.jpg" alt="" />
+                  <img src="/img/Tutorial3.svg" alt="" />
                </SwiperSlide>
                <SwiperSlide>
-                  <img src="/img/selection.jpg" alt="" />
+                  <img src="/img/Tutorial4.svg" alt="" />
                </SwiperSlide>
                <SwiperSlide>
-                  <img src="/img/selection.jpg" alt="" />
+                  <img src="/img/Tutorial5.svg" alt="" />
                </SwiperSlide>
                <SwiperSlide>
-                  <img src="/img/selection.jpg" alt=''/>
+                  <img src="/img/Tutorial6.svg" alt=''/>
+               </SwiperSlide>
+               <SwiperSlide>
+                  <img src="/img/Tutorial7.svg" alt=''/>
                </SwiperSlide>
             </Swiper>
          </div>
