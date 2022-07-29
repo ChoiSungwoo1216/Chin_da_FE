@@ -50,7 +50,7 @@ export const ReadyOpp = () => {
       <OppDiv wait={oppReady}>
         {oppName && (
           <OppLogo disabled="false">
-            <p>{oppName}대기 중</p>
+            <p>{oppName} 대기 중</p>
           </OppLogo>
         )}
       </OppDiv>
@@ -178,17 +178,11 @@ const ReadyBtn = styled.button`
 const OppLogo = styled(ReadyBtn)`
   background-image: url("/img/oppLogo.svg");
   width: 20vw;
-  border: 1px solid red;
 
   & p {
     margin: auto;
-
-    padding-top: 0.5vh;
-    /* top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); */
     color: black;
-    font-size: calc (1vw+1vh);
+    font-size: calc((5vw + 5vh)/6);
     font-family: Neo;
   }
 `;
