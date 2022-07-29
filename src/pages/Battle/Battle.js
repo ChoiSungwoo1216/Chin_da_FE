@@ -62,6 +62,7 @@ const Authorization = sessionStorage.getItem("Authorization");
 
 let client = null;
 let clientChat = null;
+let peer = null;
 
 const Battle = (props) => {
   const navigate = useNavigate();
@@ -162,7 +163,7 @@ const Battle = (props) => {
 
   //get peerId
   useEffect(() => {
-    const peer = new Peer();
+    peer = new Peer();
     peer.on("open", (id) => {
       dispatch(setPeerId({ userId: id }));
     });
@@ -211,11 +212,6 @@ const Battle = (props) => {
       }
     });
   };
-
-  useEffect(() => {
-    console.log("연결", remotePeerIdValue);
-    call(remotePeerIdValue);
-  }, [remotePeerIdValue]);
 
   //For game server
   const username = sessionStorage.getItem("username");
@@ -662,6 +658,7 @@ const Battle = (props) => {
             camEs={camEs}
             remoteVideoRef={remoteVideoRef}
             remotePeerIdValue={remotePeerIdValue}
+            call={call}
           />
         </OpponentDiv>
       </BodyPart>

@@ -37,13 +37,14 @@ export const UserCam = ({ camEs, currentUserVideoRef}) => {
     )
 }
 
-export const OpCam = ({ camEs, remoteVideoRef, remotePeerIdValue}) => {
+export const OpCam = ({ camEs, remoteVideoRef, remotePeerIdValue, call}) => {
 
     const [opCamSlide, setOpCamSlide] = useState(true);
 
     useEffect(() => {
         CheckOp();
-    }, [remotePeerIdValue])
+        call(remotePeerIdValue);
+      }, [remotePeerIdValue]);
 
     const CheckOp = () => {
         if (remotePeerIdValue === "" || remotePeerIdValue === undefined || remotePeerIdValue === null) {
