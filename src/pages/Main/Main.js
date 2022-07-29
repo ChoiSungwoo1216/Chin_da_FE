@@ -201,6 +201,7 @@ export function Main() {
       <>
          <div className="mainContainer">
             <main>
+               <article className="article">
                <div
                   className="profile"
                   style={{
@@ -221,69 +222,69 @@ export function Main() {
                   </div>
                </div>
 
-               <article className="article">
-                  <div className="player1">
-                     <img
-                        className="player1 CharAni"
-                        src="/img/Char1Ani.svg"
-                        alt=""
-                     />
-                     <div className="player1 bullet1"></div>
-                     <img
-                        className="player1 CharBody"
-                        src="/img/Char1Body.svg"
-                        alt=""
-                     />
-                  </div>
+               <div className="player1">
+                  <img
+                     className="player1 CharAni"
+                     src="/img/Char1Ani.svg"
+                     alt=""
+                  />
+                  <div className="player1 bullet1"></div>
+                  <img
+                     className="player1 CharBody"
+                     src="/img/Char1Body.svg"
+                     alt=""
+                  />
+               </div>
                </article>
+               <aside>
+                  {user2Info.creatorGameInfo.profileUrl !== '' && (
+                     <div
+                        className="profile2"
+                        style={{
+                           backgroundImage: 'url(/img/mainCardPlayer.svg)',
+                           backgroundRepeat: 'no-repeat',
+                           backgroundSize: 'contain',
+                        }}
+                     >
+                        <img
+                           className="thumbnail"
+                           src={user2Info.creatorGameInfo.profileUrl}
+                           alt=""
+                           onError={(e) => (e.target.style.display = 'none')}
+                        />
 
-               {user2Info.creatorGameInfo.profileUrl !== '' && (
-                  <div className="player2">
-                     {user2Info.num < 2 && (
-                        <>
-                           <div className="player2 bullet2"></div>
-                        </>
-                     )}
-                     <img
-                        className={`CharAni${user2Info.num}`}
-                        src={CharAni[user2Info.num]}
-                        alt=""
-                     />
-                     {user2Info.num === 4 && (
-                        <>
-                           <div className="player2 light"></div>
-                        </>
-                     )}
-                     <img
-                        className={`CharBody${user2Info.num}`}
-                        src={CharBody[user2Info.num]}
-                        alt=""
-                     />
-                  </div>
-               )}
-               {user2Info.creatorGameInfo.profileUrl !== '' && (
-                  <div
-                     className="profile2"
-                     style={{
-                        backgroundImage: 'url(/img/mainCardPlayer.svg)',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundSize: 'contain',
-                     }}
-                  >
-                     <img
-                        className="thumbnail"
-                        src={user2Info.creatorGameInfo.profileUrl}
-                        alt=""
-                        onError={(e) => (e.target.style.display = 'none')}
-                     />
-
-                     <div className="description">
-                        <p>{user2Info.creatorGameInfo.playerName}</p>
-                        <p>WIN: {user2Info.creatorGameInfo.winCnt}</p>
-                        <p>LOSE: {user2Info.creatorGameInfo.loseCnt}</p>
+                        <div className="description">
+                           <p>{user2Info.creatorGameInfo.playerName}</p>
+                           <p>WIN: {user2Info.creatorGameInfo.winCnt}</p>
+                           <p>LOSE: {user2Info.creatorGameInfo.loseCnt}</p>
+                        </div>
                      </div>
-                  </div>
-               )}
+                  )}
+                  {user2Info.creatorGameInfo.profileUrl !== '' && (
+                     <div className="player2">
+                        {user2Info.num < 2 && (
+                           <>
+                              <div className="player2 bullet2"></div>
+                           </>
+                        )}
+                        <img
+                           className={`CharAni${user2Info.num}`}
+                           src={CharAni[user2Info.num]}
+                           alt=""
+                        />
+                        {user2Info.num === 4 && (
+                           <>
+                              <div className="player2 light"></div>
+                           </>
+                        )}
+                        <img
+                           className={`CharBody${user2Info.num}`}
+                           src={CharBody[user2Info.num]}
+                           alt=""
+                        />
+                     </div>
+                  )}
+               </aside>
             </main>
 
             <section className="mainSection">
@@ -349,26 +350,43 @@ export function Main() {
                      backgroundImage: 'url(/img/mainBtnCard1.svg)',
                      backgroundRepeat: 'no-repeat',
                      backgroundPosition: 'center',
-                     objectFit: 'cover',
                   }}
                >
-                  <h3>Refresh</h3>
-
-                  <img
-                     id="btnClick"
-                     src="/img/btnClick.svg"
-                     alt="none"
+                  <div
+                     className="btnClick"
                      onClick={refreshBtn}
-                  />
+                     style={{
+                        backgroundImage: 'url(/img/mainBtn.svg)',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+                     }}
+                  >
+                     <p>Refresh</p>
+                  </div>
 
-                  <h3>Game Start</h3>
-
-                  <img
-                     id="btnEnter"
+                  <div
+                     className="btnClick"
                      onClick={EnterBattle}
-                     src="/img/btnEnter.svg"
-                     alt="none"
-                  />
+                     style={{
+                        backgroundImage: 'url(/img/mainBtn.svg)',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+                     }}
+                  >
+                     <p>Game Start</p>
+                  </div>
+
+                  <div
+                     className="btnClick"
+                     onClick={EnterBattle}
+                     style={{
+                        backgroundImage: 'url(/img/mainBtn.svg)',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+                     }}
+                  >
+                     <p>Game Start</p>
+                  </div>
                </div>
             </section>
          </div>
