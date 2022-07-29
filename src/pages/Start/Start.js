@@ -4,7 +4,7 @@ import styled, { keyframes, css } from "styled-components";
 import "./startAnimation.css";
 import { useSelector } from "react-redux";
 import effectSound from "../../shared/effectSound.js";
-import selectSound from "../../audios/btnselect.mp3"
+import selectSound from "../../audios/btnselect.mp3";
 
 const Start = ({ setMMute }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -45,7 +45,14 @@ const Start = ({ setMMute }) => {
         onMouseOut={() => {
           setHOVER(false);
         }}
-        onClick={HOVER === true ? ()=>{open(); selectEs.play();} : undefined}
+        onClick={
+          HOVER === true
+            ? () => {
+                open();
+                selectEs.play();
+              }
+            : undefined
+        }
       >
         {HOVER === false && (
           <>
@@ -98,7 +105,6 @@ const StartContainer = styled.div`
   width: 100vw;
   min-height: 500px;
   height: 100vh;
-  /* background-color: lightgray; */
   z-index: 1;
   top: 0;
   left: 0;
