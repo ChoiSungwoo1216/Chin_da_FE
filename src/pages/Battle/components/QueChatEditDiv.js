@@ -5,7 +5,7 @@ import ChatBox from "./ChatBox.js";
 import { ReadyOpp, OppSubmitPending } from "./ReadyAndPending.js";
 import { AceEditorOpp } from "./AceEditors.js";
 
-const QueChatEditDiv = ({ que, roomId, username, gameStart, mode, opCode }) => {
+const QueChatEditDiv = ({ que, roomId, username, gameStart, mode, opCode, clientChat }) => {
   const modal = useSelector((state) => state.battleFunction.modalOpen);
 
   return (
@@ -23,7 +23,7 @@ const QueChatEditDiv = ({ que, roomId, username, gameStart, mode, opCode }) => {
         <ChatHead>
           <p>Chatting</p>
         </ChatHead>
-        <ChatBox roomId={roomId} username={username} />
+        <ChatBox roomId={roomId} username={username} clientChat={clientChat}/>
       </ChatingDiv>
       <CodeDiv queOpen={modal.que} chatOpen={modal.chat}>
         {gameStart === false ? <ReadyOpp /> : null}

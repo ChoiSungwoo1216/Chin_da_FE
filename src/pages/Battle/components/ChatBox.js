@@ -1,22 +1,13 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import * as StompJS from "stompjs";
-import * as SockJS from "sockjs-client";
 
-const ChatBox = (props) => {
-  //채널 정보
-  const roomId = props.roomId;
-  const username = props.username;
+const ChatBox = ({roomId, username, clientChat}) => {
 
   //메세지 보내기
   const messageRef = useRef("");
   //채팅 기록
   const chattinglist = useSelector((state) => state.chatlist.list);
-  //Websocket
-  const ChatApi = process.env.REACT_APP_API_CHAT;
-  let socket = new SockJS(`${ChatApi}/ws-stomp?name=` + encodeURI(username));
-  let clientChat = StompJS.over(socket);
 
   const sendMessage = () => {
     clientChat.send(

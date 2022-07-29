@@ -58,7 +58,16 @@ import { OpCam, UserCam } from "./components/PeerCam.js";
 import { history } from "../../shared/History.js";
 Modal.setAppElement("#root");
 const api = process.env.REACT_APP_API;
+const ChatApi = process.env.REACT_APP_API_CHAT;
 const Authorization = sessionStorage.getItem("Authorization");
+const username = sessionStorage.getItem("username");
+const headers = { Authorization: Authorization };
+
+let client = null;
+let sock = null;
+let clientChat = null;
+let socket = null;
+let peer = null;
 
 const Battle = (props) => {
   const navigate = useNavigate();
@@ -159,7 +168,7 @@ const Battle = (props) => {
 
   //get peerId
   useEffect(() => {
-    const peer = new Peer();
+    peer = new Peer();
     peer.on("open", (id) => {
       dispatch(setPeerId({ userId: id }));
     });
@@ -209,17 +218,10 @@ const Battle = (props) => {
     });
   };
 
-  useEffect(() => {
-    console.log("연결", remotePeerIdValue);
-    call(remotePeerIdValue);
-  }, [remotePeerIdValue]);
-
   //For game server
-  const username = sessionStorage.getItem("username");
-  const headers = { Authorization: Authorization };
 
-  let sock = new SockJS(`${api}/ws-stomp?username=` + encodeURI(username));
-  let client = StompJS.over(sock);
+  sock = new SockJS(`${api}/ws-stomp?username=` + encodeURI(username));
+  client = StompJS.over(sock);
 
   const opCode = useRef();
   const codeRef = useRef("");
@@ -343,6 +345,7 @@ const Battle = (props) => {
   };
 
   //Live Code sending to opp
+  const sendT = useSelector((state) => state.battleFunction.sendRun);
 
   const sendCode = () => {
     client.send(
@@ -355,6 +358,12 @@ const Battle = (props) => {
       })
     );
   };
+
+  useEffect(() => {
+    if (gameStart === true) {
+      setTimeout(() => sendCode(), 300);
+    }
+  }, [sendT]);
 
   //Compile Failed 3 times Lose message
   const compileFailedLose = () => {
@@ -412,10 +421,9 @@ const Battle = (props) => {
   };
 
   //About Chatting server
-  const ChatApi = process.env.REACT_APP_API_CHAT;
 
-  let socket = new SockJS(`${ChatApi}/ws-stomp?name=` + encodeURI(username));
-  let clientChat = StompJS.over(socket);
+  socket = new SockJS(`${ChatApi}/ws-stomp?name=` + encodeURI(username));
+  clientChat = StompJS.over(socket);
 
   // Chat server connect
   const Chatconnect = () => {
@@ -647,11 +655,13 @@ const Battle = (props) => {
             gameStart={gameStart}
             mode={mode}
             opCode={opCode}
+            clientChat={clientChat}
           />
           <OpCam
             camEs={camEs}
             remoteVideoRef={remoteVideoRef}
             remotePeerIdValue={remotePeerIdValue}
+            call={call}
           />
         </OpponentDiv>
       </BodyPart>
