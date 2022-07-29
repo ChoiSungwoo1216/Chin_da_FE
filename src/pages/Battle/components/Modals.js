@@ -26,9 +26,7 @@ export const QuestionModal = () => {
   console.log(resQuest + "----");
 
   // const [modalIsOpen, setIsOpen] = React.useState(false);
-  useEffect(() => {
-    console.log(resQuest + "----");
-  }, [resQuest]);
+
   const customModalStyles = {
     overlay: {
       background: "#0000006a",
@@ -49,6 +47,9 @@ export const QuestionModal = () => {
     dispatch(resModalOpen({ quest: false }));
     // setIsOpen(false);
   };
+  useEffect(() => {
+    console.log(resQuest + "----");
+  }, [resQuest]);
   return (
     <>
       {resQuest === true && (
