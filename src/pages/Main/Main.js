@@ -25,12 +25,6 @@ export function Main({ logout }) {
       return logout();
    };
 
-   window.onunload = (e)=>{
-      e.preventDefault();
-      e.returnValue="";
-      return logout();
-   }
-
    const [user1Info, setUser1Info] = useState({
       loseCnt: 0,
       playerName: "",

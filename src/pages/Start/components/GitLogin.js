@@ -35,8 +35,14 @@ const GitLogin = ({ setMMute }) => {
         loading("/selection");
       })
       .catch((err) => {
-        window.alert(err.response.data)
-        console.log(err + "------err");
+        if (err.response.data.reLogin === true) {
+          window.alert(err.response.data.error);
+          sessionStorage.clear();
+          localStorage.clear();
+        } else {
+          window.alert(err.response.data)
+        }
+        console.log(err);
         loading("/"); //login으로 수정
       });
   };
