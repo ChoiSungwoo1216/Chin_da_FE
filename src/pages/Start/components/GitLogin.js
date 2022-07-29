@@ -40,7 +40,7 @@ const GitLogin = ({ setMMute }) => {
           sessionStorage.clear();
           localStorage.clear();
         } else {
-          window.alert(err.response.data)
+          window.alert(err.response.data);
         }
         console.log(err);
         loading("/"); //login으로 수정
@@ -79,7 +79,7 @@ const GitContainer = styled.div`
 `;
 
 const Gitimage = styled.div`
-  width: 20%;
+  width: 20vw;
   height: 20vw;
   display: flex;
   top: 30%;
@@ -87,7 +87,9 @@ const Gitimage = styled.div`
   border-radius: 100%;
   position: absolute;
   background: url("/img/github_logo.svg") center no-repeat;
-  background-size: cover;
+  background-color: rgba(255, 255, 255, 0.55);
+  background-size: 100% 100%;
+
   animation: none;
 `;
 const GitLogo = styled.div`

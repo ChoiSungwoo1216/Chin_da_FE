@@ -60,10 +60,6 @@ Modal.setAppElement("#root");
 const api = process.env.REACT_APP_API;
 const Authorization = sessionStorage.getItem("Authorization");
 
-let client = null;
-let clientChat = null;
-let peer = null;
-
 const Battle = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -163,7 +159,7 @@ const Battle = (props) => {
 
   //get peerId
   useEffect(() => {
-    peer = new Peer();
+    const peer = new Peer();
     peer.on("open", (id) => {
       dispatch(setPeerId({ userId: id }));
     });
@@ -213,12 +209,17 @@ const Battle = (props) => {
     });
   };
 
+  useEffect(() => {
+    console.log("연결", remotePeerIdValue);
+    call(remotePeerIdValue);
+  }, [remotePeerIdValue]);
+
   //For game server
   const username = sessionStorage.getItem("username");
   const headers = { Authorization: Authorization };
 
   let sock = new SockJS(`${api}/ws-stomp?username=` + encodeURI(username));
-  client = StompJS.over(sock);
+  let client = StompJS.over(sock);
 
   const opCode = useRef();
   const codeRef = useRef("");
@@ -342,7 +343,6 @@ const Battle = (props) => {
   };
 
   //Live Code sending to opp
-  const sendT = useSelector((state) => state.battleFunction.sendRun);
 
   const sendCode = () => {
     client.send(
@@ -355,12 +355,6 @@ const Battle = (props) => {
       })
     );
   };
-
-  useEffect(() => {
-    if (gameStart === true) {
-      setTimeout(() => sendCode(), 300);
-    }
-  }, [sendT]);
 
   //Compile Failed 3 times Lose message
   const compileFailedLose = () => {
@@ -421,7 +415,7 @@ const Battle = (props) => {
   const ChatApi = process.env.REACT_APP_API_CHAT;
 
   let socket = new SockJS(`${ChatApi}/ws-stomp?name=` + encodeURI(username));
-  clientChat = StompJS.over(socket);
+  let clientChat = StompJS.over(socket);
 
   // Chat server connect
   const Chatconnect = () => {
@@ -658,7 +652,6 @@ const Battle = (props) => {
             camEs={camEs}
             remoteVideoRef={remoteVideoRef}
             remotePeerIdValue={remotePeerIdValue}
-            call={call}
           />
         </OpponentDiv>
       </BodyPart>
