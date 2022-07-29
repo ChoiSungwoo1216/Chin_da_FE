@@ -16,8 +16,6 @@ function Timer(p) {
   const sendCode = p.sendCode;
 
   useEffect(() => {
-    console.log(sendCode);
-
     if (active === true) {
       setTimeout(() => sendCode(), 300);
     }

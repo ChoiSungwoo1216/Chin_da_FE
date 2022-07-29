@@ -83,13 +83,11 @@ const Battle = (props) => {
       headers: { Authorization: Authorization },
     })
       .then((res) => {
-        console.log(res);
         sessionStorage.clear();
         localStorage.clear();
         window.location.replace("/");
       })
       .catch((err) => {
-        console.log(err);
       });
   };
 
@@ -201,7 +199,6 @@ const Battle = (props) => {
         playPromise
           .then((_) => {})
           .catch((error) => {
-            console.log(error);
           });
       }
       if (
@@ -279,7 +276,6 @@ const Battle = (props) => {
   const ReceiveCallBack = (message) => {
     if (message.body) {
       const mes = JSON.parse(message.body);
-      console.log(mes);
       switch (mes.type) {
         case "READY":
           dispatch(NewQue({ question: mes.question }));
@@ -329,7 +325,6 @@ const Battle = (props) => {
 
   // Callback function when failing connecting server
   const onError = (err) => {
-    console.log(err);
   };
 
   //Ready for game message
@@ -492,7 +487,6 @@ const Battle = (props) => {
                 })
               );
             }
-            console.log(remotePeerIdValue);
             if (forPeer.current < 1) {
               forPeer.current++;
               EnterSend();
@@ -550,7 +544,6 @@ const Battle = (props) => {
       },
     })
       .then((res) => {
-        console.log(res);
         if (res.data.result === true) {
           dispatch(resModalOpen({ success: true }));
         } else {
@@ -566,7 +559,6 @@ const Battle = (props) => {
         }
       })
       .catch((err) => {
-        console.log(err);
         resAlert("Fail to connect to server!");
         failEs.play();
       });
@@ -600,14 +592,12 @@ const Battle = (props) => {
       },
     })
       .then((response) => {
-        console.log(response);
         setBbmute(true);
         setMbmute(false);
         btnEs.play();
         navigate(`/Main`);
       })
       .catch((error) => {
-        console.log(error);
         if (error.response.status === 400) {
           window.alert(error.response.data);
           navigate("/selection");

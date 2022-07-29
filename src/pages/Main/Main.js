@@ -31,7 +31,6 @@ export function Main({ logout }) {
       profileUrl: "",
       winCnt: 0
    })
-   console.log(user1Info)
 
    const [user2Info, setUser2Info] = useState({
       creatorGameInfo: {
@@ -94,7 +93,6 @@ export function Main({ logout }) {
             }
          })
          .then((response) => {
-            console.log(response.data);
             for (let i = 0; i < response.data.gameRooms.length; i++) {
                response.data.gameRooms[i].num = RandomNumber(0, 5)
             }
@@ -176,7 +174,6 @@ export function Main({ logout }) {
             },
          })
          .then((response) => {
-            console.log(response.data);
             dispatch(setRoomId(response.data.roomId))
             navigate(`/battle`, { state: response.data });
          })
@@ -189,7 +186,6 @@ export function Main({ logout }) {
             }
          });
    }
-
 
    const refreshBtn = () => {
       selEs.play();

@@ -60,7 +60,6 @@ const SoundSetting = (props) => {
       headers: { Authorization: token },
     })
       .then((res) => {
-        console.log(res);
         sessionStorage.clear();
         localStorage.clear();
         window.location.replace("/");
@@ -71,7 +70,6 @@ const SoundSetting = (props) => {
         } else {
           window.alert(err.response.data);
         }
-        console.log(err);
       });
   };
 
