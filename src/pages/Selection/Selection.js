@@ -28,12 +28,6 @@ const Selection = ({ logout }) => {
       return logout();
    };
 
-   window.onunload = (e) => {
-      e.preventDefault();
-      e.returnValue = "";
-      return logout();
-   }
-
    return (
       <>
          <RoundContainer>

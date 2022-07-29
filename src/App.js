@@ -44,7 +44,6 @@ function App() {
         console.log(res);
         sessionStorage.clear();
         localStorage.clear();
-        window.location.replace("/");
       })
       .catch((err) => {
         console.log(err);

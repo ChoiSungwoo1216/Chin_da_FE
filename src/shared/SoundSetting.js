@@ -66,6 +66,11 @@ const SoundSetting = (props) => {
         window.location.replace("/");
       })
       .catch((err) => {
+        if (err.response.data.reLogin === true){
+          window.alert("로그인하세요");
+        } else {
+          window.alert(err.response.data);
+        }
         console.log(err);
       });
   };
