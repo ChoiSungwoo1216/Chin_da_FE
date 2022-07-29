@@ -3,7 +3,7 @@ import styled, { keyframes, css } from "styled-components";
 import Timer from "./Timer.js";
 import { useSelector } from "react-redux";
 
-const ProBar = ({ timeOutLose }) => {
+const ProBar = ({ timeOutLose, sendCode }) => {
   const level = useSelector((state) => state.battleFunction.level);
   const setActive = useSelector((state) => state.battleFunction.gameStatus);
   const [timeToLevel, setTimeToLevel] = React.useState(0);
@@ -70,6 +70,7 @@ const ProBar = ({ timeOutLose }) => {
           setActive={setActive}
           Time={timeToLevel}
           timeOutLose={timeOutLose}
+          sendCode={sendCode}
         />
       </Bar>
     </>

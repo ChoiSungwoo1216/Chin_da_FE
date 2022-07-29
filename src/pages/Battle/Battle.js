@@ -48,6 +48,7 @@ import {
   NewQue,
   NewOp,
   setTrySub,
+  resModalOpen,
 } from "../../redux/modules/battleFunction.js";
 
 //webRtc
@@ -65,9 +66,6 @@ const Battle = (props) => {
 
   const selected = useSelector((state) => state.user.selected);
   const location = useLocation();
-
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showFailModal, setShowFailModal] = useState(false);
 
   const logout = () => {
     axios({
@@ -305,14 +303,14 @@ const Battle = (props) => {
           opCode.current = mes.message;
           break;
         case "LOSE":
-          setShowFailModal(true);
+          dispatch(resModalOpen({ fail: true }));
           break;
         case "FAIL":
           resAlert(mes.msg);
           noItemEs.play();
           break;
         case "WIN":
-          setShowSuccessModal(true);
+          dispatch(resModalOpen({ success: true }));
           break;
         case "EXIT":
           dispatch(alreadyUser({ user: false }));
@@ -390,7 +388,7 @@ const Battle = (props) => {
       })
     );
     setTimeout(() => {
-      setShowFailModal(true);
+      dispatch(resModalOpen({ fail: true }));
     }, 500);
   };
 
@@ -553,12 +551,12 @@ const Battle = (props) => {
       .then((res) => {
         console.log(res);
         if (res.data.result === true) {
-          setShowSuccessModal(true);
+          dispatch(resModalOpen({ success: true }));
         } else {
           if (trySub === 1) {
             dispatch(setTrySub(trySub - 1));
             compileFailedLose();
-            setTimeout(() => setShowFailModal(true), 500);
+            setTimeout(() => dispatch(resModalOpen({ fail: true })), 500);
           } else {
             dispatch(setTrySub(trySub - 1));
             resAlert(res.data.msg);
@@ -623,7 +621,6 @@ const Battle = (props) => {
   //Exit Function
   const BackToMain = () => {
     leaveRoomAxios();
-    //dispatch(func(""))
   };
 
   return (
@@ -632,7 +629,7 @@ const Battle = (props) => {
       <Alert />
       <HeadPart>
         <TimerDiv>
-          <ProBar timeOutLose={timeOutLose} />
+          <ProBar timeOutLose={timeOutLose} sendCode={sendCode} />
         </TimerDiv>
         <BtnDiv>
           <HeaderBtn BackToMain={BackToMain} />
@@ -666,24 +663,19 @@ const Battle = (props) => {
         </OpponentDiv>
       </BodyPart>
 
-      <QuestionModal/>
+      <QuestionModal />
 
-      {showSuccessModal === true && (
-        <SuccessModal
-          setShowSuccessModal={setShowSuccessModal}
-          setROpen={setROpen}
-          setResult={setResult}
-          setBbmute={setBbmute}
-        />
-      )}
-      {showFailModal === true && (
-        <FailModal
-          setShowFailModal={setShowFailModal}
-          setROpen={setROpen}
-          setResult={setResult}
-          setBbmute={setBbmute}
-        />
-      )}
+      <SuccessModal
+        setROpen={setROpen}
+        setResult={setResult}
+        setBbmute={setBbmute}
+      />
+
+      <FailModal
+        setROpen={setROpen}
+        setResult={setResult}
+        setBbmute={setBbmute}
+      />
 
       <GameRuleModal />
 
@@ -698,9 +690,6 @@ const Battle = (props) => {
       )}
 
       <Control
-        // setShowQuestionModal={setShowQuestionModal}
-        setShowSuccessModal={setShowSuccessModal}
-        setShowFailModal={setShowFailModal}
         setROpen={setROpen}
         setMbmute={setMbmute}
         setBbmute={setBbmute}
