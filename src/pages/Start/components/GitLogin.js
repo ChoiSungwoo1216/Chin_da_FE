@@ -32,7 +32,7 @@ const GitLogin = ({ setMMute }) => {
       })
       .catch((err) => {
         if (err.response.data.reLogin === true) {
-          window.alert(err.response.data.error);
+          window.alert(err.response.data?.error);
           sessionStorage.clear();
           localStorage.clear();
         } else {
