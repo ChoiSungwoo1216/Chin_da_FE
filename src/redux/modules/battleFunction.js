@@ -41,7 +41,7 @@ const initialState = {
   queList: { question: "", questionTitle: "", questionId: "" },
   newOpp: undefined,
   trySub: 3,
-  resModal: { quest: false, success: false, fail: false },
+  resModal: { quest: false, success: false, fail: false, res: ""},
 };
 
 // Action Creators

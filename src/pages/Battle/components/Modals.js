@@ -135,24 +135,29 @@ export const GameRuleModal = () => {
 };
 
 /*SuccessModal*/
-export const SuccessModal = ({ setROpen, setResult, setBbmute }) => {
-   const resSuc = useSelector((state) => state.battleFunction.resModal.success);
+export const SuccessModal = ({  setBbmute }) => {
+   const res = useSelector((state) => state.battleFunction.resModal);
+   const resSuc = res.success;
+   const resRes = res.res;
+
    const userSound = useSelector((state) => state.user.sound);
    const winEs = effectSound(winSound, userSound.es);
+
    const dispatch = useDispatch();
+
+   const allClose = () => {
+      dispatch(resModalOpen({ success: false, res: true }));
+   };
+   
    const muteBb = () => {
       setBbmute(true);
       winEs.play();
       dispatch(gameSwitch(false));
-      setTimeout(()=>{
+resRes !==""&&setTimeout(()=>{
          allClose();
       }, 5000);
    };
-   const allClose = () => {
-      dispatch(resModalOpen({ success: false }));
-      setROpen(true);
-      setResult('WIN');
-   };
+
    React.useEffect(() => {
       resSuc === true && muteBb();
    }, [resSuc]);
@@ -195,23 +200,24 @@ export const SuccessModal = ({ setROpen, setResult, setBbmute }) => {
 };
 
 /*FailModal*/
-export const FailModal = ({ setROpen, setResult, setBbmute }) => {
+export const FailModal = ({ setBbmute }) => {
    const userSound = useSelector((state) => state.user.sound);
    const loseEs = effectSound(loseSound, userSound.es);
-   const resFail = useSelector((state) => state.battleFunction.resModal.fail);
+
+   const res = useSelector((state) => state.battleFunction.resModal);
+   const resFail = res.fail;
+   const resRes = res.res;
    const dispatch = useDispatch();
 
    const allClose = () => {
-      dispatch(resModalOpen({ fail: false }));
-      setROpen(true);
-      setResult('LOSE');
+      dispatch(resModalOpen({ fail: false, res: false }));
    };
 
    const confetti = new JSConfetti();
    const confettiList = () => {
       confetti.addConfetti({
          emojis: ['😭', '😥'],
-         emojiSize: 60,
+         emojiSize: 90,
          confettiNumber: 70,
       });
    };
@@ -220,7 +226,7 @@ export const FailModal = ({ setROpen, setResult, setBbmute }) => {
       setBbmute(true);
       dispatch(gameSwitch(false));
       confettiList();
-      setTimeout(()=>{
+      resRes !==""&&setTimeout(()=>{
          allClose();
       }, 5000);
    };
@@ -269,21 +275,28 @@ export const Result = (props) => {
    const userSound = useSelector((state) => state.user.sound);
    const winEs = effectSound(win1Sound, userSound.es);
    const loseEs = effectSound(lose1Sound, userSound.es);
-   const { setROpen, setMbmute, codeRef, opCode } = props;
-   const result = props.result;
-   const dispatch = useDispatch();
-   React.useEffect(() => {
-      if (result === 'WIN') {
-         winEs.play();
-      } else {
-         loseEs.play();
-      }
-      dispatch(gameSwitch(false));
+   const { setMbmute, codeRef, opCode } = props;
+   const result = useSelector((state) => state.battleFunction.resModal.res);
+   const allClose = ()=>{
       dispatch(ModalOpen({ chat: true, que: false }));
       dispatch(NewQue({ question: '', questionTitle: '', template: '' }));
       codeRef.current = '';
       opCode.current = '';
-   }, []);
+   }
+
+   const dispatch = useDispatch();
+   React.useEffect(() => {
+      if(result !== ""){
+         if (result === true) {
+            winEs.play();
+            allClose();
+         } else {
+            loseEs.play();
+            allClose();
+         }
+      }
+
+   }, [result]);
    const navigate = useNavigate();
    const player = sessionStorage.getItem('username');
    const GoBackMain = () => {
@@ -292,12 +305,14 @@ export const Result = (props) => {
    };
    return (
       <>
+      { result !== "" &&
+      <>
          <ResultBackground />
          <ResultDiv>
             <SettingWord>RESULT</SettingWord>
             <BlackDiv>
                <ResultEle>{player} 승리</ResultEle>
-               {result === 'WIN' ? (
+               {result === true ? (
                   <ResultLetterDiv>
                      <LetterNoAni src={'/img/W.svg'} alt="" />
                      <LetterAni src={'/img/I.svg'} alt="" />
@@ -332,7 +347,7 @@ export const Result = (props) => {
                <ReDiv>
                   <ResultBtn
                      onClick={() => {
-                        setROpen(false);
+                        dispatch(resModalOpen({res: ""}))
                         setMbmute(false);
                      }}
                   >
@@ -342,6 +357,8 @@ export const Result = (props) => {
                </ReDiv>
             </BlackDiv>
          </ResultDiv>
+         </>
+         }
       </>
    );
 };

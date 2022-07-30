@@ -568,10 +568,6 @@ const Battle = (props) => {
   const langType = ["java", "javascript", "python"];
   const mode = langType[parseInt(selected.language)];
 
-  //Open Resutl Modal
-  const [rOpen, setROpen] = useState(false);
-  const [result, setResult] = useState("WIN");
-
   //ROOM EXIT AXIOS
   const leaveRoomAxios = async () => {
     await axios({
@@ -654,31 +650,27 @@ const Battle = (props) => {
       <QuestionModal />
 
       <SuccessModal
-        setROpen={setROpen}
-        setResult={setResult}
+ 
         setBbmute={setBbmute}
       />
 
       <FailModal
-        setROpen={setROpen}
-        setResult={setResult}
+
         setBbmute={setBbmute}
       />
 
       <GameRuleModal />
 
-      {rOpen && (
+      
         <Result
-          setROpen={setROpen}
-          result={result}
+
           setMbmute={setMbmute}
           codeRef={codeRef}
           opCode={opCode}
         />
-      )}
+      
 
       <Control
-        setROpen={setROpen}
         setMbmute={setMbmute}
         setBbmute={setBbmute}
         sendReady={sendReady}

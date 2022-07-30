@@ -28,7 +28,7 @@ export default function SubTutorial(props) {
                className="mySwiper"
                style={{ color: '#000' }}
             >
-               <div class="xBtn" onClick={() => setTutoOpen(false)}>
+               <div className="xBtn" onClick={() => setTutoOpen(false)}>
                   <ExitBtn src="/img/X_btn_black_30.svg" />
                </div>
 
