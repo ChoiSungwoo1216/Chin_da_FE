@@ -144,6 +144,9 @@ export const SuccessModal = ({ setROpen, setResult, setBbmute }) => {
       setBbmute(true);
       winEs.play();
       dispatch(gameSwitch(false));
+      setTimeout(()=>{
+         allClose();
+      }, 5000);
    };
    const allClose = () => {
       dispatch(resModalOpen({ success: false }));
@@ -152,9 +155,6 @@ export const SuccessModal = ({ setROpen, setResult, setBbmute }) => {
    };
    React.useEffect(() => {
       resSuc === true && muteBb();
-      setTimeout(()=>{
-         allClose();
-      }, 5000);
    }, [resSuc]);
 
    const customModalStyles = {
@@ -220,13 +220,13 @@ export const FailModal = ({ setROpen, setResult, setBbmute }) => {
       setBbmute(true);
       dispatch(gameSwitch(false));
       confettiList();
+      setTimeout(()=>{
+         allClose();
+      }, 5000);
    };
 
    React.useEffect(() => {
       resFail === true && muteBb();
-      setTimeout(()=>{
-         allClose();
-      }, 5000);
    }, [resFail]);
 
    const customModalStyles = {
