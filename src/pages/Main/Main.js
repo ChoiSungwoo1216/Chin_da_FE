@@ -37,8 +37,7 @@ export function Main({ logout }) {
       playerName: "",
       profileUrl: "",
       winCnt: "",
-      loseCnt: "",
-      enter: Boolean,
+      loseCnt: ""
     },
   });
   console.log(user2Info);
@@ -132,7 +131,8 @@ export function Main({ logout }) {
       .catch((error) => {
         console.log(error);
         window.alert(error.response.data, " Refresh를 누르세요");
-        if (error.response.data.reLogin === true) {
+        if (error.response.data.reLogin === true)
+        {
           sessionStorage.clear();
           localStorage.clear();
           window.location.replace("/");
