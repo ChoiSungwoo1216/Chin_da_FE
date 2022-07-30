@@ -38,9 +38,10 @@ export function Main({ logout }) {
          profileUrl: '',
          winCnt: '',
          loseCnt: '',
+         enter: Boolean,
       },
    });
-
+   console.log(user2Info)
    const languageImg = [
       '/img/miniJava.svg',
       '/img/miniJs.svg',
@@ -93,6 +94,7 @@ export function Main({ logout }) {
             }
          })
          .then((response) => {
+            console.log(response.data)
             for (let i = 0; i < response.data.gameRooms.length; i++) {
                response.data.gameRooms[i].num = RandomNumber(0, 5)
             }
@@ -250,11 +252,11 @@ export function Main({ logout }) {
                         backgroundSize: 'contain',
                      }}
                   >
-                     <img
+                     {user1Info.profileUrl && <img
                         className="thumbnail"
-                        src={user1Info.profileUrl}
+                        src={user1Info?.profileUrl}
                         alt=""
-                     />
+                     />}
                      <div className="description">
                         <p>{user1Info.playerName}</p>
                         <p>WIN: {user1Info.winCnt}</p>
@@ -277,7 +279,7 @@ export function Main({ logout }) {
                   </div>
                </article>
                <aside>
-                  {user2Info.creatorGameInfo.profileUrl !== '' && (
+                  {user2Info.creatorGameInfo?.profileUrl !== '' && (
                      <div
                         className="profile2"
                         style={{
@@ -288,7 +290,7 @@ export function Main({ logout }) {
                      >
                         <img
                            className="thumbnail"
-                           src={user2Info.creatorGameInfo.profileUrl}
+                           src={user2Info.creatorGameInfo?.profileUrl}
                            alt=""
                            onError={(e) => (e.target.style.display = 'none')}
                         />
@@ -300,7 +302,7 @@ export function Main({ logout }) {
                         </div>
                      </div>
                   )}
-                  {user2Info.creatorGameInfo.profileUrl !== '' && (
+                  {user2Info.creatorGameInfo?.profileUrl !== '' && (
                      <div className="player2">
                         {user2Info.num < 2 && (
                            <>
@@ -365,7 +367,9 @@ export function Main({ logout }) {
                               <div
                                  className="scene"
                                  onClick={() => {
+                                    if (item.enter === true){
                                     setUser2Info(allUsers[idx]);
+                                    }
                                  }}
                               >
                                  <Card
@@ -441,40 +445,65 @@ export default Main;
 const Card = (props) => {
    const { randomImg, selEs } = props;
    return (
-      <div className="card">
-         <div
-            className="face front"
-            style={{
-               backgroundImage: 'url(/img/mainCard_F.svg)',
-               backgroundRepeat: 'no-repeat',
-               backgroundPosition: 'center',
-               objectFit: 'contain',
-            }}
-         >
-            <img className="characterImg" src={randomImg[props.item.num]} alt="" />
-         </div>
-         <div
-            className="face back"
-            style={{
-               backgroundImage: 'url(/img/mainCard_B.svg)',
-               backgroundRepeat: 'no-repeat',
-               backgroundPosition: 'center',
-               objectFit: 'contain',
-            }}
+      <>
+         <div className="card"
             onClick={() => {
                selEs.play();
             }}
          >
-            <img
-               className="userProfile"
-               src={props.item.creatorGameInfo.profileUrl}
-               alt=""
-            />
-            <p>{props.item.creatorGameInfo.playerName}</p>
-            <p>
-               {props.item.creatorGameInfo.winCnt}승{props.item.creatorGameInfo.loseCnt}패
-            </p>
+            <div
+               className="face front"
+               style={{
+                  backgroundImage: 'url(/img/mainCard_F.svg)',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center',
+                  objectFit: 'contain',
+               }}
+            >
+               <img className="characterImg" src={randomImg[props.item.num]} alt="" />
+            </div>
+            <div
+               className="face back"
+               style={{
+                  backgroundImage: 'url(/img/mainCard_B.svg)',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center',
+                  objectFit: 'contain',
+               }}
+            >
+               {props.item.creatorGameInfo.profileUrl &&
+                  <img
+                     className="userProfile"
+                     src={props.item.creatorGameInfo?.profileUrl}
+                     alt=""
+                  />
+               }
+               <p>{props.item.creatorGameInfo.playerName}</p>
+               <p>
+                  {props.item.creatorGameInfo.winCnt}승{props.item.creatorGameInfo.loseCnt}패
+               </p>
+            </div>
+            {props.item.enter === false && <OnGame> 게임 중</OnGame>}
          </div>
-      </div>
+      </>
    );
 }
+
+const OnGame = styled.div`
+   width: 75%;
+   height: 100%;
+   position: relative;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   margin: 0;
+   padding: 0;
+   background-color: #6e213a;
+   color : white;
+   font-size: calc((5vh + 5vw)/3);
+   display: flex;
+   z-index: 1;
+   align-items: center;
+   justify-content: center;
+   opacity: 0.8;
+`;
