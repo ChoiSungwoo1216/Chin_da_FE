@@ -16,7 +16,7 @@ const TutorialBtn = () => {
         if (newuser === true){
             open();
         }
-    },[newuser])
+    },[])
    const hoverEs = effectSound(hoverSound, userSound.es)
 
     return (

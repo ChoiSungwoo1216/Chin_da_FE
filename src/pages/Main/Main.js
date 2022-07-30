@@ -38,15 +38,6 @@ export function Main({ logout }) {
       profileUrl: "",
       winCnt: "",
       loseCnt: "",
-    },
-  });
-
-  const [user2Info, setUser2Info] = useState({
-    creatorGameInfo: {
-      playerName: "",
-      profileUrl: "",
-      winCnt: "",
-      loseCnt: "",
       enter: Boolean,
     },
   });
