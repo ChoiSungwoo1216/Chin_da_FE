@@ -28,17 +28,7 @@ export const QuestionModal = () => {
       overlay: {
          background: '#0000006a',
       },
-      // content: {
-      //    width: '60%',
-      //    height: '70%',
-      //    margin: 'auto',
-      //    background: '#0C1119',
-      //    borderRadius: '5px',
-      //    position: 'relative',
-      //    padding: '15px',
-      //    marginTop: '100px'
-      // },
-   };
+    };
 
    const allClose = () => {
       dispatch(resModalOpen({ quest: false }));
@@ -99,9 +89,7 @@ export const GameRuleModal = () => {
                   <header className="qTitle Qrule">
                      <h2>규 칙</h2>
                   </header>
-                  <div className="ModalContent ruleContent">
-                     {/* <div className="qTitle Qrule">규 칙</div> */}
-                     {/* <div className="q"> */}
+                  <div className="ruleContent">
                      <ol className="ruleList">
                         <li>
                            게임 중 뒤로가거나 새로고침 시,
@@ -134,7 +122,6 @@ export const GameRuleModal = () => {
                      </ol>
                   </div>
                </div>
-               {/* </div> */}
                <img
                   className="ExitBtn quest"
                   src="/img/X_btn_black_30.svg"
@@ -165,7 +152,11 @@ export const SuccessModal = ({ setROpen, setResult, setBbmute }) => {
    };
    React.useEffect(() => {
       resSuc === true && muteBb();
+      setTimeout(()=>{
+         allClose();
+      }, 5000);
    }, [resSuc]);
+
    const customModalStyles = {
       overlay: {
          background: '#0000009a',
@@ -181,11 +172,6 @@ export const SuccessModal = ({ setROpen, setResult, setBbmute }) => {
       <>
          <Modal
             isOpen={resSuc}
-            // onRequestClose={() => {
-            //   dispatch(resModalOpen({ success: false }));
-            //   setROpen(true);
-            //   setResult("WIN");
-            // }}
             style={customModalStyles}
          >
             <img
@@ -235,8 +221,12 @@ export const FailModal = ({ setROpen, setResult, setBbmute }) => {
       dispatch(gameSwitch(false));
       confettiList();
    };
+
    React.useEffect(() => {
       resFail === true && muteBb();
+      setTimeout(()=>{
+         allClose();
+      }, 5000);
    }, [resFail]);
 
    const customModalStyles = {
