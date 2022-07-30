@@ -42,7 +42,6 @@ const Room = (props) => {
         },
       })
       .then((response) => {
-        console.log(response.data);
         dispatch(setRoomId(response.data.roomId))
         navigate(`/battle`, { state: response.data } );
         dispatch(updateselected({ language: language, level: level }));

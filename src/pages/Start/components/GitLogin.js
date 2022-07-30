@@ -9,7 +9,7 @@ const GitLogin = ({ setMMute }) => {
   function loading(a) {
     setTimeout(() => {
       window.location.replace(a);
-    }, 3000);
+    }, 2000);
   }
   const bgmOff = () => {
     setMMute(true);
