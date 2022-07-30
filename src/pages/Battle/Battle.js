@@ -137,7 +137,6 @@ const Battle = (props) => {
   const roomId = location.state.roomId;
   const server = location.state.server;
   const roomuser = location.state.creatorGameInfo.playerName;
-
   useEffect(() => {
     if (roomuser !== username) {
       dispatch(NewOp(roomuser));
@@ -236,7 +235,7 @@ const Battle = (props) => {
       dispatch(NewQue({ question: "", questionTitle: "", questionId: "" }));
       dispatch(ModalOpen({ chat: true, que: false, rule: true }));
       dispatch(setPeerId({ userId: "", opId: "" }));
-      dispatch(NewOp(""));
+      dispatch(NewOp(undefined));
       if (gameStartRef.current === true) {
         exitLose();
         exitMes();
@@ -262,8 +261,6 @@ const Battle = (props) => {
   const connect = () => {
     client.connect(headers, onConnected, onError);
     client.reconnect_delay = 3000;
-    client.heartbeat.outgoing = 20000;
-    client.heartbeat.ingoing = 0;
   };
 
   // Callback Function for connection on Game server
@@ -424,8 +421,6 @@ const Battle = (props) => {
   const Chatconnect = () => {
     clientChat.connect({}, onConnect, onError);
     clientChat.reconnect_delay = 3000;
-    clientChat.heartbeat.outgoing = 20000;
-    clientChat.heartbeat.ingoing = 0;
   };
 
   // Chat server connect Callback Function

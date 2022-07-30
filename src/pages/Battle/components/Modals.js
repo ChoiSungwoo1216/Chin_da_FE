@@ -43,9 +43,7 @@ export const QuestionModal = () => {
    const allClose = () => {
       dispatch(resModalOpen({ quest: false }));
    };
-   useEffect(() => {
-      console.log(resQuest + '----');
-   }, [resQuest]);
+
    return (
       <>
          <Modal

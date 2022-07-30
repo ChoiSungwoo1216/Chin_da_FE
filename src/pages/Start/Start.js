@@ -13,7 +13,6 @@ const Start = ({ setMMute }) => {
 
   const esVol = useSelector((state) => state.user.sound.es);
   const selectEs = effectSound(selectSound, esVol);
-
   const open = () => {
     setModalOpen(true);
   };
