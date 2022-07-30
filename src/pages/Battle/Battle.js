@@ -419,7 +419,7 @@ const Battle = (props) => {
 
   // Chat server connect
   const Chatconnect = () => {
-    clientChat.connect({}, onConnect, onError);
+    clientChat.connect(headers, onConnect, onError);
     clientChat.reconnect_delay = 3000;
   };
 
