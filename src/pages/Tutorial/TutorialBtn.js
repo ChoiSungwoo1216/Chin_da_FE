@@ -20,8 +20,10 @@ const TutorialBtn = () => {
                 open();
             }
         }
-    }, [newuser])
-    const hoverEs = effectSound(hoverSound, userSound.es)
+    },[])
+   const hoverEs = effectSound(hoverSound, userSound.es)
+
+
 
     return (
         <div>

@@ -13,7 +13,7 @@ import {
   resModalOpen,
 } from "../../redux/modules/battleFunction.js";
 const Control = (props) => {
-  const { setROpen, setMbmute, setBbmute } = props;
+  const { setMbmute, setBbmute } = props;
 
   const already = useSelector((state) => state.battleFunction.already);
   const gameStatus = useSelector((state) => state.battleFunction.gameStatus);
@@ -101,10 +101,7 @@ const Control = (props) => {
         알림 on
         <button onClick={AlertMes}>Alert on!</button>
       </div>
-      <div>
-        결과창 on
-        <button onClick={() => setROpen(true)}>열기</button>
-      </div>
+
       <div>
         제출
         <button onClick={() => userPending()}>user제출</button>
@@ -117,7 +114,7 @@ const Control = (props) => {
 export default Control;
 
 const ControlDiv = styled.div`
-  display: none;
+  display: absolute;
   width: 300px;
   height: 300px;
   background-color: white;

@@ -68,7 +68,7 @@ export const UserSubmitPending = () => {
         setRun({ user: false });
         clearInterval(count);
       }
-    }, 3500);
+    }, 2500);
     return () => clearInterval(count);
   };
   useEffect(() => {
