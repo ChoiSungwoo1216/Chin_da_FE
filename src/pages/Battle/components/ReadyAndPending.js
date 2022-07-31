@@ -182,7 +182,7 @@ const OppLogo = styled(ReadyBtn)`
   & p {
     margin: auto;
     color: black;
-    font-size: calc((5vw + 5vh)/6);
+    font-size: calc((5vw + 5vh) / 6);
     font-family: Neo;
   }
 `;
