@@ -1,72 +1,76 @@
-#switch {
-  position: absolute;
-  /* hidden */
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+.bgmVolume
+{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+  gap: 4%;
+  width: 50%;
+  height: 100%;
 }
 
-.switch_label {
-  position: relative;
-  cursor: pointer;
-  display: inline-block;
-  width: 5.5vw;
-  height: 5.5vh;
-  background-image: url(../../public/img/BtnBox.svg);
+.bgmVolume input[type="radio"]
+{
+    display: none;
+}
+
+.bgmVolume label
+{
+  display: block;
+  width: calc((6vh + 6vw) / 4);;
+  height: calc((6vh + 6vw) / 4);;
+  background-image: url("../../public/img/BtnOff.svg");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
+  font-size: calc((2vh + 2vw) / 4);
+  color: black;
+  text-align: center;
+  line-height: calc((6vh + 6vw)/4);
 }
 
-.onf_btn {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-115%, -50%);
-  display: inline-block;
-  width: 2vw;
-  height: 2vw;
-  transition: 0.2s;
+.bgmVolume input[type="radio"]:checked + label
+{
+  background-image: url("../../public/img/BtnOn.svg");
+  transition: 0.5s;
+  color: white;
 }
 
-/* move */
-#switch:checked+.switch_label .onf_btn {
-  left: 95%;
+.esVolume
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+    gap: 4%;
+    width: 50%;
+    height: 100%;
 }
 
-
-#switch1 {
-  position: absolute;
-  /* hidden */
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+.esVolume input[type="radio"]
+{
+    display: none;
 }
 
-.switch_label1 {
-  position: relative;
-  cursor: pointer;
-  display: inline-block;
-  width: 5.5vw;
-  height: 5.5vh;
-  background-image: url(../../public/img/BtnBox.svg);
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
+.esVolume label
+{
+    display: block;
+    width: calc((6vh + 6vw) / 4);;
+    height: calc((6vh + 6vw) / 4);;
+    background-image: url("../../public/img/BtnOff.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    font-size: calc((2vh + 2vw) / 4);
+    text-align: center;
+    line-height: calc((6vh + 6vw)/4);
 }
 
-.onf_btn1 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-115%, -50%);
-  display: inline-block;
-  width: 2vw;
-  height: 2vw;
-  transition: 0.2s;
-}
-
-/* move */
-#switch1:checked+.switch_label1 .onf_btn1 {
-  left: 95%;
+.esVolume input[type="radio"]:checked + label
+{
+    background-image: url("../../public/img/BtnOn.svg");
+    transition: 0.5s;
+    color: white;
 }
