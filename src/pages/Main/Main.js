@@ -40,7 +40,6 @@ export function Main({ logout }) {
       loseCnt: ""
     },
   });
-  console.log(user2Info);
   const languageImg = [
     "/img/miniJava.svg",
     "/img/miniJs.svg",
@@ -86,7 +85,6 @@ export function Main({ logout }) {
           },
         })
         .then((response) => {
-          console.log(response.data);
           for (let i = 0; i < response.data.gameRooms.length; i++) {
             response.data.gameRooms[i].num = RandomNumber(0, 5);
           }
@@ -95,7 +93,6 @@ export function Main({ logout }) {
           // setAllUsers((prevState) => [...prevState, ...response.data]);
         })
         .catch((error) => {
-          console.log(error);
           if (error.response.data.reLogin === true) {
             sessionStorage.clear();
             localStorage.clear();

@@ -140,7 +140,7 @@ export const UserSubmitPending = () => {
         setRun({ user: false });
         clearInterval(count);
       }
-    }, 2500);
+    }, 2000);
     return () => clearInterval(count);
   };
   useEffect(() => {
@@ -299,6 +299,5 @@ const Pending = styled.span`
   border-left-color: black;
   border-radius: 50%;
   border-top-right-radius: -50%;
-
   animation: ${FillCircle} 0.5s infinite ease-in;
 `;

@@ -276,6 +276,7 @@ const Battle = (props) => {
     client.subscribe(`/user/queue/game/codeMessage/${roomId}`, ReceiveCallBack); // For sending code to Opponent
   };
 
+
   // Callback Function for Gameserver
   const ReceiveCallBack = (message) => {
     if (message.body) {
@@ -291,7 +292,6 @@ const Battle = (props) => {
             "//출력문을 입력하지 마세요" +
             `\n` +
             mes.template;
-          // dispatch(alreadyUser({ opp: true }));
           dispatch(gameSwitch(true));
           break;
         case "USERINFO":
@@ -303,11 +303,9 @@ const Battle = (props) => {
           break;
         case "FORSTART":
           readyEs.play();
+          dispatch(alreadyUser({ opp: true }))
           if (mes.creator === username) {
             dispatch(alreadyUser({ gbtn: true }))
-            dispatch(alreadyUser({ opp: true }))
-          } else {
-            dispatch(alreadyUser({ opp: true }))
           }
           break;
         case "GAME":
@@ -324,7 +322,7 @@ const Battle = (props) => {
           dispatch(resModalOpen({ success: true }));
           break;
         case "EXIT":
-          dispatch(alreadyUser({ user: false }));
+          dispatch(alreadyUser({ user: false, gbtn: false }));
           dispatch(NewOp(undefined));
           resAlert(mes.msg);
           newMesEs.play();
@@ -741,7 +739,6 @@ const BtnDiv = styled.div`
   justify-content: space-evenly;
   height: 100%;
   width: 45.125vw;
-  /* border: 1px solid red; */
 `;
 
 const BodyPart = styled.div`

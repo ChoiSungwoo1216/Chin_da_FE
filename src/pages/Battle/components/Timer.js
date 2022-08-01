@@ -54,10 +54,9 @@ function Timer(p) {
           if (parseInt(minutes) === 0) {
             clearInterval(countdown);
             dispatch(setPending({ user: true }))
-
+            let i = 0;
             const Timeout = setInterval(() => {
-              let i = 0;
-              if (i === 5) {
+              if (i === 4) {
                 if (gameStartBoolRef.current === true) {
                   timeOutLose();
                 }
