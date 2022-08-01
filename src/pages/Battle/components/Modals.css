@@ -50,7 +50,7 @@ header h2 {
   width: 100%;
   height: 100%;
   border: 5px solid black;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 .ModalContent {
@@ -108,7 +108,8 @@ header h2 {
   background-color: #0000003a;
 }
 
-.ExitBtn_quest{
+.ExitBtn_quest
+{
   display: flex;
   position: absolute;
   top: -1.5vh;
@@ -118,7 +119,6 @@ header h2 {
   height: 30px;
   z-index: 2;
 }
-
 .ExitBtn_quest:hover {
   content: url("/public/img/X_btn_white_30.svg");
 }
@@ -138,26 +138,11 @@ header h2 {
   content: url("/public/img/X_btn_white_30.svg");
 }
 
-.RuleModalBody {
-  display: flex;
-  position: absolute;
-  top: 0%;
-  width: 100%;
-  height: 100%;
-  border: 5px solid black;
-  /* border-radius: 0px; */
-}
-
 .RuleBox {
-  display: flex;
-  width: 60%;
-  /* height: 78%; */
-  margin: auto;
-  /* position: relative; */
-  border-radius: 3px;
-  /* margin-top: 100px; */
   background-color: white;
-  animation: modalAnimation 0.5s linear forwards;
+  width: 60%;
+  height: 78%;
+  margin-top: 5%;
 }
 
 .RuleTitle {
@@ -178,21 +163,21 @@ header h2 {
 .RuleContent {
   position: relative;
   display: flex-box;
-  top: 0;
-  margin: auto;
+  top: 0%;
+  margin: 0;
   padding: 0;
   overflow-y: auto;
   font-family: Neo;
   font-size: calc((2vw + 2vh) / 1.6);
   width: inherit;
-  /* height: 99%; */
+  height: 99%;
   color: black;
   text-align: center;
   border: 5px solid black;
 }
 
 .RuleList {
-  padding-top: 10vh;
+  padding-top: 8vh;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -200,6 +185,7 @@ header h2 {
   align-items: center;
   width: 80%;
   margin: auto;
+  border-radius: 5px;
 }
 
 .RuleList p {
