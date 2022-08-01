@@ -15,7 +15,6 @@ const TutorialBtn = () => {
     useEffect(() => {
         if (newuser !== null) {
             const stringNewUser = newuser.toString();
-            console.log(stringNewUser)
             if (stringNewUser === "true") {
                 open();
             }
