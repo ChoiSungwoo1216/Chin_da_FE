@@ -107,5 +107,5 @@ const GitLogo = styled.div`
   border-left-color: rgba(6, 9, 48, 1);
   border-bottom-color: rgba(51, 52, 86, 0.6);
   border-radius: 100%;
-  animation: ${LoadingSpin} 1000ms linear infinite;
+  animation: ${LoadingSpin} 500ms linear infinite;
 `;
