@@ -364,14 +364,14 @@ const Link = styled.a`
 `;
 
 const ResultBackground = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 105vw;
+  height: 105vh;
   background-color: black;
   opacity: 0.5;
   position: absolute;
-  top: 0;
-  left: 0;
-  margin: 0;
+  top: 0%;
+  left: 0%;
+  margin: -5vh -5vw;
   z-index: 12;
 `;
 const SettingWord = styled.div`

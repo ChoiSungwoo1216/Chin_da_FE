@@ -111,9 +111,9 @@ header h2 {
 .ExitBtn {
   display: flex;
   position: absolute;
-  top: -15px;
-  right: -15px;
-  margin: 2px;
+  top: -20vh;
+  right: -20vw;
+  margin: 2vh 2vw;
   width: 30px;
   height: 30px;
   z-index: 2;
