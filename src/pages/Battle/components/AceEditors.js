@@ -4,16 +4,17 @@ import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/theme-monokai";
 
-import "ace-builds/src-noconflict/ext-language_tools";
+// import "ace-builds/src-noconflict/ext-language_tools";
 
 export const AceEditorPlayer = (props) => {
+  
   const { mode, codeRef } = props;
 
   function onChangeOne(newValue) {
     codeRef.current = newValue;
   }
   return (
-    <>
+    <>    
       <AceEditor
         height="93%"
         width="100%"
