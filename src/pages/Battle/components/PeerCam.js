@@ -29,7 +29,6 @@ export const UserCam = ({ camEs, currentUserVideoRef }) => {
                     }}
                     ref={currentUserVideoRef}
                 />
-                {/* <img src="/img/camdouble_cross.svg" alt="" /> */}
             </Cam>
 
         </UserCamDiv>
@@ -78,7 +77,6 @@ export const OpCam = ({ camEs, remoteVideoRef, remotePeerIdValue, call }) => {
                     }}
                     ref={remoteVideoRef}
                 />
-                {/* <img src="/img/camdouble_cross.svg" alt="" /> */}
             </Cam>
         </OpCamDiv>
     )
@@ -129,11 +127,8 @@ const Cam = styled.div`
   width: 85%;
   height: 11.9vw;
   padding-left:3px;
-  background: transparent;
-  /* border-left: 3px solid black;
-  border-right: 3px solid black;
-  border-bottom: 3px solid black;
-  background-image: url(/img/cam_double_cross.svg); */
+  background: #111823;
+  background-image: url(/img/cam_double_cross.svg);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
