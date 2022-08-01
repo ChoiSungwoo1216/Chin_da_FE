@@ -75,18 +75,17 @@ export const GameRuleModal = () => {
      <>
         {modalRule === true && (
            <Modal
-              className="ModalBox RuleBox"
+              className="RuleBox"
               isOpen={modalRule}
               style={customModalStyles}
            >
-              <div className="ModalBody">
+              <div className="RuleModalBody">
                  <header className="RuleTitle">
                     <h2>규 칙</h2>
                  </header>
                  <div className="RuleContent">
                     <ol className="RuleList">
-                       <li>
-                          게임 중 뒤로 가거나 새로 고침 시,
+                       <li>게임 중 뒤로 가거나 새로 고침 시,
                           <br />
                           방에서 나가지게 되며, 패배처리가 됩니다.
                        </li>
