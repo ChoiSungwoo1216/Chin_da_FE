@@ -41,9 +41,14 @@ export const ReadyOpp = () => {
   const userSound = useSelector((state) => state.user.sound);
   const readyEs = effectSound(readySound, userSound.es);
   const oppName = useSelector((state) => state.battleFunction.newOpp);
-  const dispatch = useDispatch();
 
-  useEffect(() => {}, [oppName]);
+  useEffect(() => { }, [oppName]);
+  
+  useEffect(()=>{
+    if (oppReady === true){
+      readyEs();
+    }
+  },[oppReady])
 
   return (
     <OppContainer>
@@ -57,6 +62,73 @@ export const ReadyOpp = () => {
     </OppContainer>
   );
 };
+
+export const GameGo = ({sendStart}) => {
+  const Game = useSelector((state) => state.battleFunction.already.gbtn);
+  let dispatch = useDispatch();
+
+  const GS = () =>{
+    dispatch(alreadyUser({gbtn:false}))
+    sendStart();
+  }
+
+  return (
+    <>
+      {Game === true && <GameGoBtn onClick={GS}>
+        GAME START
+      </GameGoBtn>
+      }
+    </>
+  )
+}
+
+const GameStartAni = keyframes`
+0%{
+  filter: drop-shadow(0 0 0.75rem crimson);
+}
+25%{
+  filter: drop-shadow(0 0 0.75rem #3a798f);
+}
+50%{
+  filter: none
+}
+75%{
+  filter: drop-shadow(0 0 0.75rem #4444dd);
+}
+100%{
+  filter: drop-shadow(0 0 0.75rem crimson);
+}
+`;
+
+const GameGoBtn = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 8;
+  width: 30%;
+  min-width: 200px;
+  min-height: 50px;
+  height: 15%;
+  border-radius: 10px;
+  background-color: crimson;
+  mix-blend-mode: hard-light;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:0;
+  margin:0;
+  transform: translate(-50%, -50%);
+  color: white;
+  filter: drop-shadow(0 0 0.75rem crimson);
+  font-size: calc((10vw + 5vh) / 3 );
+  font-family: Neo;
+  animation: ${GameStartAni} 1s infinite;
+  &:hover{
+    mix-blend-mode: normal;
+  }
+`;
+
+
 
 export const UserSubmitPending = () => {
   const run = useSelector((state) => state.battleFunction.pendingRun.user);

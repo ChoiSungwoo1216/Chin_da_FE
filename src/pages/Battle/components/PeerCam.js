@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import styled, { css } from "styled-components"
 
-export const UserCam = ({ camEs, currentUserVideoRef}) => {
+export const UserCam = ({ camEs, currentUserVideoRef }) => {
     const [userCamSlide, setUserCamSlide] = useState(true);
 
     const openUserCam = () => {
@@ -16,7 +16,7 @@ export const UserCam = ({ camEs, currentUserVideoRef}) => {
         <UserCamDiv>
             <CamBar>
                 <span>Player1</span>
-                <h4 onClick={openUserCam} style={{cursor:"pointer"}}>
+                <h4 onClick={openUserCam} style={{ cursor: "pointer" }}>
                     {userCamSlide === true ? "▼" : "▬"}</h4>
             </CamBar>
             <Cam open={userCamSlide}>
@@ -36,14 +36,14 @@ export const UserCam = ({ camEs, currentUserVideoRef}) => {
     )
 }
 
-export const OpCam = ({ camEs, remoteVideoRef, remotePeerIdValue, call}) => {
+export const OpCam = ({ camEs, remoteVideoRef, remotePeerIdValue, call }) => {
 
     const [opCamSlide, setOpCamSlide] = useState(true);
 
     useEffect(() => {
         CheckOp();
         call(remotePeerIdValue);
-      }, [remotePeerIdValue]);
+    }, [remotePeerIdValue]);
 
     const CheckOp = () => {
         if (remotePeerIdValue === "" || remotePeerIdValue === undefined || remotePeerIdValue === null) {
@@ -65,7 +65,7 @@ export const OpCam = ({ camEs, remoteVideoRef, remotePeerIdValue, call}) => {
         <OpCamDiv>
             <CamBar>
                 <span>Player2</span>
-                <h4 onClick={openOpCam} style={{cursor:"pointer"}}>
+                <h4 onClick={openOpCam} style={{ cursor: "pointer" }}>
                     {opCamSlide === true ? "▼" : "▬"}</h4>
             </CamBar>
             <Cam open={opCamSlide}>
@@ -126,8 +126,9 @@ const Cam = styled.div`
         } else {
             return css`
               display: flex;
-  width: calc(85% + 3px);
+  width: 85%;
   height: 11.9vw;
+  padding-left:3px;
   background: transparent;
   /* border-left: 3px solid black;
   border-right: 3px solid black;

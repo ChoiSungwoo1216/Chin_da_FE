@@ -8,39 +8,24 @@ import axios from "axios";
 const SoundSetting = (props) => {
   const { setSetting } = props;
   const dispatch = useDispatch();
-  const userSound = useSelector((state) => state.user.sound);
+  const bgm = useSelector((state) => state.user.sound.bgm);
+  const es = useSelector((state) => state.user.sound.es)
 
-  const SoundOnOff = (e) => {
-    if (e.target.checked) {
-      if (e.target.id === "switch") {
-        dispatch(editsound({ bgm: 0.1 }));
-        localStorage.removeItem("bgm");
-        setTimeout(() => {
-          localStorage.setItem("bgm", 0.1);
-        }, 100);
-      } else if (e.target.id === "switch1") {
-        dispatch(editsound({ es: 0.5 }));
-        localStorage.removeItem("es");
-        setTimeout(() => {
-          localStorage.setItem("es", 0.1);
-        }, 100);
-      }
-    } else {
-      if (e.target.id === "switch") {
-        dispatch(editsound({ bgm: 0 }));
-        localStorage.removeItem("bgm");
-        setTimeout(() => {
-          localStorage.setItem("bgm", 0);
-        }, 100);
-      } else if (e.target.id === "switch1") {
-        dispatch(editsound({ es: 0 }));
-        localStorage.removeItem("es");
-        setTimeout(() => {
-          localStorage.setItem("es", 0);
-        }, 100);
-      }
-    }
-  };
+  const BgmControl = (value) => {
+    dispatch(editsound({ bgm: Number(value) }));
+    localStorage.removeItem("bgm");
+    setTimeout(() => {
+      localStorage.setItem("bgm", Number(value));
+    }, 100);
+  }
+
+  const EsControl = (value) =>{
+    dispatch(editsound({ es: Number(value) }));
+    localStorage.removeItem("es");
+    setTimeout(() => {
+      localStorage.setItem("es", Number(value));
+    }, 100);
+  }
 
   const token = sessionStorage.getItem("Authorization");
   const api = process.env.REACT_APP_API;
@@ -55,7 +40,7 @@ const SoundSetting = (props) => {
 
   const logout = () => {
     axios({
-      url:`${api}/chinda/logout`,
+      url: `${api}/chinda/logout`,
       method: "GET",
       headers: { Authorization: token },
     })
@@ -65,7 +50,7 @@ const SoundSetting = (props) => {
         window.location.replace("/");
       })
       .catch((err) => {
-        if (err.response.data.reLogin === true){
+        if (err.response.data.reLogin === true) {
           window.alert("로그인하세요");
         } else {
           window.alert(err.response.data);
@@ -87,35 +72,53 @@ const SoundSetting = (props) => {
           <WhiteDiv>
             <SetLine>
               <SetName>배경음악</SetName>
-              <input
-                type="checkbox"
-                id="switch"
-                defaultChecked={userSound.bgm === 0.1 ? true : false}
-                onClick={(e) => SoundOnOff(e)}
-              />
-              <label htmlFor="switch" className="switch_label">
-                {userSound.bgm === 0.1 ? (
-                  <img src={"/img/BtnOn.svg"} alt="" className="onf_btn" />
-                ) : (
-                  <img src={"/img/BtnOff.svg"} alt="" className="onf_btn" />
-                )}
-              </label>
+              <div className="bgmVolume">
+                <div>
+                  <input id="bgm0" type="radio" value="0" name="bgm" onClick={(e) => { BgmControl(e.target.value) }} checked={bgm === 0 ? true : false} />
+                  <label htmlFor="bgm0">0%</label>
+                </div>
+                <div>
+                  <input id="bgm25" type="radio" value="0.025" name="bgm" onClick={(e) => { BgmControl(e.target.value) }} checked={bgm === 0.025 ? true : false} />
+                  <label htmlFor="bgm25">25%</label>
+                </div>
+                <div>
+                  <input id="bgm50" type="radio" value="0.05" name="bgm" onClick={(e) => { BgmControl(e.target.value) }} checked={bgm === 0.05 ? true : false} />
+                  <label htmlFor="bgm50">50%</label>
+                </div>
+                <div>
+                  <input id="bgm75" type="radio" value="0.075" name="bgm" onClick={(e) => { BgmControl(e.target.value) }} checked={bgm === 0.075 ? true : false} />
+                  <label htmlFor="bgm75">75%</label>
+                </div>
+                <div>
+                  <input id="bgm100" type="radio" value="0.1" name="bgm" onClick={(e) => { BgmControl(e.target.value) }} checked={bgm === 0.1 ? true : false} />
+                  <label htmlFor="bgm100">100%</label>
+                </div>
+              </div>
             </SetLine>
             <SetLine>
               <SetName>효과음</SetName>
-              <input
-                type="checkbox"
-                id="switch1"
-                defaultChecked={userSound.es === 0.5 ? true : false}
-                onClick={(e) => SoundOnOff(e)}
-              />
-              <label htmlFor="switch1" className="switch_label1">
-                {userSound.es === 0.5 ? (
-                  <img src={"/img/BtnOn.svg"} alt="" className="onf_btn1" />
-                ) : (
-                  <img src={"/img/BtnOff.svg"} alt="" className="onf_btn1" />
-                )}
-              </label>
+               <div className="esVolume">
+                <div>
+                  <input id="es0" type="radio" value="0" name="es" onClick={(e) => { EsControl(e.target.value) }} checked={es === 0 ? true : false} />
+                  <label htmlFor="es0">0%</label>
+                </div>
+                <div>
+                  <input id="es25" type="radio" value="0.125" name="es" onClick={(e) => { EsControl(e.target.value) }} checked={es === 0.125 ? true : false} />
+                  <label htmlFor="es25">25%</label>
+                </div>
+                <div>
+                  <input id="es50" type="radio" value="0.25" name="es" onClick={(e) => { EsControl(e.target.value) }} checked={es === 0.25 ? true : false} />
+                  <label htmlFor="es50">50%</label>
+                </div>
+                <div>
+                  <input id="es75" type="radio" value="0.375" name="es" onClick={(e) => { EsControl(e.target.value) }} checked={es === 0.375 ? true : false} />
+                  <label htmlFor="es75">75%</label>
+                </div>
+                <div>
+                  <input id="es100" type="radio" value="0.5" name="es" onClick={(e) => { EsControl(e.target.value) }} checked={es === 0.5 ? true : false} />
+                  <label htmlFor="es100">100%</label>
+                </div>
+              </div>
             </SetLine>
 
             {logined ? (
@@ -230,6 +233,7 @@ const SetLine = styled.div`
   text-align: center;
   padding: 0.3vh 0;
   margin-top: 3vh;
+  justify-content: space-between;
 `;
 
 const SetName = styled.div`
@@ -239,8 +243,8 @@ const SetName = styled.div`
   line-height: 7vh;
   font-size: calc((1.9vw + 1.9vh) / 2);
   font-weight: 600;
-  padding-right: 4vw;
   text-align: left;
+
 `;
 
 const ExitSetting = styled.img`

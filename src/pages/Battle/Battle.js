@@ -56,6 +56,7 @@ import Peer from "peerjs";
 import { setPeerId, setRoomId } from "../../redux/modules/user.js";
 import { OpCam, UserCam } from "./components/PeerCam.js";
 import { history } from "../../shared/History.js";
+import { GameGo } from "./components/ReadyAndPending.js";
 Modal.setAppElement("#root");
 const api = process.env.REACT_APP_API;
 const ChatApi = process.env.REACT_APP_API_CHAT;
@@ -196,7 +197,7 @@ const Battle = (props) => {
       let playPromise = currentUserVideoRef.current.play();
       if (playPromise !== undefined) {
         playPromise
-          .then((_) => {})
+          .then((_) => { })
           .catch((error) => {
           });
       }
@@ -226,7 +227,7 @@ const Battle = (props) => {
   React.useEffect(() => {
     connect();
     Chatconnect();
-    dispatch(alreadyUser({ user: false, opp: false }));
+    dispatch(alreadyUser({ user: false, opp: false, gbtn: false }));
     dispatch(gameSwitch(false));
     return () => {
       peerInstance.current.destroy();
@@ -273,6 +274,7 @@ const Battle = (props) => {
   const ReceiveCallBack = (message) => {
     if (message.body) {
       const mes = JSON.parse(message.body);
+      console.log(mes);
       switch (mes.type) {
         case "READY":
           dispatch(NewQue({ question: mes.question }));
@@ -294,6 +296,13 @@ const Battle = (props) => {
             dispatch(NewOp(mes.playerName));
           }
           break;
+        // case "FORSTART":
+        //   if (mes.sender === username) {
+        //     dispatch(alreadyUser({ gbtn: true }))
+        //   } else {
+        //     dispatch(alreadyUser({ opp: true }))
+        //   }
+        //   break;
         case "GAME":
           opCode.current = mes.message;
           break;
@@ -335,6 +344,19 @@ const Battle = (props) => {
       })
     );
   };
+
+  //game start message
+  // const sendStart = () => {
+  //   client.send(
+  //     `/app/game/process`,
+  //     {},
+  //     JSON.stringify({
+  //       type: "FORSTART",
+  //       roomId: roomId,
+  //       server: server,
+  //     })
+  //   );
+  // };
 
   //Live Code sending to opp
   const sendT = useSelector((state) => state.battleFunction.sendRun);
@@ -383,7 +405,7 @@ const Battle = (props) => {
     );
     setTimeout(() => {
       dispatch(resModalOpen({ fail: true }));
-    }, 500);
+    }, 300);
   };
 
   //Lose Message when leaving during gaming
@@ -650,7 +672,7 @@ const Battle = (props) => {
       <QuestionModal />
 
       <SuccessModal
- 
+
         setBbmute={setBbmute}
       />
 
@@ -661,14 +683,15 @@ const Battle = (props) => {
 
       <GameRuleModal />
 
-      
-        <Result
 
-          setMbmute={setMbmute}
-          codeRef={codeRef}
-          opCode={opCode}
-        />
-      
+      <Result
+
+        setMbmute={setMbmute}
+        codeRef={codeRef}
+        opCode={opCode}
+      />
+
+      {/* <GameGo sendStart={sendStart} /> */}
 
       <Control
         setMbmute={setMbmute}

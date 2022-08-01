@@ -39,16 +39,16 @@ const Control = (props) => {
     dispatch(setAlert(true));
   };
 
-  const alreadyToStart = () => {
-    already.user && already.opp === true && dispatch(gameSwitch(true));
-  };
-
   const gameStartTrue = () => {
     gameStatus === true && onCountdown();
   };
 
   const trySubReset = () => {
     gameStatus === false && dispatch(setTrySub(3));
+  };
+
+  const alreadyToStart = () => {
+    already.user && already.opp === true && dispatch(gameSwitch(true));
   };
 
   useEffect(() => {
@@ -114,7 +114,8 @@ const Control = (props) => {
 export default Control;
 
 const ControlDiv = styled.div`
-  display: absolute;
+  /* display: absolute; */
+  display: none;
   width: 300px;
   height: 300px;
   background-color: white;

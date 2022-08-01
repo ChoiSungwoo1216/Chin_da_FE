@@ -1,19 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import {
   gameSwitch,
   sendCodeTiming,
+  setPending,
 } from "../../../redux/modules/battleFunction.js";
 
 function Timer(p) {
   const sendT = useSelector((state) => state.battleFunction.sendRun);
+  const gameStart = useSelector((state) => state.battleFunction.gameStatus);
   const dispatch = useDispatch();
 
   const times = p.Time; // 난이도별 시간
   const active = p.setActive;
   const { timeOutLose } = p;
   const sendCode = p.sendCode;
+
+  const gameStartBoolRef = useRef();
+  useEffect(()=>{
+    gameStartBoolRef.current = gameStart;
+  }, [gameStart])
 
   useEffect(() => {
     if (active === true) {
@@ -46,8 +53,21 @@ function Timer(p) {
         if (parseInt(seconds) === 0) {
           if (parseInt(minutes) === 0) {
             clearInterval(countdown);
-            dispatch(gameSwitch(false));
-            timeOutLose();
+            dispatch(setPending({ user: true }))
+
+            const Timeout = setInterval(() => {
+              let i = 0;
+              if (i === 5) {
+                if (gameStartBoolRef.current === true) {
+                  timeOutLose();
+                }
+                dispatch(setPending({ user: false }))
+                clearInterval(Timeout)
+              } else {
+                i++;
+              }
+            }, 500)
+
           } else {
             setMinutes(parseInt(minutes) - 1);
             setSeconds(59);
