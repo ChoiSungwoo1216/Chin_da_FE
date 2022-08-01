@@ -5,7 +5,7 @@
  ##   <img src="https://user-images.githubusercontent.com/105087260/181887948-75a5a55b-7270-4154-a10e-72b09af0bc3f.png" width="35px"> "같이의 가치를 <친다 />"
  온라인 1:1 코딩 배틀 게임 <친다 />입니다.
  </br>
- 혼자가 아닌 같이 즐겁고 재미있게 알고리즘을 풀자라는 취지로 기획하게 되었고 
+ 즐겁고 재미있게 같이 알고리즘을 풀자라는 취지로 기획하게 되었고 
  </br>
  실시간 1:1 배틀 게임 컨셉이기에 화상과 채팅 기능을 포함하여 제작하였습니다.
 <br />
@@ -56,30 +56,31 @@
 <br />
 
 ## 🔧 기술스택
-<div align=center><h3>FE</h3>
+ <br>
+<div align=center>
 
   <img src="https://img.shields.io/badge/React-60d3f3?style=for-the-badge&logo=react&logoColor=black">
   <img src="https://img.shields.io/badge/Redux-7247b5?style=for-the-badge&logo=redux&logoColor=white"> 
-
-  <br>
   <img src="https://img.shields.io/badge/styled-c260af?style=for-the-badge&logo=styledcomponents&logoColor=black">
-  <img src="https://img.shields.io/badge/webrtc-333333?style=for-the-badge&logo=webrtc&logoColor=white">
-
   <br>
+
+  <img src="https://img.shields.io/badge/webrtc-333333?style=for-the-badge&logo=webrtc&logoColor=white">
+  <img src="https://img.shields.io/badge/stompJS-dddddd?style=for-the-badge&logo=stompJS&logoColor=white">
+  <img src="https://img.shields.io/badge/sockJS-333333?style=for-the-badge&logo=sockJS&logoColor=white">
+  <br>
+
   <img src="https://img.shields.io/badge/cloud front-202c3c?style=for-the-badge&logo=amazonaws&logoColor=white">
   <img src="https://img.shields.io/badge/Amazon s3-569A31?style=for-the-badge&logo=Amazon S3s3&logoColor=white">
+  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white">
+  <br>
 </div>
+  
 
-<div align=center> 
-</div>
-
-
-## 🕹 서비스 아키텍쳐
-![Untitled (1)](https://user-images.githubusercontent.com/105087260/181897150-0d07f4e6-fa7d-43fd-8117-e5623e8bf8f2.png)
-
-
-
-## 📚 Library
+## 🕹 서비스 아키텍쳐  
+![Untitled (2)](https://user-images.githubusercontent.com/105087260/182111620-31933be1-5cd6-4cc5-a9cf-2438c2fabc6c.png)
+<br />
+<br>
+## 📚 라이브러리
 |Name|Appliance|
 |:---:|:---:|
 |React|리액트|
@@ -98,10 +99,6 @@
 |react-modal|모달창|
 |js-confetti|폭죽 라이브러리|
 |react-confetti-canvas|폭죽 라이브러리|
-
-
-
-
 
 <br />
 
