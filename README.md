@@ -28,7 +28,6 @@
 - [서비스 바로가기](chinda.live)
 - [프론트엔드 GitHub](https://github.com/ChoiSungwoo1216/Chin_da_FE)
 - [백엔드 GitHub](https://github.com/biolkj28/AlgorithmGameProject-BE)
-- [시연영상]()
 
 <br />
 
