@@ -235,6 +235,7 @@ const Battle = (props) => {
     Chatconnect();
     dispatch(alreadyUser({ user: false, opp: false, gbtn: false }));
     dispatch(gameSwitch(false));
+    dispatch(deletechatlist());
     return () => {
       peerInstance.current.destroy();
       dispatch(setRoomId(""));
@@ -283,12 +284,21 @@ const Battle = (props) => {
           dispatch(NewQue({ question: mes.question }));
           dispatch(NewQue({ questionTitle: mes.title }));
           dispatch(NewQue({ questionId: mes.questionId }));
-          codeRef.current =
-            "//함수와 변수를 임의로 변경하지 마세요" +
+          if(selected.language === "2"){
+            codeRef.current =
+            "# 함수와 변수를 임의로 변경하지 마세요" +
             `\n` +
-            "//출력문을 입력하지 마세요" +
+            "# 출력문을 입력하지 마세요" +
             `\n` +
             mes.template;
+          } else{
+          codeRef.current =
+            "// 함수와 변수를 임의로 변경하지 마세요" +
+            `\n` +
+            "// 출력문을 입력하지 마세요" +
+            `\n` +
+            mes.template;
+          }
           dispatch(gameSwitch(true));
           break;
         case "USERINFO":
