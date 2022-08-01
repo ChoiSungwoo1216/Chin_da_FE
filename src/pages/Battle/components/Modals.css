@@ -9,17 +9,12 @@
   display: flex;
   animation: modalAnimation 0.5s linear forwards;
 }
-.ruleBox {
-  background-color: white;
-  width: 60%;
-  height: 78%;
-  margin-top: 5%;
-}
 
 @keyframes modalAnimation {
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -55,7 +50,6 @@ header h2 {
   width: 100%;
   height: 100%;
   border-radius: 0px;
-  border : 5px solid black;
 }
 
 .ModalContent {
@@ -70,43 +64,6 @@ header h2 {
   background-color: #0c1119;
 }
 
-.ruleContent {
-  position: relative;
-  display: flex-box;
-  top: 0%;
-  margin: auto;
-  overflow-y: auto;
-  font-family: Neo;
-  font-size: calc((2vw + 2vh) / 1.5);
-  width: inherit;
-  height: 96%;
-  color: black;
-  text-align: center;
-}
-
-.ruleList {
-  padding-top: 12vh;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 80%;
-  margin: auto;
-  height: 98%;
-  border-radius: 5px;
-}
-
-.qQTitle {
-  margin-top: 3%;
-  margin-left: 3%;
-  margin-right: 3%;
-  font-weight: 600;
-  width: 94%;
-  line-height: 1.5;
-  letter-spacing: 1px;
-}
-
 .qQue {
   margin-top: 20px;
   margin-left: 3%;
@@ -116,18 +73,10 @@ header h2 {
   letter-spacing: 1px;
 }
 
-
 .qTitle {
   font-weight: 600;
   width: 100%;
   /* border: 1px solid red; */
-}
-
-.Qrule {
-  border-bottom: 1px solid black;
-  border-top: 1px solid black;
-  background-color: black;
-  color: white;
 }
 
 .ModalContent::-webkit-scrollbar {
@@ -148,15 +97,88 @@ header h2 {
 .ExitBtn {
   display: flex;
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: -15px;
+  right: -15px;
   margin: 2px;
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   z-index: 2;
 }
 
-.quest {
+.ExitBtn:hover {
+  content: url("/public/img/X_btn_white_30.svg");
+}
+
+.RuleBox {
+  background-color: white;
+  width: 60%;
+  height: 78%;
+  margin-top: 5%;
+}
+
+.RuleTitle {
+  /* margin-top: 3%;
+  margin-left: 3%;
+  margin-right: 3%; 
+  width: 94%; 
+  line-height: 1.5; */
+  letter-spacing: 1px;
+  background-color: black;
+}
+
+.RuleTitle h2 {
+  color: white;
+  font-weight: 600;
+}
+
+.RuleContent {
+  position: relative;
+  display: flex-box;
+  top: 0%;
+  margin: auto;
+  overflow-y: auto;
+  font-family: Neo;
+  font-size: calc((2vw + 2vh) / 1.6);
+  width: inherit;
+  height: 99%;
+  color: black;
+  text-align: center;
+  border: 5px solid black;
+}
+
+.RuleList {
+  padding-top: 9vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  margin: auto;
+  height: 98%;
+  border-radius: 5px;
+}
+
+.RuleList p {
+  text-align: left;
+  line-height: 5px;
+}
+.RuleContent::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 5px;
+}
+
+.RuleContent::-webkit-scrollbar-thumb {
+  background-color: #eee;
+  border: 0.3px solid #ddd;
+  border-radius: 5vw;
+}
+
+.RuleContent::-webkit-scrollbar-track {
+  background-color: #000;
+}
+
+.RuleExitBtn {
   display: flex;
   position: absolute;
   top: -15px;
@@ -167,7 +189,7 @@ header h2 {
   z-index: 2;
 }
 
-.ExitBtn:hover {
+.RuleExitBtn:hover {
   content: url("/public/img/X_btn_white_30.svg");
 }
 
@@ -217,15 +239,3 @@ header h2 {
 .ConfettiTxt img:nth-child(4) {
   animation-delay: 0.3s;
 }
-/* 
-.ConfettiTxt img:nth-child(5) {
-  animation-delay: 0.4s;
-}
-
-.ConfettiTxt img:nth-child(6) {
-  animation-delay: 0.5s;
-}
-
-.ConfettiTxt img:nth-child(7) {
-  animation-delay: 0.6s;
-} */

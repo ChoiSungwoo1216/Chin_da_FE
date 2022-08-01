@@ -72,59 +72,56 @@ export const GameRuleModal = () => {
 
   useEffect(() => {}, [modalRule]);
   return (
-    <>
-      {modalRule === true && (
-        <Modal
-          className="ModalBox ruleBox"
-          isOpen={modalRule}
-          style={customModalStyles}
-        >
-          <div className="ModalBody">
-            <header className="qTitle Qrule">
-              <h2>규 칙</h2>
-            </header>
-            <div className="ruleContent">
-              <ol className="ruleList">
-                <li>
-                  게임 중 뒤로가거나 새로고침 시,
-                  <br />
-                  방에서 나가지며, 패배처리가 됩니다.
-                </li>
-                <br />
-                <li>제출이 가능한 횟수는 총 3번입니다.</li>
-                <br />
-                <li>시간이 끝나면 플레이어 모두 패배처리가 됩니다.</li>
-                <br />
-                <li>
-                  코드 작성 시, 기존에 제시한 함수와 변수명을 변경하지
-                  말아주세요. (오답처리가 될 수 있습니다.)
-                </li>
-                <br />
-                <li>
-                  출력문을 입력하지 말아주세요
-                  <br />
-                  <br />
-                  Python : print()
-                  <br />
-                  java : System.out.println()
-                  <br />
-                  javascript : console.log()
-                </li>
-                <br />
-                <p>즐겁게 플레이 해 주세요!</p>
-                <br />
-              </ol>
-            </div>
-          </div>
-          <img
-            className="ExitBtn quest"
-            src="/img/X_btn_black_30.svg"
-            onClick={() => allClose()}
-            alt=""
-          />
-        </Modal>
-      )}
-    </>
+     <>
+        {modalRule === true && (
+           <Modal
+              className="ModalBox RuleBox"
+              isOpen={modalRule}
+              style={customModalStyles}
+           >
+              <div className="ModalBody">
+                 <header className="RuleTitle">
+                    <h2>규 칙</h2>
+                 </header>
+                 <div className="RuleContent">
+                    <ol className="RuleList">
+                       <li>
+                          게임 중 뒤로 가거나 새로 고침 시,
+                          <br />
+                          방에서 나가지게 되며, 패배처리가 됩니다.
+                       </li>
+                       <br />
+                       <li>제출 가능한 횟수는 총 3번입니다.</li>
+                       <br />
+                       <li>시간이 끝나면 플레이어 모두 패배처리가 됩니다.</li>
+                       <br />
+                       <li>
+                          코드 작성 시, 기존에 제시한 함수와 변수명을 변경하지
+                          마세요. (오답처리가 될 수 있습니다.)
+                       </li>
+                       <br />
+                       <li>
+                          출력문을 입력하지 마세요.
+                          <p>Python : print()</p>
+                          <p>java : System.out.println()</p>
+
+                          <p>javascript : console.log()</p>
+                       </li>
+                       <br />
+                       <p>즐겁게 플레이 해 주세요!</p>
+                       <br />
+                    </ol>
+                 </div>
+              </div>
+              <img
+                 className="RuleExitBtn"
+                 src="/img/X_btn_black_30.svg"
+                 onClick={() => allClose()}
+                 alt=""
+              />
+           </Modal>
+        )}
+     </>
   );
 };
 
