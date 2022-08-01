@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import styled, { css, keyframes } from "styled-components";
+import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -120,16 +120,18 @@ export function Main({ logout }) {
       },
     })
       .then((response) => {
-        dispatch(setRoomId(user2Info.roomId));
-        navigate(`/battle`, {
-          state: user2Info,
-        });
+        if (response.data === false) {
+          window.alert("정원초과입니다. 새로고침을 누르세요!")
+        } else {
+          dispatch(setRoomId(user2Info.roomId));
+          navigate(`/battle`, {
+            state: user2Info,
+          });
+        }
       })
       .catch((error) => {
-        console.log(error);
-        window.alert(error.response.data, "새로고침을 누르세요");
-        if (error.response.data.reLogin === true)
-        {
+        window.alert(error.response.data, "새로고침을 누르세요!");
+        if (error.response.data.reLogin === true) {
           sessionStorage.clear();
           localStorage.clear();
           window.location.replace("/");
