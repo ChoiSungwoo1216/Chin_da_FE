@@ -46,7 +46,7 @@ export const ReadyOpp = () => {
   
   useEffect(()=>{
     if (oppReady === true){
-      readyEs();
+      readyEs.play();
     }
   },[oppReady])
 
@@ -54,8 +54,8 @@ export const ReadyOpp = () => {
     <OppContainer>
       <OppDiv wait={oppReady}>
         {oppName && (
-          <OppLogo disabled="false">
-            <p>{oppName} 대기 중</p>
+          <OppLogo disabled={false}>
+            {oppReady !== true && <p>{oppName} 대기 중</p>}
           </OppLogo>
         )}
       </OppDiv>

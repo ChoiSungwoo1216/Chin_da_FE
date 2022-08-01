@@ -47,13 +47,13 @@ const Control = (props) => {
     gameStatus === false && dispatch(setTrySub(3));
   };
 
-  const alreadyToStart = () => {
-    already.user && already.opp === true && dispatch(gameSwitch(true));
-  };
+  // const alreadyToStart = () => {
+  //   already.user && already.opp === true && dispatch(gameSwitch(true));
+  // };
 
-  useEffect(() => {
-    alreadyToStart();
-  }, [already]);
+  // useEffect(() => {
+  //   alreadyToStart();
+  // }, [already]);
 
   useEffect(() => {
     gameStartTrue();

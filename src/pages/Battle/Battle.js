@@ -31,6 +31,7 @@ import newOp from "../../audios/newOpponent.mp3";
 import failSound from "../../audios/FailSE4.mp3";
 import noItem from "../../audios/noItemSE1.mp3";
 import newMes from "../../audios/newMessage.mp3";
+import readySound from "../../audios/ready.mp3"
 
 //websocket
 import * as StompJS from "stompjs";
@@ -133,6 +134,8 @@ const Battle = (props) => {
   const noItemEs = effectSound(noItem, userSound.es);
   const newMesEs = effectSound(newMes, userSound.es);
   const camEs = effectSound(camSound, userSound.es);
+  const readyEs = effectSound(readySound, userSound.es);
+
 
   //RoomInfo
   const roomId = location.state.roomId;
@@ -145,7 +148,9 @@ const Battle = (props) => {
   }, []);
 
   //Timer,ProgressBar
-  dispatch(setLevel(selected.level));
+  useEffect(() => {
+    dispatch(setLevel(selected.level));
+  }, [])
 
   //Toastify Alert
   const resAlert = (r) => {
@@ -219,6 +224,7 @@ const Battle = (props) => {
 
   sock = new SockJS(`${api}/ws-stomp?username=` + encodeURI(username));
   client = StompJS.over(sock);
+  client.debug = () => { };
 
   const opCode = useRef();
   const codeRef = useRef("");
@@ -244,14 +250,14 @@ const Battle = (props) => {
         exitMes();
       }
       setTimeout(() => {
-        console.log("게임서버 연결종료");
+        // console.log("게임서버 연결종료");
         client.disconnect();
         dispatch(gameSwitch(false));
       }, 500);
 
       ExitSend();
       setTimeout(() => {
-        console.log("채팅 연결종료");
+        // console.log("채팅 연결종료");
         clientChat.disconnect();
         dispatch(deletechatlist());
       }, 500);
@@ -274,7 +280,6 @@ const Battle = (props) => {
   const ReceiveCallBack = (message) => {
     if (message.body) {
       const mes = JSON.parse(message.body);
-      console.log(mes);
       switch (mes.type) {
         case "READY":
           dispatch(NewQue({ question: mes.question }));
@@ -286,7 +291,7 @@ const Battle = (props) => {
             "//출력문을 입력하지 마세요" +
             `\n` +
             mes.template;
-          dispatch(alreadyUser({ opp: true }));
+          // dispatch(alreadyUser({ opp: true }));
           dispatch(gameSwitch(true));
           break;
         case "USERINFO":
@@ -296,13 +301,15 @@ const Battle = (props) => {
             dispatch(NewOp(mes.playerName));
           }
           break;
-        // case "FORSTART":
-        //   if (mes.sender === username) {
-        //     dispatch(alreadyUser({ gbtn: true }))
-        //   } else {
-        //     dispatch(alreadyUser({ opp: true }))
-        //   }
-        //   break;
+        case "FORSTART":
+          readyEs.play();
+          if (mes.creator === username) {
+            dispatch(alreadyUser({ gbtn: true }))
+            dispatch(alreadyUser({ opp: true }))
+          } else {
+            dispatch(alreadyUser({ opp: true }))
+          }
+          break;
         case "GAME":
           opCode.current = mes.message;
           break;
@@ -346,17 +353,17 @@ const Battle = (props) => {
   };
 
   //game start message
-  // const sendStart = () => {
-  //   client.send(
-  //     `/app/game/process`,
-  //     {},
-  //     JSON.stringify({
-  //       type: "FORSTART",
-  //       roomId: roomId,
-  //       server: server,
-  //     })
-  //   );
-  // };
+  const sendStart = () => {
+    client.send(
+      `/app/game/process`,
+      {},
+      JSON.stringify({
+        type: "FORSTART",
+        roomId: roomId,
+        username: username,
+      })
+    );
+  };
 
   //Live Code sending to opp
   const sendT = useSelector((state) => state.battleFunction.sendRun);
@@ -438,6 +445,7 @@ const Battle = (props) => {
 
   socket = new SockJS(`${ChatApi}/ws-stomp?name=` + encodeURI(username));
   clientChat = StompJS.over(socket);
+  clientChat.debug = () => { };
 
   // Chat server connect
   const Chatconnect = () => {
@@ -691,7 +699,7 @@ const Battle = (props) => {
         opCode={opCode}
       />
 
-      {/* <GameGo sendStart={sendStart} /> */}
+      <GameGo sendStart={sendStart} />
 
       <Control
         setMbmute={setMbmute}
