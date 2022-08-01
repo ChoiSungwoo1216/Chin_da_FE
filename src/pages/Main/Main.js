@@ -130,7 +130,7 @@ export function Main({ logout }) {
       })
       .catch((error) => {
         console.log(error);
-        window.alert(error.response.data, " Refresh를 누르세요");
+        window.alert(error.response.data, "새로고침을 누르세요");
         if (error.response.data.reLogin === true)
         {
           sessionStorage.clear();
