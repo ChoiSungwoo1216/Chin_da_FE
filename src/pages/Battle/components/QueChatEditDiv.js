@@ -121,7 +121,7 @@ const QueBox = styled.div`
 `;
 
 const ChatingDiv = styled.div`
-  width: 100%;
+  width: 100.5%;
   height: 36%;
   ${(props) => {
     if (props.chatOpen === false) {
@@ -135,7 +135,7 @@ const ChatingDiv = styled.div`
 const ChatHead = styled.div`
   display: flex;
   align-items: center;
-  width: 100.4%;
+  width: 100%;
   height: 4vh;
   background-color: #5777ce;
   border-top: 4px solid #c0cfff;
