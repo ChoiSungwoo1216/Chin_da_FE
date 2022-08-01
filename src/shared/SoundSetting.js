@@ -74,23 +74,23 @@ const SoundSetting = (props) => {
               <SetName>배경음악</SetName>
               <div className="bgmVolume">
                 <div>
-                  <input id="bgm0" type="radio" value="0" name="bgm" onClick={(e) => { BgmControl(e.target.value) }} checked={bgm === 0 ? true : false} />
+                  <input id="bgm0" type="radio" value="0" name="bgm" onClick={(e) => { BgmControl(e.target.value) }} defaultChecked={bgm === 0 ? true : false} />
                   <label htmlFor="bgm0">0%</label>
                 </div>
                 <div>
-                  <input id="bgm25" type="radio" value="0.025" name="bgm" onClick={(e) => { BgmControl(e.target.value) }} checked={bgm === 0.025 ? true : false} />
+                  <input id="bgm25" type="radio" value="0.025" name="bgm" onClick={(e) => { BgmControl(e.target.value) }} defaultChecked={bgm === 0.025 ? true : false} />
                   <label htmlFor="bgm25">25%</label>
                 </div>
                 <div>
-                  <input id="bgm50" type="radio" value="0.05" name="bgm" onClick={(e) => { BgmControl(e.target.value) }} checked={bgm === 0.05 ? true : false} />
+                  <input id="bgm50" type="radio" value="0.05" name="bgm" onClick={(e) => { BgmControl(e.target.value) }} defaultChecked={bgm === 0.05 ? true : false} />
                   <label htmlFor="bgm50">50%</label>
                 </div>
                 <div>
-                  <input id="bgm75" type="radio" value="0.075" name="bgm" onClick={(e) => { BgmControl(e.target.value) }} checked={bgm === 0.075 ? true : false} />
+                  <input id="bgm75" type="radio" value="0.075" name="bgm" onClick={(e) => { BgmControl(e.target.value) }} defaultChecked={bgm === 0.075 ? true : false} />
                   <label htmlFor="bgm75">75%</label>
                 </div>
                 <div>
-                  <input id="bgm100" type="radio" value="0.1" name="bgm" onClick={(e) => { BgmControl(e.target.value) }} checked={bgm === 0.1 ? true : false} />
+                  <input id="bgm100" type="radio" value="0.1" name="bgm" onClick={(e) => { BgmControl(e.target.value) }} defaultChecked={bgm === 0.1 ? true : false} />
                   <label htmlFor="bgm100">100%</label>
                 </div>
               </div>
@@ -99,23 +99,23 @@ const SoundSetting = (props) => {
               <SetName>효과음</SetName>
                <div className="esVolume">
                 <div>
-                  <input id="es0" type="radio" value="0" name="es" onClick={(e) => { EsControl(e.target.value) }} checked={es === 0 ? true : false} />
+                  <input id="es0" type="radio" value="0" name="es" onClick={(e) => { EsControl(e.target.value) }} defaultChecked={es === 0 ? true : false} />
                   <label htmlFor="es0">0%</label>
                 </div>
                 <div>
-                  <input id="es25" type="radio" value="0.125" name="es" onClick={(e) => { EsControl(e.target.value) }} checked={es === 0.125 ? true : false} />
+                  <input id="es25" type="radio" value="0.125" name="es" onClick={(e) => { EsControl(e.target.value) }} defaultChecked={es === 0.125 ? true : false} />
                   <label htmlFor="es25">25%</label>
                 </div>
                 <div>
-                  <input id="es50" type="radio" value="0.25" name="es" onClick={(e) => { EsControl(e.target.value) }} checked={es === 0.25 ? true : false} />
+                  <input id="es50" type="radio" value="0.25" name="es" onClick={(e) => { EsControl(e.target.value) }} defaultChecked={es === 0.25 ? true : false} />
                   <label htmlFor="es50">50%</label>
                 </div>
                 <div>
-                  <input id="es75" type="radio" value="0.375" name="es" onClick={(e) => { EsControl(e.target.value) }} checked={es === 0.375 ? true : false} />
+                  <input id="es75" type="radio" value="0.375" name="es" onClick={(e) => { EsControl(e.target.value) }} defaultChecked={es === 0.375 ? true : false} />
                   <label htmlFor="es75">75%</label>
                 </div>
                 <div>
-                  <input id="es100" type="radio" value="0.5" name="es" onClick={(e) => { EsControl(e.target.value) }} checked={es === 0.5 ? true : false} />
+                  <input id="es100" type="radio" value="0.5" name="es" onClick={(e) => { EsControl(e.target.value) }} defaultChecked={es === 0.5 ? true : false} />
                   <label htmlFor="es100">100%</label>
                 </div>
               </div>

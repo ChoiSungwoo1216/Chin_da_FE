@@ -230,7 +230,7 @@ const Battle = (props) => {
   const codeRef = useRef("");
   // WebSocket Server connect UseEffect
 
-  React.useEffect(() => {
+  useEffect(() => {
     connect();
     Chatconnect();
     dispatch(alreadyUser({ user: false, opp: false, gbtn: false }));
@@ -238,7 +238,6 @@ const Battle = (props) => {
     return () => {
       peerInstance.current.destroy();
       dispatch(setRoomId(""));
-      // when disconnecting to game and chatting server
       dispatch(NewQue({ question: "", questionTitle: "", questionId: "" }));
       dispatch(ModalOpen({ chat: true, que: false, rule: true }));
       dispatch(setPeerId({ userId: "", opId: "" }));
@@ -250,14 +249,12 @@ const Battle = (props) => {
         exitMes();
       }
       setTimeout(() => {
-        // console.log("게임서버 연결종료");
         client.disconnect();
         dispatch(gameSwitch(false));
       }, 500);
 
       ExitSend();
       setTimeout(() => {
-        // console.log("채팅 연결종료");
         clientChat.disconnect();
         dispatch(deletechatlist());
       }, 500);

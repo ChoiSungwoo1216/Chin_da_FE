@@ -15,7 +15,7 @@ import {
 const Control = (props) => {
   const { setMbmute, setBbmute } = props;
 
-  const already = useSelector((state) => state.battleFunction.already);
+  // const already = useSelector((state) => state.battleFunction.already);
   const gameStatus = useSelector((state) => state.battleFunction.gameStatus);
 
   const dispatch = useDispatch();
@@ -64,6 +64,7 @@ const Control = (props) => {
     dispatch(gameSwitch(false));
     dispatch(alreadyUser({ user: false, opp: false }));
   };
+
   //pending
   const userPending = () => dispatch(setPending({ user: true }));
   const oppPending = () => dispatch(setPending({ opp: true }));

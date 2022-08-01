@@ -8,7 +8,7 @@ const Login = () => {
   const client_id = process.env.REACT_APP_GIT_CLIENT_ID;
   const redirect_uri = process.env.REACT_APP_GIT_REDIRECT_URI;
   const local_uri = process.env.REACT_APP_GIT_LOCAL
-  const locateGit = `https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${local_uri}`;
+  const locateGit = `https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}`;
   const esVol = useSelector((state) => state.user.sound.es);
   const enterEs = effectSound(enterSound, esVol);
 

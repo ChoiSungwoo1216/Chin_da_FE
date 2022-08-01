@@ -38,7 +38,6 @@ const GitLogin = ({ setMMute }) => {
         } else {
           window.alert(err.response.data);
         }
-        console.log(err);
         loading("/"); //login으로 수정
       });
   };
