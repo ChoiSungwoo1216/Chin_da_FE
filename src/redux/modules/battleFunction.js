@@ -29,7 +29,7 @@ const TRY = "try/TRY";
 const RES = "res/RES";
 
 const initialState = {
-  already: { user: false, opp: false },
+  already: { user: false, opp: false, gbtn : false },
   gameStatus: false,
   level: 0,
   alertRun: false,
