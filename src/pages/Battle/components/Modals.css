@@ -70,7 +70,7 @@ header h2 {
   margin-right: 3%;
   width: 94%;
   line-height: 1.5;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
 }
 
 .qTitle {
@@ -135,7 +135,8 @@ header h2 {
   position: relative;
   display: flex-box;
   top: 0%;
-  margin: auto;
+  margin: 0;
+  padding:0;
   overflow-y: auto;
   font-family: Neo;
   font-size: calc((2vw + 2vh) / 1.6);
@@ -147,7 +148,7 @@ header h2 {
 }
 
 .RuleList {
-  padding-top: 9vh;
+  padding-top: 8vh;
   position: relative;
   display: flex;
   flex-direction: column;
