@@ -25,13 +25,15 @@
 <br />
 
 ## 🔗 바로가기
-- [서비스 바로가기](chinda.live)
+- [<친다 /> 이용하러 가기](chinda.live)
 - [프론트엔드 GitHub](https://github.com/ChoiSungwoo1216/Chin_da_FE)
 - [백엔드 GitHub](https://github.com/biolkj28/AlgorithmGameProject-BE)
 
 <br />
 
-## 📺 시연 사진
+## 📺 시연 영상
+
+[https://user-images.githubusercontent.com/105087260/182409587-1fade543-d643-4d21-8335-78023f5b0305.mp4](https://user-images.githubusercontent.com/105087260/182410621-8749c0db-6d9f-457d-807b-33f70baac85b.mp4)
 
 
 <br />
@@ -59,19 +61,27 @@
 <div align=center>
 
   <img src="https://img.shields.io/badge/React-60d3f3?style=for-the-badge&logo=react&logoColor=black">
+ <img src="https://img.shields.io/badge/styled-c260af?style=for-the-badge&logo=styledcomponents&logoColor=black">
   <img src="https://img.shields.io/badge/Redux-7247b5?style=for-the-badge&logo=redux&logoColor=white"> 
-  <img src="https://img.shields.io/badge/styled-c260af?style=for-the-badge&logo=styledcomponents&logoColor=black">
+  <img src="https://img.shields.io/badge/Axios-5B0BB5?style=for-the-badge&logo=Axios&logoColor=white">
+  
   <br>
 
   <img src="https://img.shields.io/badge/webrtc-333333?style=for-the-badge&logo=webrtc&logoColor=white">
-  <img src="https://img.shields.io/badge/stompJS-dddddd?style=for-the-badge&logo=stompJS&logoColor=white">
-  <img src="https://img.shields.io/badge/sockJS-333333?style=for-the-badge&logo=sockJS&logoColor=white">
+<img src="https://img.shields.io/badge/SockJs-02B78F?style=for-the-badge&logo=SockJs&logoColor=white">
+<img src="https://img.shields.io/badge/Stomp-4A86CF?style=for-the-badge&logo=Stomp&logoColor=white">
+   <img src="https://img.shields.io/badge/PeerJS-569A31?style=for-the-badge&logo=Peer S3s3&logoColor=white">
   <br>
 
-  <img src="https://img.shields.io/badge/cloud front-202c3c?style=for-the-badge&logo=amazonaws&logoColor=white">
-  <img src="https://img.shields.io/badge/Amazon s3-569A31?style=for-the-badge&logo=Amazon S3s3&logoColor=white">
-  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white">
+ 
+  <img src="https://img.shields.io/badge/AWS%20S3-232F3E?style=for-the-badge&logo=AmazonAWS&logoColor=FF9A00"/>
+  <img src="https://img.shields.io/badge/AWS%20CloudFront-232F3E?style=for-the-badge&logo=AmazonAWS&logoColor=FF9A00"/>
+  <img src="https://img.shields.io/badge/AWS%20Route%2053-232F3E?style=for-the-badge&logo=AmazonAWS&logoColor=FF9A00"/>
+ 
   <br>
+  <img src="https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white">
+  <img src="https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white">
+  <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white">
 </div>
   
 
@@ -79,6 +89,7 @@
 ![Untitled (2)](https://user-images.githubusercontent.com/105087260/182111620-31933be1-5cd6-4cc5-a9cf-2438c2fabc6c.png)
 <br />
 <br>
+
 ## 📚 라이브러리
 |Name|Appliance|
 |:---:|:---:|
@@ -100,5 +111,99 @@
 |react-confetti-canvas|폭죽 라이브러리|
 
 <br />
+<br />
+
+## ⚠️ Trouble Shooting
+
+<details>
+<summary> S3와 CloudFront 업로드 즉각 반영 안됨</summary>
+<div markdown="1">
+<br>
+  * 문제
+  <pre> S3 버킷의 내용을 변경했다고 하였지만 사이트에 반영이 되지 않는 이슈</pre>
+ * 가설
+    - 1. build과정에서 내용 누락 (압축하는 과정에서 정보 누락 가능성).
+    - 2. S3 자체적으로 반영이 안되는 경우.
+    - 3. CloudFront의 작동 방식의 문제.
+ 
+   * 과정
+    - 1. build과정에서 변하지 않는 `index.html`에 내용을 추가해보고 안의 내용물을 변경하고 배포해보았으나, build된 파일을 확인하니 문제가 없었지만, 반영이 되지 않았음.
+    - 2. S3에 CloudFront를 연결하지 않고, 내용물은 변경하고 확인해 본 결과, 변경된 내용이 즉각 반응 됨.
+ 
+   *  해결 
+  CloudFront의 작동 방식에 대해서 찾아보니 S3에서 파일을 받아올 때 저장된 캐시가 24시간 유지되는 것을 확인하고 이를 무효화( Invalidations) 작업을 실행해 캐시를 삭제.
+</div>
+</details>
+
+<details>
+<summary> Websocket 다중 핸드쉐이크 발생 </summary>
+<div markdown="1">
+<br>
+  * 문제
+  <pre> Websocket 다중 핸드쉐이크 발생 </pre>
+ * 가설
+    - 1. build과정에서 내용 누락 (압축하는 과정에서 정보 누락 가능성).
+    - 2. S3 자체적으로 반영이 안되는 경우.
+    - 3. CloudFront의 작동 방식의 문제.
+ 
+   * 과정
+    - 1. build과정에서 변하지 않는 `index.html`에 내용을 추가해보고 안의 내용물을 변경하고 배포해보았으나, build된 파일을 확인하니 문제가 없었지만, 반영이 되지 않았음.
+    - 2. S3에 CloudFront를 연결하지 않고, 내용물은 변경하고 확인해 본 결과, 변경된 내용이 즉각 반응 됨.
+ 
+   *  해결 
+  CloudFront의 작동 방식에 대해서 찾아보니 S3에서 파일을 받아올 때 저장된 캐시가 24시간 유지되는 것을 확인하고 이를 무효화( Invalidations) 작업을 실행해 캐시를 삭제.
+</div>
+</details>
+
+<br />
+<br />
+
+## 🙆‍ 유저피드백 개선사항
+
+<details>
+  <summary>배경음 및 효과음 볼륨 조절</summary>
+  
+  * 피드백
+  <pre> 볼륨 조절이 필요할 것 같다.<br>
+ Mute 기능 추가 요청</pre>
+  * 기능 개선
+    - 배경음 및 효과음 볼륨을 on/off가 아닌 클릭으로 조절
+
+</details>
+
+<details>
+  <summary>시작 버튼 추가</summary>
+  
+  * 피드백
+  <pre>  스타트 버튼이 따로 있다면 어디 있는지 잘 보이지 않는다.<br> 
+  입장 후 상대방과 ready를 했음에도 시작이 안되었다.<br> 
+  만약 시작을 할 수 있는 버튼 등이 따로 있다면 조금 더 분명하게 나타나도 좋을 것 같다는 의견</pre>
+ 
+  * 기능 개선
+    - ready만 누르고 양쪽이 다 누르면 자동으로 시작되었던 기존의 방식에서 상대방이 ready를 눌렀는지 확인 할 수 있게 변경하였고 방장이 게임을 시작할 수 있게 버튼을 추가
+</details>
+
+<details>
+  <summary>튜토리얼이 자동으로 보여지는 기능 추가</summary>
+  
+  * 피드백
+  <pre>  뒤로 가기 버튼이나 따로 설명이 없어서 뒤로 갈 때 사용하기가 어렵다.<br> 
+ 이것저것 눌러보다가 언어 누르니까 뒤로 가게 되었다며 서비스에 대한 이해 부족으로 이탈율을 줄이기 위한 개선 필요</pre>
+ 
+  * 기능 개선
+    - 최초 사용자에게 튜토리얼이 자동으로 보여지는 기능 추가
+</details>
+
+<details>
+  <summary>정원초과 알림</summary>
+  
+  * 피드백
+  <pre>  인원이 찬 방에 입장이 가능하다며 개선 요청</pre>
+ 
+  * 기능 개선
+    - 정원초과 알림 기능 추가
+ 
+ 
+</details>
 
 
