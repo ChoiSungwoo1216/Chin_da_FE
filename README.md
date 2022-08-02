@@ -51,7 +51,7 @@
 | 이정찬   | https://github.com/biolkj28       | BE🔰     |
 | 문수찬   | https://github.com/MrEnum  | BE     |
 | 이동재   | https://github.com/Epikoding  | BE     |
-| 허화영  |       | 디자이너    |
+| 허화영  | https://www.instagram.com/workoon__21   | 디자이너  |
 
 
 <br />
