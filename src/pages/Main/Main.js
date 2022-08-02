@@ -456,7 +456,7 @@ const Card = (props) => {
             objectFit: "contain",
           }}
         >
-          {props.item.creatorGameInfo.profileUrl && (
+          {props.item.creatorGameInfo?.profileUrl && (
             <img
               className="userProfile"
               src={props.item.creatorGameInfo?.profileUrl}
