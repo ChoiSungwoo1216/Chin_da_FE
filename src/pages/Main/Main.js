@@ -87,6 +87,9 @@ export function Main({ logout }) {
         .then((response) => {
           for (let i = 0; i < response.data.gameRooms.length; i++) {
             response.data.gameRooms[i].num = RandomNumber(0, 5);
+            if(response.data.gameRoom[i].creatorGameInfo.profileUrl === null){
+              response.data.gameRoom[i].creatorGameInfo.profileUrl = "/img/Char1Body.svg"
+            }
           }
           setAllUsers(response.data.gameRooms);
           setUser1Info(response.data.userGameInfo);
