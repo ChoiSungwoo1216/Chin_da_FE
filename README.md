@@ -1,4 +1,7 @@
-![썸네일2](https://user-images.githubusercontent.com/105087260/182070652-d0fd7d0e-5e6b-428a-8447-de94e6957891.png)
+
+<img src="https://user-images.githubusercontent.com/105087260/184330344-aab8d556-7260-4bbc-95ce-c5fb539ce9ea.png">
+ 
+<img src="https://user-images.githubusercontent.com/105087260/182070652-d0fd7d0e-5e6b-428a-8447-de94e6957891.png" width="500px">
 
 
 
